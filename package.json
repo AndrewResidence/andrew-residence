@@ -14,6 +14,7 @@
     "angular-animate": "^1.6.7",
     "angular-aria": "^1.6.7",
     "angular-material": "^1.1.5",
+    "angular-material-event-calendar": "^0.1.4",
     "angular-messages": "^1.6.7",
     "angular-route": "^1.6.7",
     "bcrypt": "^1.0.2",

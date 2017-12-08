@@ -2,8 +2,10 @@ myApp.controller('LoginController', function($http, $location, $mdDialog, UserSe
     console.log('LoginController created');
     var vm = this;
     vm.user = {
+      name: '',
       username: '',
-      password: ''
+      password: '',
+      phone: ''
     };
     vm.message = '';
 

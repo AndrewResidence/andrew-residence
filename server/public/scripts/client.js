@@ -1,4 +1,4 @@
-var myApp = angular.module('myApp', ['ngRoute']);
+var myApp = angular.module('myApp', ['ngRoute', 'ngMaterial', 'multipleDatePicker']);
 
 /// Routes ///
 myApp.config(function($routeProvider, $locationProvider) {

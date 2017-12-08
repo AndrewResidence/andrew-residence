@@ -1,4 +1,4 @@
-myApp.controller('LoginController', function($http, $location, UserService) {
+myApp.controller('LoginController', function($http, $location, $mdDialog, UserService) {
     console.log('LoginController created');
     var vm = this;
     vm.user = {
@@ -44,4 +44,17 @@ myApp.controller('LoginController', function($http, $location, UserService) {
         });
       }
     }
+
+vm.showPopup = function(event) {
+  console.log('button clicked');
+  $mdDialog.show({
+    controller: 'PopupTestController as pt',
+    templateUrl: '/views/templates/popupTest.html',
+    parent: angular.element(document.body),
+    targetEvent: event,
+    clickOutsideToClose: true,
+    fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
+  })
+}
+
 });

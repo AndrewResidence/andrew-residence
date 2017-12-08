@@ -4,23 +4,22 @@
     In Info
   </p>
 
-  <calendar-md flex layout layout-fill
-  calendar-direction="direction"
-  on-prev-month="prevMonth"
-  on-next-month="nextMonth"
-  on-day-click="dayClick"
-  title-format="'MMMM y'"
-  ng-model='selectedDate'
-  week-starts-on="firstDayOfWeek"
-  data-start-month="8"
-  data-start-year="2017"
-  tooltips="tooltips"
-  day-format="dayFormat"
-  day-label-format="'EEE'"
-  day-label-tooltip-format="'EEEE'"
-  day-tooltip-format="'fullDate'"
-  day-content="setDayContent"
-  disable-future-selection="false"
-</calendar-md>
+  <md-event-calendar
+  ng-model="selected"
+  md-events="events"
+  md-event-click="eventClicked($selectedEvent)"
+  md-label="title",
+  md-show-create-link="true"
+  md-create-event-click="ic.eventCreatea($date)"
+  md-create-disabled="false"
+  auto-height=""
+  class="md-primary"
+>
+  <md-event-calendar-header class="md-center">
+    <md-event-calendar-prev></md-event-calendar-prev>
+    <md-event-calendar-title></md-event-calendar-title>
+    <md-event-calendar-next></md-event-calendar-next>
+  </md-event-calendar-header>
+</md-event-calendar>
 
 </div>

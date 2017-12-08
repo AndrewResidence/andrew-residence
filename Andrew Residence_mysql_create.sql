@@ -3,7 +3,7 @@ CREATE TABLE "users" (
 	"name" varchar NOT NULL,
 	"username" varchar NOT NULL,
 	"password" varchar NOT NULL,
-	"role" varchar NOT NULL,
+	"role" varchar,
 	"phone" integer,
 	CONSTRAINT users_pk PRIMARY KEY ("id")
 ) WITH (

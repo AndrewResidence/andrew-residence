@@ -1,9 +1,9 @@
 CREATE TABLE "users" (
 	"id" serial NOT NULL,
 	"name" varchar NOT NULL,
-	"username" varchar NOT NULL,
 	"password" varchar NOT NULL,
-	"role" varchar,
+	"email" varchar NOT NULL,
+	"role" varchar NOT NULL,
 	"phone" integer,
 	CONSTRAINT users_pk PRIMARY KEY ("id")
 ) WITH (
@@ -54,7 +54,7 @@ CREATE TABLE "confirmed" (
 
 
 CREATE TABLE "user_availability" (
-	"user_id" integer NOT NULL,
+	"user_id" BINARY NOT NULL,
 	"availability_id" serial NOT NULL,
 	CONSTRAINT user_availability_pk PRIMARY KEY ("availability_id")
 ) WITH (
@@ -90,3 +90,4 @@ ALTER TABLE "confirmed" ADD CONSTRAINT "confirmed_fk3" FOREIGN KEY ("confirmed_b
 ALTER TABLE "user_availability" ADD CONSTRAINT "user_availability_fk0" FOREIGN KEY ("user_id") REFERENCES "users"("id");
 
 ALTER TABLE "shift_interest" ADD CONSTRAINT "shift_interest_fk0" FOREIGN KEY ("user_id") REFERENCES "users"("id");
+

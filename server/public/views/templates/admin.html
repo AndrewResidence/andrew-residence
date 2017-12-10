@@ -1,6 +1,25 @@
 <div ng-include="'views/partials/nav.html'"></div>
 <div class="container">
-  <p>
-    Admin view
-  </p>
+  <h1>Admin View</h1>
+  <div id="adminContainer">
+    <div id="editSupervisorBox">
+      <h2>Supervisors:</h2>
+      <div ng-repeat="supervisor in ac.supervisors">
+        {{supervisor.name}}
+        <button>Edit</button>
+        <button>Remove</button>
+      </div>
+      <h2>On-Call Staff:</h2>
+      <div ng-repeat="staff in ac.staff">
+        {{staff.name}}
+        <button>Edit</button>
+        <button>Remove</button>
+      </div>
+      </div>
+      <div id="approveUsersBox">
+        Approve users box
+      </div>
+
+    </div>
+  </div>
 </div>

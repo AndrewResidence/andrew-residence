@@ -82,3 +82,17 @@ li a:hover {
 .calendarPop {
   height: auto;
 }
+
+#adminContainer {
+  display: flex;
+  justify-content: space-around;
+}
+
+#editSupervisorBox {
+  background-color: skyblue;
+}
+
+#approveUsersBox {
+  background-color: coral;
+}
+

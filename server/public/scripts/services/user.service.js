@@ -3,6 +3,7 @@ myApp.service('UserService', function($http, $location){
   var self = this;
   self.userObject = {};
 
+  //GET user upon logging in
   self.getuser = function(){
     console.log('UserService -- getuser');
     $http.get('/user').then(function(response) {
@@ -19,7 +20,14 @@ myApp.service('UserService', function($http, $location){
       console.log('UserService -- getuser -- failure: ', response);
       $location.path("/home");
     });
-  },
+  }
+
+  //GET supervisors on admin view
+  self.getSupervisors = function(){
+   return $http.get('/user/supervisors').then(function(response) {
+      return response;
+    });
+  }
 
   self.logout = function() {
     console.log('UserService -- logout');

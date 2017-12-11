@@ -20,8 +20,9 @@
         <h2>Approve users box</h2>
         <div ng-repeat="user in ac.unconfirmed">
           {{user.name}}
-          <button>Confirm</button>
-          <button>Remove</button>
+          <button ng-click="ac.showConfirmDialog($event, user)">Confirm</button>
+          <!-- Dialog pops up with option to add a role for the user. Whichever button they select gets sent back as the user's role, and the confirm button on the dialog will trigger the PUT route -->
+          <button ng-click="ac.removeUser">Remove</button>
         </div>
       </div>
 

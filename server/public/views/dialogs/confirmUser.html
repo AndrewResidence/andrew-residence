@@ -1,0 +1,9 @@
+<div>
+        Select Role for {{ac.user.name}}:
+        <md-input-container id="RoleInput">
+            <md-select ng-model="ac.user.role">
+                <md-option ng-repeat = "role in ac.roles" ng-value="role">{{role}}</md-option> 
+            </md-select>
+         </md-input-container>
+         <button ng-click="ac.confirmUser(ac.user)">Confirm</button>
+      </div>

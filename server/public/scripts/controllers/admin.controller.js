@@ -1,11 +1,14 @@
-myApp.controller('AdminController', function (UserService) {
+myApp.controller('AdminController', function (UserService, $mdDialog) {
   console.log('AdminController created');
+
   var vm = this;
   vm.userService = UserService;
   vm.userObject = UserService.userObject;
   vm.supervisors = [];
   vm.staff = [];
   vm.unconfirmed = []; 
+
+  var show = false;
 
    // GET unconfirmed users route
    vm.getUnconfirmed = function () {
@@ -16,6 +19,27 @@ myApp.controller('AdminController', function (UserService) {
   }
 
   vm.getUnconfirmed();
+
+  //Show dialog for confirm user
+  vm.showConfirmDialog = function(event, user) {
+      console.log('button clicked');
+      $mdDialog.show({
+        controller: 'AdminDialogController as ac',
+        templateUrl: '/views/dialogs/confirmUser.html',
+        parent: angular.element(document.body),
+        targetEvent: event,
+        clickOutsideToClose: true,
+        locals: { user: user }
+      })
+    };
+
+  //Users PUT route to confirm users and define their role (supervisor, nurse, MHW or ADL) 
+  vm.confirmUser = function(user) {
+    vm.userService.confirmUser(user).then(function(response){
+      console.log('changed user', response);
+    })
+  }
+
 
   // GET supervisors route (GET users where role = supervisor)
   vm.getSupervisors = function () {

@@ -75,7 +75,7 @@ router.get('/staff', function (req, res) {
         res.sendStatus(500);
       }
       var queryText = 'SELECT * FROM "users" WHERE "confirmed" = $1 AND ("role" = $2 OR "role" = $3 OR "role" = $4);';
-        db.query(queryText, ['1', 'nurse', 'MHW', 'ADL'], function (err, result) {
+        db.query(queryText, ['1', 'Nurse', 'MHW', 'ADL'], function (err, result) {
           db.end();
           if (err) {
             console.log("Error inserting data: ", err);
@@ -87,6 +87,33 @@ router.get('/staff', function (req, res) {
     })
   }
 })
+
+ //Users PUT route to confirm users and define their role (supervisor, nurse, MHW or ADL) 
+ router.put('/confirm/:id', function (req, res) {
+  if (req.isAuthenticated()) {
+    var id = req.params.id;
+    var role = req.body.role
+    pool.connect(function(err, db, done) {
+      if (err) {
+        console.log('error connecting', err);
+        res.sendStatus(500);
+      }
+      var queryText = 'UPDATE "users" SET "role" =$1, "confirmed"=$2 WHERE "id" = $3;'
+      //insert into users new role and change confirmed to true;
+        db.query(queryText, [role, '1', id], function (err, result) {
+          db.end();
+          if (err) {
+            console.log("Error inserting data: ", err);
+            res.sendStatus(500);
+          } else {
+            res.send(result.rows);
+          }
+        });
+    })
+  }
+})
+
+
 
 // clear all server session information about this user
 router.get('/logout', function (req, res) {

@@ -3,4 +3,23 @@
   <p>
     staff view
   </p>
+
+  <md-event-calendar
+  ng-model="selected"
+  md-events="events"
+  md-event-click="eventClicked($selectedEvent)"
+  md-label="title",
+  md-show-create-link="true"
+  md-create-event-click="ic.eventCreatea($date)"
+  md-create-disabled="false"
+  auto-height=""
+  class="md-primary"
+>
+  <md-event-calendar-header class="md-center">
+    <md-event-calendar-prev></md-event-calendar-prev>
+    <md-event-calendar-title></md-event-calendar-title>
+    <md-event-calendar-next></md-event-calendar-next>
+  </md-event-calendar-header>
+</md-event-calendar>
+
 </div>

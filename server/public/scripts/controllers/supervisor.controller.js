@@ -17,12 +17,19 @@ myApp.controller('SupervisorController', function(UserService, ShiftService, Ava
       allDay: true
 
       },
-
       {
         title: 'another event', 
         start: new Date(),
         end: new Date(),
         allDay: true
+      },
+      {
+        title: 'MHW, Night',
+        start: new Date ('12/14/17'), 
+        end: new Date('12/14/17'),
+        allDay: true,
+        shift: 'Night',
+        role: 'MHW'
       }
     ];
 

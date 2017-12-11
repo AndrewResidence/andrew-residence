@@ -3,8 +3,55 @@
   <p>
     supervisor view
   </p>
+
+  <md-button ng-click="sc.prevMonth()">Previous</md-button>
+  <md-button ng-click="sc.nextMonth()">Next</md-button>
+  <!-- <div layout="row">
+    <div class="calBox">Thu</div>
+    <div class="calBox">Fri</div>
+    <div class="calBox">Sat</div>
+    <div class="calBox">Sun</div>
+    <div class="calBox">Mon</div>
+    <div class="calBox">Tue</div>
+    <div class="calBox">Wed</div>
+  </div> -->
+  <div layout="row">
+  <div ng-repeat="date in sc.currentSchedule.dates"> <!-- Start of first block of dates -->
+    <div layout="row" class="calBox calHeight">
+      <span>{{date}}</span>
+      <div></div>
+    </div>
+    <!-- <div class="calBox calHeight">
+      <span>date</span>
+      <div></div>
+    </div>
+    <div class="calBox calHeight">
+      <span>date</span>
+      <div></div>
+    </div>
+    <div class="calBox calHeight">
+      <span>date</span>
+      <div></div>
+    </div>
+    <div class="calBox calHeight">
+      <span>date</span>
+      <div></div>
+    </div>
+    <div class="calBox calHeight">
+      <span>date</span>
+      <div></div>
+    </div>
+    <div class="calBox calHeight">
+      <span>date</span>
+      <div></div>
+    </div> -->
+  </div><!-- End of first block of dates -->
+
 <md-button class="md-raised md-primary" ng-click="sc.shiftDetails($event)">Shift Details</md-button>
 <md-button class="md-raised md-primary" ng-click="sc.addShift($event)">Add Shift</md-button>
 
  
+
+</div>
+</div>
 </div>

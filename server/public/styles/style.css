@@ -82,3 +82,7 @@ li a:hover {
 .calendarPop {
   height: auto;
 }
+
+#addShiftPop {
+  width: 600px;
+}

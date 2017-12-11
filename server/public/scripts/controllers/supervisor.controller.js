@@ -13,16 +13,26 @@ myApp.controller('SupervisorController', function(UserService, ShiftService, Ava
     vm.currentSchedule = {
       dates: []
     };
-    var scheduleDays = [1, 2, 3, 4, 5, 6, 7]
-    vm.nextWeek = function(scheduleDays) {
+    var scheduleDays = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+    vm.nextSchedule = function(scheduleDays) {
       for (let i = 0; i < scheduleDays.length; i++) {
         vm.currentSchedule.dates.push(moment().add(scheduleDays[i], 'days'));
       }
     }
+    console.log((moment().day(4).format('d')));
     
-    vm.nextWeek(scheduleDays);
+    vm.checkToday = function() {
+      if (vm.today === 4) {
+        for (let i = 0; i < scheduleDays.length; i++) {
+          vm.currentSchedule.dates.push(moment().add(scheduleDays[i], 'days'));
+        }
+      }
+      else if (vm.today < 4) {
 
-    console.log((moment().day(4).format('dddd')));
-    
+      }
+      else if (vm.today > 4) {
+        
+      }
+    }
     
     })

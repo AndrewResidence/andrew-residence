@@ -87,3 +87,13 @@ li a:hover {
 width: 80%;
 margin-left: 20px;
 }
+
+.calBox {
+  background-color: lightblue;
+  border: 1px black solid;
+  width: 100px;
+}
+
+.calHeight {
+  height: 200px;
+}

@@ -3,25 +3,48 @@
   <p>
     supervisor view
   </p>
-<md-button>Add Shift</md-button>
-<div class="calendarSpace">
-  <md-event-calendar
-  ng-model="selected"
-  md-events="sc.events"
-  md-event-click="sc.eventClicked($selectedEvent)"
-  md-label="title",
-  md-show-create-link="true"
-  md-create-event-click="sc.eventCreatea($date)"
-  md-create-disabled="false"
-  auto-height=""
-  class="md-primary"
->
-  <md-event-calendar-header class="md-center">
-    <md-event-calendar-prev></md-event-calendar-prev>
-    <md-event-calendar-title></md-event-calendar-title>
-    <md-event-calendar-next></md-event-calendar-next>
-  </md-event-calendar-header>
-</md-event-calendar>
+  <md-button ng-click="sc.prevMonth()">Previous</md-button>
+  <md-button ng-click="sc.nextMonth()">Next</md-button>
+  <!-- <div layout="row">
+    <div class="calBox">Thu</div>
+    <div class="calBox">Fri</div>
+    <div class="calBox">Sat</div>
+    <div class="calBox">Sun</div>
+    <div class="calBox">Mon</div>
+    <div class="calBox">Tue</div>
+    <div class="calBox">Wed</div>
+  </div> -->
+  <div layout="row">
+  <div ng-repeat="date in sc.currentSchedule.dates"> <!-- Start of first block of dates -->
+    <div layout="row" class="calBox calHeight">
+      <span>{{date}}</span>
+      <div></div>
+    </div>
+    <!-- <div class="calBox calHeight">
+      <span>date</span>
+      <div></div>
+    </div>
+    <div class="calBox calHeight">
+      <span>date</span>
+      <div></div>
+    </div>
+    <div class="calBox calHeight">
+      <span>date</span>
+      <div></div>
+    </div>
+    <div class="calBox calHeight">
+      <span>date</span>
+      <div></div>
+    </div>
+    <div class="calBox calHeight">
+      <span>date</span>
+      <div></div>
+    </div>
+    <div class="calBox calHeight">
+      <span>date</span>
+      <div></div>
+    </div> -->
+  </div><!-- End of first block of dates -->
 </div>
 </div>
-
+</div>

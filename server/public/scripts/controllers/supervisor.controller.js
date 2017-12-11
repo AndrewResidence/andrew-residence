@@ -4,46 +4,25 @@ myApp.controller('SupervisorController', function(UserService, ShiftService, Ava
     vm.userService = UserService;
     vm.userObject = UserService.userObject;
 
-    vm.eventCreatea = function(event) {
-      console.log('create event clicked', event)
-      
-    }
 
-    vm.events = [
-      {
-      title: "Nurse, Day",
-      start: new Date(' Mon Dec 11 2017 14:00:00 GMT-0600 (CST)'),
-      end: new Date(' Mon Dec 11 2017 15:00:00 GMT-0600 (CST)'),
-      allDay: true
+    vm.today = moment();
+    console.log(vm.today);
 
-      },
-      {
-        title: 'another event', 
-        start: new Date(),
-        end: new Date(),
-        allDay: true
-      },
-      {
-        title: 'MHW, Night',
-        start: new Date ('12/14/17'), 
-        end: new Date('12/14/17'),
-        allDay: true,
-        shift: 'Night',
-        role: 'MHW'
+    vm.months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'Novemeber', 'December'];
+    
+    vm.currentSchedule = {
+      dates: []
+    };
+    var scheduleDays = [1, 2, 3, 4, 5, 6, 7]
+    vm.nextWeek = function(scheduleDays) {
+      for (let i = 0; i < scheduleDays.length; i++) {
+        vm.currentSchedule.dates.push(moment().add(scheduleDays[i], 'days'));
       }
-    ];
-
-    vm.eventClicked = function(event) {
-      console.log('button clicked', event);
-      $mdDialog.show({
-        controller: 'SupervisorDialogController as sdc',
-        templateUrl: '/views/dialogs/shiftDetails.html',
-        parent: angular.element(document.body),
-        targetEvent: event,
-        clickOutsideToClose: true,
-        fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
-      })
     }
+    
+    vm.nextWeek(scheduleDays);
 
-  });
-  
+    console.log((moment().day(4).format('dddd')));
+    
+    
+    })

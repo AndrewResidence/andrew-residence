@@ -1,0 +1,19 @@
+<md-dialog aria-label="Shift Details" class="" >
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h3>Shift Details</h3>
+            <span flex="auto"></span>
+            <md-button ng-click="sdc.cancel()"> close
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content flex="auto">
+    <div>
+        Shift Details will go in here
+        {{targetEvent.title}}
+        {{targetEvent.start}}
+        {{targetEvent.end}}
+    </div>
+    </md-dialog-content>
+
+</md-dialog>

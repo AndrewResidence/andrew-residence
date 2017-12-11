@@ -82,3 +82,8 @@ li a:hover {
 .calendarPop {
   height: auto;
 }
+
+.calendarSpace {
+width: 80%;
+margin-left: 20px;
+}

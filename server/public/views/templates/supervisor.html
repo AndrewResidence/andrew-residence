@@ -3,4 +3,25 @@
   <p>
     supervisor view
   </p>
+<md-button>Add Shift</md-button>
+<div class="calendarSpace">
+  <md-event-calendar
+  ng-model="selected"
+  md-events="sc.events"
+  md-event-click="sc.eventClicked($selectedEvent)"
+  md-label="title",
+  md-show-create-link="true"
+  md-create-event-click="sc.eventCreatea($date)"
+  md-create-disabled="false"
+  auto-height=""
+  class="md-primary"
+>
+  <md-event-calendar-header class="md-center">
+    <md-event-calendar-prev></md-event-calendar-prev>
+    <md-event-calendar-title></md-event-calendar-title>
+    <md-event-calendar-next></md-event-calendar-next>
+  </md-event-calendar-header>
+</md-event-calendar>
 </div>
+</div>
+

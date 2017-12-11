@@ -53,7 +53,6 @@ myApp.config(function($routeProvider, $locationProvider) {
         }
       }
     })
-    
     .otherwise({
       redirectTo: 'home'
     })

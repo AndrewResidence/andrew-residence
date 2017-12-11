@@ -21,6 +21,29 @@ router.get('/', function (req, res) {
   }
 });
 
+//GET request for unconfirmed users
+router.get('/unconfirmed', function (req, res) {
+  if (req.isAuthenticated()) {
+    pool.connect(function(err, db, done) {
+      if (err) {
+        console.log('error connecting', err);
+        res.sendStatus(500);
+      }
+      var queryText = 'SELECT * FROM "users" WHERE "confirmed" = $1;';
+        db.query(queryText, ['0'], function (err, result) {
+          db.end();
+          if (err) {
+            console.log("Error getting data: ", err);
+            res.sendStatus(500);
+          } else {
+            res.send(result.rows);
+          }
+        });
+    })
+  }
+})
+
+
 //GET request for supervisors
 router.get('/supervisors', function (req, res) {
   if (req.isAuthenticated()) {
@@ -31,6 +54,28 @@ router.get('/supervisors', function (req, res) {
       }
       var queryText = 'SELECT * FROM "users" WHERE "role" = $1;';
         db.query(queryText, ['supervisor'], function (err, result) {
+          db.end();
+          if (err) {
+            console.log("Error inserting data: ", err);
+            res.sendStatus(500);
+          } else {
+            res.send(result.rows);
+          }
+        });
+    })
+  }
+})
+
+//GET request for staff
+router.get('/staff', function (req, res) {
+  if (req.isAuthenticated()) {
+    pool.connect(function(err, db, done) {
+      if (err) {
+        console.log('error connecting', err);
+        res.sendStatus(500);
+      }
+      var queryText = 'SELECT * FROM "users" WHERE "confirmed" = $1 AND "role" = $2 OR "role" = $3 OR "role" = $4;';
+        db.query(queryText, ['TRUE', 'nurse', 'MHW', 'ADL'], function (err, result) {
           db.end();
           if (err) {
             console.log("Error inserting data: ", err);

@@ -18,6 +18,11 @@
       </div>
       <div id="approveUsersBox">
         Approve users box
+        <div ng-repeat="user in ac.unconfirmed">
+          {{user.name}}
+          <button>Confirm</button>
+          <button>Remove</button>
+        </div>
       </div>
 
     </div>

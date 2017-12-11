@@ -22,12 +22,26 @@ myApp.service('UserService', function($http, $location){
     });
   }
 
+   //GET unconfirmed users on admin view
+   self.getUnconfirmed = function(){
+    return $http.get('/user/unconfirmed').then(function(response) {
+       return response;
+     });
+   }
+
   //GET supervisors on admin view
   self.getSupervisors = function(){
    return $http.get('/user/supervisors').then(function(response) {
       return response;
     });
   }
+
+  //GET staff on admin view
+  self.getStaff = function(){
+    return $http.get('/user/staff').then(function(response) {
+       return response;
+     });
+   }
 
   self.logout = function() {
     console.log('UserService -- logout');

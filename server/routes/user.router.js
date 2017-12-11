@@ -52,8 +52,8 @@ router.get('/supervisors', function (req, res) {
         console.log('error connecting', err);
         res.sendStatus(500);
       }
-      var queryText = 'SELECT * FROM "users" WHERE "role" = $1;';
-        db.query(queryText, ['supervisor'], function (err, result) {
+      var queryText = 'SELECT * FROM "users" WHERE "confirmed" = $1 AND "role" = $2;';
+        db.query(queryText, ['1', 'supervisor'], function (err, result) {
           db.end();
           if (err) {
             console.log("Error inserting data: ", err);
@@ -74,8 +74,8 @@ router.get('/staff', function (req, res) {
         console.log('error connecting', err);
         res.sendStatus(500);
       }
-      var queryText = 'SELECT * FROM "users" WHERE "confirmed" = $1 AND "role" = $2 OR "role" = $3 OR "role" = $4;';
-        db.query(queryText, ['TRUE', 'nurse', 'MHW', 'ADL'], function (err, result) {
+      var queryText = 'SELECT * FROM "users" WHERE "confirmed" = $1 AND ("role" = $2 OR "role" = $3 OR "role" = $4);';
+        db.query(queryText, ['1', 'nurse', 'MHW', 'ADL'], function (err, result) {
           db.end();
           if (err) {
             console.log("Error inserting data: ", err);

@@ -3,6 +3,7 @@
   <p>
     supervisor view
   </p>
+
   <md-button ng-click="sc.prevMonth()">Previous</md-button>
   <md-button ng-click="sc.nextMonth()">Next</md-button>
   <!-- <div layout="row">
@@ -45,6 +46,12 @@
       <div></div>
     </div> -->
   </div><!-- End of first block of dates -->
+
+<md-button class="md-raised md-primary" ng-click="sc.shiftDetails($event)">Shift Details</md-button>
+<md-button class="md-raised md-primary" ng-click="sc.addShift($event)">Add Shift</md-button>
+
+ 
+
 </div>
 </div>
 </div>

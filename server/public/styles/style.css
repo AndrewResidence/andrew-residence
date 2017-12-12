@@ -94,5 +94,23 @@ li a:hover {
 
 #approveUsersBox {
   background-color: coral;
+
+.calendarSpace {
+  width: 80%;
+  margin-left: 20px;
+}
+
+.calBox {
+  background-color: lightblue;
+  width: 100px;
+  margin: 2px;
+}
+
+.calHeight {
+  height: 200px;
+}
+
+#addShiftPop {
+  width: 600px;
 }
 

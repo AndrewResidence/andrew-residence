@@ -22,6 +22,10 @@ myApp.config(function($routeProvider, $locationProvider) {
         }
       }
     })
+    .when('/info', {
+      templateUrl: '/views/templates/info.html',
+      controller: 'InfoController as ic',
+    })
     .when('/admin', {
       templateUrl: '/views/templates/admin.html',
       controller: 'AdminController as ac',
@@ -51,5 +55,5 @@ myApp.config(function($routeProvider, $locationProvider) {
     })
     .otherwise({
       redirectTo: 'home'
-    });
+    })
 });

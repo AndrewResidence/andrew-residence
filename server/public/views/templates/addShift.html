@@ -1,0 +1,63 @@
+<md-dialog aria-label="addShiftPop" id="addShiftPop">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h3>Add Shift</h3>
+            <span flex="auto"></span>
+            <md-button ng-click="sd.cancel()"> close
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content flex="auto">
+        <div layout-gt-xl="row">
+           
+                <md-checkbox id="urgentCheckbox" ng-model="sd.newShift.urgent" ng-true-value="'true'" ng-false-value="'false'">Mark Urgent</md-checkbox>
+            </label>
+        </div>
+        <div layout-gt-xl="row">
+            <md-input-container class="md-block" flex=50>
+                <label>Shift:</label>
+                <md-select id="shiftDrop" ng-model="sd.newShift.shift">
+                    <md-option id="shiftDrop" ng-value="shift" ng-repeat="shift in sd.shifts">{{shift}}</md-option>
+                </md-select>
+            </md-input-container>
+        </div>
+        <div layout-gt-xl="row">
+            Role:
+            <md-checkbox ng-model="sd.newShift.nurse" ng-true-value="'true'" ng-false-value="'false'">Nurse</md-checkbox>
+            <md-checkbox ng-model="sd.newShift.adl" ng-true-value="'true'" ng-false-value="'false'">ADL</md-checkbox>
+            <md-checkbox ng-model="sd.newShift.mhw" ng-true-value="'true'" ng-false-value="'false'">MHW</md-checkbox>
+        </div>
+        <div>
+            Select shift date/dates:
+            <multiple-date-picker right-click="rightClickCb" ng-model="myArrayOfDates"></multiple-date-picker>
+        </div>
+
+            <div layout-gt-xl="row">
+                <md-input-container id="shiftCommentsText" class="md-block">
+                    <label>Shift Comments:</label>
+                    <textarea rows="2" width="300PX" name="shiftComments" ng-model="sd.newShift.comments" md-select-on-focus></textarea>
+                </md-input-container>
+            </div>
+            <md-divider></md-divider>
+            <!-- Notify the following supervisors when the shift is filled:
+
+           
+<div layout="row" layout-wrap flex>
+    <div flex="50" ng-repeat="name in sd.supervisors">
+        <md-checkbox ng-checked="selected" ng-model="sd.newShift.notify">
+            {{ name }}
+        </md-checkbox>
+    </div> -->
+
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+        <md-button ng-click="sd.cancel()">
+            Cancel
+        </md-button>
+        <span flex></span>
+        <md-button ng-click="sd.addNewShift(myArrayOfDates, sd.newShift.urgent, sd.newShift.shift, sd.newShift.role, sd.newShift.comments, sd.newShift.notify, sd.newShift.nurse, sd.newShift.adl, sd.newShift.mhw)">
+            Add Shift
+        </md-button>
+    </md-dialog-actions>
+
+</md-dialog>

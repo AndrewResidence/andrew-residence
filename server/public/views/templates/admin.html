@@ -6,13 +6,13 @@
       <h2>Supervisors:</h2>
       <div ng-repeat="supervisor in ac.supervisors">
         {{supervisor.name}}
-        <button>Edit</button>
+        <button ng-click="ac.showEditDialog($event, supervisor)">Edit</button>
         <button>Remove</button>
       </div>
       <h2>On-Call Staff:</h2>
       <div ng-repeat="staff in ac.staff">
         {{staff.name}}
-        <button>Edit</button>
+        <button ng-click="ac.showEditDialog($event, staff)">Edit</button>
         <button>Remove</button>
       </div>
       </div>

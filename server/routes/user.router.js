@@ -113,6 +113,37 @@ router.get('/staff', function (req, res) {
   }
 })
 
+ //Users PUT route to edit a specific user
+ router.put('/edit/:id', function (req, res) {
+  if (req.isAuthenticated()) {
+    var id = req.params.id;
+    var userInfo = {
+      name: req.body.name,
+      username: req.body.username,
+      role: req.body.role,
+      phone: req.body.phone
+    }
+    pool.connect(function(err, db, done) {
+      if (err) {
+        console.log('error connecting', err);
+        res.sendStatus(500);
+      }
+      var queryText = 'UPDATE "users" SET "name" =$1, "username"=$2, "role"=$3, "phone"=$4 WHERE "id" = $5;'
+      //insert into users new role and change confirmed to true;
+        db.query(queryText, [userInfo.name, userInfo.username, userInfo.role, userInfo.phone, id], function (err, result) {
+          db.end();
+          if (err) {
+            console.log("Error inserting data: ", err);
+            res.sendStatus(500);
+          } else {
+            res.send(result.rows);
+          }
+        });
+    })
+  }
+})
+
+
 
 
 // clear all server session information about this user

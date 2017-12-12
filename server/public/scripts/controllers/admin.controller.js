@@ -60,6 +60,19 @@ myApp.controller('AdminController', function (UserService, $mdDialog) {
 
   vm.getStaff();
 
+    //Show dialog for edit individual user
+    vm.showEditDialog = function(event, user) {
+      console.log('button clicked');
+      $mdDialog.show({
+        controller: 'AdminDialogController as ac',
+        templateUrl: '/views/dialogs/editUser.html',
+        parent: angular.element(document.body),
+        targetEvent: event,
+        clickOutsideToClose: true,
+        locals: { user: user }
+      })
+    };
+
   // Supervisor and staff PUT route (editing a specific user)
 
   // Supervisor and staff PUT route (editing a user's role)

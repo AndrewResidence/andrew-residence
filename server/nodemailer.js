@@ -3,6 +3,14 @@ require('dotenv').config();
 const nodemailer = require('nodemailer');
 
 
+// from .env file; the .config searches root file for .env and parses information.
+
+let GMAIL_USER = process.env.GMAIL_USER;
+let REFRESH_TOKEN = process.env.REFRESH_TOKEN;
+let ACCESS_TOKEN = process.env.ACCESS_TOKEN;
+let CLIENT_ID = process.env.CLIENT_ID;
+let CLIENT_SECRET = process.env.CLIENT_SECRET;
+
 
 nodemailer.createTestAccount((err, account) => {
 
@@ -13,14 +21,14 @@ nodemailer.createTestAccount((err, account) => {
         secure: true,
         auth: {
             type: 'OAuth2',
-            clientId: process.env.CLIENT_ID,
-            clientSecret: process.env.CLIENT_SECRET,
+            clientId: CLIENT_ID,
+            clientSecret: CLIENT_SECRET,
         }
     });
 
     console.log('logged this', transporter);
 
-    // setup email data with unicode symbols
+    // setup email data 
     let mailOptions = {
         from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
         to: 'joshnothum@gmail.com ', // list of receivers
@@ -28,9 +36,9 @@ nodemailer.createTestAccount((err, account) => {
         text: 'Hello from NodeMailer!!!, What up Jems?', // plain text body
         html: '<b>Hello from NodeMailer!!! What up JEMS! This is with Andrew Residence credentials</b>', // html body
         auth: {
-            user: process.env.GMAIL_USER,
-            refreshToken: process.env.REFRESH_TOKEN,
-            accessToken: process.env.ACCESS_TOKEN,
+            user: GMAIL_USER,
+            refreshToken: REFRESH_TOKEN,
+            accessToken: ACCESS_TOKEN,
 
         }
     };

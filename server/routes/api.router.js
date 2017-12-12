@@ -3,6 +3,12 @@ var api = express.Router();
 var passport = require('passport');
 var path = require('path');
 
+var plivo = require('plivo');
+var p = plivo.RestAPI({
+    authId: process.env.PLIVO_AUTH_ID,
+    authToken: process.env.PLIVO_AUTH_TOKEN,
+});
+
 router.get('/', function (req, res) {
     if (req.isAuthenticated()) {
 

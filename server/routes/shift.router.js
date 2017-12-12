@@ -85,7 +85,7 @@ router.get('/', function (req, res) {
     else {
         console.log('User is not authenticated')
     }
-}) //end get shifts
+}); //end get shifts
 
 
 

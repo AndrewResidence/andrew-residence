@@ -52,6 +52,14 @@ myApp.config(function($routeProvider, $locationProvider) {
           return UserService.getuser();
         }
       }
+    }).when('/message', {
+      templateUrl: '/views/templates/message.html',
+      controller: 'PopupTestController as pop',
+      resolve: {
+        getuser: function (UserService) {
+          return UserService.getuser();
+        }
+      }
     })
     .otherwise({
       redirectTo: 'home'

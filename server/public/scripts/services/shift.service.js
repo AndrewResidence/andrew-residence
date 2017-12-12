@@ -58,13 +58,36 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     }).catch(function (err) {
       console.log('Error');
     });
-  } //end addNewShift function and route
+  }; //end addNewShift function and route
 
   self.getShifts = function () {
     return $http.get('/shifts').then(function (response) {
       console.log('response', response.data)
       self.shiftsToDisplay = response.data;
       return response
-    })
-  }
+    });
+  };
+
+
+
+  self.sendTextMessage = function () {
+
+    console.log('we are here');
+    
+    textParams ={
+      src:'',
+      dst:'',
+      text:'',
+
+    };
+
+    $http.post('/api').then(function (response) {
+
+
+      console.log(response);
+
+    }).catch(function (response) {
+      console.log('send message did not work: ', response);
+    });
+  };//end of sendTextMessage
 });

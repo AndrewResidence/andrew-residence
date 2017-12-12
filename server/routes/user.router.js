@@ -153,8 +153,7 @@ router.get('/staff', function (req, res) {
         console.log('error connecting', err);
         res.sendStatus(500);
       }
-      var queryText = 'DELETE FROM "users" WHERE "id" = $1;'
-      //insert into users new role and change confirmed to true;
+      var queryText = 'DELETE FROM "users" WHERE "id" = $1;';
         db.query(queryText, [id], function (err, result) {
           done();
           if (err) {

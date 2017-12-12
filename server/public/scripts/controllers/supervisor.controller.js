@@ -97,9 +97,6 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
     vm.year = moment(nextTwoWeeks._d).format('YYYY');
   }
 
-
-  vm.nextWeek(scheduleDays);
-
   vm.shiftDetails = function (event) {
     ShiftService.shiftDetails(event)
   }

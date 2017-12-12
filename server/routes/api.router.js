@@ -2,6 +2,7 @@ var express = require('express');
 var api = express.Router();
 var passport = require('passport');
 var path = require('path');
+let plivoNumber = '16128519117';
 
 var plivo = require('plivo');
 var p = plivo.RestAPI({
@@ -9,38 +10,21 @@ var p = plivo.RestAPI({
     authToken: process.env.PLIVO_AUTH_TOKEN,
 });
 
-router.get('/', function (req, res) {
-    if (req.isAuthenticated()) {
+app.post('/textMessage', function (req, res) {
+    console.log(req.user.phone);
+    
+    var params = {
+        src: plivoNumber, // Sender's phone number with country code
+        dst: '16362211997', // Receiver's phone Number with country code
+        text: "Hi, text from Plivo", // Your SMS Text Message - English
+    };
 
-        pool.connect(function (errorConnectingToDb, db, done) {
-            if (errorConnectingToDb) {
-                // No connection to database was made - error
-                console.log('Error connecting', errorConnectingToDb);
-                res.sendStatus(500);
-            } //end if error connection to db
-            else {
-                var queryText = 'SELECT * FROM "post_shifts";';
-                db.query(queryText, function (errorMakingQuery, result) {
-                    done(); // add + 1 to pool
-                    console.log('result.rows', result);
-                    if (errorMakingQuery) {
-                        console.log('Error making query', errorMakingQuery);
-                        res.sendStatus(500);
-                    }
-                    else {
-
-                        res.send(result.rows);
-                    }
-                }
-                ); // END QUERY
-
-            }
-
-        }); // end pool connect
-
-
-    } // end req.isAuthenticated
-    else {
-        console.log('User is not authenticated')
-    }
-}); //end get shifts
+    // Prints the complete response
+    p.send_message(params, function (status, response) {
+        console.log('Status: ', status);
+        console.log('API Response:\n', response);
+        console.log('Message UUID:\n', response['message_uuid']);
+        console.log('Api ID:\n', response['api_id']);
+    });
+    
+});

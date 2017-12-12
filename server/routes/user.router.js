@@ -144,6 +144,31 @@ router.get('/staff', function (req, res) {
 })
 
 
+ //Users DELETE route
+ router.delete('/:id', function (req, res) {
+  if (req.isAuthenticated()) {
+    var id = req.params.id;
+    pool.connect(function(err, db, done) {
+      if (err) {
+        console.log('error connecting', err);
+        res.sendStatus(500);
+      }
+      var queryText = 'DELETE FROM "users" WHERE "id" = $1;'
+      //insert into users new role and change confirmed to true;
+        db.query(queryText, [id], function (err, result) {
+          done();
+          if (err) {
+            console.log("Error inserting data: ", err);
+            res.sendStatus(500);
+          } else {
+            res.send(result.rows);
+          }
+        });
+    })
+  }
+})
+
+
 
 
 // clear all server session information about this user

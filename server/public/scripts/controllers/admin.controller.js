@@ -50,6 +50,7 @@ myApp.controller('AdminController', function (UserService, $mdDialog, $mdToast) 
   vm.getSupervisors = function () {
     vm.userService.getSupervisors().then(function (response) {
       vm.supervisors = response.data;
+      console.log('got supervisors', vm.supervisors);
     })
   }
 
@@ -60,10 +61,16 @@ myApp.controller('AdminController', function (UserService, $mdDialog, $mdToast) 
   vm.getStaff = function () {
     vm.userService.getStaff().then(function (response) {
       vm.staff = response.data;
+      console.log('got staff', vm.staff);
     })
   }
 
   vm.getStaff();
+
+    //Users DELETE route
+    vm.deleteUser = function(user) {
+      vm.showDeleteToast(user);
+    }
 
     //Show dialog for edit individual user
     vm.showEditDialog = function(event, user) {
@@ -100,6 +107,30 @@ myApp.controller('AdminController', function (UserService, $mdDialog, $mdToast) 
         .position('bottom left')
         .hideDelay(2500)
     );
+  };
+
+  vm.showDeleteToast= function(user) {
+    console.log('user in toast', user);
+    var toast = $mdToast.simple()
+        .textContent('User has been deleted')
+        .action('UNDO')
+        .highlightAction(true)
+        .position('bottom left')
+        .hideDelay(3000);
+    var undoToast = $mdToast.simple()
+    .textContent('Undo successful')
+    .position('bottom left')
+    .hideDelay(2500);
+    $mdToast.show(toast).then(function(response) {
+      if (response === 'ok') {
+        $mdToast.show(undoToast);
+      } 
+      vm.userService.deleteUser(user);
+    }).then(function() {
+      vm.getStaff();
+      vm.getSupervisors();
+      vm.getUnconfirmed();
+    })
   };
   
 

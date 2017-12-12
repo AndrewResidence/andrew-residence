@@ -12,6 +12,8 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     comments: '',
     notify: ''
   }
+
+  self.shiftsToDisplay = {data: []}
   //calls the addShift popup
   self.addShift = function (event) {
     console.log('add new shift button clicked');
@@ -57,4 +59,12 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
       console.log('Error');
     });
   } //end addNewShift function and route
+
+  self.getShifts = function () {
+    return $http.get('/shifts').then(function (response) {
+      console.log('response', response.data)
+      self.shiftsToDisplay = response.data;
+      return response
+    })
+  }
 });

@@ -4,6 +4,7 @@ myApp.controller('SupervisorController', function(UserService, ShiftService, Ava
     var vm = this;
     vm.userService = UserService;
     vm.userObject = UserService.userObject;
+    vm.shiftService = ShiftService;
 
 
     vm.today = moment();
@@ -25,15 +26,6 @@ myApp.controller('SupervisorController', function(UserService, ShiftService, Ava
 
     console.log((moment().day(4).format('dddd')));
     
-    
-    })
-
-myApp.controller('SupervisorController', function ($mdDialog, UserService, ShiftService, AvailabilityService) {
-  console.log('SupervisorController created');
-  var vm = this;
-  vm.userService = UserService;
-  vm.shiftService = ShiftService;
-  vm.userObject = UserService.userObject;
 
   vm.shiftDetails = function (event) {
     ShiftService.shiftDetails(event)
@@ -42,5 +34,12 @@ myApp.controller('SupervisorController', function ($mdDialog, UserService, Shift
   vm.addShift = function (event) {
     ShiftService.addShift(event)
   }
+
+  vm.getShifts = function () {
+    ShiftService.getShifts().then(function (response){
+      console.log('shifts')
+    })
+  }
+  vm.getShifts();
 });
 

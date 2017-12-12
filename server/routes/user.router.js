@@ -53,7 +53,7 @@ router.get('/supervisors', function (req, res) {
         res.sendStatus(500);
       }
       var queryText = 'SELECT * FROM "users" WHERE "confirmed" = $1 AND "role" = $2;';
-        db.query(queryText, ['1', 'supervisor'], function (err, result) {
+        db.query(queryText, ['1', 'Supervisor'], function (err, result) {
           db.end();
           if (err) {
             console.log("Error inserting data: ", err);

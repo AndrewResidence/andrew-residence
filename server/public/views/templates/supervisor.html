@@ -6,26 +6,28 @@
 
   <md-button class="md-raised md-primary" ng-click="sc.shiftDetails($event)">Shift Details</md-button>
   <md-button class="md-raised md-primary" ng-click="sc.addShift($event)">Add Shift</md-button>
-
-  <md-button ng-click="sc.prevMonth()">Previous</md-button>
-  <md-button ng-click="sc.nextMonth()">Next</md-button>
   <div layout="row">
-    <div class="calBox">Thu</div>
-    <div class="calBox">Fri</div>
-    <div class="calBox">Sat</div>
-    <div class="calBox">Sun</div>
-    <div class="calBox">Mon</div>
-    <div class="calBox">Tue</div>
-    <div class="calBox">Wed</div>
+    <md-button class="md-raised md-primary" ng-click="sc.prevMonth(sc.currentSchedule.dates[0])">Previous</md-button>
+    <div flex="50">{{sc.month}}</div>
+    <md-button class="md-raised md-primary" ng-click="sc.nextMonth(sc.currentSchedule.dates[0])">Next</md-button>
   </div>
-  <div layout="row">
-  <div ng-repeat="date in sc.currentSchedule.dates"> <!-- Start of first block of dates -->
-    <div layout="row" class="calBox calHeight">
-      <span>{{date}}</span>
-      <div></div>
+    <div layout="row" class="dayHeader">
+      <div class="calBox">Thu</div>
+      <div class="calBox">Fri</div>
+      <div class="calBox">Sat</div>
+      <div class="calBox">Sun</div>
+      <div class="calBox">Mon</div>
+      <div class="calBox">Tue</div>
+      <div class="calBox">Wed</div>
     </div>
-  </div><!-- End of first block of dates -->
-
-</div>
+    <div layout="row">
+      <div ng-repeat="date in sc.currentSchedule.dates track by $index">
+        <div layout="column" class="calBox calHeight">
+          <span>{{date}}</span><br>
+          <div></div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 </div>

@@ -8,9 +8,9 @@
 
   <div class="calendarSpace"> <!-- start calendar space -->
     <div layout="row" layout-align="center center">
-      <md-button class="md-raised md-primary" ng-click="sc.prevMonth(sc.currentSchedule.dates[0])">Previous</md-button>
+      <md-button class="md-raised md-primary" ng-click="sc.prevMonth(sc.currentSchedule.dates[0].moment)">Previous</md-button>
       <div flex="50">{{sc.month}}  {{sc.year}}</div>
-      <md-button class="md-raised md-primary" ng-click="sc.nextMonth(sc.currentSchedule.dates[0])">Next</md-button>
+      <md-button class="md-raised md-primary" ng-click="sc.nextMonth(sc.currentSchedule.dates[0].moment)">Next</md-button>
     </div>
     <div layout="row" class="dayHeader"> <!-- start weekday headers -->
       <div class="calBox">Thu</div>
@@ -23,8 +23,16 @@
     </div> <!-- end weekday headers -->
     <div layout="row" layout-wrap><!-- start row for ng-repeat -->
       <div ng-repeat="date in sc.currentSchedule.dates track by $index"> <!-- start ng-repeat -->
-        <div layout="column" class="calBox calHeight"><!-- start calendar box -->
-          <span>{{date}}</span>
+        <div layout="column" class="calBox calHeight" ng-click="sc.click($index)"><!-- start calendar box -->
+          <span>{{date.moment}}</span>
+          <div ng-repeat="shift in date.shifts track by $index" >
+            {{shift.shift}} {{shift.shift_id}}
+          </div>
+            
+          </div>
+           
+                
+          
           <br>
           <div></div>
         </div><!-- end calendar box -->

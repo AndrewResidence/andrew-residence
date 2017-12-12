@@ -6,6 +6,9 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   vm.shiftService = ShiftService;
   vm.userObject = UserService.userObject;
   vm.shiftService = ShiftService;
+  vm.shiftsToDisplay = [];
+
+
 
   vm.shiftDetails = function (event) {
     ShiftService.shiftDetails(event)
@@ -62,7 +65,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
     })
 
     for (var i = 0; i < priorDays.length; i++) {
-      vm.currentSchedule.dates.push(moment().add(priorDays[i], 'days'));
+      vm.currentSchedule.dates.push({moment: moment().add(priorDays[i], 'days'), shifts: []});
     }
 
     vm.month = moment(vm.todayToday).format('MMMM');
@@ -78,11 +81,12 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
     var prevTwoWeeks = moment(date).subtract(14, 'days');
 
     for (var i = 0; i < scheduleDays.length; i++) {
-      vm.currentSchedule.dates.push(moment(prevTwoWeeks._d).add(scheduleDays[i], 'days'));
+      vm.currentSchedule.dates.push({ moment: moment(prevTwoWeeks._d).add(scheduleDays[i], 'days'), shifts: [] });
     }
 
     vm.month = moment(prevTwoWeeks._d).format('MMMM');
     vm.year = moment(prevTwoWeeks._d).format('YYYY')
+    vm.getShifts();
   }
 
   //function to get next two weeks of dates
@@ -91,10 +95,11 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
     var nextTwoWeeks = moment(date).add(14, 'days');
 
     for (var i = 0; i < scheduleDays.length; i++) {
-      vm.currentSchedule.dates.push(moment(nextTwoWeeks._d).add(scheduleDays[i], 'days'));
+      vm.currentSchedule.dates.push({ moment: moment(nextTwoWeeks._d).add(scheduleDays[i], 'days'), shifts: [] });
     }
     vm.month = moment(nextTwoWeeks._d).format('MMMM');
     vm.year = moment(nextTwoWeeks._d).format('YYYY');
+    vm.getShifts();
   }
 
   vm.shiftDetails = function (event) {
@@ -105,13 +110,36 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
     ShiftService.addShift(event)
   }
 
+  vm.showShift = false;
   vm.getShifts = function () {
     ShiftService.getShifts().then(function (response) {
-      console.log('shifts')
+      vm.shiftsToDisplay = response.data;
+      console.log('shifts', vm.shiftsToDisplay);
+      console.log('dates', vm.currentSchedule.dates);
+      for (var i = 0; i < vm.shiftsToDisplay.length; i++) {
+        for (var j = 0; j < vm.currentSchedule.dates.length; j++) {
+          if (moment(vm.shiftsToDisplay[i].date).format('YYYY-MM-DD') === moment(vm.currentSchedule.dates[j].moment).format('YYYY-MM-DD')) {
+            console.log('true');
+            vm.currentSchedule.dates[j].shifts.push(vm.shiftsToDisplay[i]);
+            //vm.showShift = true;
+            // console.log('show', vm.showShift);
+            //return vm.showShift;
+          }
+        }
+      }
     })
   }
 
+
+
   vm.getShifts();
+
+  vm.click = function (index) {
+    console.log(index);
+    console.log('this', this)
+    console.log('this.date', this.currentSchedule.dates[index]);
+
+  }
 
 });
 

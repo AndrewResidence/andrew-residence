@@ -89,6 +89,10 @@ li a:hover {
   margin-left: 20px;
 }
 
+.calHeader {
+  font-size: 20px;
+}
+
 .calBox {
   background-color: lightblue;
   width: 100px;

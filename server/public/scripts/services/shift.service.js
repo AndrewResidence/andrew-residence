@@ -67,4 +67,24 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
       return response
     })
   }
+
+  self.getPayPeriodDates = function() {
+    return $http.get('/shifts/payperiod/getdates').then(function(response){
+      console.log('response', response.data)
+      // self.payPeriodStartAndEnd.data = response.data;
+      return response.data;
+    })
+    .catch(function(err){
+      console.log('error')
+    })
+  }
+
+  self.updatePayPeriodDates = function() {
+    var rowId = 1;
+    return $http.put('/shifts/payperiod/updatedates/' + rowId).then(function(response){
+      console.log('response', response.data)
+      return response.data;
+    })
+  }
+
 });

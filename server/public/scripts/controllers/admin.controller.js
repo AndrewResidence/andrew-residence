@@ -1,4 +1,4 @@
-myApp.controller('AdminController', function (UserService, $mdDialog) {
+myApp.controller('AdminController', function (UserService, $mdDialog, $mdToast) {
   console.log('AdminController created');
 
   var vm = this;
@@ -30,6 +30,11 @@ myApp.controller('AdminController', function (UserService, $mdDialog) {
         targetEvent: event,
         clickOutsideToClose: true,
         locals: { user: user }
+      }).then(function() {
+        vm.getStaff();
+        vm.getSupervisors();
+        vm.getUnconfirmed();
+        vm.showConfirmToast();
       })
     };
 
@@ -70,8 +75,34 @@ myApp.controller('AdminController', function (UserService, $mdDialog) {
         targetEvent: event,
         clickOutsideToClose: true,
         locals: { user: user }
+      }).then(function() {
+        vm.getStaff();
+        vm.getSupervisors();
+        vm.getUnconfirmed();
+        vm.showEditToast();
       })
     };
+
+
+  vm.showEditToast= function() {
+    $mdToast.show(
+      $mdToast.simple()
+        .textContent('User has been edited!')
+        .position('bottom left')
+        .hideDelay(2500)
+    );
+  };
+
+  vm.showConfirmToast= function() {
+    $mdToast.show(
+      $mdToast.simple()
+        .textContent('User has been confirmed!')
+        .position('bottom left')
+        .hideDelay(2500)
+    );
+  };
+  
+
 
   // Supervisor and staff PUT route (editing a specific user)
 

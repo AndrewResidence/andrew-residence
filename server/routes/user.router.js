@@ -31,7 +31,7 @@ router.get('/unconfirmed', function (req, res) {
       }
       var queryText = 'SELECT * FROM "users" WHERE "confirmed" = $1;';
         db.query(queryText, ['0'], function (err, result) {
-          db.end();
+          done();
           if (err) {
             console.log("Error getting data: ", err);
             res.sendStatus(500);
@@ -54,7 +54,7 @@ router.get('/supervisors', function (req, res) {
       }
       var queryText = 'SELECT * FROM "users" WHERE "confirmed" = $1 AND "role" = $2;';
         db.query(queryText, ['1', 'Supervisor'], function (err, result) {
-          db.end();
+          done();
           if (err) {
             console.log("Error inserting data: ", err);
             res.sendStatus(500);
@@ -76,7 +76,7 @@ router.get('/staff', function (req, res) {
       }
       var queryText = 'SELECT * FROM "users" WHERE "confirmed" = $1 AND ("role" = $2 OR "role" = $3 OR "role" = $4);';
         db.query(queryText, ['1', 'Nurse', 'MHW', 'ADL'], function (err, result) {
-          db.end();
+          done();
           if (err) {
             console.log("Error inserting data: ", err);
             res.sendStatus(500);
@@ -101,7 +101,7 @@ router.get('/staff', function (req, res) {
       var queryText = 'UPDATE "users" SET "role" =$1, "confirmed"=$2 WHERE "id" = $3;'
       //insert into users new role and change confirmed to true;
         db.query(queryText, [role, '1', id], function (err, result) {
-          db.end();
+          done();
           if (err) {
             console.log("Error inserting data: ", err);
             res.sendStatus(500);
@@ -131,7 +131,7 @@ router.get('/staff', function (req, res) {
       var queryText = 'UPDATE "users" SET "name" =$1, "username"=$2, "role"=$3, "phone"=$4 WHERE "id" = $5;'
       //insert into users new role and change confirmed to true;
         db.query(queryText, [userInfo.name, userInfo.username, userInfo.role, userInfo.phone, id], function (err, result) {
-          db.end();
+          done();
           if (err) {
             console.log("Error inserting data: ", err);
             res.sendStatus(500);

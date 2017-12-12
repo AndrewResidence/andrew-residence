@@ -5,6 +5,7 @@ myApp.controller('SupervisorController', function(UserService, ShiftService, Ava
     vm.userService = UserService;
     vm.shiftService = ShiftService;
     vm.userObject = UserService.userObject;
+    vm.shiftService = ShiftService;
 
     vm.shiftDetails = function (event) {
       ShiftService.shiftDetails(event)
@@ -97,4 +98,25 @@ myApp.controller('SupervisorController', function(UserService, ShiftService, Ava
     }
   })
 
+    
+    vm.nextWeek(scheduleDays);
+
+    console.log((moment().day(4).format('dddd')));
+    
+
+  vm.shiftDetails = function (event) {
+    ShiftService.shiftDetails(event)
+  }
+
+  vm.addShift = function (event) {
+    ShiftService.addShift(event)
+  }
+
+  vm.getShifts = function () {
+    ShiftService.getShifts().then(function (response){
+      console.log('shifts')
+    })
+  }
+  vm.getShifts();
+});
 

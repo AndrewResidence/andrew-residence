@@ -10,7 +10,7 @@ var p = plivo.RestAPI({
     authToken: process.env.PLIVO_AUTH_TOKEN,
 });
 
-app.post('/textMessage', function (req, res) {
+app.post('/', function (req, res) {
     console.log(req.user.phone);
     
     var params = {

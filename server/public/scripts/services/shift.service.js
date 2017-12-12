@@ -63,8 +63,10 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   self.getShifts = function () {
     return $http.get('/shifts').then(function (response) {
       console.log('response', response.data)
-      self.shiftsToDisplay = response.data;
+      self.shiftsToDisplay.data = response.data;
       return response
     })
   }
+
+ 
 });

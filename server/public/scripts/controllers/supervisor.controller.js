@@ -19,6 +19,38 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   vm.month = '';
   vm.year = '';
   vm.todayToday = moment();
+  var scheduleDays = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+  
+  //pay period
+  vm.payPeriodStart = moment('2017-11-30');
+  // vm.payPeriodEnd = moment('2017-12-13');
+  vm.currentPayPeriodArray = {
+    dates: []
+  }
+
+  vm.currentPayPeriod = function(scheduleDays) {
+    console.log('vm.payPeriodStart', vm.payPeriodStart._d);
+    for (var i = 0; i < scheduleDays.length; i++) {
+      vm.currentPayPeriodArray.dates.push(moment(vm.payPeriodStart._d).add(scheduleDays[i], 'days').format('MM-DD-YYYY'));
+    }
+    console.log('vm.currentPayPeriodArray.dates', vm.currentPayPeriodArray.dates)
+    vm.findDayInCycle(vm.currentPayPeriodArray.dates);
+  }
+
+  vm.findDayInCycle = function(arrayofDates) {
+    var dayInCycle;
+    var dayToReview = moment(vm.todayToday).format('MM-DD-YYYY')
+    console.log('vm.todayToday', dayToReview);
+    for (var i = 0; i < arrayofDates.length; i++) {
+      console.log(arrayofDates[i]);
+      if (arrayofDates[i] == dayToReview) {
+        dayInCycle = i;
+      }
+    }
+    console.log('dayInCycle', dayInCycle);
+  }
+
+  vm.currentPayPeriod(scheduleDays);
 
   //array for for the next schedules function dates
   vm.currentSchedule = {
@@ -26,7 +58,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   };
 
   //gets the two week schedule
-  var scheduleDays = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+  //var scheduleDays = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
   vm.today = parseInt(moment().format('d'));
   vm.nextSchedule = function (scheduleDays) {
     var priorDaystoGet;
@@ -97,21 +129,21 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
     vm.year = moment(nextTwoWeeks._d).format('YYYY');
   }
 
-  vm.shiftDetails = function (event) {
-    ShiftService.shiftDetails(event)
-  }
+  // vm.shiftDetails = function (event) {
+  //   ShiftService.shiftDetails(event)
+  // }
 
-  vm.addShift = function (event) {
-    ShiftService.addShift(event)
-  }
+  // vm.addShift = function (event) {
+  //   ShiftService.addShift(event)
+  // }
 
-  vm.getShifts = function () {
-    ShiftService.getShifts().then(function (response) {
-      console.log('shifts')
-    })
-  }
+  // vm.getShifts = function () {
+  //   ShiftService.getShifts().then(function (response) {
+  //     console.log('shifts')
+  //   })
+  // }
 
-  vm.getShifts();
+  // vm.getShifts();
 
 });
 

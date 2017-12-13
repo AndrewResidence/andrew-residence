@@ -12,9 +12,8 @@ let CLIENT_ID = process.env.CLIENT_ID;
 let CLIENT_SECRET = process.env.CLIENT_SECRET;
 
 
-nodemailer.createTestAccount((err, account) => {
-
-    // create reusable transporter object using the default SMTP transport
+nodemailer.sendMessage((err, account) => {
+    // create reusable transporter object
     let transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         port: 465,
@@ -26,23 +25,19 @@ nodemailer.createTestAccount((err, account) => {
         }
     });
 
-    console.log('logged this', transporter);
-
     // setup email data 
     let mailOptions = {
         from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
         to: 'joshnothum@gmail.com ', // list of receivers
         subject: 'Hello ✔', // Subject line
         text: 'Hello from NodeMailer!!!, What up Jems?', // plain text body
-        html: '<b>Hello from NodeMailer!!! What up JEMS! This is with Andrew Residence credentials</b>', // html body
+        html: '<b>Hello from NodeMailer!!! What up JEMS!</b>', // html body
         auth: {
             user: GMAIL_USER,
             refreshToken: REFRESH_TOKEN,
             accessToken: ACCESS_TOKEN,
-
         }
     };
-
     // send mail with defined transport object
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {

@@ -4,22 +4,16 @@
     staff view
   </p>
 
-  <md-event-calendar
-  ng-model="selected"
-  md-events="events"
-  md-event-click="eventClicked($selectedEvent)"
-  md-label="title",
-  md-show-create-link="true"
-  md-create-event-click="ic.eventCreatea($date)"
-  md-create-disabled="false"
-  auto-height=""
-  class="md-primary"
->
-  <md-event-calendar-header class="md-center">
-    <md-event-calendar-prev></md-event-calendar-prev>
-    <md-event-calendar-title></md-event-calendar-title>
-    <md-event-calendar-next></md-event-calendar-next>
-  </md-event-calendar-header>
-</md-event-calendar>
-
+  <div>
+    <div>Sunday</div>
+    <div>Monday</div>
+    <div>Tuesday</div>
+    <div>Wednesday</div>
+    <div>Thursday</div>
+    <div>Friday</div>
+    <div>Saturday</div>
+  </div>
+  <div ng-repeat="day in sc.currentMonthArray">
+    <div>{{day.day}}</div>
+  </div>
 </div>

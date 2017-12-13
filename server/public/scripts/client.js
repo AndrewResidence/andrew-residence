@@ -1,7 +1,7 @@
 var myApp = angular.module('myApp', ['ngRoute', 'ngMaterial', 'multipleDatePicker']);
 
 /// Routes ///
-myApp.config(function($routeProvider, $locationProvider) {
+myApp.config(function ($routeProvider, $locationProvider) {
   $locationProvider.hashPrefix('');
   console.log('myApp -- config')
   $routeProvider
@@ -17,7 +17,7 @@ myApp.config(function($routeProvider, $locationProvider) {
       templateUrl: '/views/templates/user.html',
       controller: 'UserController as uc',
       resolve: {
-        getuser : function(UserService){
+        getuser: function (UserService) {
           return UserService.getuser();
         }
       }
@@ -30,7 +30,7 @@ myApp.config(function($routeProvider, $locationProvider) {
       templateUrl: '/views/templates/admin.html',
       controller: 'AdminController as ac',
       resolve: {
-        getuser : function(UserService){
+        getuser: function (UserService) {
           return UserService.getuser();
         }
       }
@@ -39,7 +39,7 @@ myApp.config(function($routeProvider, $locationProvider) {
       templateUrl: '/views/templates/supervisor.html',
       controller: 'SupervisorController as sc',
       resolve: {
-        getuser : function(UserService){
+        getuser: function (UserService) {
           return UserService.getuser();
         }
       }
@@ -48,7 +48,15 @@ myApp.config(function($routeProvider, $locationProvider) {
       templateUrl: '/views/templates/staff.html',
       controller: 'StaffController as sc',
       resolve: {
-        getuser : function(UserService){
+        getuser: function (UserService) {
+          return UserService.getuser();
+        }
+      }
+    }).when('/message', {
+      templateUrl: '/views/templates/message.html',
+      controller: 'PopupTestController as pop',
+      resolve: {
+        getuser: function (UserService) {
           return UserService.getuser();
         }
       }

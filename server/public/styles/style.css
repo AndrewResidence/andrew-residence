@@ -37,7 +37,7 @@ body, html {
 }
 
 .message:nth-child(odd) {
-   background-color: #eeeeee;
+  background-color: #eeeeee;
 }
 
 .message:nth-child(even) {
@@ -83,14 +83,30 @@ li a:hover {
   height: auto;
 }
 
+#adminContainer {
+  display: flex;
+  justify-content: space-around;
+}
+
+#editSupervisorBox {
+  background-color: skyblue;
+}
+
+#approveUsersBox {
+  background-color: coral;
+}
 
 .calendarSpace {
   width: 80%;
-  margin-left: 20px;
+  margin: 20px;
+}
+
+.calHeader {
+  font-size: 20px;
 }
 
 .calBox {
-  background-color: lightblue;
+  background-color: lightslategray;
   width: 100px;
   margin: 2px;
 }

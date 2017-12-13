@@ -54,7 +54,7 @@ CREATE TABLE "confirmed" (
 
 
 CREATE TABLE "user_availability" (
-	"user_id" BINARY NOT NULL,
+	"user_id" integer NOT NULL,
 	"availability_id" serial NOT NULL,
 	CONSTRAINT user_availability_pk PRIMARY KEY ("availability_id")
 ) WITH (

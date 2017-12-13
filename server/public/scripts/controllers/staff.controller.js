@@ -18,11 +18,30 @@ myApp.controller('StaffController', function(UserService, ShiftService, Availabi
   vm.currentMonthArray = [];
   vm.putDaysinCurrentMonthArray = function(daysinCurrentMonth) {
     for (var i = 1; i <= daysinCurrentMonth; i++) {
-      vm.currentMonthArray.push({day: i});
+      vm.currentMonthArray.push(i);
     }
     console.log('currentMonthArray', vm.currentMonthArray)
   }
   vm.putDaysinCurrentMonthArray(vm.daysinCurrentMonth);
+  vm.eachDay = {
+    day: '',
+    dayInWeek: '',
+
+  }
+  vm.monthDaysArray = [];
+  vm.getMonthDays = function(currentMonthArray) {
+    for (var i = 0; i < currentMonthArray.length; i++) {
+      eachDay = {
+        day: moment().date(i),
+        dayInWeek: moment().month(vm.currentMonth).day(i)
+      }
+      vm.monthDaysArray.push(eachDay);
+    }
+  }
+  vm.getMonthDays(vm.currentMonthArray);
+  console.log('vm.monthDaysArray', vm.monthDaysArray);
+
+
 
   //function to pull prior two weeks of dates
   vm.prevMonth = function (date) {

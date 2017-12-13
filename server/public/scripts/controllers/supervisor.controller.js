@@ -7,19 +7,19 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   vm.shiftService = ShiftService;
   vm.shiftsToDisplay = [];
 
-  vm.shiftDetails = function (event) {
-    ShiftService.shiftDetails(event)
-  }
+  // vm.shiftDetails = function (event) {
+  //   ShiftService.shiftDetails(event)
+  // }
 
-  vm.addShift = function (event) {
-    ShiftService.addShift(event)
-  }
+  // vm.addShift = function (event) {
+  //   ShiftService.addShift(event)
+  // }
 
   vm.updatePayPeriodDates = function() {
     ShiftService.updatePayPeriodDates().then(function(response){
       console.log(response)
-    })
-  }
+    });
+  };
 
   //used for assigning month/day in the calendar header
   vm.month = '';
@@ -37,7 +37,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   vm.payPeriodEnd = '';
   vm.currentPayPeriodArray = {
     dates: []
-  }
+  };
 
   vm.getPayPeriodDates = function() {
     ShiftService.getPayPeriodDates().then(function(response){
@@ -54,8 +54,8 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
         // vm.getPayPeriodDates();
         console.log('today is greater than start date')
       }
-    })
-  }
+    });
+  };
 
   vm.getPayPeriodDates();
   //gets the current pay period days for two weeks

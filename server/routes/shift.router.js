@@ -70,7 +70,7 @@ router.get('/', function (req, res) {
     else {
         console.log('User is not authenticated')
     }
-}) //end get shifts
+}); //end get shifts
 
 //gets the current pay period start and end dates
 router.get('/payperiod/getdates', function (req, res) {
@@ -132,7 +132,19 @@ router.put('/payperiod/updatedates/:id', function (req, res) {
     else {
         console.log('User is not authenticated')
     }
-}) //end get pay period dates
+}) //end update pay period dates
+
+//GET Shift bids
+
+
+
+
+
+//GET confirmed shifts
+
+
+
+
 
 
 

@@ -70,7 +70,6 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
 
   self.sendTextMessage = function () {
 
-    console.log('we are here');
     
     //what is required for Plivo to deliver message;
     textParams ={
@@ -90,11 +89,8 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
 
 
   self.sendEmailMessage = function () {
-
-    console.log('we are in sendEmailMessage here');
-
+    
     $http.post('/message/email').then(function (response) {
-
       // neccessary params for email transport object;
       emailParams = {
         to: '', // list of receivers
@@ -103,8 +99,6 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
         html: '', // html body
 
       };
-
-
       console.log(response);
 
     }).catch(function (response) {

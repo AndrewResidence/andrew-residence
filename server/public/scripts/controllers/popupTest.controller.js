@@ -1,14 +1,21 @@
 myApp.controller('PopupTestController', function ($mdDialog, UserService, ShiftService) {
 
+    console.log('popups');
+    
+
     ptc = this;
     
 
-    ptc.sendText = function () {
-        console.log('we are here in popup');
+    ptc.sendTextMessage = function () {
         
     ShiftService.sendTextMessage();
         
     };
 
+    ptc.sendEmailMessage = function () {
+
+        ShiftService.sendEmailMessage();
+        
+    };
 
 });

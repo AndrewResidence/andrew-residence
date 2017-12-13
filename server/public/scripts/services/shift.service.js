@@ -81,13 +81,28 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
 
     };
 
-    $http.post('/api').then(function (response) {
+    $http.post('/message/text').then(function (response) {
 
 
       console.log(response);
 
     }).catch(function (response) {
-      console.log('send message did not work: ', response);
+      console.log('send textMessage did not work: ', response);
+    });
+  };//end of sendTextMessage
+
+
+  self.sendEmailMessage = function () {
+
+    console.log('we are in sendEmailMessage here');
+
+    $http.post('/message/email').then(function (response) {
+
+
+      console.log(response);
+
+    }).catch(function (response) {
+      console.log('send emailMessage did not work: ', response);
     });
   };//end of sendTextMessage
 });

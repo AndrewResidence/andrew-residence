@@ -23,9 +23,9 @@
     </div> <!-- end weekday headers -->
     <div layout="row" layout-wrap><!-- start row for ng-repeat -->
       <div ng-repeat="date in sc.currentSchedule.dates track by $index"> <!-- start ng-repeat -->
-        <div layout="column" class="calBox calHeight" ng-click="sc.click($index)"><!-- start calendar box -->
+        <div layout="column" class="calBox calHeight" ><!-- start calendar box -->
           <span>{{date.moment}}</span>
-          <div ng-repeat="shift in date.shifts track by $index" >
+          <div ng-repeat="shift in date.shifts track by $index" ng-click="sc.shiftDetails(event, shift)">
             {{shift.shift}} {{shift.shift_id}}
           </div>
         </div>

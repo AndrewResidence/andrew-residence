@@ -2,15 +2,24 @@
     <md-toolbar>
         <div class="md-toolbar-tools">
             <h3>Shift Details</h3>
+
+            
             <span flex="auto"></span>
             <md-button ng-click="sd.cancel()"> close
             </md-button>
         </div>
     </md-toolbar>
     <md-dialog-content flex="auto">
-
-
-
+<div layout="row">
+<!-- {{sd.shift}} -->
+{{sd.shift.date}}
+<span ng-show="sd.shift.adl">Role: ADL</span>
+<span ng-show="sd.shift.mhw">Role: MHW</span>
+<span ng-show="sd.shift.nurse">Role: nurse</span>
+{{sd.shift.shift_status}}
+{{sd.shift.shift}}
+{{sd.shift.shift_comments}}
+</div>
     </md-dialog-content>
 
 </md-dialog>

@@ -1,10 +1,10 @@
 myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   console.log('ShiftService Loaded');
   var self = this;
-
+self.shift = {}
   self.newShift = {
     shiftDate: [],
-    urgent: '',
+    urgent: false,
     shift: '',
     adl: false,
     mhw: false,
@@ -27,8 +27,9 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     })
   } //end addShift popup function
   //calls the shiftDetails popup
-  self.shiftDetails = function (event) {
-    console.log('shift details button clicked');
+  self.shiftDetails = function (event, shift) {
+    console.log('shift details button clicked', shift);
+    self.shift=shift;
     $mdDialog.show({
       controller: 'SupervisorDialogController as sd',
       templateUrl: '/views/templates/shiftDetails.html',

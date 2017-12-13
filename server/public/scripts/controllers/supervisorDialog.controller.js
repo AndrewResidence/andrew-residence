@@ -10,6 +10,7 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
   vm.supervisors = ['Dan', 'Blake', 'Emma', 'Sarah', 'Josh'];
   //possible shift types
   vm.shifts = ['Day', 'Evening', 'ADL Evening', 'Night'];
+  vm.shift = ShiftService.shift
 
   vm.myArrayOfDates = []
   $scope.$watch('myArrayOfDates', function (newValue, oldValue) {

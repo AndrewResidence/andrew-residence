@@ -25,14 +25,10 @@
       <div ng-repeat="date in sc.currentSchedule.dates track by $index"> <!-- start ng-repeat -->
         <div layout="column" class="calBox calHeight" ng-click="sc.click($index)"><!-- start calendar box -->
           <span>{{date.moment}}</span>
-          <!-- <div ng-repeat="shift in date.shifts track by $index" >
+          <div ng-repeat="shift in date.shifts track by $index" >
             {{shift.shift}} {{shift.shift_id}}
-          </div> -->
-            
           </div>
-
-                
-          
+        </div>
           <br>
           <div></div>
         </div><!-- end calendar box -->

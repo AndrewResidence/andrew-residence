@@ -45,10 +45,8 @@ router.post('/', function (req, res) {
 //get route for post_shifts 
 router.get('/', function (req, res) {
     if (req.isAuthenticated()) {
-
         pool.connect(function (errorConnectingToDb, db, done) {
             if (errorConnectingToDb) {
-                // No connection to database was made - error
                 console.log('Error connecting', errorConnectingToDb);
                 res.sendStatus(500);
             } //end if error connection to db

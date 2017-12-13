@@ -37,7 +37,7 @@ body, html {
 }
 
 .message:nth-child(odd) {
-   background-color: #eeeeee;
+  background-color: #eeeeee;
 }
 
 .message:nth-child(even) {
@@ -94,10 +94,11 @@ li a:hover {
 
 #approveUsersBox {
   background-color: coral;
+}
 
 .calendarSpace {
   width: 80%;
-  margin-left: 20px;
+  margin: 20px;
 }
 
 .calHeader {

@@ -40,7 +40,6 @@ router.post('/text', function (req, res) {
 });// end of post textMessage route(message.html -> popupTest.Controller - > shift.service ->message.router(/text))
 
 router.post('/email', function (req, res) {
-   
         // create reusable transporter object
         let transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',
@@ -69,13 +68,12 @@ router.post('/email', function (req, res) {
         // send mail with defined transport object
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-                 console.log(error);
-                 res.send(error);
+                console.log(error);
+                res.send(error);
             }
             console.log('Message sent: %s', info.messageId);
             res.sendStatus(200);
         });
- 
 
 });// end of post textMessage route(message.html -> popupTest.Controller - > shift.service ->message.router(/text))
 

@@ -89,6 +89,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
 
 
   self.sendEmailMessage = function () {
+
     
     $http.post('/message/email').then(function (response) {
       // neccessary params for email transport object;

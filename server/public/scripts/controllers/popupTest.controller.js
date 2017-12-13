@@ -13,6 +13,7 @@ myApp.controller('PopupTestController', function ($mdDialog, UserService, ShiftS
     };
 
     ptc.sendEmailMessage = function () {
+console.log('made it to sendEmail');
 
         ShiftService.sendEmailMessage();
         

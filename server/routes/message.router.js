@@ -66,7 +66,7 @@ router.post('/email', function (req, res) {
             }
         };
         // send mail with defined transport object
-        transporter.sendMail =(mailOptions, (error, info) => {
+        transporter.sendMail(mailOptions, function (error, info){
             if (error) {
                 console.log(error);
                 res.send(error);
@@ -75,6 +75,6 @@ router.post('/email', function (req, res) {
             res.sendStatus(200);
         });
 
-});// end of post textMessage route(message.html -> popupTest.Controller - > shift.service ->message.router(/text))
+});// end of post emailMessage route(message.html -> popupTest.Controller - > shift.service ->message.router(/text))
 
 module.exports = router;

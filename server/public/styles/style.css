@@ -83,6 +83,17 @@ li a:hover {
   height: auto;
 }
 
+#adminContainer {
+  display: flex;
+  justify-content: space-around;
+}
+
+#editSupervisorBox {
+  background-color: skyblue;
+}
+
+#approveUsersBox {
+  background-color: coral;
 
 .calendarSpace {
   width: 80%;
@@ -94,7 +105,7 @@ li a:hover {
 }
 
 .calBox {
-  background-color: lightblue;
+  background-color: lightslategray;
   width: 100px;
   margin: 2px;
 }

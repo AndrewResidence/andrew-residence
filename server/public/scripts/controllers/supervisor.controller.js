@@ -6,6 +6,9 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   vm.shiftService = ShiftService;
   vm.userObject = UserService.userObject;
   vm.shiftService = ShiftService;
+  vm.shiftsToDisplay = [];
+
+
 
   vm.shiftDetails = function (event) {
     ShiftService.shiftDetails(event)
@@ -60,13 +63,12 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   //gets the current pay period days for two weeks
   vm.currentPayPeriod = function(scheduleDays) {
       for (var i = 0; i < scheduleDays.length; i++) {
-        vm.currentPayPeriodArray.dates.push(moment(vm.payPeriodStart).add(scheduleDays[i], 'days'));
+        vm.currentPayPeriodArray.dates.push({moment: moment(vm.payPeriodStart).add(scheduleDays[i], 'days'), shifts: []});
         //vm.currentSchedule.dates.push({ moment: moment(nextTwoWeeks._d).add(scheduleDays[i], 'days'), shifts: [] });
       }
     vm.currentSchedule.dates = vm.currentPayPeriodArray.dates;
     vm.month = moment(vm.payPeriodStart).format('MMMM');
     vm.year = moment(vm.payPeriodStart).format('YYYY');
-    // vm.findDayInCycle(vm.currentPayPeriodArray.dates);
     console.log('vm.currentPayPeriodArray.dates', vm.currentPayPeriodArray.dates)
   }
 
@@ -87,22 +89,25 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
     var prevTwoWeeks = moment(vm.payPeriodStart).subtract(14, 'days');
     vm.payPeriodStart = prevTwoWeeks;
     for (var i = 0; i < vm.scheduleDays.length; i++) {
-      vm.currentSchedule.dates.push(moment(prevTwoWeeks._d).add(vm.scheduleDays[i], 'days'));
+      vm.currentSchedule.dates.push({moment: moment(prevTwoWeeks._d).add(vm.scheduleDays[i], 'days'), shifts: []});
     }
     vm.month = moment(prevTwoWeeks._d).format('MMMM');
     vm.year = moment(prevTwoWeeks._d).format('YYYY')
+    vm.getShifts();
   }
 
   //function to get next two weeks of dates
-  vm.nextTwoMonths = function (date) {
+  vm.nextTwoWeeks = function (date) {
     vm.currentSchedule.dates = [];
     var nextTwoWeeks = moment(vm.payPeriodStart).add(14, 'days');
     vm.payPeriodStart = nextTwoWeeks;
     for (var i = 0; i < vm.scheduleDays.length; i++) {
-      vm.currentSchedule.dates.push(moment(nextTwoWeeks._d).add(vm.scheduleDays[i], 'days'));
+      vm.currentSchedule.dates.push({moment: moment(nextTwoWeeks._d).add(vm.scheduleDays[i], 'days'), shifts:[]});
+
     }
     vm.month = moment(nextTwoWeeks._d).format('MMMM');
     vm.year = moment(nextTwoWeeks._d).format('YYYY');
+    vm.getShifts();
   }
 
   // vm.shiftDetails = function (event) {
@@ -113,13 +118,34 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   //   ShiftService.addShift(event)
   // }
 
-  // vm.getShifts = function () {
-  //   ShiftService.getShifts().then(function (response) {
-  //     console.log('shifts')
-  //   })
-  // }
+  vm.showShift = false;
+  vm.getShifts = function () {
+    ShiftService.getShifts().then(function (response) {
+      vm.shiftsToDisplay = response.data;
+      console.log('shifts', vm.shiftsToDisplay);
+      console.log('dates', vm.currentSchedule.dates);
+      for (var i = 0; i < vm.shiftsToDisplay.length; i++) {
+        for (var j = 0; j < vm.currentSchedule.dates.length; j++) {
+          if (moment(vm.shiftsToDisplay[i].date).format('YYYY-MM-DD') === moment(vm.currentSchedule.dates[j].moment).format('YYYY-MM-DD')) {
+            console.log('true');
+            vm.currentSchedule.dates[j].shifts.push(vm.shiftsToDisplay[i]);
+            //vm.showShift = true;
+            // console.log('show', vm.showShift);
+            //return vm.showShift;
+          }
+        }
+      }
+    })
+  }
 
   // vm.getShifts();
+
+  vm.click = function (index) {
+    console.log(index);
+    console.log('this', this)
+    console.log('this.date', this.currentSchedule.dates[index]);
+
+  }
 
 });
 

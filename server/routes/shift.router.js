@@ -32,18 +32,10 @@ router.post('/', function (req, res) {
                             }
                         })
                 }//end for loop
-
                 res.sendStatus(201);
-
             }
         }
-            // ); // END QUERY
-            //         }
-            //     }
         )
-        // }); // end pool connect
-
-
     } // end req.isAuthenticated //end if statement
     else {
         console.log('User is not authenticated')
@@ -70,17 +62,12 @@ router.get('/', function (req, res) {
                         res.sendStatus(500);
                     }
                     else {
-
                         res.send(result.rows);
                     }
                 }
                 ); // END QUERY
-
             }
-
         }); // end pool connect
-
-
     } // end req.isAuthenticated
     else {
         console.log('User is not authenticated')
@@ -126,10 +113,10 @@ router.put('/payperiod/updatedates/:id', function (req, res) {
                 res.sendStatus(500);
             } //end if error connection to db
             else {
-                var queryText = 
-                'UPDATE "pay_period"' +
-                'SET "start" = ("start" + 14), "end" = ("end" + 14)' +
-                'WHERE "id" = $1;';
+                var queryText =
+                    'UPDATE "pay_period"' +
+                    'SET "start" = ("start" + 14), "end" = ("end" + 14)' +
+                    'WHERE "id" = $1;';
                 db.query(queryText, [rowId], function (errorMakingQuery, result) {
                     done();
                     console.log('result.rows', result);

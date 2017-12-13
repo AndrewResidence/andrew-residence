@@ -86,5 +86,41 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
       return response.data;
     })
   }
+  self.sendTextMessage = function () {
 
+
+    //what is required for Plivo to deliver message;
+    textParams = {
+      src: '',
+      dst: '',
+      text: '',
+
+    };
+    $http.post('/message/text').then(function (response) {
+
+      console.log(response);
+
+    }).catch(function (response) {
+      console.log('send textMessage did not work:', response);
+    });
+  };//end of sendTextMessage
+
+
+  self.sendEmailMessage = function () {
+
+    $http.post('/message/email').then(function (response) {
+      // neccessary params for email transport object;
+      emailParams = {
+        to: '', // list of receivers
+        subject: '', // Subject line
+        text: '', // plain text body;
+        html: '', // html body
+
+      };
+      console.log(response);
+
+    }).catch(function (response) {
+      console.log('send emailMessage did not work: ', response);
+    });
+  };
 });

@@ -1,4 +1,3 @@
-
 require('dotenv').config({ path: './server/.env' });
 var express = require('express');
 var router = express.Router();
@@ -7,7 +6,6 @@ var path = require('path');
 var nodemailer = require('nodemailer');
 
 var plivo = require('plivo');
-
 /* credentials for plivo*/
 var AUTH_ID = process.env.PLIVO_AUTH_ID;
 var AUTH_TOKEN = process.env.PLIVO_AUTH_TOKEN;
@@ -40,40 +38,40 @@ router.post('/text', function (req, res) {
 });// end of post textMessage route(message.html -> popupTest.Controller - > shift.service ->message.router(/text))
 
 router.post('/email', function (req, res) {
-        // create reusable transporter object
-        var transporter = nodemailer.createTransport({
-            host: 'smtp.gmail.com',
-            port: 465,
-            secure: true,
-            auth: {
-                type: 'OAuth2',
-                clientId: CLIENT_ID,
-                clientSecret: CLIENT_SECRET,
-            }
-        });
+    // create reusable transporter object
+    var transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true,
+        auth: {
+            type: 'OAuth2',
+            clientId: CLIENT_ID,
+            clientSecret: CLIENT_SECRET,
+        }
+    });
 
-        // setup email data 
-        var mailOptions = {
-            from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
-            to: 'joshnothum@gmail.com ', // list of receivers
-            subject: 'Hello ✔', // Subject line
-            text: 'Hello from NodeMailer!!!, What up Jems?', // plain text body
-            html: '<b>Hello from NodeMailer!!! What up JEMS!</b>', // html body
-            auth: {
-                user: GMAIL_USER,
-                refreshToken: REFRESH_TOKEN,
-                accessToken: ACCESS_TOKEN,
-            }
-        };
-        // send mail with defined transport object
-        transporter.sendMail(mailOptions, function (error, info){
-            if (error) {
-                console.log(error);
-                res.send(error);
-            }
-            console.log('Message sent: %s', info.messageId);
-            res.sendStatus(200);
-        });
+    // setup email data 
+    var mailOptions = {
+        from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
+        to: 'joshnothum@gmail.com ', // list of receivers
+        subject: 'Hello ✔', // Subject line
+        text: 'Hello from NodeMailer!!!, What up Jems?', // plain text body
+        html: '<b>Hello from NodeMailer!!! What up JEMS!</b>', // html body
+        auth: {
+            user: GMAIL_USER,
+            refreshToken: REFRESH_TOKEN,
+            accessToken: ACCESS_TOKEN,
+        }
+    };
+    // send mail with defined transport object
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            console.log(error);
+            res.send(error);
+        }
+        console.log('Message sent: %s', info.messageId);
+        res.sendStatus(200);
+    });
 
 });// end of post emailMessage route(message.html -> popupTest.Controller - > shift.service ->message.router(/text))
 

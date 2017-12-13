@@ -68,14 +68,21 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     });
   };
 
+  self.updatePayPeriodDates = function() {
+    var rowId = 1;
+    return $http.put('/shifts/payperiod/updatedates/' + rowId).then(function(response){
+      console.log('response', response.data)
+      return response.data;
+    })
+  }
   self.sendTextMessage = function () {
 
-    
+
     //what is required for Plivo to deliver message;
-    textParams ={
-      src:'',
-      dst:'',
-      text:'',
+    textParams = {
+      src: '',
+      dst: '',
+      text: '',
 
     };
     $http.post('/message/text').then(function (response) {
@@ -104,5 +111,5 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     }).catch(function (response) {
       console.log('send emailMessage did not work: ', response);
     });
-  };//end of sendEmailMessage
+  };
 });

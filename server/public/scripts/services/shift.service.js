@@ -68,26 +68,23 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     });
   };
 
-
-
   self.sendTextMessage = function () {
 
     console.log('we are here');
     
+    //what is required for Plivo to deliver message;
     textParams ={
       src:'',
       dst:'',
       text:'',
 
     };
-
     $http.post('/message/text').then(function (response) {
-
 
       console.log(response);
 
     }).catch(function (response) {
-      console.log('send textMessage did not work: ', response);
+      console.log('send textMessage did not work:', response);
     });
   };//end of sendTextMessage
 
@@ -98,11 +95,20 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
 
     $http.post('/message/email').then(function (response) {
 
+      // neccessary params for email transport object;
+      emailParams = {
+        to: '', // list of receivers
+        subject: '', // Subject line
+        text: '', // plain text body;
+        html: '', // html body
+
+      };
+
 
       console.log(response);
 
     }).catch(function (response) {
       console.log('send emailMessage did not work: ', response);
     });
-  };//end of sendTextMessage
+  };//end of sendEmailMessage
 });

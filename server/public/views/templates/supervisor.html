@@ -57,10 +57,12 @@
       md-colspan="1"
       ng-repeat="date in sc.currentSchedule.dates track by $index">
       <div>
-      {{date.moment}}
+      {{date.moment | amDateFormat: 'D'}}
     </div>
       <div layout="column" ng-repeat="shift in date.shifts track by $index">
+        <br>
         <div>{{shift.shift}} {{shift.shift_id}}</div>
+        <br>
       </div>
       </md-grid-tile>
     </md-grid-list>

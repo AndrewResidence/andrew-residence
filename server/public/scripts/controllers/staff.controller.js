@@ -8,10 +8,6 @@ myApp.controller('StaffController', function(UserService, ShiftService, Availabi
   vm.today = moment();
   vm.currentMonth = moment(vm.today).month();
   console.log('currentMonth', vm.currentMonth)
-  vm.currentWeekinMonth = moment(vm.today).week();
-  console.log('currentWeekinMonth', vm.currentWeekinMonth)
-  vm.weeksInYear = moment(vm.today).weeksInYear();
-  console.log('weeksInYear', vm.weeksInYear);
   vm.daysinCurrentMonth = moment(vm.today).daysInMonth();
   console.log('daysinCurrentMonth', vm.daysinCurrentMonth)
 
@@ -41,7 +37,9 @@ myApp.controller('StaffController', function(UserService, ShiftService, Availabi
     var firstDayOfMonth = array[0].dayInWeek;
     console.log('firstdayofMonth', firstDayOfMonth)
     for(var i = 1; i <= firstDayOfMonth; i++) {
-      eachDay = {}
+      eachDay = {
+        day: 0
+      }
       vm.monthDaysArray.unshift(eachDay);
     }
   }

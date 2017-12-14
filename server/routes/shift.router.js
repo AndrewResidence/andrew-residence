@@ -1,7 +1,23 @@
+var pool = require('../modules/pool.js');
+require('dotenv').config({ path: './server/.env' });
 var express = require('express');
 var router = express.Router();
+var passport = require('passport');
 var path = require('path');
-var pool = require('../modules/pool.js');
+var nodemailer = require('nodemailer');
+
+var plivo = require('plivo');
+/* credentials for plivo*/
+var AUTH_ID = process.env.PLIVO_AUTH_ID;
+var AUTH_TOKEN = process.env.PLIVO_AUTH_TOKEN;
+var plivoNumber = '16128519117';//rented plivo number
+
+/* credentials for google oauth w/nodemailer*/
+var GMAIL_USER = process.env.GMAIL_USER;
+var REFRESH_TOKEN = process.env.REFRESH_TOKEN;
+var ACCESS_TOKEN = process.env.ACCESS_TOKEN;
+var CLIENT_ID = process.env.CLIENT_ID;
+var CLIENT_SECRET = process.env.CLIENT_SECRET;
 
 
 //post route for new shifts

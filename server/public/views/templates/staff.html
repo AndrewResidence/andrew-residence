@@ -4,16 +4,42 @@
     staff view
   </p>
 
-  <div>
-    <div>Sunday</div>
-    <div>Monday</div>
-    <div>Tuesday</div>
-    <div>Wednesday</div>
-    <div>Thursday</div>
-    <div>Friday</div>
-    <div>Saturday</div>
+  <div class="calendarSpace"> 
+    <div ng-repeat="dayheader in sc.dayList">
+    <div class="calHeader">{{dayheader}}</div>
   </div>
-  <div ng-repeat="day in sc.currentMonthArray">
-    <div>{{day}}</div>
   </div>
+    <div class="calendarSpace">
+  <div class="staffCalBox" ng-repeat="day in sc.monthDaysArray">
+    <div class="innerBox">
+      <div>{{day.day | amDateFormat: 'D'}}</div>
+      </div>
+  </div>
+</div>
+  <!-- <div class="calendarSpace"> -->
+      <!-- <md-grid-list
+      md-cols="7" md-cols-xs="7" md-cols-s="7" md-cols-md="7" md-cols-lg="7"
+      md-row-height="30px"
+      md-gutter="10px"
+      class="calHeader"> 
+      <md-grid-tile
+      ng-repeat="dayheader in sc.dayList"
+      md-rowspan="1"
+      md-colspan="1">
+        {{dayheader}}
+      </md-grid-tile>
+    </md-grid-list>
+  <md-grid-list         
+  md-cols="7" md-cols-xs="7" md-cols-s="7" md-cols-md="7" md-cols-lg="7"
+  md-row-height="200px"
+  md-gutter="10px" 
+  class="calendarGrid">
+    <md-grid-tile 
+      ng-repeat="day in sc.monthDaysArray"
+      md-rowspan="1" 
+      md-colspan="1">
+      <div>{{day.dayNum}}</div></md-grid-tile>
+  </md-grid-list> -->
+
+</div>
 </div>

@@ -2,15 +2,46 @@
     <md-toolbar>
         <div class="md-toolbar-tools">
             <h3>Shift Details</h3>
+
+            
             <span flex="auto"></span>
             <md-button ng-click="sd.cancel()"> close
             </md-button>
         </div>
     </md-toolbar>
     <md-dialog-content flex="auto">
+<div layout="row">
 
+<!-- {{sd.shift}} -->
 
-
+<md-datepicker ng-disabled="sd.editShift === false" ng-model="sd.shift.date">{{sd.shift.date}}</md-datepicker>
+    <!-- <div layout-gt-xl="row">
+        Role:
+        <md-checkbox ng-disabled="sd.editShift === false" ng-model="sd.shift.nurse" ng-true-value="'true'" ng-false-value="'false'">{{sd.shift.nurse}}</md-checkbox>
+        <md-checkbox ng-disabled="sd.editShift === false" ng-model="sd.shift.adl" ng-true-value="'true'" ng-false-value="'false'">{{sd.shift.adl}}</md-checkbox>
+        <md-checkbox ng-disabled="sd.editShift === false" ng-model="sd.shift.mhw" ng-true-value="'true'" ng-false-value="'false'">{{sd.shift.mhw}}</md-checkbox>
+    </div> -->
+    <div>
+<!-- <span ng-show="sd.shift.adl">Role: ADL</span>
+<span ng-show="sd.shift.mhw">Role: MHW</span>
+<span ng-show="sd.shift.nurse">Role: nurse</span>
+{{sd.shift.shift_status}}
+{{sd.shift.shift}}
+{{sd.shift.shift_comments}} -->
+    <div layout-gt-xl="row">
+        <md-input-container id="shiftCommentsText" class="md-block">
+            <label>Shift Comments:</label>
+            <textarea ng-disabled="sd.editShift === false" rows="2" width="300PX" name="shiftComments" ng-model="sd.shift.shift_comments" md-select-on-focus>{{sd.shift.shift_comments}}</textarea>
+        </md-input-container>
+    </div>
+</div>
     </md-dialog-content>
+    <md-dialog-actions layout="row">
+        <md-button ng-click="sd.cancel()">
+            Cancel
+        </md-button>
+        <span flex></span>
+        <md-button ng-click="sd.editShiftDetails(event)">Edit Shift</md-button>
+    </md-dialog-actions>
 
 </md-dialog>

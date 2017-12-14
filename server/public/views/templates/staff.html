@@ -4,7 +4,7 @@
     staff view
   </p>
 
-  <div>
+  <!-- <div layout="row">
     <div>Sunday</div>
     <div>Monday</div>
     <div>Tuesday</div>
@@ -12,8 +12,33 @@
     <div>Thursday</div>
     <div>Friday</div>
     <div>Saturday</div>
-  </div>
-  <div ng-repeat="day in sc.currentMonthArray">
-    <div>{{day}}</div>
-  </div>
+  </div> -->
+  <!-- <div layout="row" ng-repeat="day in sc.monthDaysArray">
+    <div class="staffCalBox">{{day.day}}</div>
+  </div> -->
+  <div class="calendarSpace">
+      <md-grid-list
+      md-cols="7" md-cols-xs="7" md-cols-s="7" md-cols-md="7" md-cols-lg="7"
+      md-row-height="30px"
+      md-gutter="10px"
+      class="calHeader"> 
+      <md-grid-tile
+      ng-repeat="dayheader in sc.dayList"
+      md-rowspan="1"
+      md-colspan="1">
+        {{dayheader}}
+      </md-grid-tile>
+    </md-grid-list>
+  <md-grid-list         
+  md-cols="7" md-cols-xs="7" md-cols-s="7" md-cols-md="7" md-cols-lg="7"
+  md-row-height="200px"
+  md-gutter="10px" 
+  >
+    <md-grid-tile 
+    ng-repeat="day in sc.monthDaysArray"
+      md-rowspan="1" 
+      md-colspan="1">{{day.dayNum}}</md-grid-tile>
+  </md-grid-list>
+
+</div>
 </div>

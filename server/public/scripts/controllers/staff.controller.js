@@ -4,8 +4,8 @@ myApp.controller('StaffController', function(UserService, ShiftService, Availabi
     vm.userService = UserService;
     vm.userObject = UserService.userObject;
 
+  vm.dayList = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
   vm.today = moment();
-  console.log('today', vm.today);  
   vm.currentMonth = moment(vm.today).month();
   console.log('currentMonth', vm.currentMonth)
   vm.currentWeekinMonth = moment(vm.today).week();
@@ -23,25 +23,33 @@ myApp.controller('StaffController', function(UserService, ShiftService, Availabi
     console.log('currentMonthArray', vm.currentMonthArray)
   }
   vm.putDaysinCurrentMonthArray(vm.daysinCurrentMonth);
-  vm.eachDay = {
-    day: '',
-    dayInWeek: '',
 
-  }
   vm.monthDaysArray = [];
   vm.getMonthDays = function(currentMonthArray) {
-    for (var i = 0; i < currentMonthArray.length; i++) {
+    for (var i = 1; i <= currentMonthArray.length; i++) {
       eachDay = {
         day: moment().date(i),
-        dayInWeek: moment().month(vm.currentMonth).day(i)
+        dayInWeek: moment().date(i).format('d'),
+        dayNum: moment().date(i).format('D'),
+        shifts: []
       }
       vm.monthDaysArray.push(eachDay);
     }
   }
+
+  vm.checkFirstDayOfMonth = function(array) {
+    var firstDayOfMonth = array[0].dayInWeek;
+    console.log('firstdayofMonth', firstDayOfMonth)
+    for(var i = 1; i <= firstDayOfMonth; i++) {
+      eachDay = {}
+      vm.monthDaysArray.unshift(eachDay);
+    }
+  }
+
   vm.getMonthDays(vm.currentMonthArray);
   console.log('vm.monthDaysArray', vm.monthDaysArray);
 
-
+  vm.checkFirstDayOfMonth(vm.monthDaysArray);
 
   //function to pull prior two weeks of dates
   vm.prevMonth = function (date) {

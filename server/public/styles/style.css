@@ -103,6 +103,7 @@ li a:hover {
 
 .calHeader {
   font-size: 20px;
+  margin-bottom: 10px;
 }
 
 .calBox {
@@ -119,3 +120,13 @@ li a:hover {
   width: 600px;
 }
 
+/* .staffCalBox {
+  width: 200px;
+  height: 200px;
+  margin: 2px;
+  background-color: lightblue;
+} */
+
+md-grid-tile {
+  background-color: lightgray;
+}

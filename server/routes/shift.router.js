@@ -7,11 +7,11 @@ var pool = require('../modules/pool.js');
 //post route for new shifts
 router.post('/', function (req, res) {
     if (req.isAuthenticated()) {
-        var newShift = req.body
-        console.log('new shift', newShift)
-        console.log('req.body.shiftDate', req.body.shiftDate)
+        var newShift = req.body;
+        console.log('new shift', newShift);
+        console.log('req.body.shiftDate', req.body.shiftDate);
 
-        var createdBy = req.user.id
+        var createdBy = req.user.id;
         pool.connect(function (errorConnectingToDb, db, done) {
             if (errorConnectingToDb) {
                 console.log('Error connecting', errorConnectingToDb);
@@ -28,20 +28,19 @@ router.post('/', function (req, res) {
                             if (errorMakingQuery) {
                                 console.log('Error making query', errorMakingQuery);
                                 res.sendStatus(500);
-                                return
+                                return;
                             }
-                        })
+                        });
                 }//end for loop
                 res.sendStatus(201);
             }
         }
-        )
+        );
     } // end req.isAuthenticated //end if statement
     else {
-        console.log('User is not authenticated')
+        console.log('User is not authenticated');
     }
-})//end post route for new shifts
-
+});//end post route for new shifts
 //get route for post_shifts 
 router.get('/', function (req, res) {
     if (req.isAuthenticated()) {
@@ -69,7 +68,7 @@ router.get('/', function (req, res) {
     } // end req.isAuthenticated
     else {
         console.log('User is not authenticated')
-    }
+    };
 }); //end get shifts
 
 //gets the current pay period start and end dates
@@ -99,7 +98,7 @@ router.get('/payperiod/getdates', function (req, res) {
     else {
         console.log('User is not authenticated')
     }
-}) //end get pay period dates
+}); //end get pay period dates
 
 //updates the pay period start and end date in the database
 router.put('/payperiod/updatedates/:id', function (req, res) {
@@ -125,14 +124,14 @@ router.put('/payperiod/updatedates/:id', function (req, res) {
                     else {
                         res.send(result.rows);
                     }
-                })//end db.query
+                });//end db.query
             }//end else in pool.connect
         }); // end pool connect
     } // end req.isAuthenticated
     else {
-        console.log('User is not authenticated')
+        console.log('User is not authenticated');
     }
-}) //end get pay period dates
+}); //end get pay period dates
 
 
 

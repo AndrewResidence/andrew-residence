@@ -23,18 +23,18 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
   vm.addNewShift = function (shiftDate, urgent, shift, role, comments, notify, nurse, adl, mhw) {
     ShiftService.addNewShift(shiftDate, urgent, shift, role, comments, notify, nurse, adl, mhw).then(function (response) {
       $mdDialog.hide();
-      console.log('response', response)
+      console.log('response', response);
       $mdToast.show(
         $mdToast.simple()
           .textContent('Shift(s) Created!')
           .hideDelay(2500)
       );
-    })
-  }
+    });
+  };
   //closes dialog box
   this.cancel = function () {
     $mdDialog.hide();
-  } //end close dialog
+  }; //end close dialog
 
 
 

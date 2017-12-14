@@ -7,25 +7,18 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   vm.shiftService = ShiftService;
   vm.shiftsToDisplay = [];
 
-  // vm.shiftDetails = function (event) {
-  //   ShiftService.shiftDetails(event)
-  // }
-
-  // vm.addShift = function (event) {
-  //   ShiftService.addShift(event)
-  // }
 
   vm.updatePayPeriodDates = function() {
     ShiftService.updatePayPeriodDates().then(function(response){
       console.log(response)
     });
   };
-
   //used for assigning month/day in the calendar header
   vm.month = '';
   vm.year = '';
   vm.today = moment();
   vm.dayInCycle = '';
+  vm.dayList = ['Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday'];
   vm.scheduleDays = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
   vm.payPeriodStartAndEnd = [];
   vm.currentSchedule = {
@@ -61,8 +54,14 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   //gets the current pay period days for two weeks
   vm.currentPayPeriod = function(scheduleDays) {
       for (var i = 0; i < scheduleDays.length; i++) {
-        vm.currentSchedule.dates.push({moment: moment(vm.payPeriodStart).add(scheduleDays[i], 'days'), shifts: []});
+        vm.currentSchedule.dates.push(
+          {
+            moment: moment(vm.payPeriodStart).add(scheduleDays[i], 'days'),
+            shifts: []
+          }
+        );
       }
+      console.log('vm.currentSchedule.dates', vm.currentSchedule.dates)
     vm.month = moment(vm.payPeriodStart).format('MMMM');
     vm.year = moment(vm.payPeriodStart).format('YYYY');
   }
@@ -105,8 +104,8 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
     vm.getShifts();
   }
 
-  vm.shiftDetails = function (event) {
-    ShiftService.shiftDetails(event)
+  vm.shiftDetails = function (event, shift) {
+    ShiftService.shiftDetails(event, shift)
   }
 
   vm.addShift = function (event) {
@@ -131,10 +130,11 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
 
   vm.getShifts();
 
-  vm.click = function (index) {
-    console.log(index);
-    console.log('this', this)
-    console.log('this.date', this.currentSchedule.dates[index]);
+  vm.click = function (shift) {
+    console.log('clicked');
+  console.log(shift);
+    // console.log('this', this)
+    // console.log('this.date', this.currentSchedule.dates[index]);
   }
 
 });

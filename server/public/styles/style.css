@@ -97,25 +97,49 @@ li a:hover {
 }
 
 .calendarSpace {
-  width: 80%;
+  width: 75%;
   margin: 20px;
 }
 
 .calHeader {
-  font-size: 20px;
+  font-size: 16px;
+  margin-bottom: 10px;
+  width: 13%;
+  background-color: lightblue;
+  margin: 1px;
 }
 
 .calBox {
   background-color: lightslategray;
-  width: 100px;
   margin: 2px;
+  width: 13%;
 }
 
-.calHeight {
-  height: 200px;
-}
 
 #addShiftPop {
   width: 600px;
 }
 
+md-grid-tile {
+  background-color: lightgray;
+  justify-content: flex-end;
+  align-content: right;
+}
+
+.calendarGrid {
+  display: flex;
+}
+
+.staffCalBox {
+  width: 13%;
+  height: 100px;
+  background-color: lightpink;
+  display: inline-block;
+  padding: 2px;
+  margin: 1px;
+}
+
+.innerBox {
+  align-content: right;
+  justify-content: top;
+}

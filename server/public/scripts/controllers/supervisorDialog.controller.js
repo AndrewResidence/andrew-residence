@@ -10,6 +10,9 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
   vm.supervisors = ['Dan', 'Blake', 'Emma', 'Sarah', 'Josh'];
   //possible shift types
   vm.shifts = ['Day', 'Evening', 'ADL Evening', 'Night'];
+  vm.shift = ShiftService.shift
+  
+  vm.editShift = false;
 
   vm.myArrayOfDates = []
   $scope.$watch('myArrayOfDates', function (newValue, oldValue) {
@@ -19,7 +22,7 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
     }
   }, true);
 
-
+//start newShift function
   vm.addNewShift = function (shiftDate, urgent, shift, role, comments, notify, nurse, adl, mhw) {
     ShiftService.addNewShift(shiftDate, urgent, shift, role, comments, notify, nurse, adl, mhw).then(function (response) {
       $mdDialog.hide();
@@ -31,10 +34,17 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
       );
     })
   }
+//end add newShift
+
   //closes dialog box
-  this.cancel = function () {
+  vm.cancel = function () {
     $mdDialog.hide();
   } //end close dialog
+
+  vm.editShiftDetails=function(event) {
+vm.editShift=true;
+console.log(vm.editShift)
+  }
 
 
 

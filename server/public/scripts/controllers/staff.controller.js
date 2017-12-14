@@ -1,4 +1,4 @@
-myApp.controller('StaffController', function(UserService, ShiftService, AvailabilityService) {
+myApp.controller('StaffController', function($mdDialog, UserService, ShiftService, AvailabilityService) {
     console.log('StaffController created');
     var vm = this;
     vm.userService = UserService;
@@ -61,21 +61,27 @@ myApp.controller('StaffController', function(UserService, ShiftService, Availabi
     vm.year = moment(nextTwoWeeks._d).format('YYYY');
   }
 
-  // vm.shiftDetails = function (event) {
-  //   ShiftService.shiftDetails(event)
-  // }
+  vm.showDetailsDialog = function(event) {
+    console.log('pick up shift button clicked');
+    $mdDialog.show({
+      controller: 'StaffDialogController as sc',
+      templateUrl: '/views/dialogs/pickUpShift.html',
+      parent: angular.element(document.body),
+      targetEvent: event,
+      clickOutsideToClose: true,
+      fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
+    })
+  }
 
-  // vm.addShift = function (event) {
-  //   ShiftService.addShift(event)
-  // }
+  vm.getShifts = function () {
+    ShiftService.getShifts().then(function (response) {
+      console.log('shifts')
+    })
+  }
 
-  // vm.getShifts = function () {
-  //   ShiftService.getShifts().then(function (response) {
-  //     console.log('shifts')
-  //   })
-  // }
+  vm.getShifts();
 
-  // vm.getShifts();
+
 
   });
   

@@ -58,7 +58,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     }).catch(function (err) {
       console.log('Error');
     });
-  } //end addNewShift function and route
+  }; //end addNewShift function and route
 
   self.getShifts = function () {
     return $http.get('/shifts').then(function (response) {

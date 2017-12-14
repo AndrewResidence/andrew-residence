@@ -69,6 +69,13 @@ self.shift = {}
     });
   };
 
+  self.pickUpShift = function(shift) {
+    return $http.post('/shifts/shiftBid').then(function(response) {
+      console.log('posted shift bid', response);
+      return response;
+    })
+  }
+
   self.getPayPeriodDates = function() {
     return $http.get('/shifts/payperiod/getdates').then(function(response){
       console.log('response', response.data)

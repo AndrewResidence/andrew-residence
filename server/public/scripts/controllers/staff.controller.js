@@ -3,6 +3,7 @@ myApp.controller('StaffController', function($mdDialog, UserService, ShiftServic
     var vm = this;
     vm.userService = UserService;
     vm.userObject = UserService.userObject;
+    vm.shiftsToDisplay = [];
 
   vm.dayList = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
   vm.today = moment();
@@ -72,16 +73,6 @@ myApp.controller('StaffController', function($mdDialog, UserService, ShiftServic
       fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
     })
   }
-
-  vm.getShifts = function () {
-    ShiftService.getShifts().then(function (response) {
-      console.log('shifts')
-    })
-  }
-
-  vm.getShifts();
-
-
 
   });
   

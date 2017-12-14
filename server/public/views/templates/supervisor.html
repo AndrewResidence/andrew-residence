@@ -19,7 +19,11 @@
       <div class="calBox">Sun</div>
       <div class="calBox">Mon</div>
       <div class="calBox">Tue</div>
-      <div class="calBox">Wed</div> -->
+      <div class="calBox">Wed</div>
+    </div> <!-- end weekday headers -->
+   
+    </div>
+      <div class="calBox">Wed</div> 
     <!-- </div> <!-- end weekday headers -->
     <!-- <div layout="row" layout-wrap><!-- start row for ng-repeat -->
       <!-- <div ng-repeat="date in sc.currentSchedule.dates track by $index"> start ng-repeat -->
@@ -59,7 +63,7 @@
       <div>
       {{date.moment | amDateFormat: 'D'}}
     </div>
-      <div layout="column" ng-repeat="shift in date.shifts track by $index">
+      <div layout="column" ng-repeat="shift in date.shifts track by $index" ng-click="sc.shiftDetails(event, shift)">
         <br>
         <div>{{shift.shift}} {{shift.shift_id}}</div>
         <br>

@@ -7,13 +7,13 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   vm.shiftService = ShiftService;
   vm.shiftsToDisplay = [];
 
-  vm.shiftDetails = function (event) {
-    ShiftService.shiftDetails(event)
-  }
+  // vm.shiftDetails = function (event, shift) {
+  //   ShiftService.shiftDetails(event, shift)
+  // }
 
-  vm.addShift = function (event) {
-    ShiftService.addShift(event)
-  }
+  // vm.addShift = function (event) {
+  //   ShiftService.addShift(event)
+  // }
 
   vm.updatePayPeriodDates = function() {
     ShiftService.updatePayPeriodDates().then(function(response){
@@ -112,8 +112,8 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
     vm.getShifts();
   }
 
-  vm.shiftDetails = function (event) {
-    ShiftService.shiftDetails(event)
+  vm.shiftDetails = function (event, shift) {
+    ShiftService.shiftDetails(event, shift)
   }
 
   vm.addShift = function (event) {
@@ -138,10 +138,11 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
 
   vm.getShifts();
 
-  vm.click = function (index) {
-    console.log(index);
-    console.log('this', this)
-    console.log('this.date', this.currentSchedule.dates[index]);
+  vm.click = function (shift) {
+    console.log('clicked');
+  console.log(shift);
+    // console.log('this', this)
+    // console.log('this.date', this.currentSchedule.dates[index]);
   }
 
 });

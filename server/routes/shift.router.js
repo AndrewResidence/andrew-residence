@@ -29,18 +29,35 @@ router.post('/', function (req, res) {
                                 console.log('Error making query', errorMakingQuery);
                                 res.sendStatus(500);
                                 return;
+                                //return urgent column from posted shift; if urgent, use plivo library to send text message
+                            } else if (result.rows[0].urgent) {
+                                var p = plivo.RestAPI({
+                                    authId: AUTH_ID,
+                                    authToken: AUTH_TOKEN,
+                                }); //part of plivo library
+                                var params = {
+                                    src: plivoNumber, // Sender's phone number with country code
+                                    dst: '16362211997',
+                                    text: "Hi, text from Plivo",
+                                };
+                                // Prints the complete response
+                                p.send_message(params, function (status, response) {
+                                    console.log('Status: ', status);
+                                    console.log('API Response:\n', response);
+                                });
+
+                                res.send(status);
                             }
                         });
-                }//end for loop
+                } //end for loop
                 res.sendStatus(201);
             }
-        }
-        );
+        });
     } // end req.isAuthenticated //end if statement
     else {
         console.log('User is not authenticated');
     }
-});//end post route for new shifts
+}); //end post route for new shifts
 //get route for post_shifts 
 router.get('/', function (req, res) {
     if (req.isAuthenticated()) {
@@ -57,12 +74,10 @@ router.get('/', function (req, res) {
                     if (errorMakingQuery) {
                         console.log('Error making query', errorMakingQuery);
                         res.sendStatus(500);
-                    }
-                    else {
+                    } else {
                         res.send(result.rows);
                     }
-                }
-                ); // END QUERY
+                }); // END QUERY
             }
         }); // end pool connect
     } // end req.isAuthenticated
@@ -87,12 +102,11 @@ router.get('/payperiod/getdates', function (req, res) {
                     if (errorMakingQuery) {
                         console.log('Error making query', errorMakingQuery);
                         res.sendStatus(500);
-                    }
-                    else {
+                    } else {
                         res.send(result.rows);
                     }
-                })//end db.query
-            }//end else in pool.connect
+                }) //end db.query
+            } //end else in pool.connect
         }); // end pool connect
     } // end req.isAuthenticated
     else {
@@ -120,12 +134,11 @@ router.put('/payperiod/updatedates/:id', function (req, res) {
                     if (errorMakingQuery) {
                         console.log('Error making query', errorMakingQuery);
                         res.sendStatus(500);
-                    }
-                    else {
+                    } else {
                         res.send(result.rows);
                     }
-                });//end db.query
-            }//end else in pool.connect
+                }); //end db.query
+            } //end else in pool.connect
         }); // end pool connect
     } // end req.isAuthenticated
     else {

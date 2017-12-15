@@ -1,78 +1,30 @@
 <div ng-include="'views/partials/nav.html'"></div>
-  <p>
-    supervisor view
-  </p>
-
-  <md-button class="md-raised md-primary" ng-click="sc.shiftDetails($event)">Shift Details</md-button>
+<div class="superRight" layout="column">
   <md-button class="md-raised md-primary" ng-click="sc.addShift($event)">Add Shift</md-button>
-  <br>
-  This button will go in staff view when staff calendar is up and running:
-  <md-button class="md-raised md-primary" ng-click="sc.showDetailsDialog($event)">Pick Up Shift</md-button>
+</div>
 
-  <div class="calendarSpace"> <!-- start calendar space -->
-    <div layout="row" layout-align="center center">
-      <md-button class="md-raised md-primary" ng-click="sc.prevTwoWeeks(sc.currentSchedule.dates[0].moment)">Previous</md-button>
-      <div flex="50">{{sc.month}}  {{sc.year}}</div>
-      <md-button class="md-raised md-primary" ng-click="sc.nextTwoWeeks(sc.currentSchedule.dates[0].moment)">Next</md-button>
-    </div>
-    <!-- <div layout="row" class="dayHeader"> start weekday headers -->
-      <!-- <div class="calBox">Thu</div>
-      <div class="calBox">Fri</div>
-      <div class="calBox">Sat</div>
-      <div class="calBox">Sun</div>
-      <div class="calBox">Mon</div>
-      <div class="calBox">Tue</div>
-      <div class="calBox">Wed</div>
-    </div> end weekday headers -->
-  
-    </div>
-      <div class="calBox">Wed</div> 
-    <!-- </div>  end weekday headers -->
-    <!-- <div layout="row" layout-wrap>start row for ng-repeat -->
-      <!-- <div ng-repeat="date in sc.currentSchedule.dates track by $index"> start ng-repeat -->
-        <!-- <div layout="column" class="calBox calHeight" ng-click="sc.click($index)">start calendar box -->
-          <!-- <span>{{date.moment}}</span> -->
-          <!-- <div ng-repeat="shift in date.shifts track by $index" > --> 
-            <!-- {{shift.shift}} {{shift.shift_id}} -->
-          <!-- </div>  -->
-        <!-- </div> -->
-          <!-- <br> -->
-          <!-- <div></div> -->
-        <!-- </div>end calendar box -->
-      <!-- </div>end ng-repeat -->
-    <!-- </div>  -->
-    <div>
-    <md-grid-list
-      md-cols="7" md-cols-xs="7" md-cols-s="7" md-cols-md="7" md-cols-lg="7"
-      md-row-height="30px"
-      md-gutter="10px"
-      class="calHeader"> 
-      <md-grid-tile
-      ng-repeat="dayheader in sc.dayList"
-      md-rowspan="1"
-      md-colspan="1">
-        {{dayheader}}
-      </md-grid-tile>
-    </md-grid-list>
-      <md-grid-list
-      md-cols="7" md-cols-xs="7" md-cols-s="7" md-cols-md="7" md-cols-lg="7"
-      md-row-height="200px"
-      md-gutter="10px" 
-    >
-      <md-grid-tile
-      md-rowspan="1" 
-      md-colspan="1"
-      ng-repeat="date in sc.currentSchedule.dates track by $index">
-      <div>
-      {{date.moment | amDateFormat: 'D'}}
-    </div>
-      <div layout="column" ng-repeat="shift in date.shifts track by $index">
-        <br>
-        <div ng-click="sc.shiftDetails(event, shift)">{{shift.shift}} {{shift.shift_id}}</div>
-        <md-button class="md-raised md-primary" ng-click="sc.showDetailsDialog($event, shift)">Pick Up Shift</md-button>
-        <br>
-      </div>
-      </md-grid-tile>
-    </md-grid-list>
+<div class="calendarSpace" display="flex">
+  <!-- start calendar space -->
+  <div layout="row">
+    <md-button class="md-raised md-primary" ng-click="sc.prevTwoWeeks(sc.currentSchedule.dates[0].moment)">Previous</md-button>
+    <div class="staffCalHeader">{{sc.month}} {{sc.year}}</div>
+    <md-button class="md-raised md-primary" ng-click="sc.nextTwoWeeks(sc.currentSchedule.dates[0].moment)">Next</md-button>
   </div>
-  </div><!-- end calendar space -->
+  <div layout="row">
+    <div class="calHeader" ng-repeat="dayHeader in sc.dayList">
+      <div>{{dayHeader}}</div>
+    </div>
+  </div>
+  <div class="staffCalBox" ng-repeat="date in sc.currentSchedule.dates track by $index">
+    <div class="innerBox">
+      <div class="dayNum">{{date.moment | amDateFormat: 'D'}}</div>
+      <div class="shifts" layout="column" ng-repeat="shift in date.shifts track by $index">
+        <div class="shiftButton" ng-click="sc.shiftDetails(event, shift)">
+          <md-icon class="shiftColor" ng-style="sc.shiftColor" md-svg-icon="../images/ic_add_circle_black_18px.svg">
+          </md-icon>{{shift.shift}} {{shift.shift_id}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end calendar space -->

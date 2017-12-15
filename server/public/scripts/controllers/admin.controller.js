@@ -83,7 +83,7 @@ myApp.controller('AdminController', function (UserService, $mdDialog, $mdToast) 
         vm.getSupervisors();
         vm.getUnconfirmed();
         vm.showEditToast();
-      })
+      });
     };
 
 

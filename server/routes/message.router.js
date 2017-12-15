@@ -4,6 +4,7 @@ var router = express.Router();
 var passport = require('passport');
 var path = require('path');
 var nodemailer = require('nodemailer');
+var cron = require('node-cron');
 
 var plivo = require('plivo');
 /* credentials for plivo*/
@@ -17,6 +18,44 @@ var REFRESH_TOKEN = process.env.REFRESH_TOKEN;
 var ACCESS_TOKEN = process.env.ACCESS_TOKEN;
 var CLIENT_ID = process.env.CLIENT_ID;
 var CLIENT_SECRET = process.env.CLIENT_SECRET;
+
+var task = cron.schedule('30 7 * * fri', function () {
+    var transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true,
+        auth: {
+            type: 'OAuth2',
+            clientId: CLIENT_ID,
+            clientSecret: CLIENT_SECRET,
+        }
+    });
+
+    // setup email data 
+    var mailOptions = {
+        from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
+        to: 'martapeterson@gmail.com, joshnothum@gmail, emma.stout01@gmail.com, sarah.soberg@gmail.com', // list of receivers
+        subject: 'Hello ✔', // Subject line
+        text: 'Hello from NodeMailer!!!, What up Jems?', // plain text body
+        html: '<p>Hello from NodeMailer!!! What up JEMS! This was auto-delivered by using node-cron.Cool, right? I will see you soon!</p>', // html body
+        auth: {
+            user: GMAIL_USER,
+            refreshToken: REFRESH_TOKEN,
+            accessToken: ACCESS_TOKEN,
+        }
+    };
+    // send mail with defined transport object
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            console.log(error);
+            res.send(error);
+        }
+        console.log('Message sent: %s', info.messageId);
+        res.sendStatus(200);
+    });
+}, false);
+
+task.start();
 
 router.post('/text', function (req, res) {
     var p = plivo.RestAPI({

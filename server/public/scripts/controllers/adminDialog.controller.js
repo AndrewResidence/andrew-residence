@@ -4,21 +4,21 @@ myApp.controller('AdminDialogController', function ($mdDialog, UserService, user
     vm.userService = UserService;
     vm.user = user;
 
-    vm.confirmUser = function(user) {
+    vm.confirmUser = function (user) {
         console.log('user', user.id, user.role);
-        vm.userService.confirmUser(user).then(function(response){
+        vm.userService.confirmUser(user).then(function (response) {
             console.log('confirmed user', response);
             $mdDialog.hide();
 
-        } )
-    }
+        });
+    };
 
-    vm.editUser = function(user) {
-        vm.userService.editUser(user).then(function(response) {
+    vm.editUser = function (user) {
+        vm.userService.editUser(user).then(function (response) {
             console.log('edited user', response);
             $mdDialog.hide();
-        })
-    }
+        });
+    };
 
     vm.cancel = function () {
         $mdDialog.cancel();
@@ -28,4 +28,4 @@ myApp.controller('AdminDialogController', function ($mdDialog, UserService, user
 
 
 
-})
+});

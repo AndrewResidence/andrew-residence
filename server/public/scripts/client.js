@@ -1,7 +1,7 @@
 var myApp = angular.module('myApp', ['ngRoute', 'ngMaterial', 'multipleDatePicker', 'angularMoment']);
 
 /// Routes ///
-myApp.config(function ($routeProvider, $locationProvider) {
+myApp.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {
   $locationProvider.hashPrefix('');
   console.log('myApp -- config')
   $routeProvider
@@ -72,4 +72,15 @@ myApp.config(function ($routeProvider, $locationProvider) {
     .otherwise({
       redirectTo: 'home'
     })
+
+
+$mdThemingProvider.theme('default')
+.primaryPalette('purple', {
+
+})
 });
+// .accentPalette('blue', {
+
+// }); // specify primary color, all
+                        // other color intentions will be inherited
+                        // from default

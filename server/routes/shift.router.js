@@ -37,29 +37,36 @@ router.post('/', function (req, res) {
                 for (var i = 0; i < newShift.shiftDate.length; i++) {
                     var theDate = newShift.shiftDate[i];
                     console.log('theDate', theDate);
-                    var queryText = 'INSERT INTO "post_shifts" ("created_by", "date", "urgent", "shift", "adl", "mhw", "nurse", "shift_comments", "notify" ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "urgent", "adl", "mhw", "nurse";';
+                    var queryText =
+                        'INSERT INTO "post_shifts" ("created_by", "date", "urgent", "shift", "adl", "mhw", "nurse", "shift_comments", "notify" )' +
+                        'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)' +
+                        'RETURNING "urgent", "adl", "mhw", "nurse";';
                     db.query(queryText, [createdBy, theDate, newShift.urgent, newShift.shift, newShift.adl, newShift.mhw, newShift.nurse, newShift.comments, newShift.notify],
                         function (errorMakingQuery, result) {
                             done();
                             console.log('returned result', result.rows[0]);
-                                if(result.rows[0].adl){
-                                    var role = 'ADL';
-                                    var queryText = 'SELECT "phone" FROM "users" WHERE "role" = $1';
-                                    db.query(queryText, [role] , function (err, result) {
-                                        done();
-                                        if (err) {
-                                            console.log("Error getting phone: ", err);
-                                            res.sendStatus(500);
-                                        } else {
-                                            console.log('help:',result.rows);
+                            if (result.rows[0].adl) {
+                                var role = 'ADL';
+                                var queryText =
+                                    'SELECT "phone"' +
+                                    'FROM "users"' +
+                                    'WHERE "role" = $1';
+                                db.query(queryText, [role], function (err, result) {
+                                    done();
+                                    if (err) {
+                                        console.log("Error getting phone: ", err);
+                                        res.sendStatus(500);
+                                    } else {
+                                        console.log('help:', result.rows);
 
-                                            result.rows.forEach(function(role){
-                                                console.log(role.phone);
-                                                
-                                            });
-                                        }
-                                    });
-                                }
+                                        result.rows.forEach(function (role) {
+                                            console.log(role.phone + '>');
+                                            console.log('');
+
+                                        });
+                                    }
+                                });
+                            }
                             if (errorMakingQuery) {
                                 console.log('Error making query', errorMakingQuery);
                                 res.sendStatus(500);
@@ -73,7 +80,7 @@ router.post('/', function (req, res) {
 
                                 var params = {
                                     src: plivoNumber, // Sender's phone number with country code
-                                    dst: staffNumbers,
+                                    dst: '6362211997',
                                     text: "Hi, text from Plivo",
                                 };
                                 // Prints the complete response
@@ -116,7 +123,7 @@ router.get('/', function (req, res) {
         }); // end pool connect
     } // end req.isAuthenticated
     else {
-        console.log('User is not authenticated')
+        console.log('User is not authenticated');
     };
 }); //end get shifts
 
@@ -144,7 +151,7 @@ router.get('/payperiod/getdates', function (req, res) {
         }); // end pool connect
     } // end req.isAuthenticated
     else {
-        console.log('User is not authenticated')
+        console.log('User is not authenticated');
     }
 }); //end get pay period dates
 

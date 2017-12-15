@@ -1,4 +1,5 @@
 require('dotenv').config({ path: './server/.env' });
+var pool = require('../modules/pool.js');
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
@@ -18,11 +19,9 @@ var REFRESH_TOKEN = process.env.REFRESH_TOKEN;
 var ACCESS_TOKEN = process.env.ACCESS_TOKEN;
 var CLIENT_ID = process.env.CLIENT_ID;
 var CLIENT_SECRET = process.env.CLIENT_SECRET;
-
-
-
 var valid = cron.validate('45 7 * * FRI');
 console.log(valid);
+
 var weeklyDigest = cron.schedule('45 7 * * FRI', function () {
     var transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
@@ -34,6 +33,7 @@ var weeklyDigest = cron.schedule('45 7 * * FRI', function () {
             clientSecret: CLIENT_SECRET,
         }
     });
+
     // setup email data 
     var mailOptions = {
         from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
@@ -60,6 +60,8 @@ var weeklyDigest = cron.schedule('45 7 * * FRI', function () {
 weeklyDigest.start();
 
 router.post('/text', function (req, res) {
+
+
     var p = plivo.RestAPI({
         authId: AUTH_ID,
         authToken: AUTH_TOKEN,
@@ -76,10 +78,41 @@ router.post('/text', function (req, res) {
     });
 
     res.send(status);
-});// end of post textMessage route(message.html -> popupTest.Controller - > shift.service ->message.router(/text))
+});// end of node-cron weekly digest email
 
 router.post('/email', function (req, res) {
-    // create reusable transporter object
+
+    if (req.isAuthenticated()) {
+        pool.connect(function (errorConnectingToDb, db, done) {
+            if (errorConnectingToDb) {
+                console.log('Error connecting', errorConnectingToDb);
+                res.sendStatus(500);
+            } //end if error connection to db
+            else {
+                var queryText = 'SELECT * FROM "post_shifts";';
+                db.query(queryText, function (errorMakingQuery, result) {
+                    done(); // add + 1 to pool
+                    console.log('result.rows', result);
+                    if (errorMakingQuery) {
+                        console.log('Error making query', errorMakingQuery);
+                        res.sendStatus(500);
+                    } else {
+
+                        result.rows.forEach(function (shift) {
+                            console.log(shift.date);
+                        });
+                        res.sendStatus(201);
+
+
+                    }
+                }); // END QUERY
+            }
+        }); // end pool connect
+    } // end req.isAuthenticated
+    else {
+        console.log('User is not authenticated');
+    }
+
     var transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         port: 465,
@@ -90,14 +123,13 @@ router.post('/email', function (req, res) {
             clientSecret: CLIENT_SECRET,
         }
     });
-
     // setup email data 
     var mailOptions = {
         from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
-        to: 'joshnothum@gmail.com ', // list of receivers
+        to: 'joshnothum@gmail.com', // list of receivers
         subject: 'Hello ✔', // Subject line
         text: 'Hello from NodeMailer!!!, What up Jems?', // plain text body
-        html: '<b>Hello from NodeMailer!!! What up JEMS!</b>', // html body
+        html: '<p>hello</p>',
         auth: {
             user: GMAIL_USER,
             refreshToken: REFRESH_TOKEN,

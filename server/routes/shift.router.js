@@ -5,7 +5,6 @@ var router = express.Router();
 var passport = require('passport');
 var path = require('path');
 var nodemailer = require('nodemailer');
-var IterateObject = require("iterate-object")
 var plivo = require('plivo');
 /* credentials for plivo*/
 var AUTH_ID = process.env.PLIVO_AUTH_ID;
@@ -61,7 +60,6 @@ router.post('/', function (req, res) {
 
                                         result.rows.forEach(function (role) {
                                             console.log(role.phone + '>');
-                                            console.log('');
 
                                         });
                                     }
@@ -185,7 +183,7 @@ router.put('/payperiod/updatedates/:id', function (req, res) {
     else {
         console.log('User is not authenticated');
     }
-}) //end update pay period dates
+}); //end update pay period dates
 
 // router.post('/shiftBid'), function(req, res) {
 //     if (req.isAuthenticated()) {

@@ -5,6 +5,7 @@ var router = express.Router();
 var passport = require('passport');
 var path = require('path');
 var nodemailer = require('nodemailer');
+var IterateObject = require("iterate-object")
 var plivo = require('plivo');
 /* credentials for plivo*/
 var AUTH_ID = process.env.PLIVO_AUTH_ID;
@@ -22,11 +23,11 @@ var CLIENT_SECRET = process.env.CLIENT_SECRET;
 //post route for new shifts
 router.post('/', function (req, res) {
     if (req.isAuthenticated()) {
-        var newShift = req.body;
-        console.log('new shift', newShift);
-        console.log('req.body.shiftDate', req.body.shiftDate);
+        var newShift = req.body
+        console.log('new shift', newShift)
+        console.log('req.body.shiftDate', req.body.shiftDate)
 
-        var createdBy = req.user.id;
+        var createdBy = req.user.id
         pool.connect(function (errorConnectingToDb, db, done) {
             if (errorConnectingToDb) {
                 console.log('Error connecting', errorConnectingToDb);
@@ -36,8 +37,8 @@ router.post('/', function (req, res) {
                 for (var i = 0; i < newShift.shiftDate.length; i++) {
                     var theDate = newShift.shiftDate[i];
                     console.log('theDate', theDate);
-                    var queryText = 'INSERT INTO "post_shifts" ("created_by", "date", "urgent", "shift", "adl", "mhw", "nurse", "shift_comments", "notify" ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "urgent";';
-                    db.query(queryText, [createdBy, theDate, newShift.urgent, newShift.shift, newShift.adl, newShift.mhw, newShift.nurse, newShift.comments, newShift.notify],
+                    var queryText = 'INSERT INTO "post_shifts" ("created_by", "date", "urgent", "shift", "adl", "mhw", "nurse", "shift_comments" ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8);';
+                    db.query(queryText, [createdBy, theDate, newShift.urgent, newShift.shift, newShift.adl, newShift.mhw, newShift.nurse, newShift.comments],
                         function (errorMakingQuery, result) {
                             done();
                             if (errorMakingQuery) {
@@ -45,76 +46,18 @@ router.post('/', function (req, res) {
                                 res.sendStatus(500);
                                 return;
                             }
-                        });
+                        })
                 }//end for loop
                 res.sendStatus(201);
             }
         }
-        );
+        )
     } // end req.isAuthenticated //end if statement
     else {
         console.log('User is not authenticated');
     }
-});//end post route for new shifts
-
-
-
-                            // console.log('returned result', result.rows[0]);
-                            // if (result.rows[0].adl) {
-                            //     var role = 'ADL';
-                            //     var queryText =
-                            //         'SELECT "phone"' +
-                            //         'FROM "users"' +
-                            //         'WHERE "role" = $1';
-                            //     db.query(queryText, [role], function (err, result) {
-                            //         done();
-                            //         if (err) {
-                            //             console.log("Error getting phone: ", err);
-                            //             res.sendStatus(500);
-                            //         } else {
-                            //             // console.log('help:', result.rows);
-                            //             result.rows.forEach(function (role) {
-                            //                 console.log(role.phone + '>');
-                            //                 console.log('');
-
-                            //             });
-                            //         }
-                            //     });
-                            // }
-                            // if (errorMakingQuery) {
-                            //     console.log('Error making query', errorMakingQuery);
-                            //     res.sendStatus(500);
-                            //     return;
-                            //     //return urgent column from posted shift; if urgent, use plivo library to send text message
-                            // } else if (result.rows[0].urgent) {
-                            //     var p = plivo.RestAPI({
-                            //         authId: AUTH_ID,
-                            //         authToken: AUTH_TOKEN,
-                            //     }); //part of plivo library
-
-                            //     var params = {
-                            //         src: plivoNumber, // Sender's phone number with country code
-                            //         dst: '6362211997',
-                            //         text: "Hi, text from Plivo",
-                            //     };
-                            //     // Prints the complete response
-                            //     p.send_message(params, function (status, response) {
-                            //         console.log('Status: ', status);
-                            //         console.log('API Response:\n', response);
-                            //     });
-//                             // }
-//                         });
-//                 } //end for loop
-//                 res.sendStatus(201);
-//             }
-//         });
-//     } // end req.isAuthenticated //end if statement
-//     else {
-//         console.log('User is not authenticated');
-//     }
-// }); //end post route for new shifts
+})//end post route for new shifts
 //get route for post_shifts 
-
 router.get('/', function (req, res) {
     if (req.isAuthenticated()) {
         pool.connect(function (errorConnectingToDb, db, done) {
@@ -200,53 +143,7 @@ router.put('/payperiod/updatedates/:id', function (req, res) {
     else {
         console.log('User is not authenticated');
     }
-}); //end update pay period dates
-
-// router.post('/shiftBid'), function(req, res) {
-//     if (req.isAuthenticated()) {
-//         var shiftBid = req.body
-//         console.log('new shift bid', shiftBid)
-//         console.log('req.body.date', req.body.date)
-
-//         var createdBy = req.user.id
-//         pool.connect(function (errorConnectingToDb, db, done) {
-//             if (errorConnectingToDb) {
-//                 console.log('Error connecting', errorConnectingToDb);
-//                 res.sendStatus(500);
-//             } //end if error connection to db
-//             else {
-//                 for (var i = 0; i < shiftBid.shiftDate.length; i++) {
-//                     var theDate = shiftBid.shiftDate[i];
-//                     console.log('theDate', theDate);
-//                     var queryText = 'INSERT INTO "post_shifts" ("created_by", "date", "urgent", "shift", "adl", "mhw", "nurse", "shift_comments", "notify" ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);';
-//                     db.query(queryText, [createdBy, theDate, shiftBid.urgent, shiftBid.shift, shiftBid.adl, shiftBid.mhw, shiftBid.nurse, shiftBid.comments, shiftBid.notify],
-//                         function (errorMakingQuery, result) {
-//                             done();
-//                             if (errorMakingQuery) {
-//                                 console.log('Error making query', errorMakingQuery);
-//                                 res.sendStatus(500);
-//                                 return
-//                             }
-//                         })
-//                 }//end for loop
-//                 res.sendStatus(201);
-//             }
-//         }
-//         )
-//     } // end req.isAuthenticated //end if statement
-//     else {
-//         console.log('User is not authenticated')
-//     }
-// })//end post route for new shifts
-
-//GET Shift bids
-
-
-
-
-
-//GET confirmed shifts
-
+}); //end get pay period dates
 
 
 

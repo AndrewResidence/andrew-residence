@@ -21,6 +21,7 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
 
   vm.updatedShift = ShiftService.updatedShift;
 
+  vm.myArrayOfSupervisors = [];
 
   $scope.$watch('myArrayOfDates', function (newValue, oldValue) {
     if (newValue) {

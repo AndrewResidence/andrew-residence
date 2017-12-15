@@ -47,14 +47,14 @@
                 </md-input-container>
             </div>
     <div layout-gt-xl="row" ng-repeat="name in sd.supervisors track by $index">
-        <md-checkbox ng-value="div{{$index}}" ng-model="name.selected" id="{{'div'+name.id}}" name="supervisorName[]">{{name.name}}</md-checkbox>
+        <md-checkbox checklist-value="name.id" checklist-model="sd.myArrayOfSupervisors">{{name.name}}</md-checkbox>
     </div>
 
+    <!-- <label ng-repeat="name in sd.supervisors track by $index">
+        <input type="checkbox" checklist-model="sd.myArrayOfSupervisors" checklist-value="name.id"> {{name.name}}
+    </label> -->
 
-     <!-- <li ng-repeat="d in divisions">
-          <input type="checkbox" ng-model="d.selected" class="" id="{{'div' + d.Id}}" name="selectedDivisions[]" />
-          <label for="div{{$index}}">{{d.Description}}</label>
-        </li> -->
+    
 
             <md-divider></md-divider>
             <!-- Notify the following supervisors when the shift is filled:
@@ -71,7 +71,7 @@
             Cancel
         </md-button>
         <span flex></span>
-        <md-button ng-click="sd.addNewShift(sd.newShift.notify, myArrayOfDates, sd.shift_status, sd.newShift.urgent, sd.newShift.shift, sd.newShift.role, sd.newShift.comments, sd.newShift.notify, sd.newShift.nurse, sd.newShift.adl, sd.newShift.mhw)">
+        <md-button ng-click="sd.addNewShift(sd.myArrayOfSupervisors, myArrayOfDates, sd.shift_status, sd.newShift.urgent, sd.newShift.shift, sd.newShift.role, sd.newShift.comments, sd.newShift.notify, sd.newShift.nurse, sd.newShift.adl, sd.newShift.mhw)">
             Add Shift
         </md-button>
     </md-dialog-actions>

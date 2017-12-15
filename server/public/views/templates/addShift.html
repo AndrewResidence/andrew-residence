@@ -15,6 +15,14 @@
         </div>
         <div layout-gt-xl="row">
             <md-input-container class="md-block" flex=50>
+                <label>Shift Status:</label>
+                <md-select id="statusDrop" ng-model="sd.newShift.shift_status">
+                    <md-option id="statusDrop" ng-value="status" ng-repeat="status in sd.shiftStatus">{{status}}</md-option>
+                </md-select>
+            </md-input-container>
+        </div>
+        <div layout-gt-xl="row">
+            <md-input-container class="md-block" flex=50>
                 <label>Shift:</label>
                 <md-select id="shiftDrop" ng-model="sd.newShift.shift">
                     <md-option id="shiftDrop" ng-value="shift" ng-repeat="shift in sd.shifts">{{shift}}</md-option>
@@ -53,7 +61,7 @@
             Cancel
         </md-button>
         <span flex></span>
-        <md-button ng-click="sd.addNewShift(myArrayOfDates, sd.newShift.urgent, sd.newShift.shift, sd.newShift.role, sd.newShift.comments, sd.newShift.notify, sd.newShift.nurse, sd.newShift.adl, sd.newShift.mhw)">
+        <md-button ng-click="sd.addNewShift(myArrayOfDates, sd.shift_status, sd.newShift.urgent, sd.newShift.shift, sd.newShift.role, sd.newShift.comments, sd.newShift.notify, sd.newShift.nurse, sd.newShift.adl, sd.newShift.mhw)">
             Add Shift
         </md-button>
     </md-dialog-actions>

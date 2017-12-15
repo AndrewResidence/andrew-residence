@@ -3,49 +3,68 @@
         <div class="md-toolbar-tools">
             <h3>Shift Details</h3>
 
-            
+
             <span flex="auto"></span>
             <md-button ng-click="sd.cancel()"> close
             </md-button>
         </div>
     </md-toolbar>
     <md-dialog-content flex="auto">
-<<<<<<< HEAD
-    </md-dialog-content>
-=======
+
+
 <div layout="row">
 
 <!-- {{sd.shift}} -->
 
-<md-datepicker ng-disabled="sd.editShift === false" ng-model="sd.shift.date">{{sd.shift.date}}</md-datepicker>
-    <!-- <div layout-gt-xl="row">
-        Role:
-        <md-checkbox ng-disabled="sd.editShift === false" ng-model="sd.shift.nurse" ng-true-value="'true'" ng-false-value="'false'">{{sd.shift.nurse}}</md-checkbox>
-        <md-checkbox ng-disabled="sd.editShift === false" ng-model="sd.shift.adl" ng-true-value="'true'" ng-false-value="'false'">{{sd.shift.adl}}</md-checkbox>
-        <md-checkbox ng-disabled="sd.editShift === false" ng-model="sd.shift.mhw" ng-true-value="'true'" ng-false-value="'false'">{{sd.shift.mhw}}</md-checkbox>
-    </div> -->
-    <div>
-<!-- <span ng-show="sd.shift.adl">Role: ADL</span>
+            <!-- {{sd.shift}} -->
+            <div layout-gt-xl="row">
+                <md-input-container class="md-block" flex=50>
+                    <label>Shift Status:</label>
+                    <md-select id="editStatusDrop" ng-model="sd.shift.shift_status">
+                        <md-option ng-disabled="sd.editShift === false" id="editStatusDrop" ng-value="status" ng-repeat="status in sd.shiftStatus">{{status}}</md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+<div layout-gt-xl="row"></div>
+            <md-datepicker ng-disabled="sd.editShift === false" ng-model="sd.shift.date">{{sd.shift.date}}</md-datepicker>
+        </div>
+            <div layout-gt-xl="row">
+        Role: 
+        <md-checkbox ng-disabled="sd.editShift === false" ng-model="sd.shift.nurse" ng-selected="'sd.shift.nurse'">Nurse</md-checkbox>
+        <md-checkbox ng-disabled="sd.editShift === false" ng-model="sd.shift.adl" ng-selected="'sd.shift.adl'">ADL</md-checkbox>
+        <md-checkbox ng-disabled="sd.editShift === false" ng-model="sd.shift.mhw" ng-selected="'sd.shift.mhw'">MHW</md-checkbox>
+    </div> 
+        <div layout-gt-xl="row">
+            <md-input-container class="md-block" flex=50>
+                <label>Shift:</label>
+                <md-select id="shiftDrop" ng-model="sd.shift.shift">
+                    <md-option ng-disabled="sd.editShift === false" id="shiftDrop" ng-value="shift" ng-repeat="shift in sd.shifts">{{shift}}</md-option>
+                </md-select>
+            </md-input-container>
+        </div>
+            <div>
+                <!-- <span ng-show="sd.shift.adl">Role: ADL</span>
 <span ng-show="sd.shift.mhw">Role: MHW</span>
 <span ng-show="sd.shift.nurse">Role: nurse</span>
 {{sd.shift.shift_status}}
 {{sd.shift.shift}}
 {{sd.shift.shift_comments}} -->
-    <div layout-gt-xl="row">
-        <md-input-container id="shiftCommentsText" class="md-block">
-            <label>Shift Comments:</label>
-            <textarea ng-disabled="sd.editShift === false" rows="2" width="300PX" name="shiftComments" ng-model="sd.shift.shift_comments" md-select-on-focus>{{sd.shift.shift_comments}}</textarea>
-        </md-input-container>
-    </div>
-</div>
+                <div layout-gt-xl="row">
+                    <md-input-container id="shiftCommentsText" class="md-block">
+                        <label>Shift Comments:</label>
+                        <textarea ng-disabled="sd.editShift === false" rows="2" width="300PX" name="shiftComments" ng-model="sd.shift.shift_comments"
+                            md-select-on-focus>{{sd.shift.shift_comments}}</textarea>
+                    </md-input-container>
+                </div>
+            </div>
     </md-dialog-content>
     <md-dialog-actions layout="row">
         <md-button ng-click="sd.cancel()">
             Cancel
         </md-button>
         <span flex></span>
-        <md-button ng-click="sd.editShiftDetails(event)">Edit Shift</md-button>
+        <md-button ng-click="sd.editShiftDetails(event)" ng-show="sd.editShift === false">Edit Shift</md-button>
+        <md-button ng-show= "sd.editShift === true" ng-click="sd.updateShift(sd.shift.shift_id, sd.shift.shift_comments, sd.shift.shift, sd.shift.mhw, sd.shift.adl, sd.shift.nurse, sd.shift.date, sd.shift.shift_status)">Save Changes</md-button>
     </md-dialog-actions>
 
->>>>>>> master
 </md-dialog>

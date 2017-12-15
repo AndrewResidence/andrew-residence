@@ -62,9 +62,9 @@ router.get('/supervisors', function (req, res) {
             res.send(result.rows);
           }
         });
-    })
+    });
   }
-})
+});
 
 //GET request for staff
 router.get('/staff', function (req, res) {

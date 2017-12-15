@@ -5,12 +5,13 @@ var router = express.Router();
 var passport = require('passport');
 var path = require('path');
 var nodemailer = require('nodemailer');
-
+var IterateObject = require("iterate-object")
 var plivo = require('plivo');
 /* credentials for plivo*/
 var AUTH_ID = process.env.PLIVO_AUTH_ID;
 var AUTH_TOKEN = process.env.PLIVO_AUTH_TOKEN;
 var plivoNumber = '16128519117';//rented plivo number
+
 
 /* credentials for google oauth w/nodemailer*/
 var GMAIL_USER = process.env.GMAIL_USER;
@@ -18,7 +19,6 @@ var REFRESH_TOKEN = process.env.REFRESH_TOKEN;
 var ACCESS_TOKEN = process.env.ACCESS_TOKEN;
 var CLIENT_ID = process.env.CLIENT_ID;
 var CLIENT_SECRET = process.env.CLIENT_SECRET;
-
 
 //post route for new shifts
 router.post('/', function (req, res) {
@@ -37,10 +37,29 @@ router.post('/', function (req, res) {
                 for (var i = 0; i < newShift.shiftDate.length; i++) {
                     var theDate = newShift.shiftDate[i];
                     console.log('theDate', theDate);
-                    var queryText = 'INSERT INTO "post_shifts" ("created_by", "date", "urgent", "shift", "adl", "mhw", "nurse", "shift_comments", "notify" ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "urgent";';
+                    var queryText = 'INSERT INTO "post_shifts" ("created_by", "date", "urgent", "shift", "adl", "mhw", "nurse", "shift_comments", "notify" ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "urgent", "adl", "mhw", "nurse";';
                     db.query(queryText, [createdBy, theDate, newShift.urgent, newShift.shift, newShift.adl, newShift.mhw, newShift.nurse, newShift.comments, newShift.notify],
                         function (errorMakingQuery, result) {
                             done();
+                            console.log('returned result', result.rows[0]);
+                                if(result.rows[0].adl){
+                                    var role = 'ADL';
+                                    var queryText = 'SELECT "phone" FROM "users" WHERE "role" = $1';
+                                    db.query(queryText, [role] , function (err, result) {
+                                        done();
+                                        if (err) {
+                                            console.log("Error getting phone: ", err);
+                                            res.sendStatus(500);
+                                        } else {
+                                            console.log('help:',result.rows);
+
+                                            result.rows.forEach(function(role){
+                                                console.log(role.phone);
+                                                
+                                            });
+                                        }
+                                    });
+                                }
                             if (errorMakingQuery) {
                                 console.log('Error making query', errorMakingQuery);
                                 res.sendStatus(500);
@@ -51,9 +70,10 @@ router.post('/', function (req, res) {
                                     authId: AUTH_ID,
                                     authToken: AUTH_TOKEN,
                                 }); //part of plivo library
+
                                 var params = {
                                     src: plivoNumber, // Sender's phone number with country code
-                                    dst: '16362211997',
+                                    dst: staffNumbers,
                                     text: "Hi, text from Plivo",
                                 };
                                 // Prints the complete response
@@ -61,8 +81,6 @@ router.post('/', function (req, res) {
                                     console.log('Status: ', status);
                                     console.log('API Response:\n', response);
                                 });
-
-                                res.send(status);
                             }
                         });
                 } //end for loop

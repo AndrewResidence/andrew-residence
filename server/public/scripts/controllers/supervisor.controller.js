@@ -68,7 +68,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
       console.log('vm.currentSchedule.dates', vm.currentSchedule.dates)
     vm.month = moment(vm.payPeriodStart).format('MMMM');
     vm.year = moment(vm.payPeriodStart).format('YYYY');
-  }
+  };
 
   // vm.findDayInCycle = function(arrayofDates) {
   //   var dayToReview = moment(vm.today).format('MM-DD-YYYY');

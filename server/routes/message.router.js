@@ -21,9 +21,9 @@ var CLIENT_SECRET = process.env.CLIENT_SECRET;
 
 
 
-var valid = cron.validate('30 7 * * FRI');
+var valid = cron.validate('45 7 * * FRI');
 console.log(valid);
-var weeklyDigest = cron.schedule('30 7 * * FRI', function () {
+var weeklyDigest = cron.schedule('45 7 * * FRI', function () {
     var transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         port: 465,

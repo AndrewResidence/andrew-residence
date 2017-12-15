@@ -13,7 +13,19 @@ self.shift = {}
     notify: ''
   }
 
-  self.shiftsToDisplay = {data: []}
+  self.updatedShift = {
+    shiftDate: [],
+    urgent: false,
+    shift: '',
+    adl: false,
+    mhw: false,
+    nurse: false,
+    comments: '',
+    // notify: '{"basketball", "baseball"}',
+    shift_status: ''
+  }
+
+  self.shiftsToDisplay = {data: []};
   //calls the addShift popup
   self.addShift = function (event) {
     console.log('add new shift button clicked');

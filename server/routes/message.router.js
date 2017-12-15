@@ -68,7 +68,7 @@ router.post('/text', function (req, res) {
     var params = {
         src: plivoNumber, // Sender's phone number with country code
         dst: '17637448725',
-        text: "Hi, text from Plivo",
+        text: "The MonGod provides",
     };
     // Prints the complete response
     p.send_message(params, function (status, response) {

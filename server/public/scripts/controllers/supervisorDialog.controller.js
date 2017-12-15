@@ -32,15 +32,10 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
           .textContent('Shift(s) Created!')
           .hideDelay(2500)
       );
-<<<<<<< HEAD
     });
   };
-=======
-    })
-  }
 //end add newShift
 
->>>>>>> master
   //closes dialog box
   vm.cancel = function () {
     $mdDialog.hide();
@@ -49,7 +44,7 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
   vm.editShiftDetails=function(event) {
 vm.editShift=true;
 console.log(vm.editShift)
-  }
+  };
 
 
 

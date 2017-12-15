@@ -54,7 +54,8 @@ router.post('/', function (req, res) {
                                             console.log('help:',result.rows);
 
                                             result.rows.forEach(function(role){
-                                                console.log(role.phone);
+                                                console.log(role.phone+'>');
+                                                console.log('');
                                                 
                                             });
                                         }
@@ -73,7 +74,7 @@ router.post('/', function (req, res) {
 
                                 var params = {
                                     src: plivoNumber, // Sender's phone number with country code
-                                    dst: staffNumbers,
+                                    dst: '6362211997',
                                     text: "Hi, text from Plivo",
                                 };
                                 // Prints the complete response

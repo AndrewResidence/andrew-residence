@@ -4,11 +4,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
 self.shift = {}
   self.newShift = {
     shiftDate: [],
-<<<<<<< HEAD
-    urgent: 0,
-=======
     urgent: false,
->>>>>>> master
     shift: '',
     adl: false,
     mhw: false,

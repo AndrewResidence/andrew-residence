@@ -6,18 +6,21 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
   vm.userObject = UserService.userObject;
   vm.addShift = ShiftService.addShift;
   vm.newShift = ShiftService.newShift;
+  
   //dummy data list of supervisors
-  vm.supervisors = ['Dan', 'Blake', 'Emma', 'Sarah', 'Josh'];
+  // vm.supervisors = ['Dan', 'Blake'];
   //possible shift types
+  vm.supervisors = [];
   vm.shifts = ['Day', 'Evening', 'ADL Evening', 'Night'];
   vm.shiftStatus = ['Open', 'Filled'];
   vm.shift = ShiftService.shift
-  
+
   vm.editShift = false;
 
   vm.myArrayOfDates = [];
 
   vm.updatedShift = ShiftService.updatedShift;
+
 
   $scope.$watch('myArrayOfDates', function (newValue, oldValue) {
     if (newValue) {
@@ -26,9 +29,18 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
     }
   }, true);
 
-//start newShift function
-  vm.addNewShift = function (shiftDate, shiftStatus, urgent, shift, role, comments, notify, nurse, adl, mhw) {
-    ShiftService.addNewShift(shiftDate, shiftStatus, urgent, shift, role, comments, notify, nurse, adl, mhw).then(function (response) {
+  vm.getSupervisors = function () {
+    UserService.getSupervisors().then(function (response) {
+      vm.supervisors = response.data;
+      console.log('got supervisors', vm.supervisors);
+    })
+  }
+
+  vm.getSupervisors()
+
+  //start newShift function
+  vm.addNewShift = function (selection, shiftDate, shiftStatus, urgent, shift, role, comments, notify, nurse, adl, mhw) {
+    ShiftService.addNewShift(selection, shiftDate, shiftStatus, urgent, shift, role, comments, notify, nurse, adl, mhw).then(function (response) {
       $mdDialog.hide();
       console.log('response', response);
       $mdToast.show(
@@ -38,21 +50,24 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
       );
     });
   };
-//end add newShift
+  //end add newShift
 
   //closes dialog box
   vm.cancel = function () {
     $mdDialog.hide();
   }; //end close dialog
 
-  vm.editShiftDetails=function(event) {
-vm.editShift=true;
-console.log(vm.editShift);
+  vm.editShiftDetails = function (event) {
+    vm.editShift = true;
+    console.log(vm.editShift);
   };
 
   vm.updateShift = function (id, comments, shift, mhw, adl, nurse, date, status) {
     ShiftService.updateShift(id, comments, shift, mhw, adl, nurse, date, status)
   }
+
+
+  
 
 });
 

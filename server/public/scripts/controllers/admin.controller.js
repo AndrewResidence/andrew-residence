@@ -1,4 +1,4 @@
-myApp.controller('AdminController', function (UserService, $mdDialog, $mdToast) {
+myApp.controller('AdminController', function ($mdDialog, $mdToast, UserService, ShiftService) {
   console.log('AdminController created');
 
   var vm = this;

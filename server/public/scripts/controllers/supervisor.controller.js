@@ -145,5 +145,12 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
       fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
     })
   }
+
+  vm.getSupervisors = function () {
+    UserService.getSupervisors().then(function (response) {
+      vm.supervisors = response.data;
+      console.log('got supervisors', vm.supervisors);
+    })
+  }
 });
 

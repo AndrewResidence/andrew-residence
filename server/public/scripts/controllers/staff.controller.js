@@ -87,7 +87,7 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
       vm.thisMonth = currentDisplayMonth - 1;
       console.log('year, month', vm.currentYear, vm.thisMonth)
     }
-    vm.numDaysInCurrentMonth = moment().month(vm.thisMonth).daysInMonth();
+    vm.numDaysInCurrentMonth = moment().year(vm.currentYear).month(vm.thisMonth).daysInMonth();
     vm.putDaysinCurrentMonthArray(vm.currentYear, vm.thisMonth, vm.numDaysInCurrentMonth)
   }
 
@@ -103,7 +103,7 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
       vm.thisMonth = currentDisplayMonth + 1;
       console.log('year, month', vm.currentYear, vm.thisMonth)
     }
-    vm.numDaysInCurrentMonth = moment().month(vm.thisMonth).daysInMonth();
+    vm.numDaysInCurrentMonth = moment().year(vm.currentYear).month(vm.thisMonth).daysInMonth();
     vm.putDaysinCurrentMonthArray(vm.currentYear, vm.thisMonth, vm.numDaysInCurrentMonth)
   }
 

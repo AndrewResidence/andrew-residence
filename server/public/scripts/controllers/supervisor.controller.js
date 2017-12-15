@@ -7,14 +7,6 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   vm.shiftService = ShiftService;
   vm.shiftsToDisplay = [];
 
-  // vm.shiftDetails = function (event, shift) {
-  //   ShiftService.shiftDetails(event, shift)
-  // }
-
-  // vm.addShift = function (event) {
-  //   ShiftService.addShift(event)
-  // }
-
   vm.updatePayPeriodDates = function() {
     ShiftService.updatePayPeriodDates().then(function(response){
       console.log(response)

@@ -1,10 +1,9 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
-var cron = require('node-cron');
 var passport = require('./strategies/sql.localstrategy');
 var sessionConfig = require('./modules/session.config');
-require('dotenv').config();
+
 
 // Route includes
 var indexRouter = require('./routes/index.router');

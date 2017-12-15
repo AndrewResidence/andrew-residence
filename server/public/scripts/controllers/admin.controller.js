@@ -49,7 +49,6 @@ myApp.controller('AdminController', function (UserService, $mdDialog, $mdToast) 
       console.log('got supervisors', vm.supervisors);
     })
   }
-
   vm.getSupervisors();
 
 
@@ -60,12 +59,11 @@ myApp.controller('AdminController', function (UserService, $mdDialog, $mdToast) 
       console.log('got staff', vm.staff);
     })
   }
-
   vm.getStaff();
 
     //Users DELETE route
     vm.deleteUser = function(user) {
-      vm.showDeleteToast(user);
+      vm.showDeleteToast(user)
     }
 
     //Show dialog for edit individual user
@@ -120,21 +118,15 @@ myApp.controller('AdminController', function (UserService, $mdDialog, $mdToast) 
     $mdToast.show(toast).then(function(response) {
       if (response === 'ok') {
         $mdToast.show(undoToast);
-      } 
-      vm.userService.deleteUser(user);
-    }).then(function() {
-      vm.getStaff();
-      vm.getSupervisors();
-      vm.getUnconfirmed();
+      } else {
+        vm.userService.deleteUser(user).then(function(response) {
+          console.log('user deleted', response);
+          vm.getStaff();
+          vm.getSupervisors();
+          vm.getUnconfirmed();
+        })
+      }
     })
   };
   
-
-
-  // Supervisor and staff PUT route (editing a specific user)
-
-  // Supervisor and staff PUT route (editing a user's role)
-
-  // Supervisor and staff DELETE route (removing a specific user)
-
 });

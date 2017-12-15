@@ -153,19 +153,6 @@ router.delete('/:id', function (req, res) {
         console.log('error connecting', err);
         res.sendStatus(500);
       }
-<<<<<<< HEAD
-      var queryText = 'DELETE FROM "users" WHERE "id" = $1;';
-        db.query(queryText, [id], function (err, result) {
-          done();
-          if (err) {
-            console.log("Error inserting data: ", err);
-            res.sendStatus(500);
-          } else {
-            res.send(result.rows);
-          }
-        });
-    })
-=======
       var queryText = 'DELETE FROM "users" WHERE "id" = $1;'
       //insert into users new role and change confirmed to true;
       db.query(queryText, [id], function (err, result) {
@@ -178,7 +165,6 @@ router.delete('/:id', function (req, res) {
         }
       });
     });
->>>>>>> master
   }
 });
 

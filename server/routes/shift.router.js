@@ -10,15 +10,12 @@ var plivo = require('plivo');
 var AUTH_ID = process.env.PLIVO_AUTH_ID;
 var AUTH_TOKEN = process.env.PLIVO_AUTH_TOKEN;
 var plivoNumber = '16128519117';//rented plivo number
-
-
 /* credentials for google oauth w/nodemailer*/
 var GMAIL_USER = process.env.GMAIL_USER;
 var REFRESH_TOKEN = process.env.REFRESH_TOKEN;
 var ACCESS_TOKEN = process.env.ACCESS_TOKEN;
 var CLIENT_ID = process.env.CLIENT_ID;
 var CLIENT_SECRET = process.env.CLIENT_SECRET;
-
 //post route for new shifts
 router.post('/', function (req, res) {
     if (req.isAuthenticated()) {
@@ -83,7 +80,6 @@ router.get('/', function (req, res) {
         console.log('User is not authenticated');
     };
 }); //end get shifts
-
 //gets the current pay period start and end dates
 router.get('/payperiod/getdates', function (req, res) {
     if (req.isAuthenticated()) {
@@ -111,7 +107,6 @@ router.get('/payperiod/getdates', function (req, res) {
         console.log('User is not authenticated');
     }
 }); //end get pay period dates
-
 //updates the pay period start and end date in the database
 router.put('/payperiod/updatedates/:id', function (req, res) {
     if (req.isAuthenticated()) {
@@ -143,7 +138,5 @@ router.put('/payperiod/updatedates/:id', function (req, res) {
         console.log('User is not authenticated');
     }
 }); //end get pay period dates
-
-
 
 module.exports = router;

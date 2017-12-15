@@ -10,8 +10,21 @@ self.shift = {}
     mhw: false,
     nurse: false,
     comments: '',
-    notify: ''
-  };
+    notify: '',
+    shift_status: ''
+  }
+
+  self.updatedShift = {
+    shiftDate: [],
+    urgent: false,
+    shift: '',
+    adl: false,
+    mhw: false,
+    nurse: false,
+    comments: '',
+    notify: '',
+    shift_status: ''
+  }
 
   self.shiftsToDisplay = {data: []};
   //calls the addShift popup
@@ -42,7 +55,7 @@ self.shift = {}
 
 
   //addNewShift function and route
-  self.addNewShift = function (shiftDate, urgent, shift, role, comments, notify, nurse, adl, mhw) {
+  self.addNewShift = function (shiftDate, shiftStatus, urgent, shift, role, comments, notify, nurse, adl, mhw) {
     console.log('shiftDate', shiftDate);
     self.newShift.shiftDate = shiftDate;
     urgent = self.newShift.urgent;
@@ -52,6 +65,7 @@ self.shift = {}
     nurse = self.newShift.nurse;
     adl = self.newShift.adl;
     mhw = self.newShift.mhw;
+    shiftStatus = self.newShift.shift_status;
     // notify = self.newShift.notify;
     console.log('newshift', self.newShift);
     return $http.post('/shifts/', self.newShift).then(function (response) {
@@ -131,4 +145,17 @@ self.shift = {}
       console.log('send emailMessage did not work: ', response);
     });
   };
+
+  self.updateShift = function (id, comments, shift, mhw, adl, nurse, date, status) {
+    console.log('UPDATED SHIFT', id, comments, shift, mhw, adl, nurse, date, status)
+self.updatedShift.shift_id = id;
+self.updatedShift.comments = comments;
+self.updatedShift.shift = shift;
+self.updatedShift.mhw = mhw;
+self.updatedShift.adl = adl;
+self.updatedShift.nurse = nurse;
+self.updatedShift.date = date;
+self.updatedShift.status = status;
+  }
+
 });

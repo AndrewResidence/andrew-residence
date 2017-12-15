@@ -7,7 +7,6 @@ var path = require('path');
 var nodemailer = require('nodemailer');
 
 var cron = require('node-cron');
-
 var plivo = require('plivo');
 /* credentials for plivo*/
 var AUTH_ID = process.env.PLIVO_AUTH_ID;
@@ -19,8 +18,9 @@ var REFRESH_TOKEN = process.env.REFRESH_TOKEN;
 var ACCESS_TOKEN = process.env.ACCESS_TOKEN;
 var CLIENT_ID = process.env.CLIENT_ID;
 var CLIENT_SECRET = process.env.CLIENT_SECRET;
-var valid = cron.validate('45 7 * * FRI');
-console.log(valid);
+
+console.log('Hello, JEMS! Happy working!');
+
 
 var weeklyDigest = cron.schedule('45 7 * * FRI', function () {
     var transporter = nodemailer.createTransport({
@@ -61,14 +61,13 @@ weeklyDigest.start();
 
 router.post('/text', function (req, res) {
 
-
     var p = plivo.RestAPI({
         authId: AUTH_ID,
         authToken: AUTH_TOKEN,
     });//part of plivo library
     var params = {
         src: plivoNumber, // Sender's phone number with country code
-        dst: '16362211997',
+        dst: '17637448725',
         text: "Hi, text from Plivo",
     };
     // Prints the complete response
@@ -79,7 +78,7 @@ router.post('/text', function (req, res) {
 
     res.send(status);
 });// end of node-cron weekly digest email
-
+let weeklyDateList = '';
 router.post('/email', function (req, res) {
 
     if (req.isAuthenticated()) {
@@ -99,8 +98,15 @@ router.post('/email', function (req, res) {
                     } else {
 
                         result.rows.forEach(function (shift) {
-                            console.log(shift.date);
+                           
+                            weeklyDateList = '<h1>'+shift.date+'</h1>';
+                            console.log(weeklyDateList);
+                            
+                            
+
                         });
+                        console.log(weeklyDateList);
+                        
                         res.sendStatus(201);
 
 

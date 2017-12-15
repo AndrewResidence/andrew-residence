@@ -115,7 +115,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
       for (var i = 0; i < vm.shiftsToDisplay.length; i++) {
         for (var j = 0; j < vm.currentSchedule.dates.length; j++) {
           if (moment(vm.shiftsToDisplay[i].date).format('YYYY-MM-DD') === moment(vm.currentSchedule.dates[j].moment).format('YYYY-MM-DD')) {
-            console.log('true');
+            // console.log('true');
             vm.currentSchedule.dates[j].shifts.push(vm.shiftsToDisplay[i]);
           }
         }

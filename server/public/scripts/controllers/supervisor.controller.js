@@ -7,6 +7,13 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   vm.shiftService = ShiftService;
   vm.shiftsToDisplay = [];
 
+  vm.shiftDetails = function (event, shift) {
+    ShiftService.shiftDetails(event, shift)
+  }
+
+  vm.addShift = function (event) {
+    ShiftService.addShift(event)
+  }
 
   vm.updatePayPeriodDates = function() {
     ShiftService.updatePayPeriodDates().then(function(response){
@@ -125,5 +132,18 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
     // console.log('this.date', this.currentSchedule.dates[index]);
   };
 
+  //This is a pick-up shift dialog that WILL BE MOVED to the staff controller once the staff calendar is up and running.
+  vm.showDetailsDialog = function(event, shift) {
+    console.log('pick up shift button clicked');
+    $mdDialog.show({
+      controller: 'StaffDialogController as sc',
+      templateUrl: '/views/dialogs/pickUpShift.html',
+      parent: angular.element(document.body),
+      targetEvent: event,
+      clickOutsideToClose: true,
+      locals: {shift: shift},
+      fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
+    })
+  }
 });
 

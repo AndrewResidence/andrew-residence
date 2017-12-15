@@ -7,20 +7,12 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   vm.shiftService = ShiftService;
   vm.shiftsToDisplay = [];
 
-  // vm.shiftDetails = function (event, shift) {
-  //   ShiftService.shiftDetails(event, shift)
-  // }
-
-  // vm.addShift = function (event) {
-  //   ShiftService.addShift(event)
-  // }
 
   vm.updatePayPeriodDates = function() {
     ShiftService.updatePayPeriodDates().then(function(response){
       console.log(response)
-    })
-  }
-
+    });
+  };
   //used for assigning month/day in the calendar header
   vm.month = '';
   vm.year = '';
@@ -38,7 +30,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   vm.payPeriodEnd = '';
   vm.currentPayPeriodArray = {
     dates: []
-  }
+  };
 
   vm.getPayPeriodDates = function() {
     ShiftService.getPayPeriodDates().then(function(response){
@@ -53,10 +45,10 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
         //do an update to adjust start and end
         vm.updatePayPeriodDates();
         // vm.getPayPeriodDates();
-        console.log('today is greater than start date')
+        console.log('today is greater than start date');
       }
-    })
-  }
+    });
+  };
 
   vm.getPayPeriodDates();
   //gets the current pay period days for two weeks
@@ -72,19 +64,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
       console.log('vm.currentSchedule.dates', vm.currentSchedule.dates)
     vm.month = moment(vm.payPeriodStart).format('MMMM');
     vm.year = moment(vm.payPeriodStart).format('YYYY');
-  }
-
-  // vm.findDayInCycle = function(arrayofDates) {
-  //   var dayToReview = moment(vm.today).format('MM-DD-YYYY');
-  //   console.log('vm.today', dayToReview);
-  //   for (var i = 0; i < arrayofDates.length; i++) {
-  //     if (moment(arrayofDates[i]._d).format('MM-DD-YYYY') == dayToReview) {
-  //       vm.dayInCycle = i;
-  //     }
-  //   }
-  //   console.log('dayInCycle', vm.dayInCycle);
-  // }
-  
+  };
   //function to pull prior two weeks of dates
   vm.prevTwoWeeks = function (date) {
     vm.currentSchedule.dates = [];
@@ -96,7 +76,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
     vm.month = moment(prevTwoWeeks._d).format('MMMM');
     vm.year = moment(prevTwoWeeks._d).format('YYYY')
     vm.getShifts();
-  }
+  };
 
   //function to get next two weeks of dates
   vm.nextTwoWeeks = function (date) {
@@ -110,15 +90,15 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
     vm.month = moment(nextTwoWeeks._d).format('MMMM');
     vm.year = moment(nextTwoWeeks._d).format('YYYY');
     vm.getShifts();
-  }
+  };
 
   vm.shiftDetails = function (event, shift) {
     ShiftService.shiftDetails(event, shift)
-  }
+  };
 
   vm.addShift = function (event) {
     ShiftService.addShift(event)
-  }
+  };
 
   vm.getShifts = function () {
     ShiftService.getShifts().then(function (response) {
@@ -133,8 +113,8 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
           }
         }
       }
-    })
-  }
+    });
+  };
 
   vm.getShifts();
 
@@ -143,7 +123,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   console.log(shift);
     // console.log('this', this)
     // console.log('this.date', this.currentSchedule.dates[index]);
-  }
+  };
 
 });
 

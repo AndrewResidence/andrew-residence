@@ -146,7 +146,7 @@ router.put('/payperiod/updatedates/:id', function (req, res) {
 }) //end update pay period dates
 
 //POST shift bids
-router.post('/shiftBid', function(req, res) {
+router.post('/shiftBid', function (req, res) {
     if (req.isAuthenticated()) {
         var shiftBid = req.body
         console.log('new shift bid', shiftBid)
@@ -158,20 +158,20 @@ router.post('/shiftBid', function(req, res) {
                 res.sendStatus(500);
             } //end if error connection to db
             else {
-                    var queryText = 
-                        'INSERT INTO "shift_bids" ("shift_id", "user_id", "staff_comments")' +
-                        'VALUES ($1, $2, $3);' 
-                    db.query(queryText, [shiftBid.id, shiftBid.user, shiftBid.comments],
-                        function (errorMakingQuery, result) {
-                            done();
-                            if (errorMakingQuery) {
-                                console.log('Error making query', errorMakingQuery);
-                                res.sendStatus(500);
-                                return
-                            }
-                            else {
-                                console.log('posted shift bid');
-                                var queryText = 'UPDATE "post_shifts" SET "shift_status" = $1 WHERE "shift_id" = $2;'
+                var queryText =
+                    'INSERT INTO "shift_bids" ("shift_id", "user_id", "staff_comments")' +
+                    'VALUES ($1, $2, $3);'
+                db.query(queryText, [shiftBid.id, shiftBid.user, shiftBid.comments],
+                    function (errorMakingQuery, result) {
+                        done();
+                        if (errorMakingQuery) {
+                            console.log('Error making query', errorMakingQuery);
+                            res.sendStatus(500);
+                            return
+                        }
+                        else {
+                            console.log('posted shift bid');
+                            var queryText = 'UPDATE "post_shifts" SET "shift_status" = $1 WHERE "shift_id" = $2;'
                             db.query(queryText, ["Pending", req.body.id],
                                 function (errorMakingQuery, result) {
                                     done();
@@ -185,12 +185,12 @@ router.post('/shiftBid', function(req, res) {
                                         console.log('updated shift status in shift table');
                                     }
                                 })
-                            }
-                        })
-                }
+                        }
+                    })
+            }
 
-    }) // end req.isAuthenticated //end if statement
-}
+        }) // end req.isAuthenticated //end if statement
+    }
     else {
         console.log('User is not authenticated')
         res.sendStatus(403);
@@ -198,7 +198,7 @@ router.post('/shiftBid', function(req, res) {
 })//end post route for new shifts
 
 //GET Shift bids
-router.get('/shiftBid', function(req, res) {
+router.get('/shiftBid', function (req, res) {
     if (req.isAuthenticated()) {
         pool.connect(function (errorConnectingToDb, db, done) {
             if (errorConnectingToDb) {
@@ -206,39 +206,27 @@ router.get('/shiftBid', function(req, res) {
                 res.sendStatus(500);
             } //end if error connection to db
             else {
-                    var queryText = 
-                        'INSERT INTO "shift_bids" ("shift_id", "user_id", "staff_comments")' +
-                        'VALUES ($1, $2, $3);' 
-                    db.query(queryText, [shiftBid.id, shiftBid.user, shiftBid.comments],
-                        function (errorMakingQuery, result) {
-                            done();
-                            if (errorMakingQuery) {
-                                console.log('Error making query', errorMakingQuery);
-                                res.sendStatus(500);
-                                return
-                            }
-                            else {
-                                console.log('posted shift bid');
-                                var queryText = 'UPDATE "post_shifts" SET "shift_status" = $1 WHERE "shift_id" = $2;'
-                            db.query(queryText, ["Pending", req.body.id],
-                                function (errorMakingQuery, result) {
-                                    done();
-                                    if (errorMakingQuery) {
-                                        console.log('Error making query', errorMakingQuery);
-                                        res.sendStatus(500);
-                                        return
-                                    }
-                                    else {
-                                        res.sendStatus(201);
-                                        console.log('updated shift status in shift table');
-                                    }
-                                })
-                            }
-                        })
-                }
+                var queryText =
+                    'SELECT * FROM "post_shifts"' +
+                    'JOIN "shift_bids" ON "post_shifts"."shift_id" = "shift_bids"."shift_id"' +
+                    'WHERE "post_shifts"."shift_status" = $1;'
+                db.query(queryText, ["Pending"],
+                    function (errorMakingQuery, result) {
+                        done();
+                        if (errorMakingQuery) {
+                            console.log('Error making query', errorMakingQuery);
+                            res.sendStatus(500);
+                            return
+                        }
+                        else {
+                            console.log('got shift bids');
+                            res.send(result.rows);
+                        }
+                    })
+            }
 
-    }) // end req.isAuthenticated //end if statement
-}
+        }) // end req.isAuthenticated //end if statement
+    }
     else {
         console.log('User is not authenticated')
         res.sendStatus(403);

@@ -77,7 +77,14 @@ self.shift = {}
     return $http.get('/shifts').then(function (response) {
       console.log('response', response.data)
       self.shiftsToDisplay.data = response.data;
-      return response
+      return response;
+    });
+  };
+
+  self.getPendingShifts = function () {
+    return $http.get('/shifts/shiftbid').then(function (response) {
+      console.log('response', response.data);
+      return response;
     });
   };
 

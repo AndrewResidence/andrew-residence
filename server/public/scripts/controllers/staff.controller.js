@@ -1,65 +1,110 @@
-myApp.controller('StaffController', function($mdDialog, UserService, ShiftService, AvailabilityService) {
-    console.log('StaffController created');
-    var vm = this;
-    vm.userService = UserService;
-    vm.userObject = UserService.userObject;
-    vm.shiftsToDisplay = [];
+myApp.controller('StaffController', function (UserService, ShiftService, AvailabilityService) {
+  console.log('StaffController created');
+  var vm = this;
+  vm.userService = UserService;
+  vm.userObject = UserService.userObject;
 
+  vm.displayMonth = '';
+  vm.displayYear = '';
   vm.dayList = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
   vm.today = moment();
-  vm.currentMonth = moment(vm.today).month();
-  console.log('currentMonth', vm.currentMonth)
-  vm.daysinCurrentMonth = moment(vm.today).daysInMonth();
-  console.log('daysinCurrentMonth', vm.daysinCurrentMonth)
-
-  vm.currentMonthArray = [];
-  vm.putDaysinCurrentMonthArray = function(daysinCurrentMonth) {
-    for (var i = 1; i <= daysinCurrentMonth; i++) {
-      vm.currentMonthArray.push(i);
-    }
-    console.log('currentMonthArray', vm.currentMonthArray)
+  vm.thisMonth = moment(vm.today).month();
+  vm.currentYear = moment(vm.today).year();
+  vm.numDaysInCurrentMonth = '';
+  vm.currentMonth = {
+    dates: []
   }
-  vm.putDaysinCurrentMonthArray(vm.daysinCurrentMonth);
 
-  vm.monthDaysArray = [];
-  vm.getMonthDays = function(currentMonthArray) {
-    for (var i = 1; i <= currentMonthArray.length; i++) {
+  //puts each day of the month in array
+  vm.monthDays = {
+    dates: []
+  }
+
+  vm.getNumDaysInCurrentMonth = function() {
+    vm.numDaysInCurrentMonth = moment(vm.today).daysInMonth();
+    vm.putDaysinCurrentMonthArray(vm.currentYear, vm.thisMonth, vm.numDaysInCurrentMonth);
+  }
+
+
+  vm.putDaysinCurrentMonthArray = function (currentYear, currentMonth, numDaysInCurrentMonth) {
+    vm.monthDays.dates = [];
+    for (var i = 1; i <= numDaysInCurrentMonth; i++) {
+      vm.monthDays.dates.push(i);
+    }
+    vm.getMonthDays(currentYear, currentMonth, vm.monthDays.dates);
+  }
+
+  //creates day object and pushes to array to get month days
+  vm.dayInWeek = '';
+  vm.getMonthDays = function (currentYear, currentMonth, monthDays) {
+    vm.dayInWeek = '';
+    for (var i = 1; i <= monthDays.length; i++) {
       eachDay = {
-        day: moment().date(i),
-        dayInWeek: moment().date(i).format('d'),
+        day: moment().year(currentYear).month(currentMonth).date(i),
         dayNum: moment().date(i).format('D'),
+        month: currentMonth,
+        year: currentYear,
         shifts: []
       }
-      vm.monthDaysArray.push(eachDay);
+      vm.currentMonth.dates.push(eachDay);
     }
+    var firstDayofMonth = moment(vm.currentMonth.dates[0].day._d).month();
+    var currentYear = currentYear;
+    vm.dayInWeek = moment(vm.currentMonth.dates[0].day._d).format('d')
+    vm.checkFirstDayOfMonth(vm.dayInWeek, firstDayofMonth, currentYear);
+
+    
   }
 
-  vm.checkFirstDayOfMonth = function(array) {
-    var firstDayOfMonth = array[0].dayInWeek;
-    console.log('firstdayofMonth', firstDayOfMonth)
-    for(var i = 1; i <= firstDayOfMonth; i++) {
-      eachDay = {
-        day: 0
+  vm.checkFirstDayOfMonth = function (dayInWeek, firstDayofMonth, currentYear) {
+    var dayInWeek = parseInt(dayInWeek)
+    if (dayInWeek != 0) {
+      for (var i = 1; i <= dayInWeek; i++) {
+        eachDay = {
+          extra: i,
+          month: firstDayofMonth,
+          year: currentYear,
+          dayNum: '_'
+        }
+        vm.currentMonth.dates.unshift(eachDay);
+        
       }
-      vm.monthDaysArray.unshift(eachDay);
+      vm.displayMonth = moment(vm.currentMonth.dates[0]).format('MMMM');
+      vm.displayYear = moment(vm.currentMonth.dates[0]).format('YYYY')
     }
   }
 
-  vm.getMonthDays(vm.currentMonthArray);
-  console.log('vm.monthDaysArray', vm.monthDaysArray);
+  vm.getNumDaysInCurrentMonth();
 
-  vm.checkFirstDayOfMonth(vm.monthDaysArray);
-
-  //function to pull prior two weeks of dates
-  vm.prevMonth = function (date) {
-    vm.month = moment(prevTwoWeeks._d).format('MMMM');
-    vm.year = moment(prevTwoWeeks._d).format('YYYY')
+  vm.prevMonth = function (currentDisplayMonth, currentYear) {
+    vm.currentMonth.dates = [];
+    if (currentDisplayMonth === 0) {
+      vm.thisMonth = 11;
+      vm.currentYear = currentYear - 1;
+      console.log('year, month', vm.currentYear, vm.thisMonth)
+    }
+    else {
+      vm.thisMonth = currentDisplayMonth - 1;
+      console.log('year, month', vm.currentYear, vm.thisMonth)
+    }
+    vm.numDaysInCurrentMonth = moment().year(vm.currentYear).month(vm.thisMonth).daysInMonth();
+    vm.putDaysinCurrentMonthArray(vm.currentYear, vm.thisMonth, vm.numDaysInCurrentMonth)
   }
 
   //function to get next two weeks of dates
-  vm.nextMonth = function (date) {
-    vm.month = moment(nextTwoWeeks._d).format('MMMM');
-    vm.year = moment(nextTwoWeeks._d).format('YYYY');
+  vm.nextMonth = function (currentDisplayMonth, currentYear) {
+    vm.currentMonth.dates = [];
+    if (currentDisplayMonth === 11) {
+      vm.thisMonth = 0
+      vm.currentYear = currentYear + 1;
+      console.log('year, month', vm.currentYear, vm.thisMonth)
+    }
+    else {
+      vm.thisMonth = currentDisplayMonth + 1;
+      console.log('year, month', vm.currentYear, vm.thisMonth)
+    }
+    vm.numDaysInCurrentMonth = moment().year(vm.currentYear).month(vm.thisMonth).daysInMonth();
+    vm.putDaysinCurrentMonthArray(vm.currentYear, vm.thisMonth, vm.numDaysInCurrentMonth)
   }
 
   vm.showDetailsDialog = function(event) {
@@ -74,5 +119,4 @@ myApp.controller('StaffController', function($mdDialog, UserService, ShiftServic
     })
   }
 
-  });
-  
+});

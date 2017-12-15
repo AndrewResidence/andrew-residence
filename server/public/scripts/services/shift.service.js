@@ -10,7 +10,7 @@ self.shift = {}
     mhw: false,
     nurse: false,
     comments: '',
-    notify: '',
+    notify: [],
     shift_status: ''
   }
 

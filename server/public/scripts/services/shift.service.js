@@ -22,7 +22,7 @@ self.shift = {}
     mhw: false,
     nurse: false,
     comments: '',
-    notify: '',
+    // notify: '{"basketball", "baseball"}',
     shift_status: ''
   }
 

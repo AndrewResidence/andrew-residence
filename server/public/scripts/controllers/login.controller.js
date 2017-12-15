@@ -8,7 +8,6 @@ myApp.controller('LoginController', function($http, $location, $mdDialog, UserSe
       phone: ''
     };
     vm.message = '';
-
     vm.login = function() {
       console.log('LoginController -- login');
       if(vm.user.username === '' || vm.user.password === '') {
@@ -30,7 +29,6 @@ myApp.controller('LoginController', function($http, $location, $mdDialog, UserSe
         });
       }
     };
-
     vm.registerUser = function() {
       console.log('LoginController -- registerUser');
       if(vm.user.username === '' || vm.user.password === '') {
@@ -45,8 +43,7 @@ myApp.controller('LoginController', function($http, $location, $mdDialog, UserSe
           vm.message = "Please try again."
         });
       }
-    }
-
+    };
 vm.showPopup = function(event) {
   console.log('button clicked');
   $mdDialog.show({
@@ -56,7 +53,7 @@ vm.showPopup = function(event) {
     targetEvent: event,
     clickOutsideToClose: true,
     fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
-  })
-}
+  });
+};
 
 });

@@ -97,7 +97,8 @@ li a:hover {
 }
 
 .calendarSpace {
-  width: 75%;
+  width: 80%;
+  height: 90%;
   margin: 20px;
 }
 
@@ -107,6 +108,9 @@ li a:hover {
   width: 13%;
   background-color: lightblue;
   margin: 1px;
+  display: inline-block;
+  padding: 2px;
+  text-align: center;
 }
 
 .calBox {
@@ -130,6 +134,14 @@ md-grid-tile {
   display: flex;
 }
 
+.staffCalendarSpace {
+  width: 90%;
+  height: 90%;
+  margin: 20px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  padding: 10px;
+}
+
 .staffCalBox {
   width: 13%;
   height: 100px;
@@ -141,5 +153,9 @@ md-grid-tile {
 
 .innerBox {
   align-content: right;
-  justify-content: top;
+  justify-content: flex-end;
+}
+
+.dayNum {
+  text-align: right;
 }

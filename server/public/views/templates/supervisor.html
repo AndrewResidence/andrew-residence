@@ -59,7 +59,7 @@
       <div>
       {{date.moment | amDateFormat: 'D'}}
     </div>
-      <div layout="column" ng-repeat="shift in date.shifts track by $index">
+      <div id="shiftDetails" layout="column" ng-repeat="shift in date.shifts track by $index">
         <br>
         <div>{{shift.shift}} {{shift.shift_id}}</div>
         <br>

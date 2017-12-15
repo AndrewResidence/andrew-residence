@@ -44,60 +44,59 @@ router.post('/', function (req, res) {
                     db.query(queryText, [createdBy, theDate, newShift.urgent, newShift.shift, newShift.adl, newShift.mhw, newShift.nurse, newShift.comments, newShift.notify, newShift.shift_status],
                         function (errorMakingQuery, result) {
                             done();
-                            console.log('returned result', result.rows[0]);
-                            if (result.rows[0].adl) {
-                                var role = 'ADL';
-                                var queryText =
-                                    'SELECT "phone"' +
-                                    'FROM "users"' +
-                                    'WHERE "role" = $1';
-                                db.query(queryText, [role], function (err, result) {
-                                    done();
-                                    if (err) {
-                                        console.log("Error getting phone: ", err);
-                                        res.sendStatus(500);
-                                    } else {
-                                        console.log('help:', result.rows);
+                            // console.log('returned result', result.rows[0]);
+                            // if (result.rows[0].adl) {
+                            //     var role = 'ADL';
+                            //     var queryText =
+                            //         'SELECT "phone"' +
+                            //         'FROM "users"' +
+                            //         'WHERE "role" = $1';
+                            //     db.query(queryText, [role], function (err, result) {
+                            //         done();
+                            //         if (err) {
+                            //             console.log("Error getting phone: ", err);
+                            //             res.sendStatus(500);
+                            //         } else {
+                            //             // console.log('help:', result.rows);
+                            //             result.rows.forEach(function (role) {
+                            //                 console.log(role.phone + '>');
+                            //                 console.log('');
 
-                                        result.rows.forEach(function (role) {
-                                            console.log(role.phone + '>');
-                                            console.log('');
+                            //             });
+                            //         }
+                            //     });
+                            // }
+                            // if (errorMakingQuery) {
+                            //     console.log('Error making query', errorMakingQuery);
+                            //     res.sendStatus(500);
+                            //     return;
+                            //     //return urgent column from posted shift; if urgent, use plivo library to send text message
+                            // } else if (result.rows[0].urgent) {
+                            //     var p = plivo.RestAPI({
+                            //         authId: AUTH_ID,
+                            //         authToken: AUTH_TOKEN,
+                            //     }); //part of plivo library
 
-                                        });
-                                    }
-                                });
-                            }
-                //             if (errorMakingQuery) {
-                //                 console.log('Error making query', errorMakingQuery);
-                //                 res.sendStatus(500);
-                //                 return;
-                //                 //return urgent column from posted shift; if urgent, use plivo library to send text message
-                //             } else if (result.rows[0].urgent) {
-                //                 var p = plivo.RestAPI({
-                //                     authId: AUTH_ID,
-                //                     authToken: AUTH_TOKEN,
-                //                 }); //part of plivo library
-
-                //                 var params = {
-                //                     src: plivoNumber, // Sender's phone number with country code
-                //                     dst: '6362211997',
-                //                     text: "Hi, text from Plivo",
-                //                 };
-                //                 // Prints the complete response
-                //                 p.send_message(params, function (status, response) {
-                //                     console.log('Status: ', status);
-                //                     console.log('API Response:\n', response);
-                //                 });
-                //             }
-                //         });
-                // } //end for loop
+                            //     var params = {
+                            //         src: plivoNumber, // Sender's phone number with country code
+                            //         dst: '6362211997',
+                            //         text: "Hi, text from Plivo",
+                            //     };
+                            //     // Prints the complete response
+                            //     p.send_message(params, function (status, response) {
+                            //         console.log('Status: ', status);
+                            //         console.log('API Response:\n', response);
+                            //     });
+                            // }
+                        });
+                } //end for loop
                 res.sendStatus(201);
-    //         }
-    //     });
-    // } // end req.isAuthenticated //end if statement
-    // else {
-    //     console.log('User is not authenticated');
-    // }
+            }
+        });
+    } // end req.isAuthenticated //end if statement
+    else {
+        console.log('User is not authenticated');
+    }
 }); //end post route for new shifts
 //get route for post_shifts 
 router.get('/', function (req, res) {

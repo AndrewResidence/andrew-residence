@@ -43,6 +43,7 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
         day: moment().year(currentYear).month(currentMonth).date(i),
         dayNum: moment().date(i).format('D'),
         month: currentMonth,
+        monthText: moment().month(currentMonth),
         year: currentYear,
         shifts: []
       }
@@ -52,8 +53,10 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
     var currentYear = currentYear;
     vm.dayInWeek = moment(vm.currentMonth.dates[0].day._d).format('d')
     vm.checkFirstDayOfMonth(vm.dayInWeek, firstDayofMonth, currentYear);
-
-    
+    vm.displayMonth = moment(vm.currentMonth.dates[1]);
+    vm.displayYear = moment(vm.currentMonth.dates[0]);
+    console.log(vm.displayMonth, vm.displayYear)
+    console.log(vm.currentMonth.dates);
   }
 
   vm.checkFirstDayOfMonth = function (dayInWeek, firstDayofMonth, currentYear) {
@@ -66,11 +69,8 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
           year: currentYear,
           dayNum: '_'
         }
-        vm.currentMonth.dates.unshift(eachDay);
-        
+        vm.currentMonth.dates.unshift(eachDay); 
       }
-      vm.displayMonth = moment(vm.currentMonth.dates[0]).format('MMMM');
-      vm.displayYear = moment(vm.currentMonth.dates[0]).format('YYYY')
     }
   }
 

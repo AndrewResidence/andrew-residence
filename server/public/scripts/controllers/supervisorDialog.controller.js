@@ -43,7 +43,7 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
 
   vm.editShiftDetails=function(event) {
 vm.editShift=true;
-console.log(vm.editShift)
+console.log(vm.editShift);
   };
 
 

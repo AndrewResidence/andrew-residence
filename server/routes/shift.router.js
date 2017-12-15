@@ -67,37 +67,37 @@ router.post('/', function (req, res) {
                                     }
                                 });
                             }
-                            if (errorMakingQuery) {
-                                console.log('Error making query', errorMakingQuery);
-                                res.sendStatus(500);
-                                return;
-                                //return urgent column from posted shift; if urgent, use plivo library to send text message
-                            } else if (result.rows[0].urgent) {
-                                var p = plivo.RestAPI({
-                                    authId: AUTH_ID,
-                                    authToken: AUTH_TOKEN,
-                                }); //part of plivo library
+                //             if (errorMakingQuery) {
+                //                 console.log('Error making query', errorMakingQuery);
+                //                 res.sendStatus(500);
+                //                 return;
+                //                 //return urgent column from posted shift; if urgent, use plivo library to send text message
+                //             } else if (result.rows[0].urgent) {
+                //                 var p = plivo.RestAPI({
+                //                     authId: AUTH_ID,
+                //                     authToken: AUTH_TOKEN,
+                //                 }); //part of plivo library
 
-                                var params = {
-                                    src: plivoNumber, // Sender's phone number with country code
-                                    dst: '6362211997',
-                                    text: "Hi, text from Plivo",
-                                };
-                                // Prints the complete response
-                                p.send_message(params, function (status, response) {
-                                    console.log('Status: ', status);
-                                    console.log('API Response:\n', response);
-                                });
-                            }
-                        });
-                } //end for loop
+                //                 var params = {
+                //                     src: plivoNumber, // Sender's phone number with country code
+                //                     dst: '6362211997',
+                //                     text: "Hi, text from Plivo",
+                //                 };
+                //                 // Prints the complete response
+                //                 p.send_message(params, function (status, response) {
+                //                     console.log('Status: ', status);
+                //                     console.log('API Response:\n', response);
+                //                 });
+                //             }
+                //         });
+                // } //end for loop
                 res.sendStatus(201);
-            }
-        });
-    } // end req.isAuthenticated //end if statement
-    else {
-        console.log('User is not authenticated');
-    }
+    //         }
+    //     });
+    // } // end req.isAuthenticated //end if statement
+    // else {
+    //     console.log('User is not authenticated');
+    // }
 }); //end post route for new shifts
 //get route for post_shifts 
 router.get('/', function (req, res) {

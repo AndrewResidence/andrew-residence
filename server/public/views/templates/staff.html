@@ -1,13 +1,15 @@
 <div ng-include="'views/partials/nav.html'"></div>
 <div class="container">
-  <p>
-    staff view
-  </p>
+    <div layout="row">
+        <md-button class="md-raised md-primary">All</md-button>
+        <md-button class="md-raised md-primary">Open</md-button>
+        <md-button class="md-raised md-primary">My Shifts</md-button>
+      </div>
 
   <div class="staffCalendarSpace">
     <div layout="row">
       <md-button class="md-raised md-primary" ng-click="sc.prevMonth(sc.currentMonth.dates[0].month, sc.currentMonth.dates[0].year)">Previous</md-button>
-        <div>{{sc.displayMonth}}  {{sc.displayYear}}</div>
+        <div class="staffCalHeader">{{sc.displayMonth}}  {{sc.displayYear}}</div>
       <md-button class="md-raised md-primary" ng-click="sc.nextMonth(sc.currentMonth.dates[0].month, sc.currentMonth.dates[0].year)">Next</md-button>
     </div>
     <div class="calHeader" ng-repeat="dayheader in sc.dayList">
@@ -15,7 +17,7 @@
     </div>
     <div class="staffCalBox" ng-repeat="day in sc.currentMonth.dates">
       <div class="innerBox">
-        <div>{{day.day}}</div>
+        <div class="dayNum">{{day.dayNum}}</div>
       </div>
     </div>
   </div>

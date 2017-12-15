@@ -63,7 +63,8 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
         eachDay = {
           extra: i,
           month: firstDayofMonth,
-          year: currentYear
+          year: currentYear,
+          dayNum: '_'
         }
         vm.currentMonth.dates.unshift(eachDay);
         

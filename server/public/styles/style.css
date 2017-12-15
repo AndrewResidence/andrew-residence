@@ -106,11 +106,13 @@ li a:hover {
   font-size: 16px;
   margin-bottom: 10px;
   width: 13%;
-  background-color: lightblue;
-  margin: 1px;
+  background-color: #8774aa;
+  margin: 2px;
   display: inline-block;
   padding: 2px;
   text-align: center;
+  color: #ffffff;
+  height: 30px;
 }
 
 .calBox {
@@ -137,7 +139,7 @@ md-grid-tile {
 .staffCalendarSpace {
   width: 90%;
   height: 90%;
-  margin: 20px;
+  margin: 10px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   padding: 10px;
 }
@@ -145,10 +147,10 @@ md-grid-tile {
 .staffCalBox {
   width: 13%;
   height: 100px;
-  background-color: lightpink;
+  background-color: #cccccc;
   display: inline-block;
   padding: 2px;
-  margin: 1px;
+  margin: 2px;
 }
 
 .innerBox {
@@ -158,4 +160,10 @@ md-grid-tile {
 
 .dayNum {
   text-align: right;
+}
+
+.staffCalHeader {
+  width: 80%;
+  text-align: center;
+  font-size: 20px;
 }

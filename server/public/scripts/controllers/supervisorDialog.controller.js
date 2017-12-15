@@ -28,6 +28,7 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
 
 //start newShift function
   vm.addNewShift = function (shiftDate, shiftStatus, urgent, shift, role, comments, notify, nurse, adl, mhw) {
+    console.log('nurse in add shift', nurse);
     ShiftService.addNewShift(shiftDate, shiftStatus, urgent, shift, role, comments, notify, nurse, adl, mhw).then(function (response) {
       $mdDialog.hide();
       console.log('response', response);

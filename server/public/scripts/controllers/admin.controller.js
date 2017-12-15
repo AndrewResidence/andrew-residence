@@ -7,17 +7,14 @@ myApp.controller('AdminController', function (UserService, $mdDialog, $mdToast) 
   vm.supervisors = [];
   vm.staff = [];
   vm.unconfirmed = []; 
-
   var show = false;
-
    // GET unconfirmed users route
    vm.getUnconfirmed = function () {
     vm.userService.getUnconfirmed().then(function (response) {
       vm.unconfirmed = response.data;
       console.log('got users', response.data);
-    })
-  }
-
+    });
+  };
   vm.getUnconfirmed();
 
   //Show dialog for confirm user
@@ -35,15 +32,14 @@ myApp.controller('AdminController', function (UserService, $mdDialog, $mdToast) 
         vm.getSupervisors();
         vm.getUnconfirmed();
         vm.showConfirmToast();
-      })
+      });
     };
-
   //Users PUT route to confirm users and define their role (supervisor, nurse, MHW or ADL) 
   vm.confirmUser = function(user) {
     vm.userService.confirmUser(user).then(function(response){
       console.log('changed user', response);
-    })
-  }
+    });
+  };
 
 
   // GET supervisors route (GET users where role = supervisor)
@@ -85,7 +81,7 @@ myApp.controller('AdminController', function (UserService, $mdDialog, $mdToast) 
         vm.getSupervisors();
         vm.getUnconfirmed();
         vm.showEditToast();
-      })
+      });
     };
 
 

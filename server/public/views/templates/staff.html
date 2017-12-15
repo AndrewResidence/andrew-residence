@@ -6,10 +6,17 @@
         <md-button class="md-raised md-primary">My Shifts</md-button>
       </div>
 
+<!-- 
+      This button will go in staff view when staff calendar is up and running:
+      <md-button class="md-raised md-primary" ng-click="sc.showDetailsDialog($event)">Pick Up Shift</md-button>
+     -->
+
+     <md-button class="md-raised md-primary" ng-click="sc.shiftDetails($event)">Shift Details</md-button>
+    
   <div class="staffCalendarSpace">
     <div layout="row">
       <md-button class="md-raised md-primary" ng-click="sc.prevMonth(sc.currentMonth.dates[0].month, sc.currentMonth.dates[0].year)">Previous</md-button>
-        <div class="staffCalHeader">{{sc.displayMonth}}  {{sc.displayYear}}</div>
+        <div class="staffCalHeader">{{sc.displayMonth}}  {{sc.displayYear._i.year}}</div>
       <md-button class="md-raised md-primary" ng-click="sc.nextMonth(sc.currentMonth.dates[0].month, sc.currentMonth.dates[0].year)">Next</md-button>
     </div>
     <div class="calHeader" ng-repeat="dayheader in sc.dayList">
@@ -19,6 +26,13 @@
       <div class="innerBox">
         <div class="dayNum">{{day.dayNum}}</div>
       </div>
+      <div layout="column" ng-repeat="shift in date.shifts track by $index">
+          <br>
+          <div ng-click="sc.shiftDetails(event, shift)">{{shift.shift}} {{shift.shift_id}}</div>
+          <md-button class="md-raised md-primary" ng-click="sc.showDetailsDialog($event, shift)">Pick Up Shift</md-button>
+          <br>
+        </div>
+    </div>
     </div>
   </div>
 

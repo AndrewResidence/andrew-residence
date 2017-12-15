@@ -10,11 +10,15 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
   vm.supervisors = ['Dan', 'Blake', 'Emma', 'Sarah', 'Josh'];
   //possible shift types
   vm.shifts = ['Day', 'Evening', 'ADL Evening', 'Night'];
+  vm.shiftStatus = ['Open', 'Filled'];
   vm.shift = ShiftService.shift
   
   vm.editShift = false;
 
-  vm.myArrayOfDates = []
+  vm.myArrayOfDates = [];
+
+  vm.updatedShift = ShiftService.updatedShift;
+
   $scope.$watch('myArrayOfDates', function (newValue, oldValue) {
     if (newValue) {
       console.log('my array changed, new size : ' + newValue.length);
@@ -23,8 +27,8 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
   }, true);
 
 //start newShift function
-  vm.addNewShift = function (shiftDate, urgent, shift, role, comments, notify, nurse, adl, mhw) {
-    ShiftService.addNewShift(shiftDate, urgent, shift, role, comments, notify, nurse, adl, mhw).then(function (response) {
+  vm.addNewShift = function (shiftDate, shiftStatus, urgent, shift, role, comments, notify, nurse, adl, mhw) {
+    ShiftService.addNewShift(shiftDate, shiftStatus, urgent, shift, role, comments, notify, nurse, adl, mhw).then(function (response) {
       $mdDialog.hide();
       console.log('response', response)
       $mdToast.show(
@@ -46,7 +50,9 @@ vm.editShift=true;
 console.log(vm.editShift)
   }
 
-
+  vm.updateShift = function (id, comments, shift, mhw, adl, nurse, date, status) {
+    ShiftService.updateShift(id, comments, shift, mhw, adl, nurse, date, status)
+  }
 
 });
 

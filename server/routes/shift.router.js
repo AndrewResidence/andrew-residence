@@ -185,7 +185,53 @@ router.put('/payperiod/updatedates/:id', function (req, res) {
     else {
         console.log('User is not authenticated');
     }
-}); //end get pay period dates
+}) //end update pay period dates
+
+// router.post('/shiftBid'), function(req, res) {
+//     if (req.isAuthenticated()) {
+//         var shiftBid = req.body
+//         console.log('new shift bid', shiftBid)
+//         console.log('req.body.date', req.body.date)
+
+//         var createdBy = req.user.id
+//         pool.connect(function (errorConnectingToDb, db, done) {
+//             if (errorConnectingToDb) {
+//                 console.log('Error connecting', errorConnectingToDb);
+//                 res.sendStatus(500);
+//             } //end if error connection to db
+//             else {
+//                 for (var i = 0; i < shiftBid.shiftDate.length; i++) {
+//                     var theDate = shiftBid.shiftDate[i];
+//                     console.log('theDate', theDate);
+//                     var queryText = 'INSERT INTO "post_shifts" ("created_by", "date", "urgent", "shift", "adl", "mhw", "nurse", "shift_comments", "notify" ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);';
+//                     db.query(queryText, [createdBy, theDate, shiftBid.urgent, shiftBid.shift, shiftBid.adl, shiftBid.mhw, shiftBid.nurse, shiftBid.comments, shiftBid.notify],
+//                         function (errorMakingQuery, result) {
+//                             done();
+//                             if (errorMakingQuery) {
+//                                 console.log('Error making query', errorMakingQuery);
+//                                 res.sendStatus(500);
+//                                 return
+//                             }
+//                         })
+//                 }//end for loop
+//                 res.sendStatus(201);
+//             }
+//         }
+//         )
+//     } // end req.isAuthenticated //end if statement
+//     else {
+//         console.log('User is not authenticated')
+//     }
+// })//end post route for new shifts
+
+//GET Shift bids
+
+
+
+
+
+//GET confirmed shifts
+
 
 
 

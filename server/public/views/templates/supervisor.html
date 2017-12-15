@@ -5,6 +5,9 @@
 
   <md-button class="md-raised md-primary" ng-click="sc.shiftDetails($event)">Shift Details</md-button>
   <md-button class="md-raised md-primary" ng-click="sc.addShift($event)">Add Shift</md-button>
+  <br>
+  This button will go in staff view when staff calendar is up and running:
+  <md-button class="md-raised md-primary" ng-click="sc.showDetailsDialog($event)">Pick Up Shift</md-button>
 
   <div class="calendarSpace"> <!-- start calendar space -->
     <div layout="row" layout-align="center center">
@@ -21,7 +24,7 @@
       <div class="calBox">Tue</div>
       <div class="calBox">Wed</div>
     </div> end weekday headers -->
-   
+  
     </div>
       <div class="calBox">Wed</div> 
     <!-- </div>  end weekday headers -->
@@ -63,9 +66,10 @@
       <div>
       {{date.moment | amDateFormat: 'D'}}
     </div>
-      <div layout="column" ng-repeat="shift in date.shifts track by $index" ng-click="sc.shiftDetails(event, shift)">
+      <div layout="column" ng-repeat="shift in date.shifts track by $index">
         <br>
-        <div>{{shift.shift}} {{shift.shift_id}}</div>
+        <div ng-click="sc.shiftDetails(event, shift)">{{shift.shift}} {{shift.shift_id}}</div>
+        <md-button class="md-raised md-primary" ng-click="sc.showDetailsDialog($event, shift)">Pick Up Shift</md-button>
         <br>
       </div>
       </md-grid-tile>

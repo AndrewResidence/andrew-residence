@@ -107,20 +107,16 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
     vm.putDaysinCurrentMonthArray(vm.currentYear, vm.thisMonth, vm.numDaysInCurrentMonth)
   }
 
-  // vm.shiftDetails = function (event) {
-  //   ShiftService.shiftDetails(event)
-  // }
-
-  // vm.addShift = function (event) {
-  //   ShiftService.addShift(event)
-  // }
-
-  // vm.getShifts = function () {
-  //   ShiftService.getShifts().then(function (response) {
-  //     console.log('shifts')
-  //   })
-  // }
-
-  // vm.getShifts();
+  vm.showDetailsDialog = function(event) {
+    console.log('pick up shift button clicked');
+    $mdDialog.show({
+      controller: 'StaffDialogController as sc',
+      templateUrl: '/views/dialogs/pickUpShift.html',
+      parent: angular.element(document.body),
+      targetEvent: event,
+      clickOutsideToClose: true,
+      fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
+    })
+  }
 
 });

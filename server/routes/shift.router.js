@@ -1,11 +1,10 @@
 var pool = require('../modules/pool.js');
-require('dotenv').config({ path: './server/.env' });
+require('dotenv').config({ path: '../group-project/.env' });    
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var path = require('path');
 var nodemailer = require('nodemailer');
-var IterateObject = require("iterate-object")
 var plivo = require('plivo');
 /* credentials for plivo*/
 var AUTH_ID = process.env.PLIVO_AUTH_ID;
@@ -23,9 +22,9 @@ var CLIENT_SECRET = process.env.CLIENT_SECRET;
 //post route for new shifts
 router.post('/', function (req, res) {
     if (req.isAuthenticated()) {
-        var newShift = req.body
-        console.log('new shift', newShift)
-        console.log('req.body.shiftDate', req.body.shiftDate)
+        var newShift = req.body;
+        console.log('new shift', newShift);
+        console.log('req.body.shiftDate', req.body.shiftDate);
 
         var createdBy = req.user.id
         pool.connect(function (errorConnectingToDb, db, done) {

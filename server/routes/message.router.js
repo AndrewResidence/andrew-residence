@@ -1,4 +1,4 @@
-require('dotenv').config({ path: './server/.env' });
+require('dotenv').config({ path: '../group-project/.env' });
 var pool = require('../modules/pool.js');
 var express = require('express');
 var router = express.Router();

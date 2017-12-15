@@ -22,7 +22,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     mhw: false,
     nurse: false,
     comments: '',
-    notify: '',
+    // notify: '{"basketball", "baseball"}',
     shift_status: ''
   }
 

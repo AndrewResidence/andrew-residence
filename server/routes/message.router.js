@@ -33,7 +33,6 @@ var weeklyDigest = cron.schedule('45 7 * * FRI', function () {
             clientSecret: CLIENT_SECRET,
         }
     });
-
     // setup email data 
     var mailOptions = {
         from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
@@ -75,7 +74,6 @@ router.post('/text', function (req, res) {
         console.log('Status: ', status);
         console.log('API Response:\n', response);
     });
-
     res.send(status);
 });// end of node-cron weekly digest email
 
@@ -96,7 +94,7 @@ router.post('/email', function (req, res) {
                         res.sendStatus(500);
                     } else {
                         result.rows.forEach(function (shift) {
-                            dateArray.push('<li>' + moment().format('MMMM Do YYYY', shift.date) + '</li>');
+                            dateArray.push('<li>'+ moment(shift.date).format('MMMM Do YYYY') + '<span>'+':'+shift.shift +'</span></li>');
                         });
                             var transporter = nodemailer.createTransport({
                                 host: 'smtp.gmail.com',

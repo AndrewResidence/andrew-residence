@@ -94,8 +94,8 @@ router.post('/text', function (req, res) {
     });//part of plivo library
     var params = {
         src: plivoNumber, // Sender's phone number with country code
-        dst: '16362211997',
-        text: "The MonGod provides",
+        dst: '17637448725',
+        text: "Have no fear. You are never along. The MonGod smiles upon you!",
     };
     // Prints the complete response
     p.send_message(params, function (status, response) {

@@ -58,7 +58,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   self.addNewShift = function (selection, shiftDate, shiftStatus, urgent, shift, role, comments, notify, nurse, adl, mhw) {
     console.log('the Selection', selection)
     console.log('shiftDate', shiftDate);
-    
+    self.newShift.notify = selection
     self.newShift.shiftDate = shiftDate;
     urgent = self.newShift.urgent;
     shift = self.newShift.shift;

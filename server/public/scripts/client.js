@@ -73,14 +73,21 @@ myApp.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {
       redirectTo: 'home'
     })
 
+    // var andrewResPurple = $mdThemingProvider.extendPalette('deep-purple', {
+    //   '50': '9e8cbc',
+    //   '500': '6f5f8c',
+    //   '900': '43355f'
+    // })
 
-$mdThemingProvider.theme('default')
-.primaryPalette('purple', {
+    // $mdThemingProvider.definePalette('andrewPurple', andrewPurple);
 
-})
+
+    $mdThemingProvider.theme('default')
+      .primaryPalette('deep-purple', {
+      })
+
+      .accentPalette('grey', {
+
+      })
 });
-// .accentPalette('blue', {
 
-// }); // specify primary color, all
-                        // other color intentions will be inherited
-                        // from default

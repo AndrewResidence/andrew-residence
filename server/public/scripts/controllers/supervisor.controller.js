@@ -11,11 +11,11 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   vm.shiftDetails = function (event, shift) {
     ShiftService.shiftDetails(event, shift)
   }
-
   vm.addShift = function (event) {
     ShiftService.addShift(event)
   }
 
+  //updates pay period based on today's date
   vm.updatePayPeriodDates = function () {
     ShiftService.updatePayPeriodDates().then(function (response) {
       console.log(response)

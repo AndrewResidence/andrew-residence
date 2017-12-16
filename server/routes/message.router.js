@@ -107,12 +107,12 @@ router.post('/email', function (req, res) {
                                 }
                             });
                             // setup email data 
-                            let emailMessage = dateArray.join();
+                            let emailMessage = dateArray.join('');
                             var mailOptions = {
                                 from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
                                 to: 'joshnothum@gmail.com', // list of receivers
                                 subject: 'Weekly Digest from Andrew Residence', // Subject line
-                                html: '<ul>' + emailMessage + '</ul>',
+                                html: '<p>I wonder how Chris will downplay this?</p><h2>Available Shifts:</h2><ul>' + emailMessage + '</ul><p>Please go to the scheduling app to sign-up for a shift.</p> We appreciate yor support!</p>',
                                 auth: {
                                     user: GMAIL_USER,
                                     refreshToken: REFRESH_TOKEN,

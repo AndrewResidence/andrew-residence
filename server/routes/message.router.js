@@ -5,9 +5,9 @@ var router = express.Router();
 var passport = require('passport');
 var path = require('path');
 var nodemailer = require('nodemailer');
-
 var cron = require('node-cron');
 var plivo = require('plivo');
+var moment = require('moment');
 /* credentials for plivo*/
 var AUTH_ID = process.env.PLIVO_AUTH_ID;
 var AUTH_TOKEN = process.env.PLIVO_AUTH_TOKEN;
@@ -81,7 +81,6 @@ router.post('/text', function (req, res) {
 
 let dateArray = [];
 router.post('/email', function (req, res) {
-
     if (req.isAuthenticated()) {
         pool.connect(function (errorConnectingToDb, db, done) {
             if (errorConnectingToDb) {
@@ -92,13 +91,12 @@ router.post('/email', function (req, res) {
                 var queryText = 'SELECT * FROM "post_shifts"';
                 db.query(queryText, function (errorMakingQuery, result) {
                     done(); // add + 1 to pool
-
                     if (errorMakingQuery) {
                         console.log('Error making query', errorMakingQuery);
                         res.sendStatus(500);
                     } else {
                         result.rows.forEach(function (shift) {
-                            dateArray.push('<li>'+shift.date+'</li>');
+                            dateArray.push('<li>' + moment().format('MMMM Do YYYY', shift.date) + '</li>');
                         });
                             var transporter = nodemailer.createTransport({
                                 host: 'smtp.gmail.com',
@@ -111,12 +109,11 @@ router.post('/email', function (req, res) {
                                 }
                             });
                             // setup email data 
-
                             let emailMessage = dateArray.join();
                             var mailOptions = {
                                 from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
                                 to: 'joshnothum@gmail.com', // list of receivers
-                                subject: 'Hello ✔', // Subject line
+                                subject: 'Weekly Digest from Andrew Residence', // Subject line
                                 html: '<ul>' + emailMessage + '</ul>',
                                 auth: {
                                     user: GMAIL_USER,
@@ -142,45 +139,6 @@ router.post('/email', function (req, res) {
     else {
         console.log('User is not authenticated');
     }
-
-    // var transporter = nodemailer.createTransport({
-    //     host: 'smtp.gmail.com',
-    //     port: 465,
-    //     secure: true,
-    //     auth: {
-    //         type: 'OAuth2',
-    //         clientId: CLIENT_ID,
-    //         clientSecret: CLIENT_SECRET,
-    //     }
-    // });
-    // setup email data 
-
-
-    // let emailMessage = dateArray.join();
-    // console.log(emailMessage);
-
-
-    // var mailOptions = {
-    //     from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
-    //     to: 'joshnothum@gmail.com', // list of receivers
-    //     subject: 'Hello ✔', // Subject line
-    //     html: '<li>'+emailMessage+'</li>',
-    //     auth: {
-    //         user: GMAIL_USER,
-    //         refreshToken: REFRESH_TOKEN,
-    //         accessToken: ACCESS_TOKEN,
-    //     }
-    // };
-    // // send mail with defined transport object
-    // transporter.sendMail(mailOptions, function (error, info) {
-    //     if (error) {
-    //         console.log(error);
-    //         res.send(error);
-    //     }
-    //     console.log('Message sent: %s', info.messageId);
-    //     res.sendStatus(200);
-    // });
-
     // console.log('returned result', result.rows[0]);
     // if (result.rows[0].adl) {
     //     var role = 'ADL';

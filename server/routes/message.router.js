@@ -94,7 +94,7 @@ router.post('/email', function (req, res) {
                         res.sendStatus(500);
                     } else {
                         result.rows.forEach(function (shift) {
-                            dateArray.push('<li>'+ moment(shift.date).format('MMMM Do YYYY') + '<span>'+':'+shift.shift +'</span></li>');
+                            dateArray.push('<li>'+ moment(shift.date).format('MMMM Do YYYY') + '<span>'+'------'+shift.shift +'</span></li>');
                         });
                             var transporter = nodemailer.createTransport({
                                 host: 'smtp.gmail.com',
@@ -110,7 +110,7 @@ router.post('/email', function (req, res) {
                             let emailMessage = dateArray.join('');
                             var mailOptions = {
                                 from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
-                                to: 'joshnothum@gmail.com', // list of receivers
+                                to: 'martapeterson@gmail.com', // list of receivers
                                 subject: 'Weekly Digest from Andrew Residence', // Subject line
                                 html: '<p>I wonder how Chris will downplay this?</p><h2>Available Shifts:</h2><ul>' + emailMessage + '</ul><p>Please go to the scheduling app to sign-up for a shift.</p> We appreciate yor support!</p>',
                                 auth: {

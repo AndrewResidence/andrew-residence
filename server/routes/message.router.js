@@ -85,14 +85,11 @@ var weeklyDigest = cron.schedule('30 12 * * SUN', function () {
         console.log('User is not authenticated');
     }
 }, false);
+
 weeklyDigest.start();
-
-
 
 router.post('/urgent', function (req, res) {
     if (req.isAuthenticated()) {
-
-
         pool.connect(function (errorConnectingToDb, db, done) {
             if (errorConnectingToDb) {
                 console.log('Error connecting', errorConnectingToDb);
@@ -108,16 +105,12 @@ router.post('/urgent', function (req, res) {
                             console.log("Error getting phone: ", err);
                             res.sendStatus(500);
                         } else {
-
                             result.rows.forEach(function (role) {
-
                                 phoneNumberArray.push(role.phone + '<');
-
                             });
                         }
                     });
                 }
-
                 if (req.body.mhw) {
                     var mentalHealthWorker = 'MHW';
                     var mentalHealthWorkerQueryText = 'SELECT "phone" FROM "users" WHERE "role" = $1';
@@ -128,11 +121,8 @@ router.post('/urgent', function (req, res) {
                             res.sendStatus(500);
                         } else {
                             console.log('help:', result.rows);
-
                             result.rows.forEach(function (healthWorker) {
-
                                 phoneNumberArray.push(healthWorker.phone + '<');
-                                console.log('phone in mentalHealth:', phoneNumberArray);
                             });
                         }
                     });
@@ -149,20 +139,17 @@ router.post('/urgent', function (req, res) {
                             result.rows.forEach(function (nurseWorker) {
                                 console.log(nurseWorker.phone);
                                 phoneNumberArray.push(nurseWorker.phone + '<');
-                                console.log('phone in nurse:', phoneNumberArray);
+
                             });
-                            console.log('179 phone', phoneNumberArray);
                         }
-                        console.log('181 phone', phoneNumberArray.join(''));
                     });
                 }
                 var datesForText = req.body.shiftDate;
                 var textDates = [];
-                for(let i=0; i<datesForText.length; i++){
+                for (let i = 0; i < datesForText.length; i++) {
                     moment(datesForText[i]).format('MMM Do YYYY');
-                    textDates.push(moment(datesForText[i]).format('MMM Do YYYY')+' '+ 'Shift:'+''+ req.body.shift);
+                    textDates.push(moment(datesForText[i]).format('MMM Do YYYY') + ' ' + 'Shift:' + '' + req.body.shift);
                 }
-                
                 var p = plivo.RestAPI({
                     authId: AUTH_ID,
                     authToken: AUTH_TOKEN,
@@ -170,22 +157,17 @@ router.post('/urgent', function (req, res) {
                 var params = {
                     src: plivoNumber, // Sender's phone number with country code
                     dst: '16362211997<',
-                    text: 'Urgent Shift Posted:'+''+ textDates,
+                    text: 'Urgent Shift Posted:' + '' + textDates,
                 };
                 // Prints the complete response
                 p.send_message(params, function (status, response) {
                     console.log('Status: ', status);
                     console.log('API Response:\n', response);
                 });
-
-
                 res.sendStatus(201);
             }
         });
-        
-        
     } // end req.isAuthenticated //end if statement
-    
     else {
         console.log('User is not authenticated');
     }
@@ -211,139 +193,6 @@ router.post('/text', function (req, res) {
 });// end of node-cron weekly digest email
 
 module.exports = router;
-
-// router.post('/email', function (req, res) {
-//     if (req.isAuthenticated()) {
-//         pool.connect(function (errorConnectingToDb, db, done) {
-//             if (errorConnectingToDb) {
-//                 console.log('Error connecting', errorConnectingToDb);
-//                 res.sendStatus(500);
-//             } //end if error connection to db
-//             else {
-//                 var queryText = 'SELECT * FROM "post_shifts"';
-//                 db.query(queryText, function (errorMakingQuery, result) {
-//                     done(); // add + 1 to pool
-//                     if (errorMakingQuery) {
-//                         console.log('Error making query', errorMakingQuery);
-//                         res.sendStatus(500);
-//                     } else {
-//                         result.rows.forEach(function (shift) {
-//                             dateArray.push('<li>' + moment(shift.date).format('MMMM Do YYYY') + '<span>' + '------' + shift.shift + '</span></li>');
-//                         });
-//                         var transporter = nodemailer.createTransport({
-//                             host: 'smtp.gmail.com',
-//                             port: 465,
-//                             secure: true,
-//                             auth: {
-//                                 type: 'OAuth2',
-//                                 clientId: CLIENT_ID,
-//                                 clientSecret: CLIENT_SECRET,
-//                             }
-//                         });
-//                         // setup email data 
-//                         let emailMessage = dateArray.join('');
-//                         var mailOptions = {
-//                             from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
-//                             to: 'joshnothum@gmail.com', // list of receivers
-//                             subject: 'Weekly Digest from Andrew Residence', // Subject line
-//                             html: '<p>I wonder how Chris will downplay this?</p><h2>Available Shifts:</h2><ul>' + emailMessage + '</ul><p>Please go to the scheduling app to sign-up for a shift.</p> We appreciate yor support!</p>',
-//                             auth: {
-//                                 user: GMAIL_USER,
-//                                 refreshToken: REFRESH_TOKEN,
-//                                 accessToken: ACCESS_TOKEN,
-//                             }
-//                         };
-//                         // send mail with defined transport object
-//                         transporter.sendMail(mailOptions, function (error, info) {
-//                             if (error) {
-//                                 console.log(error);
-//                                 res.send(error);
-//                             }
-//                             console.log('Message sent: %s', info.messageId);
-//                             res.sendStatus(200);
-//                         });
-//                         // res.sendStatus(201);
-//                     }
-//                 }); // END QUERY
-//             }
-//         }); // end pool connect
-//     } // end req.isAuthenticated
-//     else {
-//         console.log('User is not authenticated');
-//     }
-// console.log('returned result', result.rows[0]);
-// if (result.rows[0].adl) {
-//     var role = 'ADL';
-//     var queryText =
-//         'SELECT "phone"' +
-//         'FROM "users"' +
-//         'WHERE "role" = $1';
-//     db.query(queryText, [role], function (err, result) {
-//         done();
-//         if (err) {
-//             console.log("Error getting phone: ", err);
-//             res.sendStatus(500);
-//         } else {
-//             // console.log('help:', result.rows);
-//             result.rows.forEach(function (role) {
-//                 console.log(role.phone + '>');
-//                 console.log('');
-
-//             });
-//         }
-//     });
-// }
-// if (errorMakingQuery) {
-//     console.log('Error making query', errorMakingQuery);
-//     res.sendStatus(500);
-//     return;
-//     //return urgent column from posted shift; if urgent, use plivo library to send text message
-// } else if (result.rows[0].urgent) {
-//     var p = plivo.RestAPI({
-//         authId: AUTH_ID,
-//         authToken: AUTH_TOKEN,
-//     }); //part of plivo library
-
-//     var params = {
-//         src: plivoNumber, // Sender's phone number with country code
-//         dst: '6362211997',
-//         text: "Hi, text from Plivo",
-//     };
-//     // Prints the complete response
-//     p.send_message(params, function (status, response) {
-//         console.log('Status: ', status);
-//         console.log('API Response:\n', response);
-//     });
-//                             // }
-//                         });
-//                 } //end for loop
-//                 res.sendStatus(201);
-//             }
-//         });
-//     } // end req.isAuthenticated //end if statement
-//     else {
-//         console.log('User is not authenticated');
-//     }
-// }); //end post route for new shifts
-//get route for post_shifts 
-// });
-
-
-// var p = plivo.RestAPI({
-//     authId: AUTH_ID,
-//     authToken: AUTH_TOKEN,
-// }); //part of plivo library
-
-// var params = {
-//     src: plivoNumber, // Sender's phone number with country code
-//     dst: '16362211997',
-//     text: "Hi, text from Plivo",
-// };
-// // Prints the complete response
-// p.send_message(params, function (status, response) {
-//     console.log('Status: ', status);
-//     console.log('API Response:\n', response);
-// });
 
 
 

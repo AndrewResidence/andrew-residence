@@ -40,7 +40,7 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
   //creates day object and pushes to array to get month days
   vm.dayInWeek = '';
   vm.getMonthDays = function (currentYear, currentMonth, monthDays) {
-    console.log('currentMonth', currentMonth)
+    console.log('currentMonth', currentMonth);
     vm.dayInWeek = '';
     for (var i = 1; i <= monthDays.length; i++) {
       eachDay = {

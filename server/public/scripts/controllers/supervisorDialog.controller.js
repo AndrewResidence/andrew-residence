@@ -12,7 +12,7 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
   vm.shifts = ['Day', 'Evening', 'ADL Evening', 'Night'];
   vm.shiftStatus = ['Open', 'Filled'];
   vm.shift = ShiftService.shift;
-
+  
   vm.editShift = false;
 
   vm.myArrayOfDates = [];
@@ -39,8 +39,7 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
       );
     });
   };
-  //end add newShift
-
+//end add newShift
   //closes dialog box
   vm.cancel = function () {
     $mdDialog.hide();
@@ -53,7 +52,7 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
 
   vm.updateShift = function (id, comments, shift, mhw, adl, nurse, date, status) {
     ShiftService.updateShift(id, comments, shift, mhw, adl, nurse, date, status)
-  }
+  };
 
 });
 

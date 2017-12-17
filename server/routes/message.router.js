@@ -6,7 +6,8 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var path = require('path');
-/* for setitng weekly digest and converting format for time*/
+var nodemailer = require('nodemailer');
+var hbs = require('nodemailer-express-handlebars');
 var cron = require('node-cron');
 var moment = require('moment');
 /* credentials for plivo*/

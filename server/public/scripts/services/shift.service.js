@@ -1,7 +1,7 @@
 myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   console.log('ShiftService Loaded');
   var self = this;
-  self.shift = {};
+self.shift = {};
   self.newShift = {
     shiftDate: [],
     urgent: false,
@@ -23,7 +23,8 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     // notify: 
     shift_status: ''
   };
-  self.shiftsToDisplay = { data: [] };
+
+  self.shiftsToDisplay = {data: []};
   //calls the addShift popup
   self.addShift = function (event) {
     console.log('add new shift button clicked');
@@ -83,7 +84,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
 
   self.getShifts = function () {
     return $http.get('/shifts').then(function (response) {
-      console.log('response', response.data)
+      console.log('response', response.data);
       self.shiftsToDisplay.data = response.data;
       return response;
     });
@@ -109,9 +110,9 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
       // self.payPeriodStartAndEnd.data = response.data;
       return response.data;
     })
-      .catch(function (err) {
-        console.log('error')
-      });
+    .catch(function(err){
+      console.log('error');
+    });
   };
 
   self.updatePayPeriodDates = function () {
@@ -121,9 +122,10 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
       return response.data;
     });
   };
+
+
+  /* for Message testing; see popUpTest Controller and message.html */
   self.sendTextMessage = function () {
-
-
     //what is required for Plivo to deliver message;
     textParams = {
       src: '',
@@ -139,10 +141,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
       console.log('send textMessage did not work:', response);
     });
   };//end of sendTextMessage
-
-
   self.sendEmailMessage = function () {
-
     $http.post('/message/email').then(function (response) {
       // neccessary params for email transport object;
       emailParams = {
@@ -150,7 +149,6 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
         subject: '', // Subject line
         text: '', // plain text body;
         html: '', // html body
-
       };
       console.log(response);
 
@@ -158,4 +156,6 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
       console.log('send emailMessage did not work: ', response);
     });
   };
+
+  /* end of Message testing*/
 });

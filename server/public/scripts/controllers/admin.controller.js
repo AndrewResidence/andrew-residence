@@ -40,8 +40,6 @@ myApp.controller('AdminController', function (UserService, $mdDialog, $mdToast) 
       console.log('changed user', response);
     });
   };
-
-
   // GET supervisors route (GET users where role = supervisor)
   vm.getSupervisors = function () {
     vm.userService.getSupervisors().then(function (response) {
@@ -50,8 +48,6 @@ myApp.controller('AdminController', function (UserService, $mdDialog, $mdToast) 
     });
   };
   vm.getSupervisors();
-
-
   // GET staff route (GET users where role = nurse, MHW or ADL)
   vm.getStaff = function () {
     vm.userService.getStaff().then(function (response) {
@@ -64,8 +60,7 @@ myApp.controller('AdminController', function (UserService, $mdDialog, $mdToast) 
   //Users DELETE route
   vm.deleteUser = function (user) {
     vm.showDeleteToast(user)
-  }
-
+  };
   //Show dialog for edit individual user
   vm.showEditDialog = function (event, user) {
     console.log('button clicked');
@@ -83,8 +78,6 @@ myApp.controller('AdminController', function (UserService, $mdDialog, $mdToast) 
       vm.showEditToast();
     });
   };
-
-
   vm.showEditToast = function () {
     $mdToast.show(
       $mdToast.simple()
@@ -93,7 +86,6 @@ myApp.controller('AdminController', function (UserService, $mdDialog, $mdToast) 
         .hideDelay(2500)
     );
   };
-
   vm.showConfirmToast = function () {
     $mdToast.show(
       $mdToast.simple()
@@ -102,7 +94,6 @@ myApp.controller('AdminController', function (UserService, $mdDialog, $mdToast) 
         .hideDelay(2500)
     );
   };
-
   vm.showDeleteToast = function (user) {
     console.log('user in toast', user);
     var toast = $mdToast.simple()

@@ -15,13 +15,10 @@ myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserSer
     nurse: shift.nurse,
     status: shift.shift_status
   };
-
   console.log('userObject', vm.userService.userObject);
-
   vm.adl = false;
   vm.mhw = false;
   vm.nurse = false;
-
   vm.role = function () {
     if (shift.adl) {
       vm.adl = true;
@@ -33,10 +30,7 @@ myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserSer
       vm.nurse = true;
     }
   };
-
   vm.role();
-
-
   vm.pickUpShift = function (shift) {
     console.log('pick up shift', vm.shift);
     vm.shiftService.pickUpShift(shift).then(function (response) {
@@ -49,10 +43,8 @@ myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserSer
       );
     });
   };
-
   //closes dialog box
   vm.cancel = function () {
     $mdDialog.hide();
   }; //end close dialog
-
 });

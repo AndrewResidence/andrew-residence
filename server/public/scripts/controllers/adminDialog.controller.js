@@ -19,7 +19,6 @@ myApp.controller('AdminDialogController', function ($mdDialog, UserService, user
             $mdDialog.hide();
         });
     };
-
     vm.cancel = function () {
         $mdDialog.cancel();
     };

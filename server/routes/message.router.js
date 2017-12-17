@@ -5,7 +5,7 @@ var router = express.Router();
 var passport = require('passport');
 var path = require('path');
 var nodemailer = require('nodemailer');
-
+var hbs = require('nodemailer-express-handlebars');
 var cron = require('node-cron');
 var plivo = require('plivo');
 /* credentials for plivo*/

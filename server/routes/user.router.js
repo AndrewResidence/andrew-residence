@@ -1,6 +1,15 @@
+require('dotenv').config({ path: './server/.env' });
 var express = require('express');
 var router = express.Router();
 var pool = require('../modules/pool.js');
+var nodemailer = require('nodemailer');
+var hbs = require('nodemailer-express-handlebars');
+/* credentials for google oauth w/nodemailer*/
+var GMAIL_USER = process.env.GMAIL_USER;
+var REFRESH_TOKEN = process.env.REFRESH_TOKEN;
+var ACCESS_TOKEN = process.env.ACCESS_TOKEN;
+var CLIENT_ID = process.env.CLIENT_ID;
+var CLIENT_SECRET = process.env.CLIENT_SECRET;
 
 // Handles Ajax request for user information if user is authenticated
 router.get('/', function (req, res) {
@@ -93,13 +102,13 @@ router.get('/staff', function (req, res) {
 router.put('/confirm/:id', function (req, res) {
   if (req.isAuthenticated()) {
     var id = req.params.id;
-    var role = req.body.role
+    var role = req.body.role;
     pool.connect(function (err, db, done) {
       if (err) {
         console.log('error connecting', err);
         res.sendStatus(500);
       }
-      var queryText = 'UPDATE "users" SET "role" =$1, "confirmed"=$2 WHERE "id" = $3;'
+      var queryText = 'UPDATE "users" SET "role" =$1, "confirmed"=$2 WHERE "id" = $3 RETURNING "username";';
       //insert into users new role and change confirmed to true;
       db.query(queryText, [role, '1', id], function (err, result) {
         done();
@@ -107,6 +116,42 @@ router.put('/confirm/:id', function (req, res) {
           console.log("Error inserting data: ", err);
           res.sendStatus(500);
         } else {
+          var transporter = nodemailer.createTransport({
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true,
+            auth: {
+              type: 'OAuth2',
+              clientId: CLIENT_ID,
+              clientSecret: CLIENT_SECRET,
+            }
+          });
+          console.log('username:', result.rows[0].username);
+          
+          let emailConfirmAddress = result.rows[0].username;
+          
+          // setup email data 
+          var mailOptions = {
+            from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
+            to: emailConfirmAddress, // list of receivers
+            subject: 'Hello ✔', // Subject line
+            text: 'Hello from NodeMailer!!!, What up Jems?', // plain text body
+            html: '<p>Hello from Andrew Residence!!!  Thank you very much for signing up for the scheduling application. You are OFFICIAL!  We have created your profile and you may now begin picking up shifts.  See you soon!</p>', // html body
+            auth: {
+              user: GMAIL_USER,
+              refreshToken: REFRESH_TOKEN,
+              accessToken: ACCESS_TOKEN,
+            }
+          };
+          // send mail with defined transport object
+          transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+              console.log(error);
+              res.send(error);
+            }
+            console.log('Message sent: %s', info.messageId);
+            res.sendStatus(200);
+          });
           res.send(result.rows);
         }
       });

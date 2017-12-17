@@ -10,7 +10,7 @@
     <md-dialog-content flex="auto">
         <div layout-gt-xl="row">
 
-                <md-checkbox id="urgentCheckbox" ng-model="sd.newShift.urgent">Mark Urgent</md-checkbox>
+            <md-checkbox id="urgentCheckbox" ng-model="sd.newShift.urgent">Mark Urgent</md-checkbox>
             </label>
         </div>
         <div layout-gt-xl="row">
@@ -40,14 +40,14 @@
             <multiple-date-picker right-click="rightClickCb" ng-model="myArrayOfDates"></multiple-date-picker>
         </div>
 
-            <div layout-gt-xl="row">
-                <md-input-container id="shiftCommentsText" class="md-block">
-                    <label>Shift Comments:</label>
-                    <textarea rows="2" width="300PX" name="shiftComments" ng-model="sd.newShift.comments" md-select-on-focus></textarea>
-                </md-input-container>
-            </div>
-            <md-divider></md-divider>
-            <!-- Notify the following supervisors when the shift is filled:
+        <div layout-gt-xl="row">
+            <md-input-container id="shiftCommentsText" class="md-block">
+                <label>Shift Comments:</label>
+                <textarea rows="2" width="300PX" name="shiftComments" ng-model="sd.newShift.comments" md-select-on-focus></textarea>
+            </md-input-container>
+        </div>
+        <md-divider></md-divider>
+        <!-- Notify the following supervisors when the shift is filled:
 <div layout="row" layout-wrap flex>
     <div flex="50" ng-repeat="name in sd.supervisors">
         <md-checkbox ng-checked="selected" ng-model="sd.newShift.notify">

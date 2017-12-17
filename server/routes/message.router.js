@@ -16,6 +16,7 @@ var AUTH_TOKEN = process.env.PLIVO_AUTH_TOKEN;
 var plivoNumber = '16128519117';//rented plivo number
 /* credentials for google oauth w/nodemailer*/
 var nodemailer = require('nodemailer');
+var swig = require('swig-templates');
 var GMAIL_USER = process.env.GMAIL_USER;
 var REFRESH_TOKEN = process.env.REFRESH_TOKEN;
 var ACCESS_TOKEN = process.env.ACCESS_TOKEN;

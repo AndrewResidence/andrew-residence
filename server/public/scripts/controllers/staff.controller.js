@@ -12,21 +12,21 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
   vm.numDaysInCurrentMonth = '';
   vm.currentMonth = {
     dates: []
-  }
+  };
 
   //puts each day of the month in array
   vm.monthDays = {
     dates: []
-  }
+  };
 
   vm.shiftsToDisplay = [];
   vm.pendingShifts = [];
 
   //gets number of days in month to display
-  vm.getNumDaysInCurrentMonth = function() {
+  vm.getNumDaysInCurrentMonth = function () {
     vm.numDaysInCurrentMonth = moment(vm.today).daysInMonth();
     vm.putDaysinCurrentMonthArray(vm.currentYear, vm.thisMonth, vm.numDaysInCurrentMonth);
-  }
+  };
 
   //puts number of days in to array
   vm.putDaysinCurrentMonthArray = function (currentYear, currentMonth, numDaysInCurrentMonth) {
@@ -35,7 +35,7 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
       vm.monthDays.dates.push(i);
     }
     vm.getMonthDays(currentYear, currentMonth, vm.monthDays.dates);
-  }
+  };
 
   //creates day object and pushes to array to get month days
   vm.dayInWeek = '';
@@ -59,7 +59,7 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
     vm.checkFirstDayOfMonth(vm.dayInWeek, firstDayofMonth, currentYear);
     vm.displayMonth = moment().month(currentMonth).format('MMMM');
     vm.displayYear = moment(vm.currentMonth.dates[0]);
-  }
+  };
 
   //checks for the first day of the month and adds objects to push calendar start
   vm.checkFirstDayOfMonth = function (dayInWeek, currentMonth, currentYear) {
@@ -74,12 +74,12 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
           year: currentYear,
           dayNum: '.',
           shifts: []
-        }
-        vm.currentMonth.dates.unshift(eachDay); 
+        };
+        vm.currentMonth.dates.unshift(eachDay);
       }
     }
     console.log('dates', vm.currentMonth.dates)
-  }
+  };
 
   vm.getNumDaysInCurrentMonth();
 
@@ -97,7 +97,7 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
     }
     vm.numDaysInCurrentMonth = moment().year(vm.currentYear).month(vm.thisMonth).daysInMonth();
     vm.putDaysinCurrentMonthArray(vm.currentYear, vm.thisMonth, vm.numDaysInCurrentMonth)
-  }
+  };
 
   //function to get next month
   vm.nextMonth = function (currentDisplayMonth, currentYear) {
@@ -113,10 +113,10 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
     }
     vm.numDaysInCurrentMonth = moment().year(vm.currentYear).month(vm.thisMonth).daysInMonth();
     vm.putDaysinCurrentMonthArray(vm.currentYear, vm.thisMonth, vm.numDaysInCurrentMonth)
-  }
+  };
 
   //shift details pop up
-  vm.showDetailsDialog = function(event) {
+  vm.showDetailsDialog = function (event) {
     console.log('pick up shift button clicked');
     $mdDialog.show({
       controller: 'StaffDialogController as sc',
@@ -125,8 +125,8 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
       targetEvent: event,
       clickOutsideToClose: true,
       fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
-    })
-  }
+    });
+  };
 
   //gets all shifts
   vm.getShifts = function () {
@@ -154,8 +154,8 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
         vm.pendingShifts[i].date = moment(vm.pendingShifts[i].date).format('l');
       }
       console.log(' pending shifts', vm.pendingShifts);
-    })
-  }
+    });
+  };
 
   vm.getPendingShifts();
 
@@ -174,7 +174,7 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
       clickOutsideToClose: true,
       locals: { shift: shift },
       fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
-    })
+    });
   };
 
 });

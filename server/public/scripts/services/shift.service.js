@@ -12,7 +12,6 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     comments: '',
     notify: ''
   };
-
   self.updatedShift = {
     shiftDate: [],
     urgent: false,
@@ -21,10 +20,9 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     mhw: false,
     nurse: false,
     comments: '',
-    // notify: '{"basketball", "baseball"}',
+    // notify: 
     shift_status: ''
   };
-
   self.shiftsToDisplay = { data: [] };
   //calls the addShift popup
   self.addShift = function (event) {
@@ -77,7 +75,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     }
 
     return $http.post('/shifts/', self.newShift).then(function (response) {
-      return response
+      return response;
     }).catch(function (err) {
       console.log('Error');
     });
@@ -98,31 +96,31 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     });
   };
 
-  self.pickUpShift = function(shift) {
-    return $http.post('/shifts/shiftBid', shift).then(function(response) {
+  self.pickUpShift = function (shift) {
+    return $http.post('/shifts/shiftBid', shift).then(function (response) {
       console.log('posted shift bid', response);
       return response;
     });
   };
 
-  self.getPayPeriodDates = function() {
-    return $http.get('/shifts/payperiod/getdates').then(function(response){
+  self.getPayPeriodDates = function () {
+    return $http.get('/shifts/payperiod/getdates').then(function (response) {
       console.log('response', response.data)
       // self.payPeriodStartAndEnd.data = response.data;
       return response.data;
     })
-    .catch(function(err){
-      console.log('error')
-    });
+      .catch(function (err) {
+        console.log('error')
+      });
   };
 
   self.updatePayPeriodDates = function () {
     var rowId = 1;
-    return $http.put('/shifts/payperiod/updatedates/' + rowId).then(function(response){
+    return $http.put('/shifts/payperiod/updatedates/' + rowId).then(function (response) {
       console.log('response', response.data)
       return response.data;
-    })
-  }
+    });
+  };
   self.sendTextMessage = function () {
 
 

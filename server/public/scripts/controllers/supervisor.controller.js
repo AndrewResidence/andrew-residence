@@ -98,7 +98,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
     vm.getShifts();
   };
 
-  
+
   vm.shiftDetails = function (event, shift) {
     ShiftService.shiftDetails(event, shift)
   };

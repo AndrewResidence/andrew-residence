@@ -2,9 +2,11 @@
 <div class="superRight" layout="column">
   <md-button class="md-raised md-primary" ng-click="sc.addShift($event)">Add Shift</md-button>
   <h2>Shifts waiting for Confirmation</h2>
-  <div ng-repeat="shift in sc.pendingShifts">{{shift.date}} {{shift.shift}} 
-    <span ng-show="shift.nurse">Nurse </span> <span ng-show="shift.mhw">MHW </span><span ng-show="shift.adl">ADL</span>
-</div>
+  <div ng-repeat="shift in sc.pendingShifts">{{shift.date}} {{shift.shift}}
+    <span ng-show="shift.nurse">Nurse </span>
+    <span ng-show="shift.mhw">MHW </span>
+    <span ng-show="shift.adl">ADL</span>
+  </div>
 </div>
 
 <div class="calendarSpace" display="flex">
@@ -25,7 +27,9 @@
         <div class="shiftButton" ng-click="sc.shiftDetails(event, shift)">
           <!-- <div id="shiftTime" ng-class="{{'shift.shift'}}"></div> -->
           <md-icon ng-class="{{'shift.shift'}}" md-svg-icon="../images/ic_add_circle_black_18px.svg"></md-icon>
-          <span ng-show="shift.adl">ADL</span> <span ng-show="shift.nurse">Nurse</span> <span ng-show="shift.mhw">MHW</span>
+          <span ng-show="shift.adl">ADL</span>
+          <span ng-show="shift.nurse">Nurse</span>
+          <span ng-show="shift.mhw">MHW</span>
         </div>
       </div>
     </div>

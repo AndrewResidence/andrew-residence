@@ -5,7 +5,7 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
   vm.userObject = UserService.userObject;
   vm.displayMonth = '';
   vm.displayYear = '';
-  vm.dayList = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+  vm.dayList = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY']
   vm.today = moment();
   vm.thisMonth = moment(vm.today).month();
   vm.currentYear = moment(vm.today).year();

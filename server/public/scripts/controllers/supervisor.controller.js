@@ -26,7 +26,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   vm.year = '';
   vm.today = moment();
   vm.dayInCycle = '';
-  vm.dayList = ['Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday'];
+  vm.dayList = ['THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY'];
   vm.scheduleDays = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
   vm.payPeriodStartAndEnd = [];
   vm.currentSchedule = {

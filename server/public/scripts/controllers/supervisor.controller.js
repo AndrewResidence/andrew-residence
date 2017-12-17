@@ -11,7 +11,6 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   vm.shiftDetails = function (event, shift) {
     ShiftService.shiftDetails(event, shift)
   }
-
   vm.addShift = function (event) {
     ShiftService.addShift(event)
   }
@@ -50,7 +49,6 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
         vm.currentPayPeriod(vm.scheduleDays);
       }
       else if (moment(vm.today).format('MM-DD-YYYY') > moment(vm.payPeriodEnd).format('MM-DD-YYYY')) {
-        //do an update to adjust start and end
         vm.updatePayPeriodDates();
         // vm.getPayPeriodDates();
         console.log('today is greater than start date');
@@ -100,6 +98,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
     vm.getShifts();
   };
 
+  
   vm.shiftDetails = function (event, shift) {
     ShiftService.shiftDetails(event, shift)
   };

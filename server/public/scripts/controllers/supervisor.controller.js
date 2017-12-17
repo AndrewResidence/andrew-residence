@@ -15,7 +15,6 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
     ShiftService.addShift(event)
   }
 
-  //updates pay period based on today's date
   vm.updatePayPeriodDates = function () {
     calendarService.updatePayPeriodDates().then(function (response) {
       console.log(response)

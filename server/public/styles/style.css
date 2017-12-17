@@ -11,9 +11,13 @@ body, html {
 }
 
 .instructions {
-  background-color: #333333;
-  color: #DDDDDD;
+  background-color: #ffffff;
+  color: #FDFFFC;
   padding: 15px;
+}
+
+.logo {
+  size: 50%;
 }
 
 #entryForm {
@@ -49,7 +53,7 @@ body, html {
 }
 
 .navbar {
-  background-color: #333333;
+  background-color: #8774AA;
   width: 100%;
   border-radius: 0px;
 }
@@ -108,12 +112,14 @@ li a:hover {
   font-size: 16px;
   margin-bottom: 10px;
   width: 13%;
-  background-color: #8774aa;
+  background-color: #3F3F3F;
   margin: 2px;
   padding: 2px;
-  text-align: center;
   color: #ffffff;
   height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .calBox {
@@ -127,6 +133,7 @@ li a:hover {
   width: 600px;
 }
 
+
 .staffCalendarSpace {
   width: 90%;
   height: 90%;
@@ -137,7 +144,7 @@ li a:hover {
 
 .staffCalBox {
   width: 13%;
-  min-height: 200px;
+  min-height: 150px;
   background-color: #E7E7E7;
   display: inline-flex;
   padding: 2px;
@@ -145,28 +152,30 @@ li a:hover {
 }
 
 .innerBox {
-  
+  width: 90%;
+  margin: 0;
+  padding: 0;
 }
 
 .dayNum {
-  align-self: right;
   margin-bottom: 5px;
 }
 
 .staffCalHeader {
-  width: 80%;
-  text-align: center;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
   font-size: 20px;
+  align-items: center;
 }
 
 .shiftButton {
   border-radius: 2px;
   background-color: #ffffff;
   margin: 2px;
-  width: auto;
+  width: 100%;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);  
   padding: 2px;
-  min-width: 100px;
 }
 
 .shifts {
@@ -178,6 +187,23 @@ li a:hover {
   width: 15%;
 }
 
-.svgIconClass {
-  fill: red;
+/* #shiftTime {
+  width: 10px;
+  height: 10px;
+} */
+
+md-icon.Evening path.circle {
+  fill: #A62020;
+}
+
+md-icon.EveningADL path.circle {
+  fill: #A62020;
+}
+
+md-icon.Day path.circle {
+  fill: black;
+} 
+
+md-icon.Night path.circle { 
+  fill: #187B18;
 }

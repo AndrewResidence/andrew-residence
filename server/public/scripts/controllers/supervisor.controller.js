@@ -6,6 +6,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   vm.userObject = UserService.userObject;
   vm.shiftService = ShiftService;
   vm.shiftsToDisplay = [];
+  vm.pendingShifts = [];
 
   vm.shiftDetails = function (event, shift) {
     ShiftService.shiftDetails(event, shift)
@@ -15,8 +16,8 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
     ShiftService.addShift(event)
   }
 
-  vm.updatePayPeriodDates = function() {
-    ShiftService.updatePayPeriodDates().then(function(response){
+  vm.updatePayPeriodDates = function () {
+    ShiftService.updatePayPeriodDates().then(function (response) {
       console.log(response)
     });
   };
@@ -31,7 +32,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   vm.currentSchedule = {
     dates: []
   };
-  
+
   //pay period
   vm.payPeriodStart = '';
   vm.payPeriodEnd = '';
@@ -39,15 +40,15 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
     dates: []
   };
 
-  vm.getPayPeriodDates = function() {
-    ShiftService.getPayPeriodDates().then(function(response){
+  vm.getPayPeriodDates = function () {
+    ShiftService.getPayPeriodDates().then(function (response) {
       vm.payPeriodStartAndEnd = response;
       vm.payPeriodStart = vm.payPeriodStartAndEnd[0].start;
       vm.payPeriodEnd = vm.payPeriodStartAndEnd[0].end;
-      if (moment(vm.today).format('MM-DD-YYYY') >= moment(vm.payPeriodStart).format('MM-DD-YYYY') 
+      if (moment(vm.today).format('MM-DD-YYYY') >= moment(vm.payPeriodStart).format('MM-DD-YYYY')
         && moment(vm.today).format('MM-DD-YYYY') <= moment(vm.payPeriodEnd).format('MM-DD-YYYY')) {
         vm.currentPayPeriod(vm.scheduleDays);
-      } 
+      }
       else if (moment(vm.today).format('MM-DD-YYYY') > moment(vm.payPeriodEnd).format('MM-DD-YYYY')) {
         //do an update to adjust start and end
         vm.updatePayPeriodDates();
@@ -59,16 +60,16 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
 
   vm.getPayPeriodDates();
   //gets the current pay period days for two weeks
-  vm.currentPayPeriod = function(scheduleDays) {
-      for (var i = 0; i < scheduleDays.length; i++) {
-        vm.currentSchedule.dates.push(
-          {
-            moment: moment(vm.payPeriodStart).add(scheduleDays[i], 'days'),
-            shifts: []
-          }
-        );
-      }
-      console.log('vm.currentSchedule.dates', vm.currentSchedule.dates)
+  vm.currentPayPeriod = function (scheduleDays) {
+    for (var i = 0; i < scheduleDays.length; i++) {
+      vm.currentSchedule.dates.push(
+        {
+          moment: moment(vm.payPeriodStart).add(scheduleDays[i], 'days'),
+          shifts: []
+        }
+      );
+    }
+    console.log('vm.currentSchedule.dates', vm.currentSchedule.dates)
     vm.month = moment(vm.payPeriodStart).format('MMMM');
     vm.year = moment(vm.payPeriodStart).format('YYYY');
   };
@@ -78,7 +79,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
     var prevTwoWeeks = moment(vm.payPeriodStart).subtract(14, 'days');
     vm.payPeriodStart = prevTwoWeeks;
     for (var i = 0; i < vm.scheduleDays.length; i++) {
-      vm.currentSchedule.dates.push({moment: moment(prevTwoWeeks._d).add(vm.scheduleDays[i], 'days'), shifts: []});
+      vm.currentSchedule.dates.push({ moment: moment(prevTwoWeeks._d).add(vm.scheduleDays[i], 'days'), shifts: [] });
     }
     vm.month = moment(prevTwoWeeks._d).format('MMMM');
     vm.year = moment(prevTwoWeeks._d).format('YYYY')
@@ -91,7 +92,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
     var nextTwoWeeks = moment(vm.payPeriodStart).add(14, 'days');
     vm.payPeriodStart = nextTwoWeeks;
     for (var i = 0; i < vm.scheduleDays.length; i++) {
-      vm.currentSchedule.dates.push({moment: moment(nextTwoWeeks._d).add(vm.scheduleDays[i], 'days'), shifts:[]});
+      vm.currentSchedule.dates.push({ moment: moment(nextTwoWeeks._d).add(vm.scheduleDays[i], 'days'), shifts: [] });
 
     }
     vm.month = moment(nextTwoWeeks._d).format('MMMM');
@@ -125,15 +126,27 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
 
   vm.getShifts();
 
+  vm.getPendingShifts = function () {
+    ShiftService.getPendingShifts().then(function (response) {
+      vm.pendingShifts = response.data;
+      for (var i = 0; i < vm.pendingShifts.length; i++) {
+        vm.pendingShifts[i].date = moment(vm.pendingShifts[i].date).format('l');
+      }
+      console.log(' pending shifts', vm.pendingShifts);
+    })
+  }
+
+  vm.getPendingShifts();
+
   vm.click = function (shift) {
     console.log('clicked');
-  console.log(shift);
+    console.log(shift);
     // console.log('this', this)
     // console.log('this.date', this.currentSchedule.dates[index]);
   };
 
   //This is a pick-up shift dialog that WILL BE MOVED to the staff controller once the staff calendar is up and running.
-  vm.showDetailsDialog = function(event, shift) {
+  vm.showDetailsDialog = function (event, shift) {
     console.log('pick up shift button clicked');
     $mdDialog.show({
       controller: 'StaffDialogController as sc',
@@ -141,7 +154,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
       parent: angular.element(document.body),
       targetEvent: event,
       clickOutsideToClose: true,
-      locals: {shift: shift},
+      locals: { shift: shift },
       fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
     })
   }

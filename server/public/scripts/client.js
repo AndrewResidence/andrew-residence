@@ -1,7 +1,7 @@
 var myApp = angular.module('myApp', ['ngRoute', 'ngMaterial', 'multipleDatePicker', 'angularMoment']);
 
 /// Routes ///
-myApp.config(function ($routeProvider, $locationProvider) {
+myApp.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {
   $locationProvider.hashPrefix('');
   console.log('myApp -- config')
   $routeProvider
@@ -72,4 +72,22 @@ myApp.config(function ($routeProvider, $locationProvider) {
     .otherwise({
       redirectTo: 'home'
     })
+
+    // var andrewResPurple = $mdThemingProvider.extendPalette('deep-purple', {
+    //   '50': '9e8cbc',
+    //   '500': '6f5f8c',
+    //   '900': '43355f'
+    // })
+
+    // $mdThemingProvider.definePalette('andrewPurple', andrewPurple);
+
+
+    $mdThemingProvider.theme('default')
+      .primaryPalette('amber', {
+      })
+
+      .accentPalette('grey', {
+
+      })
 });
+

@@ -1,7 +1,7 @@
 myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   console.log('ShiftService Loaded');
   var self = this;
-self.shift = {}
+  self.shift = {};
   self.newShift = {
     shiftDate: [],
     urgent: false,
@@ -12,7 +12,7 @@ self.shift = {}
     comments: '',
     notify: '',
     shift_status: ''
-  }
+  };
 
   self.updatedShift = {
     shiftDate: [],
@@ -24,9 +24,9 @@ self.shift = {}
     comments: '',
     // notify: '{"basketball", "baseball"}',
     shift_status: ''
-  }
+  };
 
-  self.shiftsToDisplay = {data: []};
+  self.shiftsToDisplay = { data: [] };
   //calls the addShift popup
   self.addShift = function (event) {
     console.log('add new shift button clicked');
@@ -42,7 +42,7 @@ self.shift = {}
   //calls the shiftDetails popup
   self.shiftDetails = function (event, shift) {
     console.log('shift details button clicked', shift);
-    self.shift=shift;
+    self.shift = shift;
     $mdDialog.show({
       controller: 'SupervisorDialogController as sd',
       templateUrl: '/views/templates/shiftDetails.html',
@@ -68,6 +68,16 @@ self.shift = {}
     shiftStatus = self.newShift.shift_status;
     // notify = self.newShift.notify;
     console.log('newshift', self.newShift);
+    if (urgent) {
+      $http.post('/message/urgent', self.newShift).then(function (response) {
+
+        console.log(response);
+
+      }).catch(function (response) {
+        console.log('send urgent textMessage did not work:', response);
+      });
+    }
+
     return $http.post('/shifts/', self.newShift).then(function (response) {
       return response;
     }).catch(function (err) {
@@ -83,27 +93,27 @@ self.shift = {}
     });
   };
 
-  self.pickUpShift = function(shift) {
-    return $http.post('/shifts/shiftBid', shift).then(function(response) {
+  self.pickUpShift = function (shift) {
+    return $http.post('/shifts/shiftBid', shift).then(function (response) {
       console.log('posted shift bid', response);
       return response;
-    })
+    });
   }
 
-  self.getPayPeriodDates = function() {
-    return $http.get('/shifts/payperiod/getdates').then(function(response){
+  self.getPayPeriodDates = function () {
+    return $http.get('/shifts/payperiod/getdates').then(function (response) {
       console.log('response', response.data);
       // self.payPeriodStartAndEnd.data = response.data;
       return response.data;
     })
-    .catch(function(err){
-      console.log('error');
-    });
+      .catch(function (err) {
+        console.log('error');
+      });
   };
 
-  self.updatePayPeriodDates = function() {
+  self.updatePayPeriodDates = function () {
     var rowId = 1;
-    return $http.put('/shifts/payperiod/updatedates/' + rowId).then(function(response){
+    return $http.put('/shifts/payperiod/updatedates/' + rowId).then(function (response) {
       console.log('response', response.data);
       return response.data;
     });
@@ -148,14 +158,14 @@ self.shift = {}
 
   self.updateShift = function (id, comments, shift, mhw, adl, nurse, date, status) {
     console.log('UPDATED SHIFT', id, comments, shift, mhw, adl, nurse, date, status)
-self.updatedShift.shift_id = id;
-self.updatedShift.comments = comments;
-self.updatedShift.shift = shift;
-self.updatedShift.mhw = mhw;
-self.updatedShift.adl = adl;
-self.updatedShift.nurse = nurse;
-self.updatedShift.date = date;
-self.updatedShift.status = status;
-  }
+    self.updatedShift.shift_id = id;
+    self.updatedShift.comments = comments;
+    self.updatedShift.shift = shift;
+    self.updatedShift.mhw = mhw;
+    self.updatedShift.adl = adl;
+    self.updatedShift.nurse = nurse;
+    self.updatedShift.date = date;
+    self.updatedShift.status = status;
+  };
 
 });

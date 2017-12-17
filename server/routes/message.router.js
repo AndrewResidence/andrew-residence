@@ -23,7 +23,8 @@ var CLIENT_ID = process.env.CLIENT_ID;
 var CLIENT_SECRET = process.env.CLIENT_SECRET;
 
 console.log('Hello, JEMS! Happy working!');
-let dateArray = [];
+var phoneNumberArray = [];
+var dateArray = [];
 var weeklyDigest = cron.schedule('30 12 * * SUN', function () {
     if (req.isAuthenticated()) {
         pool.connect(function (errorConnectingToDb, db, done) {
@@ -86,6 +87,110 @@ var weeklyDigest = cron.schedule('30 12 * * SUN', function () {
 }, false);
 weeklyDigest.start();
 
+
+
+router.post('/urgent', function (req, res) {
+    if (req.isAuthenticated()) {
+
+
+        pool.connect(function (errorConnectingToDb, db, done) {
+            if (errorConnectingToDb) {
+                console.log('Error connecting', errorConnectingToDb);
+                res.sendStatus(500);
+            } //end if error connection to db
+            else {
+                if (req.body.adl) {
+                    var role = 'ADL';
+                    var queryText = 'SELECT "phone" FROM "users" WHERE "role" = $1';
+                    db.query(queryText, [role], function (err, result) {
+                        done();
+                        if (err) {
+                            console.log("Error getting phone: ", err);
+                            res.sendStatus(500);
+                        } else {
+
+                            result.rows.forEach(function (role) {
+
+                                phoneNumberArray.push(role.phone + '<');
+
+                            });
+                        }
+                    });
+                }
+
+                if (req.body.mhw) {
+                    var mentalHealthWorker = 'MHW';
+                    var mentalHealthWorkerQueryText = 'SELECT "phone" FROM "users" WHERE "role" = $1';
+                    db.query(mentalHealthWorkerQueryText, [mentalHealthWorker], function (err, result) {
+                        done();
+                        if (err) {
+                            console.log("Error getting phone: ", err);
+                            res.sendStatus(500);
+                        } else {
+                            console.log('help:', result.rows);
+
+                            result.rows.forEach(function (healthWorker) {
+
+                                phoneNumberArray.push(healthWorker.phone + '<');
+                                console.log('phone in mentalHealth:', phoneNumberArray);
+                            });
+                        }
+                    });
+                }
+                if (req.body.nurse) {
+                    var nurse = 'Nurse';
+                    var nurseQueryText = 'SELECT "phone" FROM "users" WHERE "role" = $1';
+                    db.query(nurseQueryText, [nurse], function (err, result) {
+                        done();
+                        if (err) {
+                            console.log("Error getting phone from Nurse: ", err);
+                            res.sendStatus(500);
+                        } else {
+                            result.rows.forEach(function (nurseWorker) {
+                                console.log(nurseWorker.phone);
+                                phoneNumberArray.push(nurseWorker.phone + '<');
+                                console.log('phone in nurse:', phoneNumberArray);
+                            });
+                            console.log('179 phone', phoneNumberArray);
+                        }
+                        console.log('181 phone', phoneNumberArray.join(''));
+                    });
+                }
+                var datesForText = req.body.shiftDate;
+                var textDates = [];
+                for(let i=0; i<datesForText.length; i++){
+                    moment(datesForText[i]).format('MMM Do YYYY');
+                    textDates.push(moment(datesForText[i]).format('MMM Do YYYY')+' '+ 'Shift:'+''+ req.body.shift);
+                }
+                
+                var p = plivo.RestAPI({
+                    authId: AUTH_ID,
+                    authToken: AUTH_TOKEN,
+                });//part of plivo library
+                var params = {
+                    src: plivoNumber, // Sender's phone number with country code
+                    dst: '16362211997<',
+                    text: 'Urgent Shift Posted:'+''+ textDates,
+                };
+                // Prints the complete response
+                p.send_message(params, function (status, response) {
+                    console.log('Status: ', status);
+                    console.log('API Response:\n', response);
+                });
+
+
+                res.sendStatus(201);
+            }
+        });
+        
+        
+    } // end req.isAuthenticated //end if statement
+    
+    else {
+        console.log('User is not authenticated');
+    }
+}); //end post route for new shifts
+
 router.post('/text', function (req, res) {
 
     var p = plivo.RestAPI({
@@ -95,7 +200,7 @@ router.post('/text', function (req, res) {
     var params = {
         src: plivoNumber, // Sender's phone number with country code
         dst: '17637448725',
-        text: "Have no fear. You are never along. The MonGod smiles upon you!",
+        text: "Be not afraid. You are never alone. The MonGod smiles upon you!",
     };
     // Prints the complete response
     p.send_message(params, function (status, response) {
@@ -166,59 +271,79 @@ module.exports = router;
 //     else {
 //         console.log('User is not authenticated');
 //     }
-    // console.log('returned result', result.rows[0]);
-    // if (result.rows[0].adl) {
-    //     var role = 'ADL';
-    //     var queryText =
-    //         'SELECT "phone"' +
-    //         'FROM "users"' +
-    //         'WHERE "role" = $1';
-    //     db.query(queryText, [role], function (err, result) {
-    //         done();
-    //         if (err) {
-    //             console.log("Error getting phone: ", err);
-    //             res.sendStatus(500);
-    //         } else {
-    //             // console.log('help:', result.rows);
-    //             result.rows.forEach(function (role) {
-    //                 console.log(role.phone + '>');
-    //                 console.log('');
+// console.log('returned result', result.rows[0]);
+// if (result.rows[0].adl) {
+//     var role = 'ADL';
+//     var queryText =
+//         'SELECT "phone"' +
+//         'FROM "users"' +
+//         'WHERE "role" = $1';
+//     db.query(queryText, [role], function (err, result) {
+//         done();
+//         if (err) {
+//             console.log("Error getting phone: ", err);
+//             res.sendStatus(500);
+//         } else {
+//             // console.log('help:', result.rows);
+//             result.rows.forEach(function (role) {
+//                 console.log(role.phone + '>');
+//                 console.log('');
 
-    //             });
-    //         }
-    //     });
-    // }
-    // if (errorMakingQuery) {
-    //     console.log('Error making query', errorMakingQuery);
-    //     res.sendStatus(500);
-    //     return;
-    //     //return urgent column from posted shift; if urgent, use plivo library to send text message
-    // } else if (result.rows[0].urgent) {
-    //     var p = plivo.RestAPI({
-    //         authId: AUTH_ID,
-    //         authToken: AUTH_TOKEN,
-    //     }); //part of plivo library
+//             });
+//         }
+//     });
+// }
+// if (errorMakingQuery) {
+//     console.log('Error making query', errorMakingQuery);
+//     res.sendStatus(500);
+//     return;
+//     //return urgent column from posted shift; if urgent, use plivo library to send text message
+// } else if (result.rows[0].urgent) {
+//     var p = plivo.RestAPI({
+//         authId: AUTH_ID,
+//         authToken: AUTH_TOKEN,
+//     }); //part of plivo library
 
-    //     var params = {
-    //         src: plivoNumber, // Sender's phone number with country code
-    //         dst: '6362211997',
-    //         text: "Hi, text from Plivo",
-    //     };
-    //     // Prints the complete response
-    //     p.send_message(params, function (status, response) {
-    //         console.log('Status: ', status);
-    //         console.log('API Response:\n', response);
-    //     });
-    //                             // }
-    //                         });
-    //                 } //end for loop
-    //                 res.sendStatus(201);
-    //             }
-    //         });
-    //     } // end req.isAuthenticated //end if statement
-    //     else {
-    //         console.log('User is not authenticated');
-    //     }
-    // }); //end post route for new shifts
-    //get route for post_shifts 
+//     var params = {
+//         src: plivoNumber, // Sender's phone number with country code
+//         dst: '6362211997',
+//         text: "Hi, text from Plivo",
+//     };
+//     // Prints the complete response
+//     p.send_message(params, function (status, response) {
+//         console.log('Status: ', status);
+//         console.log('API Response:\n', response);
+//     });
+//                             // }
+//                         });
+//                 } //end for loop
+//                 res.sendStatus(201);
+//             }
+//         });
+//     } // end req.isAuthenticated //end if statement
+//     else {
+//         console.log('User is not authenticated');
+//     }
+// }); //end post route for new shifts
+//get route for post_shifts 
 // });
+
+
+// var p = plivo.RestAPI({
+//     authId: AUTH_ID,
+//     authToken: AUTH_TOKEN,
+// }); //part of plivo library
+
+// var params = {
+//     src: plivoNumber, // Sender's phone number with country code
+//     dst: '16362211997',
+//     text: "Hi, text from Plivo",
+// };
+// // Prints the complete response
+// p.send_message(params, function (status, response) {
+//     console.log('Status: ', status);
+//     console.log('API Response:\n', response);
+// });
+
+
+

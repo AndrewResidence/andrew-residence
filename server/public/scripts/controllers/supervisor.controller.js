@@ -80,7 +80,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
       vm.currentSchedule.dates.push({ moment: moment(prevTwoWeeks._d).add(vm.scheduleDays[i], 'days'), shifts: [] });
     }
     vm.month = moment(prevTwoWeeks._d).format('MMMM');
-    vm.year = moment(prevTwoWeeks._d).format('YYYY')
+    vm.year = moment(prevTwoWeeks._d).format('YYYY');
     vm.getShifts();
   };
 
@@ -104,7 +104,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   };
 
   vm.addShift = function (event) {
-    ShiftService.addShift(event)
+    ShiftService.addShift(event);
   };
 
   vm.getShifts = function () {

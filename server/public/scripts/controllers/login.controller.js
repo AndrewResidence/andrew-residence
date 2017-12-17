@@ -40,7 +40,7 @@ myApp.controller('LoginController', function($http, $location, $mdDialog, UserSe
           $location.path('/home');
         }).catch(function(response) {
           console.log('LoginController -- registerUser -- error');
-          vm.message = "Please try again."
+          vm.message = "Please try again.";
         });
       }
     };

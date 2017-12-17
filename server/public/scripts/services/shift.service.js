@@ -113,9 +113,10 @@ self.shift = {};
       return response.data;
     });
   };
+
+
+  /* for Message testing; see popUpTest Controller and message.html */
   self.sendTextMessage = function () {
-
-
     //what is required for Plivo to deliver message;
     textParams = {
       src: '',
@@ -131,10 +132,7 @@ self.shift = {};
       console.log('send textMessage did not work:', response);
     });
   };//end of sendTextMessage
-
-
   self.sendEmailMessage = function () {
-
     $http.post('/message/email').then(function (response) {
       // neccessary params for email transport object;
       emailParams = {
@@ -142,7 +140,6 @@ self.shift = {};
         subject: '', // Subject line
         text: '', // plain text body;
         html: '', // html body
-
       };
       console.log(response);
 
@@ -150,4 +147,6 @@ self.shift = {};
       console.log('send emailMessage did not work: ', response);
     });
   };
+
+  /* end of Message testing*/
 });

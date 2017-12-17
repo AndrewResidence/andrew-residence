@@ -11,7 +11,7 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
   //possible shift types
   vm.shifts = ['Day', 'Evening', 'ADL Evening', 'Night'];
   vm.shiftStatus = ['Open', 'Filled'];
-  vm.shift = ShiftService.shift
+  vm.shift = ShiftService.shift;
   
   vm.editShift = false;
 
@@ -40,7 +40,6 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
     });
   };
 //end add newShift
-
   //closes dialog box
   vm.cancel = function () {
     $mdDialog.hide();
@@ -53,7 +52,7 @@ console.log(vm.editShift);
 
   vm.updateShift = function (id, comments, shift, mhw, adl, nurse, date, status) {
     ShiftService.updateShift(id, comments, shift, mhw, adl, nurse, date, status)
-  }
+  };
 
 });
 

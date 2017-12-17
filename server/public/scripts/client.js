@@ -83,7 +83,7 @@ myApp.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {
 
 
     $mdThemingProvider.theme('default')
-      .primaryPalette('deep-purple', {
+      .primaryPalette('amber', {
       })
 
       .accentPalette('grey', {

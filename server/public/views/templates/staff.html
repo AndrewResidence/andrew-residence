@@ -20,7 +20,7 @@
       </div>
     </div>
     
-    <div class="staffCalBox" ng-repeat="day in sc.currentMonth.dates">
+    <div class="staffCalBox" ng-repeat="day in sc.currentMonth">
       <div class="innerBox">
         <span class="dayNum">{{day.dayNum}}</span>
         <div layout="column" ng-repeat="shift in day.shifts track by $index">

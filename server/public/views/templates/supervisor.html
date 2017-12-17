@@ -20,7 +20,7 @@
         <div>{{dayHeader}}</div>
       </div>
     </div>
-    <div class="staffCalBox" ng-repeat="date in sc.currentSchedule.dates track by $index">
+    <div class="staffCalBox" ng-repeat="date in sc.currentSchedule track by $index">
       <div class="innerBox">
         <div class="dayNum">{{date.moment | amDateFormat: 'D'}}</div>
         <div class="shifts" layout="column" ng-repeat="shift in date.shifts track by $index">

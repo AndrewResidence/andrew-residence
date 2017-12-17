@@ -10,7 +10,6 @@ var REFRESH_TOKEN = process.env.REFRESH_TOKEN;
 var ACCESS_TOKEN = process.env.ACCESS_TOKEN;
 var CLIENT_ID = process.env.CLIENT_ID;
 var CLIENT_SECRET = process.env.CLIENT_SECRET;
-
 // Handles Ajax request for user information if user is authenticated
 router.get('/', function (req, res) {
   console.log('get /user route');
@@ -19,7 +18,7 @@ router.get('/', function (req, res) {
     // send back user object from database
     console.log('logged in', req.user);
     var userInfo = {
-      username: req.user.username, 
+      username: req.user.username,
       userId: req.user.id
     };
     res.send(userInfo);
@@ -30,7 +29,6 @@ router.get('/', function (req, res) {
     res.send(false);
   }
 });
-
 //GET request for unconfirmed users
 router.get('/unconfirmed', function (req, res) {
   if (req.isAuthenticated()) {
@@ -52,8 +50,6 @@ router.get('/unconfirmed', function (req, res) {
     });
   }
 });
-
-
 //GET request for supervisors
 router.get('/supervisors', function (req, res) {
   if (req.isAuthenticated()) {
@@ -75,7 +71,6 @@ router.get('/supervisors', function (req, res) {
     });
   }
 });
-
 //GET request for staff
 router.get('/staff', function (req, res) {
   if (req.isAuthenticated()) {
@@ -97,7 +92,6 @@ router.get('/staff', function (req, res) {
     });
   }
 });
-
 //Users PUT route to confirm users and define their role (supervisor, nurse, MHW or ADL) 
 router.put('/confirm/:id', function (req, res) {
   if (req.isAuthenticated()) {
@@ -127,15 +121,15 @@ router.put('/confirm/:id', function (req, res) {
             }
           });
           console.log('username:', result.rows[0].username);
-          
+
           let emailConfirmAddress = result.rows[0].username;
-          
+
           // setup email data 
           var mailOptions = {
             from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
             to: emailConfirmAddress, // list of receivers
-            subject: 'Hello ✔', // Subject line
-            text: 'Hello from NodeMailer!!!, What up Jems?', // plain text body
+            subject: 'Andrew Residence Account Confirmation ✔', // Subject line
+            text: 'You\'re Confirmed!, // plain text body',
             html: '<p>Hello from Andrew Residence!!!  Thank you very much for signing up for the scheduling application. You are OFFICIAL!  We have created your profile and you may now begin picking up shifts.  See you soon!</p>', // html body
             auth: {
               user: GMAIL_USER,
@@ -154,11 +148,10 @@ router.put('/confirm/:id', function (req, res) {
           });
           res.send(result.rows);
         }
-      });
-    });
+      });//end of dbQuery
+    });//end of pool connect
   }
-});
-
+});//end of confirm id
 //Users PUT route to edit a specific user
 router.put('/edit/:id', function (req, res) {
   if (req.isAuthenticated()) {
@@ -188,8 +181,6 @@ router.put('/edit/:id', function (req, res) {
     });
   }
 });
-
-
 //Users DELETE route
 router.delete('/:id', function (req, res) {
   if (req.isAuthenticated()) {
@@ -213,7 +204,6 @@ router.delete('/:id', function (req, res) {
     });
   }
 });
-
 // clear all server session information about this user
 router.get('/logout', function (req, res) {
   // Use passport's built-in method to log out the user
@@ -221,6 +211,4 @@ router.get('/logout', function (req, res) {
   req.logOut();
   res.sendStatus(200);
 });
-
-
 module.exports = router;

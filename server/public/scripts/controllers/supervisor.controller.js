@@ -9,15 +9,15 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   vm.pendingShifts = [];
 
   vm.shiftDetails = function (event, shift) {
-    ShiftService.shiftDetails(event, shift)
-  }
+    ShiftService.shiftDetails(event, shift);
+  };
   vm.addShift = function (event) {
-    ShiftService.addShift(event)
-  }
+    ShiftService.addShift(event);
+  };
 
   vm.updatePayPeriodDates = function () {
     ShiftService.updatePayPeriodDates().then(function (response) {
-      console.log(response)
+      console.log(response);
     });
   };
   //used for assigning month/day in the calendar header
@@ -98,7 +98,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
     vm.getShifts();
   };
 
-  
+
   vm.shiftDetails = function (event, shift) {
     ShiftService.shiftDetails(event, shift)
   };
@@ -132,8 +132,8 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
         vm.pendingShifts[i].date = moment(vm.pendingShifts[i].date).format('l');
       }
       console.log(' pending shifts', vm.pendingShifts);
-    })
-  }
+    });
+  };
 
   vm.getPendingShifts();
 
@@ -143,7 +143,6 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
     // console.log('this', this)
     // console.log('this.date', this.currentSchedule.dates[index]);
   };
-
   //This is a pick-up shift dialog that WILL BE MOVED to the staff controller once the staff calendar is up and running.
   vm.showDetailsDialog = function (event, shift) {
     console.log('pick up shift button clicked');
@@ -155,7 +154,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
       clickOutsideToClose: true,
       locals: { shift: shift },
       fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
-    })
-  }
+    });
+  };
 });
 

@@ -23,7 +23,7 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
   vm.pendingShifts = [];
 
   //gets number of days in month to display
-  vm.getNumDaysInCurrentMonth = function() {
+  vm.getNumDaysInCurrentMonth = function () {
     vm.numDaysInCurrentMonth = moment(vm.today).daysInMonth();
     vm.putDaysinCurrentMonthArray(vm.currentYear, vm.thisMonth, vm.numDaysInCurrentMonth);
   }
@@ -75,7 +75,7 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
           dayNum: '.',
           shifts: []
         }
-        vm.currentMonth.dates.unshift(eachDay); 
+        vm.currentMonth.dates.unshift(eachDay);
       }
     }
     console.log('dates', vm.currentMonth.dates)
@@ -116,7 +116,7 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
   }
 
   //shift details pop up
-  vm.showDetailsDialog = function(event) {
+  vm.showDetailsDialog = function (event) {
     console.log('pick up shift button clicked');
     $mdDialog.show({
       controller: 'StaffDialogController as sc',

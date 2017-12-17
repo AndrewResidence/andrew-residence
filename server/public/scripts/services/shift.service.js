@@ -11,7 +11,8 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     nurse: false,
     comments: '',
     notify: [],
-    shift_status: ''
+    shift_status: '',
+    floor: ''
   }
 
   self.updatedShift = {
@@ -55,7 +56,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
 
 
   //addNewShift function and route
-  self.addNewShift = function (selection, shiftDate, shiftStatus, urgent, shift, role, comments, notify, nurse, adl, mhw) {
+  self.addNewShift = function (selection, shiftDate, shiftStatus, urgent, shift, role, comments, notify, nurse, adl, mhw, floor) {
     console.log('the Selection', selection)
     console.log('shiftDate', shiftDate);
     self.newShift.notify = selection
@@ -68,6 +69,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     adl = self.newShift.adl;
     mhw = self.newShift.mhw;
     shiftStatus = self.newShift.shift_status;
+    floor = self.newShift.floor;
     // notify = self.newShift.notify;
     console.log('newshift', self.newShift);
     return $http.post('/shifts/', self.newShift).then(function (response) {

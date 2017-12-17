@@ -6,7 +6,7 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
   vm.userObject = UserService.userObject;
   vm.addShift = ShiftService.addShift;
   vm.newShift = ShiftService.newShift;
-  
+  vm.showStaff = false;
   //dummy data list of supervisors
   // vm.supervisors = ['Dan', 'Blake'];
   //possible shift types
@@ -14,14 +14,11 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
   vm.shifts = ['Day', 'Evening', 'ADL Evening', 'Night'];
   vm.shiftStatus = ['Open', 'Filled'];
   vm.shift = ShiftService.shift
-
   vm.editShift = false;
-
   vm.myArrayOfDates = [];
-
   vm.updatedShift = ShiftService.updatedShift;
-
   vm.myArrayOfSupervisors = [];
+  vm.floors = ['2', '3', '4', '5', 'flt', 'N/A']
 
   $scope.$watch('myArrayOfDates', function (newValue, oldValue) {
     if (newValue) {
@@ -67,7 +64,15 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
     ShiftService.updateShift(id, comments, shift, mhw, adl, nurse, date, status)
   }
 
-
+  vm.statusUpdate = function (value){
+if (value === 'Filled') {
+  vm.showStaff = true;
+  console.log('true')
+}
+else {
+  console.log('false')
+}
+  }
   
 
 });

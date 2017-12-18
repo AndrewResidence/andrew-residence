@@ -240,7 +240,7 @@ router.get('/shiftBidToConfirm/:id', function (req, res) {
                 res.sendStatus(500);
             } //end if error connection to db
             else {
-                var queryText =  'SELECT "shift_bids"."shift_id", "shift_bids"."staff_comments", "users"."name", "users"."role" FROM "shift_bids" JOIN "users" ON "shift_bids"."user_id" ="users".id JOIN "post_shifts" ON "post_shifts"."shift_id" = "shift_bids"."shift_id" WHERE "shift_bids"."shift_id" = $1;'
+                var queryText =  'SELECT "post_shifts".*, "shift_bids"."shift_id", "shift_bids"."staff_comments", "users"."name", "users"."role" FROM "shift_bids" JOIN "users" ON "shift_bids"."user_id" ="users".id JOIN "post_shifts" ON "post_shifts"."shift_id" = "shift_bids"."shift_id" WHERE "shift_bids"."shift_id" = $1;'
                 db.query(queryText, [shiftId], function (errorMakingQuery, result) {
                         done();
                         if (errorMakingQuery) {

@@ -144,6 +144,9 @@ router.post('/urgent', function (req, res) {
                                 console.log(nurseWorker.phone);
                                 phoneNumberArray.push(nurseWorker.phone + '<');
 
+                                console.log('phoneNumberArray',phoneNumberArray);
+                                
+
                             });
                         }
                     });
@@ -154,13 +157,15 @@ router.post('/urgent', function (req, res) {
                     moment(datesForText[i]).format('MMM Do YYYY');
                     textDates.push(moment(datesForText[i]).format('MMM Do YYYY') + ' ' + 'Shift:' + '' + req.body.shift);
                 }
+                console.log(phoneNumberArray);
+                
                 var p = plivo.RestAPI({
                     authId: AUTH_ID,
                     authToken: AUTH_TOKEN,
                 });//part of plivo library
                 var params = {
                     src: plivoNumber, // Sender's phone number with country code
-                    dst: '16362211997<',
+                    dst: phoneNumberArray.join(''),
                     text: 'Urgent Shift Posted:' + '' + textDates,
                 };
                 // Prints the complete response

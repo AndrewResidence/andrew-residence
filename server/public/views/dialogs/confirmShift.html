@@ -1,15 +1,18 @@
-<md-dialog aria-label="Confirm User Pop-up">
+<md-dialog aria-label="Confirm Shift Pop-up">
         <md-toolbar>
             <div class="md-toolbar-tools">
-                <h3>Confirm User</h3>
+                <h3>Confirm Shift</h3>
                 <span flex="auto"></span>
-                <md-button ng-click="ac.cancel()"> close
+                <md-button ng-click="sc.cancel()"> close
                 </md-button>
             </div>
         </md-toolbar>
         <md-dialog-content flex="auto">
-    
+            <div ng-repeat = "staff in sc.pendingShifts">{{staff.name}}</div>
       
         </md-dialog-content>
+        <md-dialog-actions>
+                <md-button ng-click="sc.cancel()">Cancel</md-button>
+            </md-dialog-actions>
     
     </md-dialog>

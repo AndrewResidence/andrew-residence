@@ -12,12 +12,12 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
   vm.numDaysInCurrentMonth = '';
   vm.currentMonth = {
     dates: []
-  }
+  };
 
   //puts each day of the month in array
   vm.monthDays = {
     dates: []
-  }
+  };
 
   vm.shiftsToDisplay = [];
   vm.pendingShifts = [];
@@ -87,10 +87,10 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
   
   
   //gets number of days in month to display
-  vm.getNumDaysInCurrentMonth = function() {
+  vm.getNumDaysInCurrentMonth = function () {
     vm.numDaysInCurrentMonth = moment(vm.today).daysInMonth();
     vm.putDaysinCurrentMonthArray(vm.currentYear, vm.thisMonth, vm.numDaysInCurrentMonth);
-  }
+  };
 
   //puts number of days in to array
   vm.putDaysinCurrentMonthArray = function (currentYear, currentMonth, numDaysInCurrentMonth) {
@@ -99,12 +99,12 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
       vm.monthDays.dates.push(i);
     }
     vm.getMonthDays(currentYear, currentMonth, vm.monthDays.dates);
-  }
+  };
 
   //creates day object and pushes to array to get month days
   vm.dayInWeek = '';
   vm.getMonthDays = function (currentYear, currentMonth, monthDays) {
-    console.log('currentMonth', currentMonth)
+    console.log('currentMonth', currentMonth);
     vm.dayInWeek = '';
     for (var i = 1; i <= monthDays.length; i++) {
       eachDay = {
@@ -123,7 +123,7 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
     vm.checkFirstDayOfMonth(vm.dayInWeek, firstDayofMonth, currentYear);
     vm.displayMonth = moment().month(currentMonth).format('MMMM');
     vm.displayYear = moment(vm.currentMonth.dates[0]);
-  }
+  };
 
   //checks for the first day of the month and adds objects to push calendar start
   vm.checkFirstDayOfMonth = function (dayInWeek, currentMonth, currentYear) {
@@ -138,12 +138,12 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
           year: currentYear,
           dayNum: '.',
           shifts: []
-        }
-        vm.currentMonth.dates.unshift(eachDay); 
+        };
+        vm.currentMonth.dates.unshift(eachDay);
       }
     }
     console.log('dates', vm.currentMonth.dates)
-  }
+  };
 
   vm.getNumDaysInCurrentMonth();
 
@@ -179,9 +179,69 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
     vm.numDaysInCurrentMonth = moment().year(vm.currentYear).month(vm.thisMonth).daysInMonth();
     vm.putDaysinCurrentMonthArray(vm.currentYear, vm.thisMonth, vm.numDaysInCurrentMonth)
     vm.getShifts();
-  }
+  };
 
   //shift details pop up
+  vm.showDetailsDialog = function (event) {
+    console.log('pick up shift button clicked');
+    $mdDialog.show({
+      controller: 'StaffDialogController as sc',
+      templateUrl: '/views/dialogs/pickUpShift.html',
+      parent: angular.element(document.body),
+      targetEvent: event,
+      clickOutsideToClose: true,
+      fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
+    });
+  };
+
+  //gets all shifts
+  vm.getShifts = function () {
+    ShiftService.getShifts().then(function (response) {
+      vm.shiftsToDisplay = response.data;
+      console.log('shifts', vm.shiftsToDisplay);
+      // console.log('dates', vm.currentSchedule.dates);
+      for (var i = 0; i < vm.shiftsToDisplay.length; i++) {
+        for (var j = 0; j < vm.currentMonth.dates.length; j++) {
+          if (moment(vm.shiftsToDisplay[i].date).format('YYYY-MM-DD') === moment(vm.currentMonth.dates[j].day).format('YYYY-MM-DD')) {
+            // console.log('true');
+            vm.currentMonth.dates[j].shifts.push(vm.shiftsToDisplay[i]);
+          }
+        }
+      }
+    });
+  };
+
+  vm.getShifts();
+
+  vm.getPendingShifts = function () {
+    ShiftService.getPendingShifts().then(function (response) {
+      vm.pendingShifts = response.data;
+      for (var i = 0; i < vm.pendingShifts.length; i++) {
+        vm.pendingShifts[i].date = moment(vm.pendingShifts[i].date).format('l');
+      }
+      console.log(' pending shifts', vm.pendingShifts);
+    });
+  };
+
+  vm.getPendingShifts();
+
+  vm.click = function (shift) {
+    console.log('clicked');
+    console.log(shift);
+  };
+
+
+  vm.shiftDetails = function (event, shift) {
+    $mdDialog.show({
+      controller: 'StaffDialogController as sc',
+      templateUrl: '/views/dialogs/pickUpShift.html',
+      parent: angular.element(document.body),
+      targetEvent: event,
+      clickOutsideToClose: true,
+      locals: { shift: shift },
+      fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
+    });
+  };
   // vm.showDetailsDialog = function(event) {
   //   console.log('pick up shift button clicked');
   //   $mdDialog.show({

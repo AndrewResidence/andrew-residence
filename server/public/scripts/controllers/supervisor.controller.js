@@ -7,13 +7,14 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   vm.shiftService = ShiftService;
   vm.shiftsToDisplay = [];
   vm.pendingShifts = [];
+  vm.realPendingShifts = [];
 
   vm.shiftDetails = function (event, shift) {
-    ShiftService.shiftDetails(event, shift)
-  }
+    ShiftService.shiftDetails(event, shift);
+  };
   vm.addShift = function (event) {
-    ShiftService.addShift(event)
-  }
+    ShiftService.addShift(event);
+  };
 
   vm.updatePayPeriodDates = function () {
     calendarService.updatePayPeriodDates().then(function (response) {
@@ -60,7 +61,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
       vm.currentSchedule.push({ moment: moment(prevTwoWeeks._d).add(vm.scheduleDays[i], 'days'), shifts: [] });
     }
     vm.month = moment(prevTwoWeeks._d).format('MMMM');
-    vm.year = moment(prevTwoWeeks._d).format('YYYY')
+    vm.year = moment(prevTwoWeeks._d).format('YYYY');
     vm.getShifts();
   };
 
@@ -83,7 +84,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   };
 
   vm.addShift = function (event) {
-    ShiftService.addShift(event)
+    ShiftService.addShift(event);
   };
 
   vm.getShifts = function () {
@@ -104,14 +105,36 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
 
   vm.getShifts();
 
+  //Where I left off: I'm trying to set things up in a way that will allow me to view all of the shift requests for a particular shift. So, the first thing I'm trying to do is match up all shift requests for the same shift. But I'm running into trouble with my for loop.
+
   vm.getPendingShifts = function () {
     ShiftService.getPendingShifts().then(function (response) {
       vm.pendingShifts = response.data;
       for (var i = 0; i < vm.pendingShifts.length; i++) {
-        vm.pendingShifts[i].date = moment(vm.pendingShifts[i].date).format('l');
+        vm.pendingShifts[i].date = moment(vm.pendingShifts[i].date).format('M/D');
+      }
+      for (var i = 0; i < vm.pendingShifts.length; i++) {
+        for (var j = i+1; j < vm.pendingShifts.length; j++) {
+          if (vm.pendingShifts[i].shift_id == vm.pendingShifts[j].shift_id) {
+            vm.pendingShifts.splice(j, 1);
+            // vm.realPendingShifts.push(vm.pendingShifts[i]);
+            console.log('matching shift', vm.pendingShifts[i].shift_id);
+          }
+        }
       }
       console.log('pending shifts', vm.pendingShifts);
     })
+  }
+
+  function checkShiftIds(array, id) {
+    var result = false;
+    for (var i=0; i < array.length; i++) {
+      if (array[i].shift_id == id) {
+        console.log('true', array[i].shift_id)
+        result = true;
+      }
+      return result;
+    }
   }
 
   vm.getPendingShifts();
@@ -122,7 +145,6 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
     // console.log('this', this)
     // console.log('this.date', this.currentSchedule.dates[index]);
   };
-
   //This is a pick-up shift dialog that WILL BE MOVED to the staff controller once the staff calendar is up and running.
   vm.showDetailsDialog = function (event, shift) {
     console.log('pick up shift button clicked');
@@ -133,6 +155,21 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
       targetEvent: event,
       clickOutsideToClose: true,
       locals: { shift: shift },
+      fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
+    })
+  }
+
+  // IF there are two pending shifts that have the same date, display them in the same dialog box AND only show one button
+
+
+  vm.confirmShift = function(event, shift) {
+    $mdDialog.show({
+      controller: 'SupervisorDialogController as sc',
+      templateUrl: '/views/dialogs/confirmShift.html',
+      parent: angular.element(document.body),
+      targetEvent: event,
+      clickOutsideToClose: true,
+      locals: {pendingShift: shift},
       fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
     })
   }

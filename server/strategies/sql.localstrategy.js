@@ -1,4 +1,5 @@
 var passport = require('passport');
+var express = require('express');
 var localStrategy = require('passport-local').Strategy;
 var encryptLib = require('../modules/encryption');
 var pool = require('../modules/pool.js');

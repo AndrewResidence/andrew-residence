@@ -1,7 +1,7 @@
 myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   console.log('ShiftService Loaded');
   var self = this;
-self.shift = {}
+self.shift = {};
   self.newShift = {
     shiftDate: [],
     urgent: false,
@@ -11,8 +11,7 @@ self.shift = {}
     nurse: false,
     comments: '',
     notify: ''
-  }
-
+  };
   self.updatedShift = {
     shiftDate: [],
     urgent: false,
@@ -21,9 +20,9 @@ self.shift = {}
     mhw: false,
     nurse: false,
     comments: '',
-    // notify: '{"basketball", "baseball"}',
+    // notify: 
     shift_status: ''
-  }
+  };
 
   self.shiftsToDisplay = {data: []};
   //calls the addShift popup
@@ -36,12 +35,12 @@ self.shift = {}
       targetEvent: event,
       clickOutsideToClose: true,
       fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
-    })
-  } //end addShift popup function
+    });
+  }; //end addShift popup function
   //calls the shiftDetails popup
   self.shiftDetails = function (event, shift) {
     console.log('shift details button clicked', shift);
-    self.shift=shift;
+    self.shift = shift;
     $mdDialog.show({
       controller: 'SupervisorDialogController as sd',
       templateUrl: '/views/templates/shiftDetails.html',
@@ -49,8 +48,8 @@ self.shift = {}
       targetEvent: event,
       clickOutsideToClose: true,
       fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
-    })
-  } //end shiftDetails popup function
+    });
+  }; //end shiftDetails popup function
 
 
   //addNewShift function and route
@@ -66,8 +65,18 @@ self.shift = {}
     mhw = self.newShift.mhw;
     // notify = self.newShift.notify;
     console.log('newshift', self.newShift);
+    if (urgent) {
+      $http.post('/message/urgent', self.newShift).then(function (response) {
+
+        console.log(response);
+
+      }).catch(function (response) {
+        console.log('send urgent textMessage did not work:', response);
+      });
+    }
+
     return $http.post('/shifts/', self.newShift).then(function (response) {
-      return response
+      return response;
     }).catch(function (err) {
       console.log('Error');
     });
@@ -91,12 +100,20 @@ self.shift = {}
     });
   };
 
+  self.getShiftsToConfirm = function (shiftId) {
+    console.log('shift id in service', shiftId);
+    return $http.get('/shifts/shiftbidToConfirm/' + shiftId).then(function (response) {
+      console.log('response', response.data);
+      return response;
+    });
+  };
+
   self.pickUpShift = function(shift) {
     return $http.post('/shifts/shiftBid', shift).then(function(response) {
       console.log('posted shift bid', response);
       return response;
-    })
-  }
+    });
+  };
 
   // self.getPayPeriodDates = function() {
   //   return $http.get('/shifts/payperiod/getdates').then(function(response){
@@ -116,9 +133,11 @@ self.shift = {}
   //     return response.data;
   //   })
   // }
+
+
+
+  /* for Message testing; see popUpTest Controller and message.html */
   self.sendTextMessage = function () {
-
-
     //what is required for Plivo to deliver message;
     textParams = {
       src: '',
@@ -134,10 +153,7 @@ self.shift = {}
       console.log('send textMessage did not work:', response);
     });
   };//end of sendTextMessage
-
-
   self.sendEmailMessage = function () {
-
     $http.post('/message/email').then(function (response) {
       // neccessary params for email transport object;
       emailParams = {
@@ -145,7 +161,6 @@ self.shift = {}
         subject: '', // Subject line
         text: '', // plain text body;
         html: '', // html body
-
       };
       console.log(response);
 
@@ -153,4 +168,6 @@ self.shift = {}
       console.log('send emailMessage did not work: ', response);
     });
   };
+
+  /* end of Message testing*/
 });

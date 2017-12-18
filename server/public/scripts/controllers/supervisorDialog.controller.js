@@ -15,7 +15,8 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
   vm.editShift = false;
   vm.myArrayOfDates = [];
   vm.updatedShift = ShiftService.updatedShift;
-  vm.floors = ['2', '3', '4', '5', 'flt', 'N/A']
+  vm.floors = ['2', '3', '4', '5', 'flt', 'N/A'];
+  vm.editFill = false;
 
   $scope.$watch('myArrayOfDates', function (newValue, oldValue) {
     if (newValue) {
@@ -24,9 +25,9 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
     }
   }, true);
 
-vm.getShifts = function () {
-  ShiftService.getShifts();
-}
+  vm.getShifts = function () {
+    ShiftService.getShifts();
+  }
 
   vm.getSupervisors = function () {
     UserService.getSupervisors().then(function (response) {
@@ -72,7 +73,7 @@ vm.getShifts = function () {
   };
 
   vm.updateShift = function (id, comments, shift, mhw, adl, nurse, date, floor) {
-    ShiftService.updateShift(id, comments, shift, mhw, adl, nurse, date, floor).then(function (response){
+    ShiftService.updateShift(id, comments, shift, mhw, adl, nurse, date, floor).then(function (response) {
       $mdDialog.hide();
       $mdToast.show(
         $mdToast.simple()
@@ -83,17 +84,17 @@ vm.getShifts = function () {
   }
 
   //show staff dropdown based on statusUpdate
-  vm.statusUpdate = function (value){
-    vm.showStaff =! vm.showStaff;
-if (value === 'Filled') {
-  vm.showStaff = true;
-  console.log('true')
-}
-else {
-  console.log('false')
-}
+  vm.statusUpdate = function (value) {
+    vm.showStaff = !vm.showStaff;
+    if (value === 'Filled') {
+      vm.showStaff = true;
+      console.log('true')
+    }
+    else {
+      console.log('false')
+    }
   }
-  
+
   //start delete shift
   vm.deleteShift = function (shiftId) {
     console.log('delete', shiftId)
@@ -120,7 +121,7 @@ else {
       else {
         ShiftService.deleteShift(shiftId).then(function (response) {
           vm.getShifts()
-$mdDialog.hide();
+          $mdDialog.hide();
           $mdToast.show(
             $mdToast.simple()
               .textContent('Shift deleted!')
@@ -133,6 +134,10 @@ $mdDialog.hide();
     } //   
     ) // }
   } //end delete shift  
+
+  vm.fillShift = function () {
+    vm.editFill != vm.editFill;
+  }
 
 });
 

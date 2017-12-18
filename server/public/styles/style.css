@@ -100,7 +100,7 @@ li a:hover {
 }
 
 .calendarSpace {
-  width: 80%;
+  width: 78%;
   height: 90%;
   margin: 10px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -171,7 +171,7 @@ li a:hover {
   align-items: center;
 }
 
-.shiftButton {
+.shiftButton, #confirmShiftButton {
   border-radius: 2px;
   background-color: #ffffff;
   margin: 2px 2px 2px 0px;
@@ -184,6 +184,11 @@ li a:hover {
   
 }
 
+#confirmShiftButton {
+  margin: 5px 2px;
+  text-align: left;
+}
+
 .shifts {
   align-items: stretch;
 }
@@ -191,8 +196,25 @@ li a:hover {
 .superRight {
   float: right;
   width: 15%;
+  margin-right: 20px;
 }
 
+
+table{
+  
+    border-spacing: 5px;
+
+}
+table,th,td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  border: 1px solid black;
+};
+
+th,
+td {
+  padding: 15px;
+}
 /* #shiftTime {
   width: 10px;
   height: 10px;

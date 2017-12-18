@@ -12,7 +12,6 @@ self.shift = {};
     comments: '',
     notify: ''
   };
-
   self.updatedShift = {
     shiftDate: [],
     urgent: false,
@@ -21,7 +20,7 @@ self.shift = {};
     mhw: false,
     nurse: false,
     comments: '',
-    // notify: '{"basketball", "baseball"}',
+    // notify: 
     shift_status: ''
   };
 
@@ -41,7 +40,7 @@ self.shift = {};
   //calls the shiftDetails popup
   self.shiftDetails = function (event, shift) {
     console.log('shift details button clicked', shift);
-    self.shift=shift;
+    self.shift = shift;
     $mdDialog.show({
       controller: 'SupervisorDialogController as sd',
       templateUrl: '/views/templates/shiftDetails.html',
@@ -66,6 +65,16 @@ self.shift = {};
     mhw = self.newShift.mhw;
     // notify = self.newShift.notify;
     console.log('newshift', self.newShift);
+    if (urgent) {
+      $http.post('/message/urgent', self.newShift).then(function (response) {
+
+        console.log(response);
+
+      }).catch(function (response) {
+        console.log('send urgent textMessage did not work:', response);
+      });
+    }
+
     return $http.post('/shifts/', self.newShift).then(function (response) {
       return response;
     }).catch(function (err) {
@@ -87,6 +96,14 @@ self.shift = {};
   self.getPendingShifts = function () {
     return $http.get('/shifts/shiftbid').then(function (response) {
       // console.log('response', response.data);
+      return response;
+    });
+  };
+
+  self.getShiftsToConfirm = function (shiftId) {
+    console.log('shift id in service', shiftId);
+    return $http.get('/shifts/shiftbidToConfirm/' + shiftId).then(function (response) {
+      console.log('response', response.data);
       return response;
     });
   };

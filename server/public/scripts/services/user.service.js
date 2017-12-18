@@ -11,7 +11,14 @@ myApp.service('UserService', function ($http, $location) {
         // user has a curret session on the server
         self.userObject.userName = response.data.username;
         self.userObject.userId = response.data.userId;
+        self.userObject.name = response.data.name;
+<<<<<<< HEAD
+=======
+        self.userObject.phone = response.data.phone;
+        self.userObject.role = response.data.role;
+>>>>>>> master
         console.log('user id', self.userObject.userId);
+        console.log('user', response.data);
         console.log('UserService -- getuser -- User Data: ', self.userObject.userName);
       } else {
         console.log('UserService -- getuser -- failure');
@@ -58,20 +65,20 @@ myApp.service('UserService', function ($http, $location) {
 
   //Users PUT route to edit individual user
   self.editUser = function (user) {
-    console.log('user in service', user.id, user.role);
+    console.log('user in service', user.id, user.role, user.userName, user.phone);
     var userToSend = user;
     return $http.put('/user/edit/' + user.id, userToSend).then(function (response) {
       return response;
     });
   };
 
-    //Users PUT route to edit individual user
-    self.deleteUser = function (user) {
-      console.log('user in service', user.id, user.role);
-      return $http.delete('/user/' + user.id).then(function (response) {
-        return response;
-      });
-    };
+  //Users PUT route to edit individual user
+  self.deleteUser = function (user) {
+    console.log('user in service', user.id, user.role);
+    return $http.delete('/user/' + user.id).then(function (response) {
+      return response;
+    });
+  };
 
   self.logout = function () {
     console.log('UserService -- logout');

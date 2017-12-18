@@ -198,7 +198,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
       parent: angular.element(document.body),
       targetEvent: event,
       clickOutsideToClose: true,
-      locals: { pendingShift: shift },
+      locals: {pendingShift: shift},
       fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
     })
   }

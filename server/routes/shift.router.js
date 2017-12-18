@@ -207,9 +207,6 @@ router.get('/shiftBid', function (req, res) {
             } //end if error connection to db
             else {
                 var queryText =  'SELECT * FROM post_shifts WHERE shift_status ILIKE $1 ORDER BY date ASC;'
-                // 'SELECT array_agg("shift_bids"."bid_id") as pendingShifts, array_agg("post_shifts"."date") as date, array_agg("post_shifts"."shift_id") as shift_id, array_agg("post_shifts"."shift_status") as shift_status, array_agg("post_shifts"."shift_comments") as shift_comments, array_agg("post_shifts"."created_by") as created_by, array_agg("post_shifts"."urgent") as urgent, array_agg("post_shifts"."adl") as adl, array_agg("post_shifts"."nurse") as nurse, array_agg("post_shifts"."mhw") as mhw, array_agg("post_shifts"."shift") as shift, array_agg("users"."name") as name, array_agg("users"."role") as role, array_agg("shift_bids"."staff_comments") as staff_comments FROM "post_shifts" JOIN "shift_bids" ON "post_shifts"."shift_id" = "shift_bids"."shift_id" JOIN "users" ON "shift_bids"."user_id" = "users".id WHERE "post_shifts"."shift_status" = $1 GROUP BY "shift_bids"."shift_id";'
-
-                // Remove arr-agg, move that into a separate query when we get people specific to the shift
                 db.query(queryText, ["Pending"],
                     function (errorMakingQuery, result) {
                         done();
@@ -224,7 +221,6 @@ router.get('/shiftBid', function (req, res) {
                         }
                     })
             }
-
         }) // end req.isAuthenticated //end if statement
     }
     else {
@@ -233,6 +229,38 @@ router.get('/shiftBid', function (req, res) {
     }
 })//end post route for new shifts
 
+//GET Shift bids
+router.get('/shiftBidToConfirm/:id', function (req, res) {
+    if (req.isAuthenticated()) {
+        var shiftId = req.params.id;
+        console.log('shiftId', shiftId);
+        pool.connect(function (errorConnectingToDb, db, done) {
+            if (errorConnectingToDb) {
+                console.log('Error connecting', errorConnectingToDb);
+                res.sendStatus(500);
+            } //end if error connection to db
+            else {
+                var queryText =  'SELECT "shift_bids"."shift_id", "shift_bids"."staff_comments", "users"."name", "users"."role" FROM "shift_bids" JOIN "users" ON "shift_bids"."user_id" ="users".id JOIN "post_shifts" ON "post_shifts"."shift_id" = "shift_bids"."shift_id" WHERE "shift_bids"."shift_id" = $1;'
+                db.query(queryText, [shiftId], function (errorMakingQuery, result) {
+                        done();
+                        if (errorMakingQuery) {
+                            console.log('Error making query', errorMakingQuery);
+                            res.sendStatus(500);
+                            return
+                        }
+                        else {
+                            console.log('got shift bids');
+                            res.send(result.rows);
+                        }
+                    })
+            }
+        }) // end req.isAuthenticated //end if statement
+    }
+    else {
+        console.log('User is not authenticated')
+        res.sendStatus(403);
+    }
+})//end post route for new shifts
 
 
 

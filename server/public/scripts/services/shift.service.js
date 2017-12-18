@@ -88,6 +88,14 @@ self.shift = {}
     });
   };
 
+  self.getShiftsToConfirm = function (shiftId) {
+    console.log('shift id in service', shiftId);
+    return $http.get('/shifts/shiftbidToConfirm/' + shiftId).then(function (response) {
+      console.log('response', response.data);
+      return response;
+    });
+  };
+
   self.pickUpShift = function(shift) {
     return $http.post('/shifts/shiftBid', shift).then(function(response) {
       console.log('posted shift bid', response);

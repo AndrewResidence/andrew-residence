@@ -13,6 +13,7 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
   vm.shiftStatus = ['Open', 'Filled'];
   vm.shift = ShiftService.shift;
   vm.pendingShift = pendingShift;
+  vm.pendingShifts = [];
   
 
 
@@ -57,6 +58,18 @@ console.log(vm.editShift);
   vm.updateShift = function (id, comments, shift, mhw, adl, nurse, date, status) {
     ShiftService.updateShift(id, comments, shift, mhw, adl, nurse, date, status)
   }
+
+
+  vm.getPendingShifts = function(shiftId) {
+    console.log('shift id in dialog', shiftId);
+    vm.shiftService.getShiftsToConfirm(shiftId).then(function(response) {
+      console.log('got shifts', response.data);
+      vm.pendingShifts = response.data;
+      console.log('shifts here', vm.pendingShifts);
+    })
+  }
+
+  vm.getPendingShifts(vm.pendingShift.shift_id);
 
 });
 

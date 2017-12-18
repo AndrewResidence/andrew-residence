@@ -6,7 +6,6 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var path = require('path');
-var nodemailer = require('nodemailer');
 
 var cron = require('node-cron');
 var moment = require('moment');
@@ -17,7 +16,6 @@ var AUTH_TOKEN = process.env.PLIVO_AUTH_TOKEN;
 var plivoNumber = '16128519117';//rented plivo number
 /* credentials for google oauth w/nodemailer*/
 var nodemailer = require('nodemailer');
-
 var GMAIL_USER = process.env.GMAIL_USER;
 var REFRESH_TOKEN = process.env.REFRESH_TOKEN;
 var ACCESS_TOKEN = process.env.ACCESS_TOKEN;
@@ -27,7 +25,7 @@ var CLIENT_SECRET = process.env.CLIENT_SECRET;
 console.log('Hello, JEMS! Happy working!');
 var phoneNumberArray = [];
 var dateArray = [];
-var weeklyDigest = cron.schedule('20 19 * * SUN', function () {
+var weeklyDigest = cron.schedule('40 19 * * SUN', function () {
 
         pool.connect(function (errorConnectingToDb, db, done) {
             if (errorConnectingToDb) {
@@ -62,7 +60,11 @@ var weeklyDigest = cron.schedule('20 19 * * SUN', function () {
                             from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
                             to: 'joshnothum@gmail.com', // list of receivers
                             subject: 'Weekly Digest from Andrew Residence', // Subject line
-                            html: ' <body style ="background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);"><p>Good Day!</p><><h2>Available Shifts:</h2><ul>' + emailMessage + '</ul><p>Please go to the scheduling app to sign-up for a shift.</p><p> We appreciate yor support!</p></body>',
+                            html: ' <body style ="background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);">'+
+                            '<h1>Good Day!</h1><h3>Available Shifts:</h3><ul>' + emailMessage + '</ul>'+
+                            '<p>Please go to the scheduling app to sign-up for a shift.</p>'+
+                            '<button style="background-color: #4CAF50;background-color:rgb(255, 193, 7);;color: white;padding: 15px 32px;text-align: center;font-size: 16px;">Let\'s Pick-up Some Shifts!</button>'+
+                            '<p> We appreciate yor support!</p></body>',
                             // attachments:[{
                             //     filename:'andrew_residence.png',
                             //     path:'../public/images/andrew_residence.png',
@@ -146,7 +148,6 @@ router.post('/urgent', function (req, res) {
 
                                 console.log('phoneNumberArray',phoneNumberArray);
                                 
-
                             });
                         }
                     });

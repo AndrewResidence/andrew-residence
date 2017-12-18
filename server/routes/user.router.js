@@ -3,7 +3,7 @@ var express = require('express');
 var router = express.Router();
 var pool = require('../modules/pool.js');
 var nodemailer = require('nodemailer');
-var hbs = require('nodemailer-express-handlebars');
+
 /* credentials for google oauth w/nodemailer*/
 var GMAIL_USER = process.env.GMAIL_USER;
 var REFRESH_TOKEN = process.env.REFRESH_TOKEN;
@@ -19,8 +19,13 @@ router.get('/', function (req, res) {
     console.log('logged in', req.user);
     var userInfo = {
       username: req.user.username,
-      userId: req.user.id
+      userId: req.user.id,
+      name: req.user.name
     };
+
+    console.log(userInfo.name);
+    
+
     res.send(userInfo);
   } else {
     // failure best handled on the server. do redirect here.
@@ -130,7 +135,7 @@ router.put('/confirm/:id', function (req, res) {
             to: emailConfirmAddress, // list of receivers
             subject: 'Andrew Residence Account Confirmation ✔', // Subject line
             text: 'You\'re Confirmed!, // plain text body',
-            html: '<p>Hello from Andrew Residence!!!  Thank you very much for signing up for the scheduling application. You are OFFICIAL!  We have created your profile and you may now begin picking up shifts.  See you soon!</p>', // html body
+            html: '<p>Hello from Andrew Residence!!!  Thank you very much for signing up for the scheduling application. You are OFFICIAL!  We have created your profile and you may now begin picking up shifts. <button style="background-color: #4CAF50; /* Green */"+" See Shifts!</button>  See you soon!</p>', // html body
             auth: {
               user: GMAIL_USER,
               refreshToken: REFRESH_TOKEN,

@@ -74,16 +74,19 @@ self.shift = {}
   }; //end addNewShift function and route
 
   self.getShifts = function () {
+    self.shiftsToDisplay.data = [];
+    console.log('shifts to display service', self.shiftsToDisplay.data)
     return $http.get('/shifts').then(function (response) {
-      console.log('response', response.data)
-      self.shiftsToDisplay.data = response.data;
+      // console.log('response', response.data)
+      // self.shiftsToDisplay.data = response.data;
+      console.log('shifts to display in service, after query', self.shiftsToDisplay.data)
       return response;
     });
   };
 
   self.getPendingShifts = function () {
     return $http.get('/shifts/shiftbid').then(function (response) {
-      console.log('response', response.data);
+      // console.log('response', response.data);
       return response;
     });
   };

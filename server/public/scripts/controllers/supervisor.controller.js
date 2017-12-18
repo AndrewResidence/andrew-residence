@@ -50,7 +50,6 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   vm.currentPayPeriod = function () {
     calendarService.currentPayPeriod(vm.scheduleDays);
   }
-  
 
   //function to pull prior two weeks of dates
   vm.prevTwoWeeks = function (date) {
@@ -67,12 +66,11 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
 
   //function to get next two weeks of dates
   vm.nextTwoWeeks = function (date) {
-    vm.currentSchedule= [];
+    vm.currentSchedule = [];
     var nextTwoWeeks = moment(date).add(14, 'days');
     vm.payPeriodStart = nextTwoWeeks;
     for (var i = 0; i < vm.scheduleDays.length; i++) {
       vm.currentSchedule.push({ moment: moment(nextTwoWeeks._d).add(vm.scheduleDays[i], 'days'), shifts: [] });
-
     }
     vm.month = moment(nextTwoWeeks._d).format('MMMM');
     vm.year = moment(nextTwoWeeks._d).format('YYYY');
@@ -89,14 +87,16 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   };
 
   vm.getShifts = function () {
+    console.log('______get shifts is running')
+    vm.shiftsToDisplay = [];
+    console.log('vm.shifts to display empty', vm.shiftsToDisplay)
     ShiftService.getShifts().then(function (response) {
       vm.shiftsToDisplay = response.data;
-      // console.log('shifts', vm.shiftsToDisplay);
-      // console.log('dates', vm.currentSchedule);
+      console.log('shifts in controller after response', vm.shiftsToDisplay);
       for (var i = 0; i < vm.shiftsToDisplay.length; i++) {
         for (var j = 0; j < vm.currentSchedule.length; j++) {
+          // vm.currentSchedule[j].shifts = [];
           if (moment(vm.shiftsToDisplay[i].date).format('YYYY-MM-DD') === moment(vm.currentSchedule[j].moment).format('YYYY-MM-DD')) {
-            // console.log('true');
             vm.currentSchedule[j].shifts.push(vm.shiftsToDisplay[i]);
           }
         }
@@ -112,7 +112,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
       for (var i = 0; i < vm.pendingShifts.length; i++) {
         vm.pendingShifts[i].date = moment(vm.pendingShifts[i].date).format('l');
       }
-      console.log(' pending shifts', vm.pendingShifts);
+      // console.log(' pending shifts', vm.pendingShifts);
     })
   }
 

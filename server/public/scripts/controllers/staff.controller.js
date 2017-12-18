@@ -36,6 +36,7 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
 
   //gets all shifts
   vm.getShifts = function () {
+    // vm.shiftsToDisplay = [];
     ShiftService.getShifts().then(function (response) {
       vm.shiftsToDisplay = response.data;
       console.log('shifts', vm.shiftsToDisplay);

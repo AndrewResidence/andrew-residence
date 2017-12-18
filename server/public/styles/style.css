@@ -187,6 +187,22 @@ li a:hover {
   width: 15%;
 }
 
+
+table{
+  
+    border-spacing: 5px;
+
+}
+table,th,td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  border: 1px solid black;
+};
+
+th,
+td {
+  padding: 15px;
+}
 /* #shiftTime {
   width: 10px;
   height: 10px;

@@ -20,7 +20,9 @@ router.get('/', function (req, res) {
     var userInfo = {
       username: req.user.username,
       userId: req.user.id,
-      name: req.user.name
+      name: req.user.name,
+      phone: req.user.phone,
+      role: req.user.role
     };
 
     console.log(userInfo.name);

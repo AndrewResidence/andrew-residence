@@ -23,7 +23,7 @@ var CLIENT_ID = process.env.CLIENT_ID;
 var CLIENT_SECRET = process.env.CLIENT_SECRET;
 
 console.log('Hello, JEMS! Happy working!');
-var phoneNumberArray = [];
+
 var dateArray = [];
 var weeklyDigest = cron.schedule('40 19 * * SUN', function () {
 
@@ -93,7 +93,6 @@ var weeklyDigest = cron.schedule('40 19 * * SUN', function () {
 }, false);
 
 weeklyDigest.start();
-
 router.post('/urgent', function (req, res) {
     if (req.isAuthenticated()) {
         pool.connect(function (errorConnectingToDb, db, done) {
@@ -113,6 +112,8 @@ router.post('/urgent', function (req, res) {
                         } else {
                             result.rows.forEach(function (role) {
                                 phoneNumberArray.push(role.phone + '<');
+                                console.log('role.phone', phoneNumberArray);
+                                
                             });
                         }
                     });
@@ -129,6 +130,7 @@ router.post('/urgent', function (req, res) {
                             console.log('help:', result.rows);
                             result.rows.forEach(function (healthWorker) {
                                 phoneNumberArray.push(healthWorker.phone + '<');
+                                console.log('role.phone', phoneNumberArray);
                             });
                         }
                     });
@@ -147,36 +149,39 @@ router.post('/urgent', function (req, res) {
                                 phoneNumberArray.push(nurseWorker.phone + '<');
 
                                 console.log('phoneNumberArray',phoneNumberArray);
+                                console.log('phoneNumberArray.join', phoneNumberArray.join(''));
+                                
                                 
                             });
                         }
                     });
+                    
                 }
                 var datesForText = req.body.shiftDate;
                 var textDates = [];
-                for (let i = 0; i < datesForText.length; i++) {
+                for (var i = 0; i < datesForText.length; i++) {
                     moment(datesForText[i]).format('MMM Do YYYY');
                     textDates.push(moment(datesForText[i]).format('MMM Do YYYY') + ' ' + 'Shift:' + '' + req.body.shift);
                 }
-                console.log(phoneNumberArray);
-                
+                // Prints the complete response
                 var p = plivo.RestAPI({
                     authId: AUTH_ID,
                     authToken: AUTH_TOKEN,
                 });//part of plivo library
+
                 var params = {
                     src: plivoNumber, // Sender's phone number with country code
-                    dst: phoneNumberArray.join(''),
+                    dst: phoneNumberArray.join(),
                     text: 'Urgent Shift Posted:' + '' + textDates,
                 };
-                // Prints the complete response
                 p.send_message(params, function (status, response) {
                     console.log('Status: ', status);
                     console.log('API Response:\n', response);
+                    
                 });
-                res.sendStatus(201);
             }
         });
+        res.sendStatus(201);
     } // end req.isAuthenticated //end if statement
     else {
         console.log('User is not authenticated');

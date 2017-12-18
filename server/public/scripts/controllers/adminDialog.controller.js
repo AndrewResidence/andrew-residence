@@ -14,6 +14,8 @@ myApp.controller('AdminDialogController', function ($mdDialog, UserService, user
     };
 
     vm.editUser = function (user) {
+        console.log(user);
+        
         vm.userService.editUser(user).then(function (response) {
             console.log('edited user', response);
             $mdDialog.hide();

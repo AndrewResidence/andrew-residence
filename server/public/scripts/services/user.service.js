@@ -12,6 +12,8 @@ myApp.service('UserService', function ($http, $location) {
         self.userObject.userName = response.data.username;
         self.userObject.userId = response.data.userId;
         self.userObject.name = response.data.name;
+        self.userObject.phone = response.data.phone;
+        self.userObject.role = response.data.role;
         console.log('user id', self.userObject.userId);
         console.log('UserService -- getuser -- User Data: ', self.userObject.userName);
       } else {
@@ -59,7 +61,7 @@ myApp.service('UserService', function ($http, $location) {
 
   //Users PUT route to edit individual user
   self.editUser = function (user) {
-    console.log('user in service', user.id, user.role);
+    console.log('user in service', user.id, user.role, user.userName, user.phone);
     var userToSend = user;
     return $http.put('/user/edit/' + user.id, userToSend).then(function (response) {
       return response;

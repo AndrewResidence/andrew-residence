@@ -7,6 +7,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   vm.shiftService = ShiftService;
   vm.shiftsToDisplay = [];
   vm.pendingShifts = [];
+  vm.realPendingShifts = [];
 
   vm.shiftDetails = function (event, shift) {
     ShiftService.shiftDetails(event, shift);
@@ -106,14 +107,43 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
 
   vm.getShifts();
 
+  //Where I left off: I'm trying to set things up in a way that will allow me to view all of the shift requests for a particular shift. So, the first thing I'm trying to do is match up all shift requests for the same shift. But I'm running into trouble with my for loop.
+
   vm.getPendingShifts = function () {
     ShiftService.getPendingShifts().then(function (response) {
       vm.pendingShifts = response.data;
       for (var i = 0; i < vm.pendingShifts.length; i++) {
-        vm.pendingShifts[i].date = moment(vm.pendingShifts[i].date).format('l');
+        vm.pendingShifts[i].date = moment(vm.pendingShifts[i].date).format('M/D');
       }
-      // console.log(' pending shifts', vm.pendingShifts);
+      for (var i = 0; i < vm.pendingShifts.length; i++) {
+        for (var j = i+1; j < vm.pendingShifts.length; j++) {
+          if (vm.pendingShifts[i].shift_id == vm.pendingShifts[j].shift_id) {
+            vm.pendingShifts.splice(j, 1);
+            // vm.realPendingShifts.push(vm.pendingShifts[i]);
+            console.log('matching shift', vm.pendingShifts[i].shift_id);
+          }
+        }
+      }
+
+      // for (var k=0; k<vm.pendingShifts.length; k++) {
+      //   if (!checkShiftIds(vm.realPendingShifts, vm.pendingShifts[k].shift_id)) {
+      //     vm.realPendingShifts.push(vm.pendingShifts[k]);
+      //   }
+      // }
+      console.log(' pending shifts', vm.pendingShifts);
+
     })
+  }
+
+  function checkShiftIds(array, id) {
+    var result = false;
+    for (var i=0; i < array.length; i++) {
+      if (array[i].shift_id == id) {
+        console.log('true', array[i].shift_id)
+        result = true;
+      }
+      return result;
+    }
   }
 
   vm.getPendingShifts();
@@ -135,7 +165,22 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
       clickOutsideToClose: true,
       locals: { shift: shift },
       fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
-    });
-  };
+    })
+  }
+
+  // IF there are two pending shifts that have the same date, display them in the same dialog box AND only show one button
+
+
+  vm.confirmShift = function(event, shift) {
+    $mdDialog.show({
+      controller: 'SupervisorDialogController as sc',
+      templateUrl: '/views/dialogs/confirmShift.html',
+      parent: angular.element(document.body),
+      targetEvent: event,
+      clickOutsideToClose: true,
+      locals: {pendingShift: shift},
+      fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
+    })
+  }
 });
 

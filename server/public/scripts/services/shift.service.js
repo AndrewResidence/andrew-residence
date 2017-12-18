@@ -88,13 +88,23 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     });
   }; //end addNewShift function and route
 
+  self.getShifts = function () {
+    self.shiftsToDisplay.data = [];
+    console.log('shifts to display service', self.shiftsToDisplay.data)
+    return $http.get('/shifts').then(function (response) {
+      // console.log('response', response.data)
+      // self.shiftsToDisplay.data = response.data;
+      console.log('shifts to display in service, after query', self.shiftsToDisplay.data)
+      return response;
+    });
+  };
 
 
   // self.pickUpShift = function (shift) {
   //   return $http.post('/shifts/shiftBid', shift).then(function (response) {
   self.getPendingShifts = function () {
     return $http.get('/shifts/shiftbid').then(function (response) {
-      console.log('response', response.data);
+      // console.log('response', response.data);
       return response;
     });
   };
@@ -105,25 +115,25 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
       return response;
     })
   }
-  
-  self.getPayPeriodDates = function () {
-    return $http.get('/shifts/payperiod/getdates').then(function (response) {
-      console.log('response', response.data);
-      // self.payPeriodStartAndEnd.data = response.data;
-      return response.data;
-    })
-      .catch(function (err) {
-        console.log('error');
-      });
-  };
 
-  self.updatePayPeriodDates = function () {
-    var rowId = 1;
-    return $http.put('/shifts/payperiod/updatedates/' + rowId).then(function (response) {
-      console.log('response', response.data);
-      return response.data;
-    })
-  }
+  // self.getPayPeriodDates = function() {
+  //   return $http.get('/shifts/payperiod/getdates').then(function(response){
+  //     console.log('response', response.data)
+  //     // self.payPeriodStartAndEnd.data = response.data;
+  //     return response.data;
+  //   })
+  //   .catch(function(err){
+  //     console.log('error')
+  //   })
+  // }
+
+  // self.updatePayPeriodDates = function() {
+  //   var rowId = 1;
+  //   return $http.put('/shifts/payperiod/updatedates/' + rowId).then(function(response){
+  //     console.log('response', response.data)
+  //     return response.data;
+  //   })
+  // }
   self.sendTextMessage = function () {
 
 

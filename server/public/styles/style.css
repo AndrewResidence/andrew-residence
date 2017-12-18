@@ -12,7 +12,6 @@ body, html {
 
 .instructions {
   background-color: #ffffff;
-  color: #FDFFFC;
   padding: 15px;
 }
 
@@ -111,7 +110,7 @@ li a:hover {
 .calHeader {
   font-size: 16px;
   margin-bottom: 10px;
-  width: 13%;
+  width: 13.5%;
   background-color: #3F3F3F;
   margin: 2px;
   padding: 2px;
@@ -120,12 +119,13 @@ li a:hover {
   display: flex;
   align-items: center;
   justify-content: center;
+  font-family: 'Cantata One', serif;
 }
 
 .calBox {
   background-color: lightslategray;
   margin: 2px;
-  width: 13%;
+  width: 13.5%;
 }
 
 
@@ -136,7 +136,7 @@ li a:hover {
 
 
 .staffCalendarSpace {
-  width: 90%;
+  width: 98%;
   height: 90%;
   margin: 10px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -144,12 +144,14 @@ li a:hover {
 }
 
 .staffCalBox {
-  width: 13%;
+  width: 13.5%;
   min-height: 150px;
   background-color: #E7E7E7;
   display: inline-flex;
   padding: 2px;
   margin: 2px;
+  align-content: center;
+  justify-content: center;
 }
 
 .innerBox {
@@ -173,11 +175,19 @@ li a:hover {
 .shiftButton {
   border-radius: 2px;
   background-color: #ffffff;
-  margin: 2px;
+  margin: 2px 2px 2px 0px;
   width: 100%;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);  
+<<<<<<< HEAD
   padding: 2px;
   cursor: pointer;
+=======
+  padding: 1px;
+  display: in-line flex;
+  align-items: baseline;
+  justify-content: center;
+  
+>>>>>>> master
 }
 
 .shifts {
@@ -312,4 +322,14 @@ margin-bottom: 10px;
 vertical-align: middle;
 line-height: 25px;  
 margin-left: 20px;
+}
+.pageHeader {
+  margin-left: 20px;
+  color: #3F3F3F;
+}
+
+.filterTabs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

@@ -7,6 +7,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   vm.shiftService = ShiftService;
   vm.shiftsToDisplay = [];
   vm.pendingShifts = [];
+  vm.realPendingShifts = [];
 
   vm.shiftDetails = function (event, shift) {
     ShiftService.shiftDetails(event, shift)
@@ -131,17 +132,37 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
     ShiftService.getPendingShifts().then(function (response) {
       vm.pendingShifts = response.data;
       for (var i = 0; i < vm.pendingShifts.length; i++) {
-        vm.pendingShifts[i].date = moment(vm.pendingShifts[i].date).format('M D');
+        vm.pendingShifts[i].date = moment(vm.pendingShifts[i].date).format('M/D');
       }
       for (var i = 0; i < vm.pendingShifts.length; i++) {
-        for (var j = 0; i < vm.pendingShifts.length; j++) {
-          if (vm.pendingShifts[i].shift_id === vm.pendingShifts[j].shift_id) {
-            console.log('matching shift', vm.pendingShifts[j].shift_id);
+        for (var j = i+1; j < vm.pendingShifts.length; j++) {
+          if (vm.pendingShifts[i].shift_id == vm.pendingShifts[j].shift_id) {
+            vm.pendingShifts.splice(j, 1);
+            // vm.realPendingShifts.push(vm.pendingShifts[i]);
+            console.log('matching shift', vm.pendingShifts[i].shift_id);
           }
         }
       }
+
+      // for (var k=0; k<vm.pendingShifts.length; k++) {
+      //   if (!checkShiftIds(vm.realPendingShifts, vm.pendingShifts[k].shift_id)) {
+      //     vm.realPendingShifts.push(vm.pendingShifts[k]);
+      //   }
+      // }
       console.log(' pending shifts', vm.pendingShifts);
+
     })
+  }
+
+  function checkShiftIds(array, id) {
+    var result = false;
+    for (var i=0; i < array.length; i++) {
+      if (array[i].shift_id == id) {
+        console.log('true', array[i].shift_id)
+        result = true;
+      }
+      return result;
+    }
   }
 
   vm.getPendingShifts();

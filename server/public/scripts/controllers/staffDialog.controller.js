@@ -50,6 +50,13 @@ myApp.controller('StaffDialogController', function($mdToast, $mdDialog, UserServ
       });
     }
 
+    vm.showPickUpShift = function() {
+      if (vm.shift.status !== 'Filled' && vm.shift.status !== 'filled') {
+        return true;
+      }
+      return false;
+    }
+    
       //closes dialog box
   vm.cancel = function () {
     $mdDialog.hide();

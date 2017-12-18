@@ -12,7 +12,8 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     comments: '',
     notify: [],
     shift_status: '',
-    floor: ''
+    floor: '',
+    filled: null
   }
 
   self.updatedShift = {
@@ -38,8 +39,8 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
       targetEvent: event,
       clickOutsideToClose: true,
       fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
-    });
-  }; //end addShift popup function
+    })
+  } //end addShift popup function
   //calls the shiftDetails popup
   self.shiftDetails = function (event, shift) {
     console.log('shift details button clicked', shift);
@@ -51,15 +52,24 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
       targetEvent: event,
       clickOutsideToClose: true,
       fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
-    });
-  }; //end shiftDetails popup function
+    })
+  } //end shiftDetails popup function
 
+  self.getShifts = function () {
+    return $http.get('/shifts').then(function (response) {
+      console.log('response', response.data)
+      self.shiftsToDisplay.data = response.data;
+      return response;
+    });
+  };
 
   //addNewShift function and route
-  self.addNewShift = function (selection, shiftDate, shiftStatus, urgent, shift, role, comments, notify, nurse, adl, mhw, floor) {
+  self.addNewShift = function (staffId, selection, shiftDate, shiftStatus, urgent, shift, role, comments, notify, nurse, adl, mhw, floor) {
+    console.log('filled by', staffId);
     console.log('the Selection', selection)
     console.log('shiftDate', shiftDate);
-    self.newShift.notify = selection
+    staffId = self.newShift.filled;
+    self.newShift.notify = selection;
     self.newShift.shiftDate = shiftDate;
     urgent = self.newShift.urgent;
     shift = self.newShift.shift;
@@ -70,30 +80,32 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     mhw = self.newShift.mhw;
     shiftStatus = self.newShift.shift_status;
     floor = self.newShift.floor;
-    // notify = self.newShift.notify;
     console.log('newshift', self.newShift);
     return $http.post('/shifts/', self.newShift).then(function (response) {
-      return response;
+      return response
     }).catch(function (err) {
       console.log('Error');
     });
   }; //end addNewShift function and route
 
-  self.getShifts = function () {
-    return $http.get('/shifts').then(function (response) {
+
+
+  // self.pickUpShift = function (shift) {
+  //   return $http.post('/shifts/shiftBid', shift).then(function (response) {
+  self.getPendingShifts = function () {
+    return $http.get('/shifts/shiftbid').then(function (response) {
       console.log('response', response.data);
-      self.shiftsToDisplay.data = response.data;
       return response;
     });
   };
-
-  self.pickUpShift = function (shift) {
-    return $http.post('/shifts/shiftBid', shift).then(function (response) {
+    
+  self.pickUpShift = function(shift) {
+    return $http.post('/shifts/shiftBid', shift).then(function(response) {
       console.log('posted shift bid', response);
       return response;
     })
   }
-
+  
   self.getPayPeriodDates = function () {
     return $http.get('/shifts/payperiod/getdates').then(function (response) {
       console.log('response', response.data);
@@ -110,8 +122,8 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     return $http.put('/shifts/payperiod/updatedates/' + rowId).then(function (response) {
       console.log('response', response.data);
       return response.data;
-    });
-  };
+    })
+  }
   self.sendTextMessage = function () {
 
 
@@ -162,4 +174,13 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     self.updatedShift.status = status;
   }
 
-});
+  self.deleteShift = function (shiftId) {
+    return $http.delete('/shifts/delete' + shiftId).then(function (response) {
+      return response
+    }).catch(function (response) {
+      console.log('Error deleting shift');
+
+    })
+  }
+
+})

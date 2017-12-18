@@ -38,8 +38,8 @@ router.post('/', function (req, res) {
                 for (var i = 0; i < newShift.shiftDate.length; i++) {
                     var theDate = newShift.shiftDate[i];
                     console.log('theDate', theDate);
-                    var queryText = 'INSERT INTO "post_shifts" ("created_by", "date", "urgent", "shift", "adl", "mhw", "nurse", "shift_comments", "notify" ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);';
-                    db.query(queryText, [createdBy, theDate, newShift.urgent, newShift.shift, newShift.adl, newShift.mhw, newShift.nurse, newShift.comments, [notify]],
+                    var queryText = 'INSERT INTO "post_shifts" ("created_by", "date", "urgent", "shift", "adl", "mhw", "nurse", "shift_comments", "notify", "filled", "floor", "shift_status" ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12);';
+                    db.query(queryText, [createdBy, theDate, newShift.urgent, newShift.shift, newShift.adl, newShift.mhw, newShift.nurse, newShift.comments, [notify], newShift.filled, newShift.floor, newShift.shift_status],
                         function (errorMakingQuery, result) {
                             done();
                             if (errorMakingQuery) {
@@ -144,7 +144,135 @@ router.put('/payperiod/updatedates/:id', function (req, res) {
     else {
         console.log('User is not authenticated');
     }
-}); //end get pay period dates
+}) //end update pay period dates
+
+//POST shift bids
+router.post('/shiftBid', function (req, res) {
+    if (req.isAuthenticated()) {
+        var shiftBid = req.body
+        console.log('new shift bid', shiftBid)
+        console.log('req.body.date', req.body.date)
+        var createdBy = req.user.id
+        pool.connect(function (errorConnectingToDb, db, done) {
+            if (errorConnectingToDb) {
+                console.log('Error connecting', errorConnectingToDb);
+                res.sendStatus(500);
+            } //end if error connection to db
+            else {
+                var queryText =
+                    'INSERT INTO "shift_bids" ("shift_id", "user_id", "staff_comments")' +
+                    'VALUES ($1, $2, $3);'
+                db.query(queryText, [shiftBid.id, shiftBid.user, shiftBid.comments],
+                    function (errorMakingQuery, result) {
+                        done();
+                        if (errorMakingQuery) {
+                            console.log('Error making query', errorMakingQuery);
+                            res.sendStatus(500);
+                            return
+                        }
+                        else {
+                            console.log('posted shift bid');
+                            var queryText = 'UPDATE "post_shifts" SET "shift_status" = $1 WHERE "shift_id" = $2;'
+                            db.query(queryText, ["Pending", req.body.id],
+                                function (errorMakingQuery, result) {
+                                    done();
+                                    if (errorMakingQuery) {
+                                        console.log('Error making query', errorMakingQuery);
+                                        res.sendStatus(500);
+                                        return
+                                    }
+                                    else {
+                                        res.sendStatus(201);
+                                        console.log('updated shift status in shift table');
+                                    }
+                                })
+                        }
+                    })
+            }
+
+        }) // end req.isAuthenticated //end if statement
+    }
+    else {
+        console.log('User is not authenticated')
+        res.sendStatus(403);
+    }
+})//end post route for new shifts
+
+//GET Shift bids
+router.get('/shiftBid', function (req, res) {
+    if (req.isAuthenticated()) {
+        pool.connect(function (errorConnectingToDb, db, done) {
+            if (errorConnectingToDb) {
+                console.log('Error connecting', errorConnectingToDb);
+                res.sendStatus(500);
+            } //end if error connection to db
+            else {
+                var queryText =
+                    'SELECT * FROM "post_shifts"' +
+                    'JOIN "shift_bids" ON "post_shifts"."shift_id" = "shift_bids"."shift_id"' +
+                    'WHERE "post_shifts"."shift_status" = $1;'
+                db.query(queryText, ["Pending"],
+                    function (errorMakingQuery, result) {
+                        done();
+                        if (errorMakingQuery) {
+                            console.log('Error making query', errorMakingQuery);
+                            res.sendStatus(500);
+                            return
+                        }
+                        else {
+                            console.log('got shift bids');
+                            res.send(result.rows);
+                        }
+                    })
+            }
+
+        }) // end req.isAuthenticated //end if statement
+    }
+    else {
+        console.log('User is not authenticated')
+        res.sendStatus(403);
+    }
+})//end post route for new shifts
+
+
+
+
+
+//GET confirmed shifts
+
+// delete shift from post_shifts
+router.delete('/delete:id/', function (req, res) {
+    if (req.isAuthenticated()) {
+        var deleteShift = req.params.id;
+        console.log('delete:', deleteShift);
+        pool.connect(function (err, client, done) {
+            if (err) {
+                console.log("Error connecting: ", err);
+                res.sendStatus(500);
+            }
+            var queryText = 'DELETE FROM "post_shifts" WHERE "shift_id" = $1;';
+            client.query(queryText, [deleteShift], function (errorMakingQuery, result) {
+                done();
+                if (errorMakingQuery) {
+                    console.log('Error making query', errorMakingQuery);
+                    res.sendStatus(500);
+                }
+                else {
+                    res.sendStatus(201); // send back success
+                }
+            } //end query function 
+            ) // end query parameters
+        } //end pool function
+        ) // end pool connect     
+    }// end if req.isAuthenticated
+    else {
+        console.log('User is not authenticated');
+    } //end authentication else statement
+
+
+}
+) //end delete route
+
 
 
 

@@ -162,8 +162,9 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     });
   };
 
-  self.updateShift = function (id, comments, shift, mhw, adl, nurse, date, status) {
-    console.log('UPDATED SHIFT', id, comments, shift, mhw, adl, nurse, date, status)
+  //start updateShift function
+  self.updateShift = function (id, comments, shift, mhw, adl, nurse, date, floor) {
+    console.log('UPDATED SHIFT', id, comments, shift, mhw, adl, nurse, date, floor)
     self.updatedShift.shift_id = id;
     self.updatedShift.comments = comments;
     self.updatedShift.shift = shift;
@@ -171,9 +172,16 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     self.updatedShift.adl = adl;
     self.updatedShift.nurse = nurse;
     self.updatedShift.date = date;
-    self.updatedShift.status = status;
+    self.updatedShift.floor = floor;
+    return $http.put('/shifts/update/' + id, self.updatedShift).then(function (response){
+      return response
+    }).catch(function (response){
+      console.log('Error updating shift');
+    })
   }
+//end updateShift function
 
+//start deleteShift function
   self.deleteShift = function (shiftId) {
     return $http.delete('/shifts/delete' + shiftId).then(function (response) {
       return response
@@ -182,5 +190,6 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
 
     })
   }
+  //end deleteShift function
 
 })

@@ -268,12 +268,41 @@ router.delete('/delete:id/', function (req, res) {
     else {
         console.log('User is not authenticated');
     } //end authentication else statement
-
-
 }
 ) //end delete route
 
-
+router.put('/update/:id', function (req, res) {
+    if (req.isAuthenticated()) {
+        var shiftId = req.params.id;
+        console.log('req.body', req.body);
+        var updatedShift = req.body;
+        pool.connect(function (errorConnectingToDb, db, done) {
+            if (errorConnectingToDb) {
+                console.log('Error connecting', errorConnectingToDb);
+                res.sendStatus(500);
+            } //end if error connection to db
+            else {
+                var queryText =
+                    'UPDATE "post_shifts"' +
+                    'SET "shift" = $1, "shift_comments" = $2, "adl" = $3, "mhw" = $4, "nurse" = $5, "date" = $6, "floor" = $7' +
+                    'WHERE "shift_id" = $8;';
+                db.query(queryText, [updatedShift.shift, updatedShift.comments, updatedShift.adl, updatedShift.mhw, updatedShift.nurse, updatedShift.date, updatedShift.floor, shiftId], function (errorMakingQuery, result) {
+                    done();
+                    console.log('result.rows', result);
+                    if (errorMakingQuery) {
+                        console.log('Error making query', errorMakingQuery);
+                        res.sendStatus(500);
+                    } else {
+                        res.send(result.rows);
+                    }
+                }); //end db.query
+            } //end else in pool.connect
+        }); // end pool connect
+    } // end req.isAuthenticated
+    else {
+        console.log('User is not authenticated');
+    }
+}) //end update pay period dates
 
 
 module.exports = router;

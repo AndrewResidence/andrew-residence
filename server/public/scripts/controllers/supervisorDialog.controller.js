@@ -71,8 +71,15 @@ vm.getShifts = function () {
     console.log(vm.editShift);
   };
 
-  vm.updateShift = function (id, comments, shift, mhw, adl, nurse, date, status) {
-    ShiftService.updateShift(id, comments, shift, mhw, adl, nurse, date, status)
+  vm.updateShift = function (id, comments, shift, mhw, adl, nurse, date, floor) {
+    ShiftService.updateShift(id, comments, shift, mhw, adl, nurse, date, floor).then(function (response){
+      $mdDialog.hide();
+      $mdToast.show(
+        $mdToast.simple()
+          .textContent('Shift Updated')
+          .hideDelay(2500)
+      )
+    })
   }
 
   //show staff dropdown based on statusUpdate

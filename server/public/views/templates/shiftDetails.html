@@ -14,9 +14,6 @@
 
 <div layout="row">
 
-<!-- {{sd.shift}} -->
-
-            <!-- {{sd.shift}} -->
             <div layout-gt-xl="row"></div>
             <md-datepicker id="editDate" ng-disabled="sd.editShift === false" ng-model="sd.shift.date">{{sd.shift.date}}</md-datepicker>
      <div layout-align="center center" ng-if="sd.shift.shift_status === 'Open'" ng-style = "sd.shift.shift_status === 'Open' && {'background-color':'#187B18', 'color': 'white'}" id="statusIndicator">{{sd.shift.shift_status}}</div>
@@ -24,15 +21,7 @@
     <div ng-if="sd.shift.shift_status === 'Filled'" ng-style="sd.shift.shift_status === 'Filled' && {'background-color':'#A62020', 'color': 'white'}" id="statusIndicator">{{sd.shift.shift_status}}</div>
     
     </div>
-           
-            <!-- <div layout-gt-xl="row">
-                <md-input-container class="md-block" flex=50>
-                    <label>Shift Status:</label>
-                    <md-select id="editStatusDrop" ng-model="sd.shift.shift_status">
-                        <md-option ng-disabled="sd.editShift === false" id="editStatusDrop" ng-value="status" ng-repeat="status in sd.shiftStatus">{{status}}</md-option>
-                    </md-select>
-                </md-input-container>
-            </div> -->
+        
             <div layout-gt-xl="row">
         <span id="shiftDetailRole">Role:</span>
         <md-checkbox ng-disabled="sd.editShift === false" ng-model="sd.shift.nurse" ng-selected="'sd.shift.nurse'">Nurse</md-checkbox>
@@ -71,7 +60,7 @@
         <span flex></span>
 
         <md-button ng-hide="sd.shift.shift_status === 'Filled'" class="md-raised" ng-click="sd.editShiftDetails(event)" ng-show="sd.editShift === false">Edit</md-button>
-        <md-button class="md-raised" ng-show= "sd.editShift === true" ng-click="sd.updateShift(sd.shift.shift_id, sd.shift.shift_comments, sd.shift.shift, sd.shift.mhw, sd.shift.adl, sd.shift.nurse, sd.shift.date, sd.shift.shift_status)">Save Changes</md-button>
+        <md-button class="md-raised" ng-show= "sd.editShift === true" ng-click="sd.updateShift(sd.shift.shift_id, sd.shift.shift_comments, sd.shift.shift, sd.shift.mhw, sd.shift.adl, sd.shift.nurse, sd.shift.date, sd.shift.floor)">Save Changes</md-button>
                 <span flex></span>
         <md-button ng-hide="sd.shift.shift_status === 'Filled'" id="fillShiftButton" class="md-raised md-primary" ng-click="sd.fillShift()">Fill</md-button>
 

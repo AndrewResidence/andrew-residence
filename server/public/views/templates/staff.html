@@ -10,9 +10,9 @@
 
   <div class="staffCalendarSpace">
     <div layout="row" class="staffCalHeader">
-      <md-button class="md-raised md-primary" id="calHeadBtnLeft" ng-click="sc.prevMonth(sc.currentMonth[0].month, sc.currentMonth[0].year)">Prev</md-button>
+      <md-button class="md-raised md-primary" id="calHeadBtnLeft" ng-click="sc.prevMonth(sc.currentMonth.dates[0].month, sc.currentMonth.dates[0].year)">Prev</md-button>
       <div>{{sc.displayMonth}} {{sc.displayYear._i.year}}</div>
-      <md-button class="md-raised md-primary" id="calHeadBtnRight" ng-click="sc.nextMonth(sc.currentMonth[0].month, sc.currentMonth[0].year)">Next</md-button>
+      <md-button class="md-raised md-primary" id="calHeadBtnRight" ng-click="sc.nextMonth(sc.currentMonth.dates[0].month, sc.currentMonth.dates[0].year)">Next</md-button>
     </div>
     <div layout="row">
       <div class="calHeader" ng-repeat="dayheader in sc.dayList">
@@ -20,7 +20,7 @@
       </div>
     </div>
     
-    <div class="staffCalBox" ng-repeat="day in sc.currentMonth">
+    <div class="staffCalBox" ng-repeat="day in sc.currentMonth.dates">
       <div class="innerBox">
         <span class="dayNum">{{day.dayNum}}</span>
         <div layout="column" ng-repeat="shift in day.shifts track by $index">

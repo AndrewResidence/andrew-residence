@@ -3,123 +3,129 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
   var vm = this;
   vm.userService = UserService;
   vm.userObject = UserService.userObject;
-  vm.displayMonth = calendarService.displayMonth;
-  vm.displayYear = calendarService.displayYear;
-  vm.dayList = calendarService.StaffDayList;
-  // vm.today = moment();
-  // vm.thisMonth = moment(vm.today).month();
-  // vm.currentYear = moment(vm.today).year();
-  // vm.numDaysInCurrentMonth = '';
-  vm.currentMonth = calendarService.currentMonth.dates;
+  vm.displayMonth = '';
+  vm.displayYear = '';
+  vm.dayList = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
+  vm.today = moment();
+  vm.thisMonth = moment(vm.today).month();
+  vm.currentYear = moment(vm.today).year();
+  vm.numDaysInCurrentMonth = '';
+  vm.currentMonth = {
+    dates: []
+  };
 
-  // //puts each day of the month in array
-  // vm.monthDays = {
-  //   dates: []
-  // }
+  //puts each day of the month in array
+  vm.monthDays = {
+    dates: []
+  }
 
   vm.shiftsToDisplay = [];
   vm.pendingShifts = [];
 
-  //gets number of days in month to display
-  // vm.getNumDaysInCurrentMonth = function() {
-  //   vm.numDaysInCurrentMonth = moment(vm.today).daysInMonth();
-  //   vm.putDaysinCurrentMonthArray(vm.currentYear, vm.thisMonth, vm.numDaysInCurrentMonth);
-  // }
+  // gets number of days in month to display
+  vm.getNumDaysInCurrentMonth = function() {
+    vm.numDaysInCurrentMonth = moment(vm.today).daysInMonth();
+    vm.putDaysinCurrentMonthArray(vm.currentYear, vm.thisMonth, vm.numDaysInCurrentMonth);
+  }
 
-  //puts number of days in to array
-  // vm.putDaysinCurrentMonthArray = function (currentYear, currentMonth, numDaysInCurrentMonth) {
-  //   vm.monthDays.dates = [];
-  //   for (var i = 1; i <= numDaysInCurrentMonth; i++) {
-  //     vm.monthDays.dates.push(i);
-  //   }
-  //   vm.getMonthDays(currentYear, currentMonth, vm.monthDays.dates);
-  // }
+  // puts number of days in to array
+  vm.putDaysinCurrentMonthArray = function (currentYear, currentMonth, numDaysInCurrentMonth) {
+    vm.monthDays.dates = [];
+    for (var i = 1; i <= numDaysInCurrentMonth; i++) {
+      vm.monthDays.dates.push(i);
+    }
+    vm.getMonthDays(currentYear, currentMonth, vm.monthDays.dates);
+    console.log('vm.monthDays.dates', vm.monthDays.dates)
+  }
 
-  //creates day object and pushes to array to get month days
-  // vm.dayInWeek = '';
-  // vm.getMonthDays = function (currentYear, currentMonth, monthDays) {
-  //   console.log('currentMonth', currentMonth)
-  //   vm.dayInWeek = '';
-  //   for (var i = 1; i <= monthDays.length; i++) {
-  //     eachDay = {
-  //       day: moment().year(currentYear).month(currentMonth).date(i),
-  //       dayNum: moment().date(i).format('D'),
-  //       month: currentMonth,
-  //       monthText: moment().month(currentMonth),
-  //       year: currentYear,
-  //       shifts: []
-  //     }
-  //     vm.currentMonth.dates.push(eachDay);
-  //   }
-  //   var firstDayofMonth = moment(vm.currentMonth.dates[0].day._d).month();
-  //   var currentYear = currentYear;
-  //   vm.dayInWeek = moment(vm.currentMonth.dates[0].day._d).format('d')
-  //   vm.checkFirstDayOfMonth(vm.dayInWeek, firstDayofMonth, currentYear);
-  //   vm.displayMonth = moment().month(currentMonth).format('MMMM');
-  //   vm.displayYear = moment(vm.currentMonth.dates[0]);
-  // }
+  // creates day object and pushes to array to get month days
+  vm.dayInWeek = '';
+  vm.getMonthDays = function (currentYear, currentMonth, monthDays) {
+    vm.currentMonth.dates = [];
+    console.log('currentMonth', currentMonth)
+    vm.dayInWeek = '';
+    for (var i = 1; i <= monthDays.length; i++) {
+      eachDay = {
+        day: moment().year(currentYear).month(currentMonth).date(i),
+        dayNum: moment().date(i).format('D'),
+        month: currentMonth,
+        monthText: moment().month(currentMonth),
+        year: currentYear,
+        shifts: []
+      }
+      vm.currentMonth.dates.push(eachDay);
+    }
+    console.log('get month days - array', vm.currentMonth.dates)
+    var firstDayofMonth = moment(vm.currentMonth.dates[0].day._d).month();
+    var currentYear = currentYear;
+    vm.dayInWeek = moment(vm.currentMonth.dates[0].day._d).format('d')
+    vm.checkFirstDayOfMonth(vm.dayInWeek, firstDayofMonth, currentYear);
+    vm.displayMonth = moment().month(currentMonth).format('MMMM');
+    vm.displayYear = moment(vm.currentMonth.dates[0]);
+    console.log('display month and year', vm.displayMonth, vm.displayYear)
+  }
 
-  // //checks for the first day of the month and adds objects to push calendar start
-  // vm.checkFirstDayOfMonth = function (dayInWeek, currentMonth, currentYear) {
-  //   var dayInWeek = parseInt(dayInWeek);
-  //   // console.log('firstDayofMonth', firstDayofMonth)
-  //   if (dayInWeek != 0) {
-  //     for (var i = 1; i <= dayInWeek; i++) {
-  //       eachDay = {
-  //         day: '',
-  //         extra: i,
-  //         month: currentMonth,
-  //         year: currentYear,
-  //         dayNum: '.',
-  //         shifts: []
-  //       }
-  //       vm.currentMonth.dates.unshift(eachDay); 
-  //     }
-  //   }
-  //   console.log('dates', vm.currentMonth.dates)
-  // }
+  //checks for the first day of the month and adds objects to push calendar start
+  vm.checkFirstDayOfMonth = function (dayInWeek, currentMonth, currentYear) {
+    var dayInWeek = parseInt(dayInWeek);
+    // console.log('firstDayofMonth', firstDayofMonth)
+    if (dayInWeek != 0) {
+      for (var i = 1; i <= dayInWeek; i++) {
+        eachDay = {
+          day: '',
+          extra: i,
+          month: currentMonth,
+          year: currentYear,
+          dayNum: '.',
+          shifts: []
+        }
+        vm.currentMonth.dates.unshift(eachDay); 
+      }
+    }
+    console.log('dates', vm.currentMonth.dates)
+  }
 
   vm.getNumDaysInCurrentMonth = function() {
-    calendarService.getNumDaysInCurrentMonth();
+    console.log('get number days function happening')
+    vm.numDaysInCurrentMonth = moment(vm.today).daysInMonth();
+    console.log('vm.numDaysInCurrentMonth')
+    vm.putDaysinCurrentMonthArray(vm.currentYear, vm.thisMonth, vm.numDaysInCurrentMonth);
   };
 
   vm.getNumDaysInCurrentMonth();
 
   //function to get previous month
   vm.prevMonth = function (currentDisplayMonth, currentYear) {
-    calendarService.prevMonth(currentDisplayMonth, currentYear);
-    // console.log('currentDisplayMonth and currentYear', currentDisplayMonth, currentYear)
-    // vm.currentMonth = [];
-    // if (currentDisplayMonth === 0) {
-    //   vm.thisMonth = 11;
-    //   vm.currentYear = currentYear - 1;
-    //   console.log('year, month', vm.currentYear, vm.thisMonth)
-    // }
-    // else {
-    //   vm.thisMonth = currentDisplayMonth - 1;
-    //   vm.currentYear = currentYear;
-    //   console.log('year, month', vm.currentYear, vm.thisMonth)
-    // }
-    // vm.numDaysInCurrentMonth = moment().year(vm.currentYear).month(vm.thisMonth).daysInMonth();
-
-    // calendarService.putDaysinCurrentMonthArray(vm.currentYear, vm.thisMonth, vm.numDaysInCurrentMonth)
+    vm.currentMonth = [];
+    if (currentDisplayMonth === 0) {
+      vm.thisMonth = 11;
+      vm.currentYear = currentYear - 1;
+      console.log('year, month', vm.currentYear, vm.thisMonth)
+    }
+    else {
+      vm.thisMonth = currentDisplayMonth - 1;
+      vm.currentYear = currentYear;
+      console.log('year, month', vm.currentYear, vm.thisMonth)
+    }
+    vm.numDaysInCurrentMonth = moment().year(vm.currentYear).month(vm.thisMonth).daysInMonth();
+    console.log('vm.numdaysincurrentmonth', vm.numDaysInCurrentMonth)
+    vm.putDaysinCurrentMonthArray(vm.currentYear, vm.thisMonth, vm.numDaysInCurrentMonth);
   }
 
   // //function to get next month
   vm.nextMonth = function (currentDisplayMonth, currentYear) {
-    calendarService.nextMonth(currentDisplayMonth, currentYear);
-    // vm.currentMonth = [];
-    // if (currentDisplayMonth === 11) {
-    //   vm.thisMonth = 0
-    //   vm.currentYear = currentYear + 1;
-    //   console.log('year, month', vm.currentYear, vm.thisMonth)
-    // }
-    // else {
-    //   vm.thisMonth = currentDisplayMonth + 1;
-    //   console.log('year, month', vm.currentYear, vm.thisMonth)
-    // }
-    // vm.numDaysInCurrentMonth = moment().year(vm.currentYear).month(vm.thisMonth).daysInMonth();
-    // calendarService.putDaysinCurrentMonthArray(vm.currentYear, vm.thisMonth, vm.numDaysInCurrentMonth);
+    vm.currentMonth = [];
+    if (currentDisplayMonth === 11) {
+      vm.thisMonth = 0
+      vm.currentYear = currentYear + 1;
+      console.log('year, month', vm.currentYear, vm.thisMonth)
+    }
+    else {
+      vm.thisMonth = currentDisplayMonth + 1;
+      console.log('year, month', vm.currentYear, vm.thisMonth)
+    }
+    vm.numDaysInCurrentMonth = moment().year(vm.currentYear).month(vm.thisMonth).daysInMonth();
+    vm.putDaysinCurrentMonthArray(vm.currentYear, vm.thisMonth, vm.numDaysInCurrentMonth);
   }
 
   //shift details pop up
@@ -140,13 +146,13 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
     ShiftService.getShifts().then(function (response) {
       vm.shiftsToDisplay = response.data;
       console.log('shifts', vm.shiftsToDisplay);
-      console.log('dates', vm.currentMonth)
+      console.log('dates', vm.currentMonth.dates)
       // console.log('dates', vm.currentSchedule.dates);
       for (var i = 0; i < vm.shiftsToDisplay.length; i++) {
-        for (var j = 0; j < vm.currentMonth.length; j++) {
-          if (moment(vm.shiftsToDisplay[i].date).format('YYYY-MM-DD') === moment(vm.currentMonth[j].day).format('YYYY-MM-DD')) {
+        for (var j = 0; j < vm.currentMonth.dates.length; j++) {
+          if (moment(vm.shiftsToDisplay[i].date).format('YYYY-MM-DD') === moment(vm.currentMonth.dates[j].day).format('YYYY-MM-DD')) {
             // console.log('true');
-            vm.currentMonth[j].shifts.push(vm.shiftsToDisplay[i]);
+            vm.currentMonth.dates[j].shifts.push(vm.shiftsToDisplay[i]);
           }
         }//end inner for loop
       }//end outer for loop

@@ -3,8 +3,8 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
   var vm = this;
   vm.userService = UserService;
   vm.userObject = UserService.userObject;
-  // vm.displayMonth = '';
-  // vm.displayYear = '';
+  vm.displayMonth = calendarService.displayMonth;
+  vm.displayYear = calendarService.displayYear;
   vm.dayList = calendarService.StaffDayList;
   // vm.today = moment();
   // vm.thisMonth = moment(vm.today).month();
@@ -86,36 +86,41 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
   vm.getNumDaysInCurrentMonth();
 
   //function to get previous month
-  // vm.prevMonth = function (currentDisplayMonth, currentYear) {
-  //   vm.currentMonth.dates = [];
-  //   if (currentDisplayMonth === 0) {
-  //     vm.thisMonth = 11;
-  //     vm.currentYear = currentYear - 1;
-  //     console.log('year, month', vm.currentYear, vm.thisMonth)
-  //   }
-  //   else {
-  //     vm.thisMonth = currentDisplayMonth - 1;
-  //     console.log('year, month', vm.currentYear, vm.thisMonth)
-  //   }
-  //   vm.numDaysInCurrentMonth = moment().year(vm.currentYear).month(vm.thisMonth).daysInMonth();
-  //   vm.putDaysinCurrentMonthArray(vm.currentYear, vm.thisMonth, vm.numDaysInCurrentMonth)
-  // }
+  vm.prevMonth = function (currentDisplayMonth, currentYear) {
+    calendarService.prevMonth(currentDisplayMonth, currentYear);
+    // console.log('currentDisplayMonth and currentYear', currentDisplayMonth, currentYear)
+    // vm.currentMonth = [];
+    // if (currentDisplayMonth === 0) {
+    //   vm.thisMonth = 11;
+    //   vm.currentYear = currentYear - 1;
+    //   console.log('year, month', vm.currentYear, vm.thisMonth)
+    // }
+    // else {
+    //   vm.thisMonth = currentDisplayMonth - 1;
+    //   vm.currentYear = currentYear;
+    //   console.log('year, month', vm.currentYear, vm.thisMonth)
+    // }
+    // vm.numDaysInCurrentMonth = moment().year(vm.currentYear).month(vm.thisMonth).daysInMonth();
+
+    // calendarService.putDaysinCurrentMonthArray(vm.currentYear, vm.thisMonth, vm.numDaysInCurrentMonth)
+  }
 
   // //function to get next month
-  // vm.nextMonth = function (currentDisplayMonth, currentYear) {
-  //   vm.currentMonth.dates = [];
-  //   if (currentDisplayMonth === 11) {
-  //     vm.thisMonth = 0
-  //     vm.currentYear = currentYear + 1;
-  //     console.log('year, month', vm.currentYear, vm.thisMonth)
-  //   }
-  //   else {
-  //     vm.thisMonth = currentDisplayMonth + 1;
-  //     console.log('year, month', vm.currentYear, vm.thisMonth)
-  //   }
-  //   vm.numDaysInCurrentMonth = moment().year(vm.currentYear).month(vm.thisMonth).daysInMonth();
-  //   vm.putDaysinCurrentMonthArray(vm.currentYear, vm.thisMonth, vm.numDaysInCurrentMonth)
-  // }
+  vm.nextMonth = function (currentDisplayMonth, currentYear) {
+    calendarService.nextMonth(currentDisplayMonth, currentYear);
+    // vm.currentMonth = [];
+    // if (currentDisplayMonth === 11) {
+    //   vm.thisMonth = 0
+    //   vm.currentYear = currentYear + 1;
+    //   console.log('year, month', vm.currentYear, vm.thisMonth)
+    // }
+    // else {
+    //   vm.thisMonth = currentDisplayMonth + 1;
+    //   console.log('year, month', vm.currentYear, vm.thisMonth)
+    // }
+    // vm.numDaysInCurrentMonth = moment().year(vm.currentYear).month(vm.thisMonth).daysInMonth();
+    // calendarService.putDaysinCurrentMonthArray(vm.currentYear, vm.thisMonth, vm.numDaysInCurrentMonth);
+  }
 
   //shift details pop up
   vm.showDetailsDialog = function(event) {

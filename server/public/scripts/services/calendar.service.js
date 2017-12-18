@@ -55,6 +55,7 @@ myApp.service('calendarService', function ($http, $location, $mdDialog) {
         self.checkFirstDayOfMonth(self.dayInWeek, firstDayofMonth, currentYear);
         self.displayMonth = moment().month(currentMonth).format('MMMM');
         self.displayYear = moment(self.currentMonth.dates[0]);
+        console.log('month and year for display', self.displayMonth, self.displayYear)
     }
 
     //checks for the first day of the month and adds objects to push calendar start
@@ -77,24 +78,29 @@ myApp.service('calendarService', function ($http, $location, $mdDialog) {
         console.log('dates', self.currentMonth.dates)
     }
 
-    //function to get previous month
+    // function to get previous month
     self.prevMonth = function (currentDisplayMonth, currentYear) {
+        console.log('previous month clicked')
         self.currentMonth.dates = [];
         if (currentDisplayMonth === 0) {
+            console.log('in the if')
             self.thisMonth = 11;
             self.currentYear = currentYear - 1;
             console.log('year, month', self.currentYear, self.thisMonth)
         }
         else {
+            console.log('in the else')
             self.thisMonth = currentDisplayMonth - 1;
             console.log('year, month', self.currentYear, self.thisMonth)
         }
         self.numDaysInCurrentMonth = moment().year(self.currentYear).month(self.thisMonth).daysInMonth();
+        console.log(self.numDaysInCurrentMonth)
         self.putDaysinCurrentMonthArray(self.currentYear, self.thisMonth, self.numDaysInCurrentMonth)
     }
 
     //function to get next month
     self.nextMonth = function (currentDisplayMonth, currentYear) {
+        console.log('next month clicked')
         self.currentMonth.dates = [];
         if (currentDisplayMonth === 11) {
             self.thisMonth = 0
@@ -109,13 +115,9 @@ myApp.service('calendarService', function ($http, $location, $mdDialog) {
         self.putDaysinCurrentMonthArray(self.currentYear, self.thisMonth, self.numDaysInCurrentMonth)
     }
 
-    //**********supervisor calendar****************//
+    //**********      supervisor calendar      ****************//
 
-    //used for assigning month/day in the calendar header
-    self.month = '';
-    self.year = '';
     self.today = moment();
-    self.dayInCycle = '';
     self.supervisorDayList = ['THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY'];
     self.scheduleDays = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
     self.payPeriodStartAndEnd = [];
@@ -130,33 +132,41 @@ myApp.service('calendarService', function ($http, $location, $mdDialog) {
         dates: []
     };
 
-
+    //gets pay period dates for supervisor view
     self.getPayPeriodDates = function () {
-
-
-
         return $http.get('/shifts/payperiod/getdates').then(function (response) {
-            console.log('response', response.data)
             self.payPeriodStartAndEnd = response.data;
-            return response.data;
-            
+            self.payPeriodStart = moment(response.data[0].start);
+            self.payPeriodEnd = moment(response.data[0].end);
+            self.checkPayPeriodCurrent(self.payPeriodStart, self.payPeriodEnd)
         })
             .catch(function (err) {
                 console.log('error')
             })
     }
 
+    //verifies if it is the current pay period today
+    self.checkPayPeriodCurrent = function (payPeriodStart, payPeriodEnd) {
+        if (moment(self.today).format('MM-DD-YYYY') >= moment(payPeriodStart).format('MM-DD-YYYY')
+            && moment(self.today).format('MM-DD-YYYY') <= moment(payPeriodEnd).format('MM-DD-YYYY')) {
+            self.currentPayPeriod(self.scheduleDays);
+        }
+        else if (moment(self.today).format('MM-DD-YYYY') > moment(payPeriodEnd).format('MM-DD-YYYY')) {
+            self.updatePayPeriodDates();
+            self.getPayPeriodDates();
+        }
+    }
+
+    //updates the pay period dates in the DB if needed
     self.updatePayPeriodDates = function () {
         var rowId = 1;
         return $http.put('/shifts/payperiod/updatedates/' + rowId).then(function (response) {
-            console.log('response', response.data)
             return response.data;
         })
     }
 
+    //gets current pay period and adds day objects to the array
     self.currentPayPeriod = function (scheduleDays) {
-        console.log('scheduledays', scheduleDays)
-        console.log('self.payperiodstart', self.payPeriodStart)
         for (var i = 0; i < scheduleDays.length; i++) {
             self.currentSchedule.dates.push(
                 {
@@ -165,34 +175,6 @@ myApp.service('calendarService', function ($http, $location, $mdDialog) {
                 }
             );
         }
-        console.log('self.currentSchedule.dates', self.currentSchedule.dates)
-        self.month = moment(self.payPeriodStart).format('MMMM');
-        self.year = moment(self.payPeriodStart).format('YYYY');
-    };
-    //function to pull prior two weeks of dates
-    self.prevTwoWeeks = function (date) {
-        self.currentSchedule.dates = [];
-        var prevTwoWeeks = moment(self.payPeriodStart).subtract(14, 'days');
-        self.payPeriodStart = prevTwoWeeks;
-        for (var i = 0; i < self.scheduleDays.length; i++) {
-            self.currentSchedule.dates.push({ moment: moment(prevTwoWeeks._d).add(self.scheduleDays[i], 'days'), shifts: [] });
-        }
-        self.month = moment(prevTwoWeeks._d).format('MMMM');
-        self.year = moment(prevTwoWeeks._d).format('YYYY')
-        self.getShifts();
     };
 
-    //function to get next two weeks of dates
-    self.nextTwoWeeks = function (date) {
-        self.currentSchedule.dates = [];
-        var nextTwoWeeks = moment(self.payPeriodStart).add(14, 'days');
-        self.payPeriodStart = nextTwoWeeks;
-        for (var i = 0; i < self.scheduleDays.length; i++) {
-            self.currentSchedule.dates.push({ moment: moment(nextTwoWeeks._d).add(self.scheduleDays[i], 'days'), shifts: [] });
-
-        }
-        self.month = moment(nextTwoWeeks._d).format('MMMM');
-        self.year = moment(nextTwoWeeks._d).format('YYYY');
-        self.getShifts();
-    };
 });

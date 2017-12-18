@@ -39,6 +39,6 @@ app.use('/message', messageRouter);
 app.use('/', indexRouter);
 
 // Listen //
-app.listen(port, function () {
+app.listen(port, '0.0.0.0', function () {
     console.log('Listening on port:', port);
 });

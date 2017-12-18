@@ -2,42 +2,44 @@
 <div class="superRight" layout="column">
   <md-button class="md-raised md-primary" ng-click="sc.addShift($event)">Add Shift</md-button>
   <h2>Shifts waiting for Confirmation</h2>
-  <div ng-repeat="shift in sc.pendingShifts">{{shift.date}} {{shift.shift}} 
-    <span ng-show="shift.nurse">Nurse </span> <span ng-show="shift.mhw">MHW </span><span ng-show="shift.adl">ADL</span>
-</div>
+  <div ng-repeat="shift in sc.pendingShifts">{{shift.date}} {{shift.shift}}
+    <span ng-show="shift.nurse">Nurse </span>
+    <span ng-show="shift.mhw">MHW </span>
+    <span ng-show="shift.adl">ADL</span>
+  </div>
 </div>
 <h3 class="pageHeader">Supervisor View</h3>
-  <div class="calendarSpace" display="flex">
-      <div class="filterTabs">
-          <md-button class="md-raised md-primary" ng-click="">Open</md-button>
-          <md-button class="md-raised md-primary" ng-click="">Pending</md-button>
-          <md-button class="md-raised md-primary" ng-click="">Filled</md-button>
-      </div>
+<div class="calendarSpace" display="flex">
+  <div class="filterTabs">
+    <md-button class="md-raised md-primary" ng-click="">Open</md-button>
+    <md-button class="md-raised md-primary" ng-click="">Pending</md-button>
+    <md-button class="md-raised md-primary" ng-click="">Filled</md-button>
+  </div>
 
-    <div layout="row" class="staffCalHeader">
-      <md-button class="md-raised md-primary" ng-click="sc.prevTwoWeeks(sc.currentSchedule[0].moment)">Previous</md-button>
-      <div>{{sc.month}} {{sc.year}}</div>
-      <md-button class="md-raised md-primary" ng-click="sc.nextTwoWeeks(sc.currentSchedule[0].moment)">Next</md-button>
+  <div layout="row" class="staffCalHeader">
+    <md-button class="md-raised md-primary" ng-click="sc.prevTwoWeeks(sc.currentSchedule[0].moment)">Previous</md-button>
+    <div>{{sc.month}} {{sc.year}}</div>
+    <md-button class="md-raised md-primary" ng-click="sc.nextTwoWeeks(sc.currentSchedule[0].moment)">Next</md-button>
+  </div>
+  <div layout="row">
+    <div class="calHeader" ng-repeat="dayHeader in sc.dayList">
+      <div>{{dayHeader}}</div>
     </div>
-    <div layout="row">
-      <div class="calHeader" ng-repeat="dayHeader in sc.dayList">
-        <div>{{dayHeader}}</div>
-      </div>
-    </div>
-    <div class="staffCalBox" ng-repeat="date in sc.currentSchedule track by $index">
-      <div class="innerBox">
-        <div class="dayNum">{{date.moment | amDateFormat: 'D'}}</div>
-        <div class="shifts" layout="column" ng-repeat="shift in date.shifts track by $index">
-          <div class="shiftButton" ng-click="sc.shiftDetails(event, shift)">
-            <!-- <div id="shiftTime" ng-class="{{'shift.shift'}}"></div> -->
-            <md-icon ng-class="{{'shift.shift'}}" md-svg-icon="../images/ic_add_circle_black_18px.svg"></md-icon>
-            <span ng-show="shift.adl">ADL</span>
-            <span ng-show="shift.nurse">Nurse</span>
-            <span ng-show="shift.mhw">MHW</span>
-          </div>
+  </div>
+  <div class="staffCalBox" ng-repeat="date in sc.currentSchedule track by $index">
+    <div class="innerBox">
+      <div class="dayNum">{{date.moment | amDateFormat: 'D'}}</div>
+      <div class="shifts" layout="column" ng-repeat="shift in date.shifts track by $index">
+        <div class="shiftButton" ng-click="sc.shiftDetails(event, shift)">
+          <!-- <div id="shiftTime" ng-class="{{'shift.shift'}}"></div> -->
+          <md-icon ng-class="{{'shift.shift'}}" md-svg-icon="../images/ic_add_circle_black_18px.svg"></md-icon>
+          <span ng-show="shift.adl">ADL</span>
+          <span ng-show="shift.nurse">Nurse</span>
+          <span ng-show="shift.mhw">MHW</span>
         </div>
       </div>
     </div>
+  </div>
 
 </div>
 <!-- end calendar space -->

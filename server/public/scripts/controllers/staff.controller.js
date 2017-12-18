@@ -195,35 +195,35 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
   };
 
   //gets all shifts
-  vm.getShifts = function () {
-    ShiftService.getShifts().then(function (response) {
-      vm.shiftsToDisplay = response.data;
-      console.log('shifts', vm.shiftsToDisplay);
-      // console.log('dates', vm.currentSchedule.dates);
-      for (var i = 0; i < vm.shiftsToDisplay.length; i++) {
-        for (var j = 0; j < vm.currentMonth.dates.length; j++) {
-          if (moment(vm.shiftsToDisplay[i].date).format('YYYY-MM-DD') === moment(vm.currentMonth.dates[j].day).format('YYYY-MM-DD')) {
-            // console.log('true');
-            vm.currentMonth.dates[j].shifts.push(vm.shiftsToDisplay[i]);
-          }
-        }
-      }
-    });
-  };
+  // vm.getShifts = function () {
+  //   ShiftService.getShifts().then(function (response) {
+  //     vm.shiftsToDisplay = response.data;
+  //     console.log('shifts', vm.shiftsToDisplay);
+  //     // console.log('dates', vm.currentSchedule.dates);
+  //     for (var i = 0; i < vm.shiftsToDisplay.length; i++) {
+  //       for (var j = 0; j < vm.currentMonth.dates.length; j++) {
+  //         if (moment(vm.shiftsToDisplay[i].date).format('YYYY-MM-DD') === moment(vm.currentMonth.dates[j].day).format('YYYY-MM-DD')) {
+  //           // console.log('true');
+  //           vm.currentMonth.dates[j].shifts.push(vm.shiftsToDisplay[i]);
+  //         }
+  //       }
+  //     }
+  //   });
+  // };
 
-  vm.getShifts();
+  // vm.getShifts();
 
-  vm.getPendingShifts = function () {
-    ShiftService.getPendingShifts().then(function (response) {
-      vm.pendingShifts = response.data;
-      for (var i = 0; i < vm.pendingShifts.length; i++) {
-        vm.pendingShifts[i].date = moment(vm.pendingShifts[i].date).format('l');
-      }
-      console.log(' pending shifts', vm.pendingShifts);
-    });
-  };
+  // vm.getPendingShifts = function () {
+  //   ShiftService.getPendingShifts().then(function (response) {
+  //     vm.pendingShifts = response.data;
+  //     for (var i = 0; i < vm.pendingShifts.length; i++) {
+  //       vm.pendingShifts[i].date = moment(vm.pendingShifts[i].date).format('l');
+  //     }
+  //     console.log(' pending shifts', vm.pendingShifts);
+  //   });
+  // };
 
-  vm.getPendingShifts();
+  // vm.getPendingShifts();
 
   vm.click = function (shift) {
     console.log('clicked');

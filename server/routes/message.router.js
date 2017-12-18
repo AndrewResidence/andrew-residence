@@ -7,7 +7,7 @@ var router = express.Router();
 var passport = require('passport');
 var path = require('path');
 var nodemailer = require('nodemailer');
-var hbs = require('nodemailer-express-handlebars');
+
 var cron = require('node-cron');
 var moment = require('moment');
 /* credentials for plivo*/
@@ -17,7 +17,7 @@ var AUTH_TOKEN = process.env.PLIVO_AUTH_TOKEN;
 var plivoNumber = '16128519117';//rented plivo number
 /* credentials for google oauth w/nodemailer*/
 var nodemailer = require('nodemailer');
-var swig = require('swig-templates');
+
 var GMAIL_USER = process.env.GMAIL_USER;
 var REFRESH_TOKEN = process.env.REFRESH_TOKEN;
 var ACCESS_TOKEN = process.env.ACCESS_TOKEN;
@@ -27,8 +27,8 @@ var CLIENT_SECRET = process.env.CLIENT_SECRET;
 console.log('Hello, JEMS! Happy working!');
 var phoneNumberArray = [];
 var dateArray = [];
-var weeklyDigest = cron.schedule('30 12 * * SUN', function () {
-    if (req.isAuthenticated()) {
+var weeklyDigest = cron.schedule('20 19 * * SUN', function () {
+
         pool.connect(function (errorConnectingToDb, db, done) {
             if (errorConnectingToDb) {
                 console.log('Error connecting', errorConnectingToDb);
@@ -55,13 +55,19 @@ var weeklyDigest = cron.schedule('30 12 * * SUN', function () {
                                 clientSecret: CLIENT_SECRET,
                             }
                         });
+
                         // setup email data 
                         let emailMessage = dateArray.join('');
                         var mailOptions = {
                             from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
-                            to: 'martapeterson@gmail.com', // list of receivers
+                            to: 'joshnothum@gmail.com', // list of receivers
                             subject: 'Weekly Digest from Andrew Residence', // Subject line
-                            html: '<p>I wonder how Chris will downplay this?</p><h2>Available Shifts:</h2><ul>' + emailMessage + '</ul><p>Please go to the scheduling app to sign-up for a shift.</p> We appreciate yor support!</p>',
+                            html: ' <body style ="background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);"><p>Good Day!</p><><h2>Available Shifts:</h2><ul>' + emailMessage + '</ul><p>Please go to the scheduling app to sign-up for a shift.</p><p> We appreciate yor support!</p></body>',
+                            // attachments:[{
+                            //     filename:'andrew_residence.png',
+                            //     path:'../public/images/andrew_residence.png',
+                            //     cid:'headerPicture'
+                            // }],
                             auth: {
                                 user: GMAIL_USER,
                                 refreshToken: REFRESH_TOKEN,
@@ -82,10 +88,6 @@ var weeklyDigest = cron.schedule('30 12 * * SUN', function () {
                 }); // END QUERY
             }
         }); // end pool connect
-    } // end req.isAuthenticated
-    else {
-        console.log('User is not authenticated');
-    }
 }, false);
 
 weeklyDigest.start();

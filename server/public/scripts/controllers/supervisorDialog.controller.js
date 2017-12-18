@@ -28,6 +28,7 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
 
   //start newShift function
   vm.addNewShift = function (shiftDate, shiftStatus, urgent, shift, role, comments, notify, nurse, adl, mhw) {
+    
     console.log('nurse in add shift', nurse);
     ShiftService.addNewShift(shiftDate, shiftStatus, urgent, shift, role, comments, notify, nurse, adl, mhw).then(function (response) {
       $mdDialog.hide();
@@ -51,7 +52,7 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
   };
 
   vm.updateShift = function (id, comments, shift, mhw, adl, nurse, date, status) {
-    ShiftService.updateShift(id, comments, shift, mhw, adl, nurse, date, status)
+    ShiftService.updateShift(id, comments, shift, mhw, adl, nurse, date, status);
   };
 
 });

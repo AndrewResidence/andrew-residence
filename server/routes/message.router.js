@@ -21,11 +21,15 @@ var REFRESH_TOKEN = process.env.REFRESH_TOKEN;
 var ACCESS_TOKEN = process.env.ACCESS_TOKEN;
 var CLIENT_ID = process.env.CLIENT_ID;
 var CLIENT_SECRET = process.env.CLIENT_SECRET;
+var p = plivo.RestAPI({
+    authId: AUTH_ID,
+    authToken: AUTH_TOKEN,
+});//part of plivo library
 
 console.log('Hello, JEMS! Happy working!');
 
 var dateArray = [];
-var weeklyDigest = cron.schedule('40 19 * * SUN', function () {
+var weeklyDigest = cron.schedule('52 16 * * MON', function () {
 
         pool.connect(function (errorConnectingToDb, db, done) {
             if (errorConnectingToDb) {
@@ -58,7 +62,7 @@ var weeklyDigest = cron.schedule('40 19 * * SUN', function () {
                         let emailMessage = dateArray.join('');
                         var mailOptions = {
                             from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
-                            to: 'joshnothum@gmail.com', // list of receivers
+                            to: 'martapeterson@gmail.com', // list of receivers
                             subject: 'Weekly Digest from Andrew Residence', // Subject line
                             html: ' <body style ="background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);">'+
                             '<h1>Good Day!</h1><h3>Available Shifts:</h3><ul>' + emailMessage + '</ul>'+
@@ -93,7 +97,8 @@ var weeklyDigest = cron.schedule('40 19 * * SUN', function () {
 }, false);
 
 weeklyDigest.start();
-router.post('/urgent', function (req, res) {
+var phoneNumberArray = [];
+router.get('/phones', function (req, res) {
     if (req.isAuthenticated()) {
         pool.connect(function (errorConnectingToDb, db, done) {
             if (errorConnectingToDb) {
@@ -114,9 +119,11 @@ router.post('/urgent', function (req, res) {
                                 phoneNumberArray.push(role.phone + '<');
                                 console.log('role.phone', phoneNumberArray);
                                 
+                                
                             });
                         }
                     });
+                    // Prints the complete response
                 }
                 if (req.body.mhw) {
                     var mentalHealthWorker = 'MHW';
@@ -168,12 +175,8 @@ router.post('/urgent', function (req, res) {
                     authId: AUTH_ID,
                     authToken: AUTH_TOKEN,
                 });//part of plivo library
-                let callThisNumber = phoneNumberArray.join('');
-                var params = {
-                    src: plivoNumber, // Sender's phone number with country code
-                    dst: callThisNumber,
-                    text: 'Urgent Shift Posted:' + '' + textDates,
-                };
+                console.log('this is phone NOW', phoneNumberArray);
+                
                 p.send_message(params, function (status, response) {
                     console.log('Status: ', status);
                     console.log('API Response:\n', response);

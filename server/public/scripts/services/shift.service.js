@@ -66,15 +66,20 @@ self.shift = {};
     // notify = self.newShift.notify;
     console.log('newshift', self.newShift);
     if (urgent) {
-      $http.post('/message/urgent', self.newShift).then(function (response) {
+      $http.get('/message/phones'+ self.newShift).then(function (response) {
+        $http.post('/message/urgent', response).then(function (response){
 
-        console.log(response);
+        }).then(function (response) {
+          console.log(response);
+          
+        });
+        //self.sendMessage(response)
+        
 
       }).catch(function (response) {
         console.log('send urgent textMessage did not work:', response);
       });
     }
-
     return $http.post('/shifts/', self.newShift).then(function (response) {
       return response;
     }).catch(function (err) {

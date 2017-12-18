@@ -302,7 +302,42 @@ router.put('/update/:id', function (req, res) {
     else {
         console.log('User is not authenticated');
     }
-}) //end update pay period dates
+}) //end update shift
 
+//fill shift route
+router.put('/filledBy/:id', function (req, res) {
+    if (req.isAuthenticated()) {
+        console.log('thebody', req.body)
+        var filledBy = req.body.filledBy;
+        var shift_status = req.body.shift_status;
+        var shiftId = req.params.id;
+        console.log('shiftId', shiftId);
+        pool.connect(function (errorConnectingToDb, db, done) {
+            if (errorConnectingToDb) {
+                console.log('Error connecting', errorConnectingToDb);
+                res.sendStatus(500);
+            } //end if error connection to db
+            else {
+                var queryText =
+                    'UPDATE "post_shifts"' +
+                    'SET "filled" = $1, "shift_status" = $2' +
+                    'WHERE "shift_id" = $3;';
+                db.query(queryText, [filledBy, shift_status, shiftId], function (errorMakingQuery, result) {
+                    done();
+                    console.log('result.rows', result);
+                    if (errorMakingQuery) {
+                        console.log('Error making query', errorMakingQuery);
+                        res.sendStatus(500);
+                    } else {
+                        res.send(result.rows);
+                    }
+                }); //end db.query
+            } //end else in pool.connect
+        }); // end pool connect
+    } // end req.isAuthenticated
+    else {
+        console.log('User is not authenticated');
+    }
+}) //end update shift
 
 module.exports = router;

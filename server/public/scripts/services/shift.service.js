@@ -28,6 +28,11 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     shift_status: ''
   }
 
+  self.filledShift = {
+    filledBy: '',
+    shift_status: 'Filled'
+  }
+
   self.shiftsToDisplay = { data: [] };
   //calls the addShift popup
   self.addShift = function (event) {
@@ -201,5 +206,18 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     })
   }
   //end deleteShift function
+  //start shiftFilled function
+  self.shiftFilled = function (id, shiftId) {
+  
+    self.filledShift.filledBy = id;
+
+ return $http.put('/shifts/filledBy/' + shiftId, self.filledShift)
+ .then(function (response){
+  return response
+}).catch(function (response){
+  console.log('Error filling shift');
+})
+  }
+  //end shiftFilled function
 
 })

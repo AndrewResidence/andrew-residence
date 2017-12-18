@@ -333,3 +333,8 @@ margin-left: 20px;
   align-items: center;
   justify-content: center;
 }
+
+#fillShiftInput {
+  width: 200px;
+text-align: center
+}

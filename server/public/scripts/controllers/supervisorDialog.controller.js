@@ -135,9 +135,17 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
     ) // }
   } //end delete shift  
 
-  vm.fillShift = function () {
-    vm.editFill != vm.editFill;
+  vm.fillShift = function (event) {
+    vm.editFill =! vm.editFill;
   }
 
+  vm.shiftFilled = function (id, shiftId) {
+console.log('clicked')
+console.log('staff', id, shiftId)
+ShiftService.shiftFilled(id, shiftId).then(function (response){
+  vm.getShifts();
+
+})
+  }
 });
 

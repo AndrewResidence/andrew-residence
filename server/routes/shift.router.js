@@ -244,7 +244,7 @@ router.get('/shiftBidToConfirm/:id', function (req, res) {
                         if (errorMakingQuery) {
                             console.log('Error making query', errorMakingQuery);
                             res.sendStatus(500);
-                            return
+                            return;
                         }
                         else {
                             console.log('got shift bids');

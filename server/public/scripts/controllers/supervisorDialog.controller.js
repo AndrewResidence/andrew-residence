@@ -1,4 +1,4 @@
-myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdToast, UserService, ShiftService) {
+myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdToast, UserService, ShiftService, pendingShift) {
   console.log('SupervisorDialogController created');
   var vm = this;
   vm.userService = UserService;
@@ -11,8 +11,11 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
   //possible shift types
   vm.shifts = ['Day', 'Evening', 'ADL Evening', 'Night'];
   vm.shiftStatus = ['Open', 'Filled'];
-  vm.shift = ShiftService.shift
+  vm.shift = ShiftService.shift;
+  vm.pendingShift = pendingShift;
   
+
+
   vm.editShift = false;
 
   vm.myArrayOfDates = [];

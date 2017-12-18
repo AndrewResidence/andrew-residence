@@ -125,11 +125,20 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
 
   vm.getShifts();
 
+  //Where I left off: I'm trying to set things up in a way that will allow me to view all of the shift requests for a particular shift. So, the first thing I'm trying to do is match up all shift requests for the same shift. But I'm running into trouble with my for loop.
+
   vm.getPendingShifts = function () {
     ShiftService.getPendingShifts().then(function (response) {
       vm.pendingShifts = response.data;
       for (var i = 0; i < vm.pendingShifts.length; i++) {
-        vm.pendingShifts[i].date = moment(vm.pendingShifts[i].date).format('l');
+        vm.pendingShifts[i].date = moment(vm.pendingShifts[i].date).format('M D');
+      }
+      for (var i = 0; i < vm.pendingShifts.length; i++) {
+        for (var j = 0; i < vm.pendingShifts.length; j++) {
+          if (vm.pendingShifts[i].shift_id === vm.pendingShifts[j].shift_id) {
+            console.log('matching shift', vm.pendingShifts[j].shift_id);
+          }
+        }
       }
       console.log(' pending shifts', vm.pendingShifts);
     })
@@ -154,6 +163,21 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
       targetEvent: event,
       clickOutsideToClose: true,
       locals: { shift: shift },
+      fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
+    })
+  }
+
+  // IF there are two pending shifts that have the same date, display them in the same dialog box AND only show one button
+
+
+  vm.confirmShift = function(event, shift) {
+    $mdDialog.show({
+      controller: 'SupervisorDialogController as sc',
+      templateUrl: '/views/dialogs/confirmShift.html',
+      parent: angular.element(document.body),
+      targetEvent: event,
+      clickOutsideToClose: true,
+      locals: { pendingShift: shift },
       fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
     })
   }

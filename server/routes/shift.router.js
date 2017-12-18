@@ -207,9 +207,11 @@ router.get('/shiftBid', function (req, res) {
             } //end if error connection to db
             else {
                 var queryText =
-                    'SELECT * FROM "post_shifts"' +
-                    'JOIN "shift_bids" ON "post_shifts"."shift_id" = "shift_bids"."shift_id"' +
-                    'WHERE "post_shifts"."shift_status" = $1;'
+                    'SELECT "post_shifts".*, "users"."name", "shift_bids"."bid_id", "shift_bids"."staff_comments" FROM (("post_shifts"' +
+                    'JOIN "shift_bids" ON "post_shifts"."shift_id" = "shift_bids"."shift_id")' +
+                    'JOIN "users" ON "shift_bids"."user_id" = "users".id)' + 
+                    'WHERE "post_shifts"."shift_status" = $1' +  
+                    'ORDER BY "post_shifts"."date" ASC;'
                 db.query(queryText, ["Pending"],
                     function (errorMakingQuery, result) {
                         done();

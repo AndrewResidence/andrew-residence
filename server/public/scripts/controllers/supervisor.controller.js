@@ -10,11 +10,11 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   vm.realPendingShifts = [];
 
   vm.shiftDetails = function (event, shift) {
-    ShiftService.shiftDetails(event, shift)
-  }
+    ShiftService.shiftDetails(event, shift);
+  };
   vm.addShift = function (event) {
-    ShiftService.addShift(event)
-  }
+    ShiftService.addShift(event);
+  };
 
   vm.updatePayPeriodDates = function () {
     calendarService.updatePayPeriodDates().then(function (response) {
@@ -61,7 +61,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
       vm.currentSchedule.push({ moment: moment(prevTwoWeeks._d).add(vm.scheduleDays[i], 'days'), shifts: [] });
     }
     vm.month = moment(prevTwoWeeks._d).format('MMMM');
-    vm.year = moment(prevTwoWeeks._d).format('YYYY')
+    vm.year = moment(prevTwoWeeks._d).format('YYYY');
     vm.getShifts();
   };
 
@@ -84,7 +84,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   };
 
   vm.addShift = function (event) {
-    ShiftService.addShift(event)
+    ShiftService.addShift(event);
   };
 
   vm.getShifts = function () {
@@ -154,7 +154,6 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
     // console.log('this', this)
     // console.log('this.date', this.currentSchedule.dates[index]);
   };
-
   //This is a pick-up shift dialog that WILL BE MOVED to the staff controller once the staff calendar is up and running.
   vm.showDetailsDialog = function (event, shift) {
     console.log('pick up shift button clicked');

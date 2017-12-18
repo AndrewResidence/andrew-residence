@@ -18,17 +18,17 @@
         <button ng-click="ac.showEditDialog($event, staff)">Edit</button>
         <button ng-click="ac.deleteUser(staff)">Remove</button>
       </div>
-      </div>
-      <div id="approveUsersBox">
-        <h2>Approve users box</h2>
-        <div ng-repeat="user in ac.unconfirmed">
-          {{user.name}}
-          <button ng-click="ac.showConfirmDialog($event, user)">Confirm</button>
-          <!-- Dialog pops up with option to add a role for the user. Whichever button they select gets sent back as the user's role, and the confirm button on the dialog will trigger the PUT route -->
-          <button ng-click="ac.deleteUser(user)">Remove</button>
-        </div>
-      </div>
-
     </div>
+    <div id="approveUsersBox">
+      <h2>Approve users box</h2>
+      <div ng-repeat="user in ac.unconfirmed">
+        {{user.name}}
+        <button ng-click="ac.showConfirmDialog($event, user)">Confirm</button>
+        <!-- Dialog pops up with option to add a role for the user. Whichever button they select gets sent back as the user's role, and the confirm button on the dialog will trigger the PUT route -->
+        <button ng-click="ac.deleteUser(user)">Remove</button>
+      </div>
+    </div>
+
   </div>
+</div>
 </div>

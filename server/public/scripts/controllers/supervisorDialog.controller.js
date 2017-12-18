@@ -30,7 +30,7 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
     }
   }, true);
 
-//start newShift function
+  //start newShift function
   vm.addNewShift = function (shiftDate, shiftStatus, urgent, shift, role, comments, notify, nurse, adl, mhw) {
     console.log('nurse in add shift', nurse);
     ShiftService.addNewShift(shiftDate, shiftStatus, urgent, shift, role, comments, notify, nurse, adl, mhw).then(function (response) {
@@ -44,20 +44,19 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
     });
   };
 //end add newShift
-
   //closes dialog box
   vm.cancel = function () {
     $mdDialog.hide();
   }; //end close dialog
 
-  vm.editShiftDetails=function(event) {
-vm.editShift=true;
-console.log(vm.editShift);
+  vm.editShiftDetails = function (event) {
+    vm.editShift = true;
+    console.log(vm.editShift);
   };
 
   vm.updateShift = function (id, comments, shift, mhw, adl, nurse, date, status) {
     ShiftService.updateShift(id, comments, shift, mhw, adl, nurse, date, status)
-  }
+  };
 
 
   vm.getPendingShifts = function(shiftId) {

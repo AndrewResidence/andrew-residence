@@ -1,33 +1,29 @@
 var pool = require('../modules/pool.js');
-require('dotenv').config({ path: './server/.env' });
+require('dotenv').config({ path: '../group-project/.env' });
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var path = require('path');
 var nodemailer = require('nodemailer');
-var IterateObject = require("iterate-object")
 var plivo = require('plivo');
 /* credentials for plivo*/
 var AUTH_ID = process.env.PLIVO_AUTH_ID;
 var AUTH_TOKEN = process.env.PLIVO_AUTH_TOKEN;
 var plivoNumber = '16128519117';//rented plivo number
-
-
 /* credentials for google oauth w/nodemailer*/
 var GMAIL_USER = process.env.GMAIL_USER;
 var REFRESH_TOKEN = process.env.REFRESH_TOKEN;
 var ACCESS_TOKEN = process.env.ACCESS_TOKEN;
 var CLIENT_ID = process.env.CLIENT_ID;
 var CLIENT_SECRET = process.env.CLIENT_SECRET;
-
 //post route for new shifts
 router.post('/', function (req, res) {
     if (req.isAuthenticated()) {
-        var newShift = req.body
-        console.log('new shift', newShift)
-        console.log('req.body.shiftDate', req.body.shiftDate)
+        var newShift = req.body;
+        console.log('new shift', newShift);
+        console.log('req.body.shiftDate', req.body.shiftDate);
 
-        var createdBy = req.user.id
+        var createdBy = req.user.id;
         pool.connect(function (errorConnectingToDb, db, done) {
             if (errorConnectingToDb) {
                 console.log('Error connecting', errorConnectingToDb);
@@ -46,17 +42,17 @@ router.post('/', function (req, res) {
                                 res.sendStatus(500);
                                 return;
                             }
-                        })
+                        });
                 }//end for loop
                 res.sendStatus(201);
             }
         }
-        )
+        );
     } // end req.isAuthenticated //end if statement
     else {
         console.log('User is not authenticated');
     }
-})//end post route for new shifts
+});//end post route for new shifts
 //get route for post_shifts 
 router.get('/', function (req, res) {
     if (req.isAuthenticated()) {
@@ -82,9 +78,8 @@ router.get('/', function (req, res) {
     } // end req.isAuthenticated
     else {
         console.log('User is not authenticated');
-    };
+    }
 }); //end get shifts
-
 //gets the current pay period start and end dates
 router.get('/payperiod/getdates', function (req, res) {
     if (req.isAuthenticated()) {
@@ -112,7 +107,6 @@ router.get('/payperiod/getdates', function (req, res) {
         console.log('User is not authenticated');
     }
 }); //end get pay period dates
-
 //updates the pay period start and end date in the database
 router.put('/payperiod/updatedates/:id', function (req, res) {
     if (req.isAuthenticated()) {
@@ -148,10 +142,10 @@ router.put('/payperiod/updatedates/:id', function (req, res) {
 //POST shift bids
 router.post('/shiftBid', function (req, res) {
     if (req.isAuthenticated()) {
-        var shiftBid = req.body
-        console.log('new shift bid', shiftBid)
-        console.log('req.body.date', req.body.date)
-        var createdBy = req.user.id
+        var shiftBid = req.body;
+        console.log('new shift bid', shiftBid);
+        console.log('req.body.date', req.body.date);
+        var createdBy = req.user.id;
         pool.connect(function (errorConnectingToDb, db, done) {
             if (errorConnectingToDb) {
                 console.log('Error connecting', errorConnectingToDb);
@@ -160,42 +154,42 @@ router.post('/shiftBid', function (req, res) {
             else {
                 var queryText =
                     'INSERT INTO "shift_bids" ("shift_id", "user_id", "staff_comments")' +
-                    'VALUES ($1, $2, $3);'
+                    'VALUES ($1, $2, $3);';
                 db.query(queryText, [shiftBid.id, shiftBid.user, shiftBid.comments],
                     function (errorMakingQuery, result) {
                         done();
                         if (errorMakingQuery) {
                             console.log('Error making query', errorMakingQuery);
                             res.sendStatus(500);
-                            return
+                            return;
                         }
                         else {
                             console.log('posted shift bid');
-                            var queryText = 'UPDATE "post_shifts" SET "shift_status" = $1 WHERE "shift_id" = $2;'
+                            var queryText = 'UPDATE "post_shifts" SET "shift_status" = $1 WHERE "shift_id" = $2;';
                             db.query(queryText, ["Pending", req.body.id],
                                 function (errorMakingQuery, result) {
                                     done();
                                     if (errorMakingQuery) {
                                         console.log('Error making query', errorMakingQuery);
                                         res.sendStatus(500);
-                                        return
+                                        return;
                                     }
                                     else {
                                         res.sendStatus(201);
                                         console.log('updated shift status in shift table');
                                     }
-                                })
+                                });
                         }
-                    })
+                    });
             }
 
-        }) // end req.isAuthenticated //end if statement
+        }); // end req.isAuthenticated //end if statement
     }
     else {
         console.log('User is not authenticated')
         res.sendStatus(403);
     }
-})//end post route for new shifts
+});//end post route for new shifts
 
 //GET Shift bids
 router.get('/shiftBid', function (req, res) {
@@ -206,28 +200,40 @@ router.get('/shiftBid', function (req, res) {
                 res.sendStatus(500);
             } //end if error connection to db
             else {
+<<<<<<< HEAD
                 var queryText =  'SELECT * FROM post_shifts WHERE shift_status ILIKE $1 ORDER BY date ASC;'
+=======
+                var queryText =
+                    'SELECT * FROM "post_shifts"' +
+                    'JOIN "shift_bids" ON "post_shifts"."shift_id" = "shift_bids"."shift_id"' +
+                    'WHERE "post_shifts"."shift_status" = $1;';
+>>>>>>> master
                 db.query(queryText, ["Pending"],
                     function (errorMakingQuery, result) {
                         done();
                         if (errorMakingQuery) {
                             console.log('Error making query', errorMakingQuery);
                             res.sendStatus(500);
-                            return
+                            return;
                         }
                         else {
                             console.log('got shift bids');
                             res.send(result.rows);
                         }
-                    })
+                    });
             }
+<<<<<<< HEAD
         }) // end req.isAuthenticated //end if statement
+=======
+
+        }); // end req.isAuthenticated //end if statement
+>>>>>>> master
     }
     else {
         console.log('User is not authenticated')
         res.sendStatus(403);
     }
-})//end post route for new shifts
+});//end post route for new shifts
 
 //GET Shift bids
 router.get('/shiftBidToConfirm/:id', function (req, res) {
@@ -271,8 +277,6 @@ router.get('/shiftBidToConfirm/:id', function (req, res) {
 // 'ORDER BY "post_shifts"."date" ASC;'
 
 //GET confirmed shifts
-
-
 
 
 module.exports = router;

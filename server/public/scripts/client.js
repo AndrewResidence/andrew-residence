@@ -82,21 +82,21 @@ myApp.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {
       redirectTo: 'home'
     })
 
-    // var andrewResPurple = $mdThemingProvider.extendPalette('deep-purple', {
-    //   '50': '9e8cbc',
-    //   '500': '6f5f8c',
-    //   '900': '43355f'
-    // })
+  // var andrewResPurple = $mdThemingProvider.extendPalette('deep-purple', {
+  //   '50': '9e8cbc',
+  //   '500': '6f5f8c',
+  //   '900': '43355f'
+  // })
 
-    // $mdThemingProvider.definePalette('andrewPurple', andrewPurple);
+  // $mdThemingProvider.definePalette('andrewPurple', andrewPurple);
 
 
-    $mdThemingProvider.theme('default')
-      .primaryPalette('amber', {
-      })
+  $mdThemingProvider.theme('default')
+    .primaryPalette('amber', {
+    })
 
-      .accentPalette('grey', {
+    .accentPalette('grey', {
 
-      })
+    })
 });
 

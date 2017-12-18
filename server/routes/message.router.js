@@ -168,10 +168,10 @@ router.post('/urgent', function (req, res) {
                     authId: AUTH_ID,
                     authToken: AUTH_TOKEN,
                 });//part of plivo library
-
+                let callThisNumber = phoneNumberArray.join('');
                 var params = {
                     src: plivoNumber, // Sender's phone number with country code
-                    dst: phoneNumberArray.join(),
+                    dst: callThisNumber,
                     text: 'Urgent Shift Posted:' + '' + textDates,
                 };
                 p.send_message(params, function (status, response) {

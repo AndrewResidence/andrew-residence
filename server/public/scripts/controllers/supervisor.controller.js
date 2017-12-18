@@ -16,13 +16,8 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   };
 
   vm.updatePayPeriodDates = function () {
-<<<<<<< HEAD
-    ShiftService.updatePayPeriodDates().then(function (response) {
-      console.log(response);
-=======
     calendarService.updatePayPeriodDates().then(function (response) {
       console.log(response)
->>>>>>> 7b59d58da73e371217386f2ea04aa3c94d7d8066
     });
   };
   // //used for assigning month/day in the calendar header

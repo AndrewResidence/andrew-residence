@@ -224,3 +224,11 @@ md-icon.Night path.circle {
   align-items: center;
   justify-content: center;
 }
+
+div.shiftButton.Filled {
+  background-color: #959595;
+}
+
+div.Pending {
+  background-color: #FCF1C6;
+}

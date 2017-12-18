@@ -1,9 +1,9 @@
 <div ng-include="'views/partials/nav.html'"></div>
 <div class="staffPage" layout="column" layout-align="center center" ng-cloak>
   <div layout="row" layout-align="center center">
-    <md-button class="md-raised md-primary">All</md-button>
+    <md-button class="md-raised md-primary" ng-click="sc.">All</md-button>
     <md-button class="md-raised md-primary">Open</md-button>
-    <md-button class="md-raised md-primary">My Shifts</md-button>
+    <md-button class="md-raised md-primary" ng-click="sc.getMyShifts()">My Shifts</md-button>
   </div>
   <!-- This button will go in staff view when staff calendar is up and running: -->
   <!-- <md-button class="md-raised md-primary" ng-click="sc.showDetailsDialog($event)">Pick Up Shift</md-button> -->
@@ -24,7 +24,7 @@
       <div class="innerBox">
         <span class="dayNum">{{day.dayNum}}</span>
         <div layout="column" ng-repeat="shift in day.shifts track by $index">
-          <div class="shiftButton" ng-click="sc.shiftDetails(event, shift)">
+          <div class="shiftButton" ng-class="{{'shift.shift_status'}}" ng-click="sc.shiftDetails(event, shift)">
               <md-icon ng-class="{{'shift.shift'}}" md-svg-icon="../images/ic_add_circle_black_18px.svg"></md-icon>
               <span ng-show="shift.adl">ADL</span>
               <span ng-show="shift.nurse">Nurse</span>

@@ -90,6 +90,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
     vm.shiftsToDisplay = [];
     ShiftService.getShifts().then(function (response) {
       vm.shiftsToDisplay = response.data;
+      console.log('shifts to display', vm.shiftsToDisplay)
       for (var i = 0; i < vm.shiftsToDisplay.length; i++) {
         for (var j = 0; j < vm.currentSchedule.length; j++) {
           // vm.currentSchedule[j].shifts = [];
@@ -109,7 +110,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
       for (var i = 0; i < vm.pendingShifts.length; i++) {
         vm.pendingShifts[i].date = moment(vm.pendingShifts[i].date).format('l');
       }
-      // console.log(' pending shifts', vm.pendingShifts);
+      console.log('pending shifts', vm.pendingShifts);
     })
   }
 

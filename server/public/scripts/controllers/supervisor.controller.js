@@ -87,12 +87,9 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   };
 
   vm.getShifts = function () {
-    console.log('______get shifts is running')
     vm.shiftsToDisplay = [];
-    console.log('vm.shifts to display empty', vm.shiftsToDisplay)
     ShiftService.getShifts().then(function (response) {
       vm.shiftsToDisplay = response.data;
-      console.log('shifts in controller after response', vm.shiftsToDisplay);
       for (var i = 0; i < vm.shiftsToDisplay.length; i++) {
         for (var j = 0; j < vm.currentSchedule.length; j++) {
           // vm.currentSchedule[j].shifts = [];

@@ -11,7 +11,8 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
   vm.staff = [];
   vm.shifts = ['Day', 'Evening', 'ADL Evening', 'Night'];
   vm.shiftStatus = ['Open', 'Filled'];
-  vm.shift = ShiftService.shift
+  vm.shift = ShiftService.shift;
+
   vm.editShift = false;
   vm.myArrayOfDates = [];
   vm.updatedShift = ShiftService.updatedShift;

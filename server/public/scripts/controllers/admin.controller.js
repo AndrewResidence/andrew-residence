@@ -8,6 +8,32 @@ myApp.controller('AdminController', function ($mdDialog, $mdToast, UserService, 
   vm.staff = [];
   vm.unconfirmed = [];
   var show = false;
+
+
+    //Filestack for add transaction dialog 
+    vm.apikey = 'AuSmv6aEsT2acrLuuw0HRz';
+    vm.filestackClient = filestack.init(vm.apikey);
+
+    vm.response = {img:''}; 
+
+    vm.openPicker = function() {
+      vm.filestackClient.pick({
+        fromSources:["local_file_system","dropbox", "url", "imagesearch"],
+        accept:["image/*"]
+      }).then(function(response) {
+        // declare this function to handle response
+        handleFilestack(response);
+      });
+    };
+  
+    function handleFilestack(response) {
+      console.log(response.filesUploaded[0]);
+      vm.response.img = response.filesUploaded[0].url;
+      console.log(vm.response);
+    }
+
+
+
   // GET unconfirmed users route
   vm.getUnconfirmed = function () {
     vm.userService.getUnconfirmed().then(function (response) {
@@ -40,8 +66,6 @@ myApp.controller('AdminController', function ($mdDialog, $mdToast, UserService, 
       console.log('changed user', response);
     });
   };
-
-
   // GET supervisors route (GET users where role = supervisor)
   vm.getSupervisors = function () {
     vm.userService.getSupervisors().then(function (response) {
@@ -50,8 +74,6 @@ myApp.controller('AdminController', function ($mdDialog, $mdToast, UserService, 
     });
   };
   vm.getSupervisors();
-
-
   // GET staff route (GET users where role = nurse, MHW or ADL)
   vm.getStaff = function () {
     vm.userService.getStaff().then(function (response) {
@@ -64,8 +86,7 @@ myApp.controller('AdminController', function ($mdDialog, $mdToast, UserService, 
   //Users DELETE route
   vm.deleteUser = function (user) {
     vm.showDeleteToast(user)
-  }
-
+  };
   //Show dialog for edit individual user
   vm.showEditDialog = function (event, user) {
     console.log('button clicked');
@@ -83,8 +104,6 @@ myApp.controller('AdminController', function ($mdDialog, $mdToast, UserService, 
       vm.showEditToast();
     });
   };
-
-
   vm.showEditToast = function () {
     $mdToast.show(
       $mdToast.simple()
@@ -93,7 +112,6 @@ myApp.controller('AdminController', function ($mdDialog, $mdToast, UserService, 
         .hideDelay(2500)
     );
   };
-
   vm.showConfirmToast = function () {
     $mdToast.show(
       $mdToast.simple()
@@ -102,7 +120,6 @@ myApp.controller('AdminController', function ($mdDialog, $mdToast, UserService, 
         .hideDelay(2500)
     );
   };
-
   vm.showDeleteToast = function (user) {
     console.log('user in toast', user);
     var toast = $mdToast.simple()

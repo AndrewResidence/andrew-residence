@@ -66,23 +66,22 @@ self.shift = {};
     // notify = self.newShift.notify;
     console.log('newshift', self.newShift);
     if (urgent) {
-      $http.get('/message/urgent'+ self.newShift).then(function (response) {
-        console.log(response);
         
-        $http.post('/message/urgent/', response).then(function(){
-            console.log('send urgent textMessage did not work:', response);
+        $http.post('/message/urgent', self.newShift).then(function(){
+            console.log(response);
         }).catch(function (response) {
           console.log('send urgent textMessage did not work:', response);
         });
       
-    });
+    }
 
     return $http.post('/shifts/', self.newShift).then(function (response) {
       return response;
     }).catch(function (err) {
       console.log('Error');
     });
-  }; //end addNewShift function and route
+  
+ }; //end addNewShift function and route
 
   self.getShifts = function () {
     self.shiftsToDisplay.data = [];

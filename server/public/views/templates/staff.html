@@ -1,7 +1,7 @@
 <div ng-include="'views/partials/nav.html'"></div>
 <md-content ng-cloak hide-xs hide-sm>
-  <md-tabs>
-    <md-tab label="All Open">
+  <md-tabs flex layout="column" layout-fill>
+    <md-tab flex layout="column" label="All Open">
       <md-content>
         <div class="staffPage" layout="column" layout-align="center center">
           <div layout="row" layout-align="center center">
@@ -53,7 +53,7 @@
         </div>
       </md-content>
     </md-tab>
-    <md-tab label="My Shifts">
+    <md-tab layout-fill label="My Shifts">
       <md-content>
         Some words are here for now.
       </md-content>
@@ -64,8 +64,8 @@
 <div class="mobileView" show-xs show-sm hide-md hide-lg hide-xl>
   <!-- mobile view -->
   <md-content>
-    <md-tabs>
-      <md-tab label="All Open">
+    <md-tabs layout-fill flex>
+      <md-tab layout-fill label="All Open">
         <md-content>
 
           <div layout="row" layout-align="center center">
@@ -99,7 +99,7 @@
         </div>
       </md-content>
     </md-tab>
-    <md-tab label="My Shifts">
+    <md-tab  layout-fill label="My Shifts">
       <md-content>
         My schedule will go here
       </md-content>

@@ -1,21 +1,33 @@
 # 
 
-Shift Scheduler One Paragraph of project description goes here. Link to the live version of the app if it's hosted on Heroku.
+Shift Scheduler 
+Andrew Residence requires a calendar/scheduling application to assist in sceduling on-call staff.  Shift Scheduler 
 
 ## Built With
 
-List technologies and frameworks here
+SQL
+Express
+AngularJS
+Node.js
+Nodemailer
+MomentJS
+Plivo API
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+Fork repo from (https://github.com/Andrew-Residence/group-project)
 
 ### Prerequisites
 
 Link to software that is required to install the app (e.g. node).
 
 - [Node.js](https://nodejs.org/en/)
-- List other prerequisites here
+- [AngularJS](https://angularjs.org/)
+- [PostgreSQL](https://www.postgresql.org/)
+- [Express](http://expressjs.com/)
+- [Angular Material](https://material.angularjs.org/latest/)
+- [Moment](https://momentjs.com/docs/)
+- [Plivo Helper Library](https://www.plivo.com/docs/helpers/node/)
 
 
 ### Installing
@@ -42,14 +54,21 @@ Link to a read-only version of your scope document or other relevant documentati
 
 High level list of items completed.
 
-- [x] Feature a
-- [x] Feature b
+Supervisors
+- [x] Post avaialble shifts
+- [x] Confirm shifts
+- [x] Schedule Urgent Shifts
+- [x] Send weekly shift reminder
+
+On-call Staff
+- [x] View available shifts and previously scheduled shifts
+- [x] Place bids on available shifts
+- [x] Edit profile information
+
 
 ### Next Steps
 
-Features that you would like to add at some point in the future.
-
-- [ ] Feature c
+- Receive schedule by texting keyword to Plivo Number
 
 ## Deployment
 

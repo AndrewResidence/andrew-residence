@@ -1,7 +1,7 @@
 myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   console.log('ShiftService Loaded');
   var self = this;
-self.shift = {};
+  self.shift = {};
   self.newShift = {
     shiftDate: [],
     urgent: false,
@@ -24,7 +24,7 @@ self.shift = {};
     shift_status: ''
   };
 
-  self.shiftsToDisplay = {data: []};
+  self.shiftsToDisplay = { data: [] };
   //calls the addShift popup
   self.addShift = function (event) {
     console.log('add new shift button clicked');
@@ -66,19 +66,20 @@ self.shift = {};
     // notify = self.newShift.notify;
     console.log('newshift', self.newShift);
     if (urgent) {
-      $http.post('/message/urgent').then(function (response) {
+      $http.post('/message/urgent', self.newShift).then(function (response) {
 
+        console.log(response);
 
       }).catch(function (response) {
         console.log('send urgent textMessage did not work:', response);
       });
     }
+
     return $http.post('/shifts/', self.newShift).then(function (response) {
       return response;
     }).catch(function (err) {
       console.log('Error');
     });
-
   }; //end addNewShift function and route
 
   self.getShifts = function () {
@@ -107,8 +108,8 @@ self.shift = {};
     });
   };
 
-  self.pickUpShift = function(shift) {
-    return $http.post('/shifts/shiftBid', shift).then(function(response) {
+  self.pickUpShift = function (shift) {
+    return $http.post('/shifts/shiftBid', shift).then(function (response) {
       console.log('posted shift bid', response);
       return response;
     });
@@ -133,7 +134,7 @@ self.shift = {};
   //   })
   // }
 
-  self.getMyShifts = function() {
+  self.getMyShifts = function () {
     console.log('get my shifts clicked')
     return $http.get('/shifts/getmyshifts').then(function (response) {
       console.log('response from server', response.data)

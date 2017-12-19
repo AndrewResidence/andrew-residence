@@ -110,7 +110,7 @@ li a:hover {
 .calHeader {
   font-size: 16px;
   margin-bottom: 10px;
-  width: 13.5%;
+  width: 13.4%;
   background-color: #3F3F3F;
   margin: 2px;
   padding: 2px;
@@ -125,7 +125,7 @@ li a:hover {
 .calBox {
   background-color: lightslategray;
   margin: 2px;
-  width: 13.5%;
+  width: 13.4%;
 }
 
 
@@ -143,7 +143,7 @@ li a:hover {
 }
 
 .staffCalBox {
-  width: 13.5%;
+  width: 13.4%;
   min-height: 150px;
   background-color: #E7E7E7;
   display: inline-flex;
@@ -253,4 +253,35 @@ div.shiftButton.Filled {
 
 div.Pending {
   background-color: #FCF1C6;
+}
+
+.legendRow {
+  display: flex;
+  /* justify-content: space-evenly; */
+}
+
+.key {
+  margin-right: 20px;
+  margin-left: 10px;
+}
+
+.legend {
+  height: 30px;
+  width: 100px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);  
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  padding-top: 5px;
+  padding-bottom: -5px;
+  border-radius: 2px;
+  margin-right: 10px;
+}
+
+#pending {
+  background-color: #FCF1C6;
+}
+
+#filled {
+  background-color: #959595;
 }

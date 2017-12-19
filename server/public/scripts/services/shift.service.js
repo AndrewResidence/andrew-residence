@@ -66,7 +66,6 @@ self.shift = {};
     // notify = self.newShift.notify;
     console.log('newshift', self.newShift);
     if (urgent) {
-<<<<<<< HEAD
       $http.get('/message/phones'+ self.newShift).then(function (response) {
         $http.post('/message/urgent', response).then(function (response){
 
@@ -81,19 +80,6 @@ self.shift = {};
         console.log('send urgent textMessage did not work:', response);
       });
     }
-=======
-      $http.get('/message/urgent'+ self.newShift).then(function (response) {
-        console.log(response);
-        
-        $http.post('/message/urgent/', response).then(function(){
-            console.log('send urgent textMessage did not work:', response);
-        }).catch(function (response) {
-          console.log('send urgent textMessage did not work:', response);
-        });
-      
-    });
-
->>>>>>> master
     return $http.post('/shifts/', self.newShift).then(function (response) {
       return response;
     }).catch(function (err) {
@@ -153,6 +139,13 @@ self.shift = {};
   //   })
   // }
 
+  self.getMyShifts = function() {
+    console.log('get my shifts clicked')
+    return $http.get('/shifts/getmyshifts').then(function (response) {
+      console.log('response from server', response.data)
+      return response.data;
+    })
+  }
 
 
   /* for Message testing; see popUpTest Controller and message.html */

@@ -1,11 +1,12 @@
 myApp.controller('StaffController', function (UserService, ShiftService, AvailabilityService, $mdDialog) {
   console.log('StaffController created');
   var vm = this;
+  
   vm.userService = UserService;
   vm.userObject = UserService.userObject;
   vm.displayMonth = '';
   vm.displayYear = '';
-  vm.dayList = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+  vm.dayList = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY']
   vm.today = moment();
   vm.thisMonth = moment(vm.today).month();
   vm.currentYear = moment(vm.today).year();
@@ -179,7 +180,23 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
     vm.numDaysInCurrentMonth = moment().year(vm.currentYear).month(vm.thisMonth).daysInMonth();
     vm.putDaysinCurrentMonthArray(vm.currentYear, vm.thisMonth, vm.numDaysInCurrentMonth)
     vm.getShifts();
-  };
+  }
+
+  //shift details pop up
+  // vm.showDetailsDialog = function(event) {
+  //   console.log('pick up shift button clicked');
+  //   $mdDialog.show({
+  //     controller: 'StaffDialogController as sc',
+  //     templateUrl: '/views/dialogs/pickUpShift.html',
+  //     parent: angular.element(document.body),
+  //     targetEvent: event,
+  //     clickOutsideToClose: true,
+  //     fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
+  //   })
+  // }
+
+  // //gets all shifts
+// };
 
   //shift details pop up
   vm.showDetailsDialog = function (event) {
@@ -242,6 +259,10 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
       fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
     });
   };
+
+  vm.getMyShifts = function() {
+    ShiftService.getMyShifts();
+  }
   // vm.showDetailsDialog = function(event) {
   //   console.log('pick up shift button clicked');
   //   $mdDialog.show({

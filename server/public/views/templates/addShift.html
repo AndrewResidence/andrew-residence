@@ -8,52 +8,74 @@
         </div>
     </md-toolbar>
     <md-dialog-content flex="auto">
-        <div layout-gt-xl="row">
-
-            <md-checkbox id="urgentCheckbox" ng-model="sd.newShift.urgent">Mark Urgent</md-checkbox>
-            </label>
-        </div>
-        <div layout-gt-xl="row">
-            <md-input-container class="md-block" flex=50>
-                <label>Shift Status:</label>
-                <md-select id="statusDrop" ng-model="sd.newShift.shift_status">
-                    <md-option id="statusDrop" ng-value="status" ng-repeat="status in sd.shiftStatus">{{status}}</md-option>
-                </md-select>
-            </md-input-container>
-        </div>
-        <div layout-gt-xl="row">
-            <md-input-container class="md-block" flex=50>
-                <label>Shift:</label>
-                <md-select id="shiftDrop" ng-model="sd.newShift.shift">
-                    <md-option id="shiftDrop" ng-value="shift" ng-repeat="shift in sd.shifts">{{shift}}</md-option>
-                </md-select>
-            </md-input-container>
-        </div>
-        <div layout-gt-xl="row">
-            Role:
+        <div layout="row" id="roleBoxes">
+            <span id="addRole"> Role(s): </span>
             <md-checkbox ng-model="sd.newShift.nurse" ng-true-value="'true'" ng-false-value="'false'">Nurse</md-checkbox>
             <md-checkbox ng-model="sd.newShift.adl" ng-true-value="'true'" ng-false-value="'false'">ADL</md-checkbox>
             <md-checkbox ng-model="sd.newShift.mhw" ng-true-value="'true'" ng-false-value="'false'">MHW</md-checkbox>
+
+<<<<<<< HEAD
+            <md-checkbox id="urgent" ng-model="sd.newShift.urgent" ng-true-value="'true'" ng-false-value="'false'">MARK URGENT</md-checkbox>
+=======
+            <md-checkbox id="urgentCheckbox" ng-model="sd.newShift.urgent">Mark Urgent</md-checkbox>
+>>>>>>> master
+            </label>
+
         </div>
-        <div>
-            Select shift date/dates:
-            <multiple-date-picker right-click="rightClickCb" ng-model="myArrayOfDates"></multiple-date-picker>
+        <div layout="row" layout-align="space-between center">
+            <div id="shiftInput">
+                <md-input-container id="shiftDropInput" class="md-block">
+                    <label>Shift:</label>
+                    <md-select id="shiftDrop" ng-model="sd.newShift.shift">
+                        <md-option id="shiftDrop" ng-value="shift" ng-repeat="shift in sd.shifts">{{shift}}</md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+            <div>
+                <md-input-container class="md-block">
+                    <label>Floor:</label>
+                    <md-select id="floorDrop" ng-model="sd.newShift.floor">
+                        <md-option id="floorDrop" ng-value="floor" ng-repeat="floor in sd.floors">{{floor}}</md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+            <div>
+                <md-input-container id="statusDrop" class="md-block" flex=50>
+                    <label>Status:</label>
+                    <md-select id="statusDrop" ng-model="sd.newShift.shift_status" ng-change="sd.statusUpdate(sd.newShift.shift_status)">
+                        <md-option id="statusDrop" ng-value="status" ng-repeat="status in sd.shiftStatus">{{status}}</md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+            <div ng-if="sd.showStaff">
+                <md-input-container id="staffDrop" class="md-block" flex=50>
+                    <label>Staff:</label>
+                    <md-select id="staffDrop" ng-model="sd.newShift.filled">
+                        <md-option id="staffDrop" ng-value="staff.id" ng-repeat="staff in sd.staff">{{staff.name}}</md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+        </div>
+
+        <p id="addFonts">Select shift date(s):</p>
+        <div style="width: 75%" layout="row" layout-align="space-around center">
+            <multiple-date-picker id="addCalendar" right-click="rightClickCb" ng-model="myArrayOfDates"></multiple-date-picker>
         </div>
 
         <div layout-gt-xl="row">
             <md-input-container id="shiftCommentsText" class="md-block">
                 <label>Shift Comments:</label>
-                <textarea rows="2" width="300PX" name="shiftComments" ng-model="sd.newShift.comments" md-select-on-focus></textarea>
+                <textarea id="commentText" rows="3" name="shiftComments" ng-model="sd.newShift.comments" md-select-on-focus></textarea>
             </md-input-container>
         </div>
-        <md-divider></md-divider>
-        <!-- Notify the following supervisors when the shift is filled:
-<div layout="row" layout-wrap flex>
-    <div flex="50" ng-repeat="name in sd.supervisors">
-        <md-checkbox ng-checked="selected" ng-model="sd.newShift.notify">
-            {{ name }}
-        </md-checkbox>
-    </div> -->
+            <span id="notifyFollowing"> Notify the following when a request to fill a shift is made: </span>
+            <br>
+            <br>
+
+        <div layout="row" id="notifyFollowing" ng-repeat="name in sd.supervisors track by $index">
+            <md-checkbox id ="notifyFollowing" checklist-value="name.id" checklist-model="sd.myArrayOfSupervisors">{{name.name}}</md-checkbox>
+            <span flex></span>
+        </div>
 
     </md-dialog-content>
     <md-dialog-actions layout="row">
@@ -61,7 +83,7 @@
             Cancel
         </md-button>
         <span flex></span>
-        <md-button ng-click="sd.addNewShift(myArrayOfDates, sd.shift_status, sd.newShift.urgent, sd.newShift.shift, sd.newShift.role, sd.newShift.comments, sd.newShift.notify, sd.newShift.nurse, sd.newShift.adl, sd.newShift.mhw)">
+        <md-button ng-click="sd.addNewShift(sd.newShift.filled, sd.myArrayOfSupervisors, myArrayOfDates, sd.shift_status, sd.newShift.urgent, sd.newShift.shift, sd.newShift.role, sd.newShift.comments, sd.newShift.notify, sd.newShift.nurse, sd.newShift.adl, sd.newShift.mhw)">
             Add Shift
         </md-button>
     </md-dialog-actions>

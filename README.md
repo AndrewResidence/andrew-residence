@@ -24,70 +24,70 @@ Steps to get the development environment running.
 
 ```sql
 CREATE TABLE `users` (
-	`id` INT NOT NULL AUTO_INCREMENT,
-	`name` varchar NOT NULL,
-	`password` varchar NOT NULL,
-	`username` varchar NOT NULL UNIQUE,
-	`role` varchar,
-	`phone` INT,
-	`confirmed` BOOLEAN NOT NULL DEFAULT 'false',
-	PRIMARY KEY (`id`)
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `name` varchar NOT NULL,
+    `password` varchar NOT NULL,
+    `username` varchar NOT NULL UNIQUE,
+    `role` varchar,
+    `phone` INT,
+    `confirmed` BOOLEAN NOT NULL DEFAULT 'false',
+    PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `post_shifts` (
-	`date` DATE NOT NULL,
-	`shift_id` INT NOT NULL AUTO_INCREMENT,
-	`shift` varchar NOT NULL AUTO_INCREMENT,
-	`shift_status` varchar AUTO_INCREMENT DEFAULT 'open',
-	`shift_comments` varchar,
-	`created_by` INT NOT NULL,
-	`urgent` BOOLEAN NOT NULL DEFAULT 'false',
-	`adl` BOOLEAN DEFAULT 'false',
-	`mhw` BOOLEAN DEFAULT 'false',
-	`nurse` BOOLEAN DEFAULT 'false',
-	`notify` varchar[],
-	`filled` INT NOT NULL,
-	`floor` VARCHAR(255) NOT NULL,
-	PRIMARY KEY (`shift_id`)
+    `date` DATE NOT NULL,
+    `shift_id` INT NOT NULL AUTO_INCREMENT,
+    `shift` varchar NOT NULL
+    `shift_status` varchar DEFAULT 'open',
+    `shift_comments` varchar,
+    `created_by` INT NOT NULL,
+    `urgent` BOOLEAN NOT NULL DEFAULT 'false',
+    `adl` BOOLEAN DEFAULT 'false',
+    `mhw` BOOLEAN DEFAULT 'false',
+    `nurse` BOOLEAN DEFAULT 'false',
+    `notify` varchar[],
+    `filled` INT NOT NULL,
+    `floor` VARCHAR(255) NOT NULL,
+    PRIMARY KEY (`shift_id`)
 );
 
 CREATE TABLE `shift_bids` (
-	`shift_id` INT NOT NULL,
-	`user_id` INT NOT NULL,
-	`bid_id` INT NOT NULL AUTO_INCREMENT,
-	`staff_comments` varchar,
-	PRIMARY KEY (`bid_id`)
+    `shift_id` INT NOT NULL,
+    `user_id` INT NOT NULL,
+    `bid_id` INT NOT NULL AUTO_INCREMENT,
+    `staff_comments` varchar,
+    PRIMARY KEY (`bid_id`)
 );
 
 CREATE TABLE `confirmed` (
-	`confirmed_id` INT NOT NULL AUTO_INCREMENT,
-	`shift_id` INT NOT NULL,
-	`user_id` INT NOT NULL,
-	`shift_bid_id` INT NOT NULL,
-	`confirmed_by_id` INT NOT NULL,
-	PRIMARY KEY (`confirmed_id`)
+    `confirmed_id` INT NOT NULL AUTO_INCREMENT,
+    `shift_id` INT NOT NULL,
+    `user_id` INT NOT NULL,
+    `shift_bid_id` INT NOT NULL,
+    `confirmed_by_id` INT NOT NULL,
+    PRIMARY KEY (`confirmed_id`)
 );
 
 CREATE TABLE `user_availability` (
-	`user_id` BINARY NOT NULL,
-	`availability_id` INT NOT NULL AUTO_INCREMENT,
-	PRIMARY KEY (`availability_id`)
+    `user_id` BINARY NOT NULL,
+    `availability_id` INT NOT NULL AUTO_INCREMENT,
+    PRIMARY KEY (`availability_id`)
 );
 
 CREATE TABLE `shift_interest` (
-	`shift_interest_id` INT NOT NULL,
-	`user_id` INT NOT NULL,
-	`day` DATE NOT NULL,
-	`shift` VARCHAR(255) NOT NULL,
-	`comment` VARCHAR(255),
-	PRIMARY KEY (`shift_interest_id`)
+    `shift_interest_id` INT NOT NULL,
+    `user_id` INT NOT NULL,
+    `day` DATE NOT NULL,
+    `shift` VARCHAR(255) NOT NULL,
+    `comment` VARCHAR(255),
+    PRIMARY KEY (`shift_interest_id`)
 );
 
 CREATE TABLE `pay_period` (
-	`id` INT NOT NULL AUTO_INCREMENT,
-	`start` DATE NOT NULL,
-	`end` DATE NOT NULL,
-	PRIMARY KEY (`id`)
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `start` DATE NOT NULL,
+    `end` DATE NOT NULL,
+    PRIMARY KEY (`id`)
 );
 
 ALTER TABLE `post_shifts` ADD CONSTRAINT `post_shifts_fk0` FOREIGN KEY (`created_by`) REFERENCES `users`(`id`);

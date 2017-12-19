@@ -88,12 +88,10 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   };
 
   vm.getShifts = function () {
-    console.log('______get shifts is running')
     vm.shiftsToDisplay = [];
-    console.log('vm.shifts to display empty', vm.shiftsToDisplay)
     ShiftService.getShifts().then(function (response) {
       vm.shiftsToDisplay = response.data;
-      console.log('shifts in controller after response', vm.shiftsToDisplay);
+      console.log('shifts to display', vm.shiftsToDisplay)
       for (var i = 0; i < vm.shiftsToDisplay.length; i++) {
         for (var j = 0; j < vm.currentSchedule.length; j++) {
           // vm.currentSchedule[j].shifts = [];
@@ -124,14 +122,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
           }
         }
       }
-
-      // for (var k=0; k<vm.pendingShifts.length; k++) {
-      //   if (!checkShiftIds(vm.realPendingShifts, vm.pendingShifts[k].shift_id)) {
-      //     vm.realPendingShifts.push(vm.pendingShifts[k]);
-      //   }
-      // }
-      console.log(' pending shifts', vm.pendingShifts);
-
+      console.log('pending shifts', vm.pendingShifts);
     })
   }
 

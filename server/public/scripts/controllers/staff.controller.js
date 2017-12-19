@@ -62,7 +62,7 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
         vm.pendingShifts[i].date = moment(vm.pendingShifts[i].date).format('l');
       }
       console.log(' pending shifts', vm.pendingShifts);
-    })
+    }) // .catch and displaying a generic error
   }
 
   vm.getPendingShifts();
@@ -180,7 +180,23 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
     vm.numDaysInCurrentMonth = moment().year(vm.currentYear).month(vm.thisMonth).daysInMonth();
     vm.putDaysinCurrentMonthArray(vm.currentYear, vm.thisMonth, vm.numDaysInCurrentMonth)
     vm.getShifts();
-  };
+  }
+
+  //shift details pop up
+  // vm.showDetailsDialog = function(event) {
+  //   console.log('pick up shift button clicked');
+  //   $mdDialog.show({
+  //     controller: 'StaffDialogController as sc',
+  //     templateUrl: '/views/dialogs/pickUpShift.html',
+  //     parent: angular.element(document.body),
+  //     targetEvent: event,
+  //     clickOutsideToClose: true,
+  //     fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
+  //   })
+  // }
+
+  // //gets all shifts
+// };
 
   //shift details pop up
   vm.showDetailsDialog = function (event) {
@@ -247,6 +263,9 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
   vm.getMyShifts = function() {
     ShiftService.getMyShifts();
   }
+
+  // NOTE: This is the result of a merge conflict and should be removed
+
   // vm.showDetailsDialog = function(event) {
   //   console.log('pick up shift button clicked');
   //   $mdDialog.show({

@@ -10,6 +10,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   vm.realPendingShifts = [];
 
   vm.shiftDetails = function (event, shift) {
+    console.log('event and shift', event, shift)
     ShiftService.shiftDetails(event, shift);
   };
   vm.addShift = function (event) {

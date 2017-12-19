@@ -329,6 +329,7 @@ router.delete('/delete:id/', function (req, res) {
     }// end if req.isAuthenticated
     else {
         console.log('User is not authenticated');
+        // TODO: return response
     } //end authentication else statement
 }
 ) //end delete route

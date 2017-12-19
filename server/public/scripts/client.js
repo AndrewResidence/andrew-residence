@@ -1,4 +1,4 @@
-var myApp = angular.module('myApp', ['ngRoute', 'ngMaterial', 'multipleDatePicker', 'angularMoment']);
+var myApp = angular.module('myApp', ['ngRoute', 'ngMaterial', 'multipleDatePicker', 'angularMoment', 'checklist-model']);
 
 /// Routes ///
 myApp.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {

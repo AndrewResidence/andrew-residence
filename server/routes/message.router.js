@@ -3,7 +3,7 @@ require('dotenv').config({ path: '../group-project/.env' });
 /* for the database connection*/
 var pool = require('../modules/pool.js');
 var express = require('express');
-var router = express.Router();
+var router = express.Router(); 
 var passport = require('passport');
 var path = require('path');
 
@@ -22,18 +22,17 @@ var REFRESH_TOKEN = process.env.REFRESH_TOKEN;
 var ACCESS_TOKEN = process.env.ACCESS_TOKEN;
 var CLIENT_ID = process.env.CLIENT_ID;
 var CLIENT_SECRET = process.env.CLIENT_SECRET;
-<<<<<<< HEAD
-
-console.log('Hello, JEMS! Happy working!');
-=======
 var fs = require('fs');
 console.log('The Home Stretch!!');
 var p = plivo.RestAPI({
     authId: AUTH_ID,
     authToken: AUTH_TOKEN,
+});//part of plivo libraryvar fs = require('fs');
+console.log('The Home Stretch!!');
+var p = plivo.RestAPI({
+    authId: AUTH_ID,
+    authToken: AUTH_TOKEN,
 });//part of plivo library
-
->>>>>>> master
 
 var dateArray = [];
 var weeklyDigest = cron.schedule('40 19 * * SUN', function () {
@@ -105,6 +104,7 @@ var weeklyDigest = cron.schedule('40 19 * * SUN', function () {
 
 weeklyDigest.start();
 var phoneNumberArray = [];
+
 new Promise(function(){
     if (req.body.adl) {
         var role = 'ADL';
@@ -119,9 +119,6 @@ new Promise(function(){
                     phoneNumberArray.push(role.phone + '<');
                     console.log('role.phone', phoneNumberArray);
 
-<<<<<<< HEAD
-
-=======
                 });
             }
         });
@@ -185,7 +182,6 @@ new Promise(function(){
         p.send_message(params, function (status, response) {
             console.log('Status: ', status);
             console.log('API Response:\n', response);
->>>>>>> master
 
         });
     

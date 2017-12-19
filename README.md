@@ -38,7 +38,10 @@ Steps to get the development environment running.
 CREATE TABLE "users" (
   "id" serial primary key,
   "username" varchar(80) not null UNIQUE,
-  "password" varchar(240) not null
+  "password" varchar(240) not null,
+  "phone" numeric,
+  "username" varchar(240),
+  "confirmed" boolean
 );
 ```
 
@@ -52,12 +55,10 @@ Link to a read-only version of your scope document or other relevant documentati
 
 ### Completed Features
 
-High level list of items completed.
-
 Supervisors
 - [x] Post avaialble shifts
 - [x] Confirm shifts
-- [x] Schedule Urgent Shifts
+- [x] Schedule urgent shifts and notify staff with SMS
 - [x] Send weekly shift reminder
 
 On-call Staff
@@ -76,8 +77,10 @@ Add additional notes about how to deploy this on a live system
 
 ## Authors
 
-* Name of author(s)
-
+* Sarah Harrington
+* Marta Jopp
+* Emma Stout
+* Josh Nothum
 
 ## Acknowledgments
 

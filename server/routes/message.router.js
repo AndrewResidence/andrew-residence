@@ -22,7 +22,7 @@ var ACCESS_TOKEN = process.env.ACCESS_TOKEN;
 var CLIENT_ID = process.env.CLIENT_ID;
 var CLIENT_SECRET = process.env.CLIENT_SECRET;
 
-console.log('Hello, JEMS! Happy working!');
+console.log('Hello, JEMS! Happy working!', AUTH_ID, AUTH_TOKEN);
 
 var dateArray = [];
 var weeklyDigest = cron.schedule('40 19 * * SUN', function () {

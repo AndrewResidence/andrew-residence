@@ -204,7 +204,7 @@ router.post('/text', function (req, res) {
         console.log('Status: ', status);
         console.log('API Response:\n', response);
     });
-    res.sendStatus(status);
+    res.send(201);
 });// end of node-cron weekly digest email
 
 module.exports = router;

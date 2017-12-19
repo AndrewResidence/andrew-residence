@@ -110,7 +110,11 @@ li a:hover {
 .calHeader {
   font-size: 16px;
   margin-bottom: 10px;
+<<<<<<< HEAD
+  width: 13.5%;
+=======
   width: 13.4%;
+>>>>>>> master
   background-color: #3F3F3F;
   margin: 2px;
   padding: 2px;
@@ -125,12 +129,17 @@ li a:hover {
 .calBox {
   background-color: lightslategray;
   margin: 2px;
+<<<<<<< HEAD
+  width: 13.5%;
+=======
   width: 13.4%;
+>>>>>>> master
 }
 
 
 #addShiftPop {
   width: 600px;
+  height: auto;
 }
 
 
@@ -177,16 +186,21 @@ li a:hover {
   margin: 2px 2px 2px 0px;
   width: 100%;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);  
+
+  padding: 2px;
+  cursor: pointer;
+
   padding: 1px;
   display: in-line flex;
   align-items: baseline;
   justify-content: center;
-  
+
 }
 
 #confirmShiftButton {
   margin: 5px 2px;
   text-align: left;
+
 }
 
 .shifts {
@@ -200,6 +214,55 @@ li a:hover {
 }
 
 
+
+
+
+#urgent {
+  font-weight: bold;
+  margin-left: 100px;
+}
+
+#roleBoxes {
+  padding-top: 20px;
+  padding-left: 20px;
+}
+
+#addFonts {
+  padding-left: 20px;
+}
+
+#addRole {
+  margin-right: 5px;
+}
+
+#addCalendar {
+  padding-left: 150px;
+}
+
+#commentText {
+  width: 500px;
+  height: 300px;
+}
+
+#shiftCommentsText {
+  margin-left: 20px;
+}
+
+#floorDrop{
+  margin-left: 20px;
+  width: 75px;
+}
+
+#statusDrop {
+  
+  width: 100px;
+
+}
+
+#shiftInput {
+padding-left: 20px;  
+width: 140px;
+}
 table{
   
     border-spacing: 5px;
@@ -236,6 +299,74 @@ md-icon.Night path.circle {
   fill: #187B18;
 }
 
+#notifyFollowing {
+  padding-left: 20px;
+}
+
+#statusIndicator {
+  opacity: 0.75;
+  height: 25px;
+  width: 50px;
+  float: right;
+  margin-top: 10px;
+  margin-left: 40px;
+  border-radius: 3px;
+  text-align: center;
+vertical-align: middle;
+line-height: 25px;  
+margin-bottom: 10px;
+
+}
+
+#editDate {
+  margin-top: 5px;
+  margin-bottom: 10px;
+  margin-left: 20px;
+}
+
+#shiftDetailRole {
+  margin-left: 20px;
+  padding-right: 10px;
+}
+
+#editShiftInput {
+  margin-left: 20px;
+  width: 125px;
+}
+
+#editFloorInput {
+  width: 125px;
+  padding-left: 20px;
+}
+
+#fillShiftButton {
+  background-color: #3b5998;
+  color: white;
+}
+
+#showFilledBy {
+  height: 25px;
+  width: 300px;
+    text-align: center;
+vertical-align: middle;
+line-height: 25px;  
+margin-left: 20px;
+}
+.pageHeader {
+  margin-left: 20px;
+  color: #3F3F3F;
+}
+
+.filterTabs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#fillShiftInput {
+  width: 200px;
+text-align: center
+}
 .pageHeader {
   margin-left: 20px;
   color: #3F3F3F;

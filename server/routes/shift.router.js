@@ -30,11 +30,12 @@ router.post('/', function (req, res) {
                 res.sendStatus(500);
             } //end if error connection to db
             else {
+                var notify = req.body.notify;
                 for (var i = 0; i < newShift.shiftDate.length; i++) {
                     var theDate = newShift.shiftDate[i];
                     console.log('theDate', theDate);
-                    var queryText = 'INSERT INTO "post_shifts" ("created_by", "date", "urgent", "shift", "adl", "mhw", "nurse", "shift_comments" ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8);';
-                    db.query(queryText, [createdBy, theDate, newShift.urgent, newShift.shift, newShift.adl, newShift.mhw, newShift.nurse, newShift.comments],
+                    var queryText = 'INSERT INTO "post_shifts" ("created_by", "date", "urgent", "shift", "adl", "mhw", "nurse", "shift_comments", "notify", "filled", "floor", "shift_status" ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12);';
+                    db.query(queryText, [createdBy, theDate, newShift.urgent, newShift.shift, newShift.adl, newShift.mhw, newShift.nurse, newShift.comments, [notify], newShift.filled, newShift.floor, newShift.shift_status],
                         function (errorMakingQuery, result) {
                             done();
                             if (errorMakingQuery) {
@@ -301,5 +302,104 @@ router.get('/getmyshifts', function (req, res) {
 
 //GET confirmed shifts
 
+// delete shift from post_shifts
+router.delete('/delete:id/', function (req, res) {
+    if (req.isAuthenticated()) {
+        var deleteShift = req.params.id;
+        console.log('delete:', deleteShift);
+        pool.connect(function (err, client, done) {
+            if (err) {
+                console.log("Error connecting: ", err);
+                res.sendStatus(500);
+            }
+            var queryText = 'DELETE FROM "post_shifts" WHERE "shift_id" = $1;';
+            client.query(queryText, [deleteShift], function (errorMakingQuery, result) {
+                done();
+                if (errorMakingQuery) {
+                    console.log('Error making query', errorMakingQuery);
+                    res.sendStatus(500);
+                }
+                else {
+                    res.sendStatus(201); // send back success
+                }
+            } //end query function 
+            ) // end query parameters
+        } //end pool function
+        ) // end pool connect     
+    }// end if req.isAuthenticated
+    else {
+        console.log('User is not authenticated');
+    } //end authentication else statement
+}
+) //end delete route
+
+router.put('/update/:id', function (req, res) {
+    if (req.isAuthenticated()) {
+        var shiftId = req.params.id;
+        console.log('req.body', req.body);
+        var updatedShift = req.body;
+        pool.connect(function (errorConnectingToDb, db, done) {
+            if (errorConnectingToDb) {
+                console.log('Error connecting', errorConnectingToDb);
+                res.sendStatus(500);
+            } //end if error connection to db
+            else {
+                var queryText =
+                    'UPDATE "post_shifts"' +
+                    'SET "shift" = $1, "shift_comments" = $2, "adl" = $3, "mhw" = $4, "nurse" = $5, "date" = $6, "floor" = $7' +
+                    'WHERE "shift_id" = $8;';
+                db.query(queryText, [updatedShift.shift, updatedShift.comments, updatedShift.adl, updatedShift.mhw, updatedShift.nurse, updatedShift.date, updatedShift.floor, shiftId], function (errorMakingQuery, result) {
+                    done();
+                    console.log('result.rows', result);
+                    if (errorMakingQuery) {
+                        console.log('Error making query', errorMakingQuery);
+                        res.sendStatus(500);
+                    } else {
+                        res.send(result.rows);
+                    }
+                }); //end db.query
+            } //end else in pool.connect
+        }); // end pool connect
+    } // end req.isAuthenticated
+    else {
+        console.log('User is not authenticated');
+    }
+}) //end update shift
+
+//fill shift route
+router.put('/filledBy/:id', function (req, res) {
+    if (req.isAuthenticated()) {
+        console.log('thebody', req.body)
+        var filledBy = req.body.filledBy;
+        var shift_status = req.body.shift_status;
+        var shiftId = req.params.id;
+        console.log('shiftId', shiftId);
+        pool.connect(function (errorConnectingToDb, db, done) {
+            if (errorConnectingToDb) {
+                console.log('Error connecting', errorConnectingToDb);
+                res.sendStatus(500);
+            } //end if error connection to db
+            else {
+                var queryText =
+                    'UPDATE "post_shifts"' +
+                    'SET "filled" = $1, "shift_status" = $2' +
+                    'WHERE "shift_id" = $3;';
+                db.query(queryText, [filledBy, shift_status, shiftId], function (errorMakingQuery, result) {
+                    done();
+                    console.log('result.rows', result);
+                    if (errorMakingQuery) {
+                        console.log('Error making query', errorMakingQuery);
+                        res.sendStatus(500);
+                    } else {
+                        res.send(result.rows);
+                    }
+                }); //end db.query
+            } //end else in pool.connect
+        }); // end pool connect
+    } // end req.isAuthenticated
+    else {
+        console.log('User is not authenticated');
+    }
+}) //end update shift
 
 module.exports = router;

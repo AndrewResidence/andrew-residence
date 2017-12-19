@@ -11,12 +11,18 @@
   </div>
 </div>
 <h3 class="pageHeader">Supervisor View</h3>
+<div class="legendRow" >
+    <div class="key">Shift Key:</div>
+    <div class="legend" id="open"><span>Open</span></div>
+    <div class="legend" id="pending"><span>Pending</span></div>
+    <div class="legend" id="filled"><span>Filled</span></div>
+  </div>
   <div class="calendarSpace" display="flex">
-      <div class="filterTabs">
-          <md-button class="md-raised md-primary" ng-click="">Open</md-button>
+      <!-- <div class="filterTabs"> -->
+          <!-- <md-button class="md-raised md-primary" ng-click="">Open</md-button>
           <md-button class="md-raised md-primary" ng-click="sc.pendingFilter()">Pending</md-button>
-          <md-button class="md-raised md-primary" ng-click="">Filled</md-button>
-      </div>
+          <md-button class="md-raised md-primary" ng-click="">Filled</md-button> -->
+      <!-- </div> -->
 
   <div layout="row" class="staffCalHeader">
     <md-button class="md-raised md-primary" ng-click="sc.prevTwoWeeks(sc.currentSchedule[0].moment)">Previous</md-button>

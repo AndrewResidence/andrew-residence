@@ -260,7 +260,38 @@ router.get('/shiftBidToConfirm/:id', function (req, res) {
     }
 })//end post route for new shifts
 
-
+router.get('/getmyshifts', function (req, res) {
+    console.log('req.user.id', req.user.id)
+    var userId = req.user.id;
+    if (req.isAuthenticated()) {
+        pool.connect(function (errorConnectingToDb, db, done) {
+            if (errorConnectingToDb) {
+                console.log('Error connecting', errorConnectingToDb);
+                res.sendStatus(500);
+            } //end if error connection to db
+            else {
+                var queryText = 
+                'SELECT "post_shifts"."date", "post_shifts"."shift", "post_shifts"."shift_comments", "post_shifts"."shift_status"' +
+                'FROM  "user_shifts" JOIN "post_shifts"' +
+                'ON "user_shifts"."shift_id" = "post_shifts"."shift_id"' +
+                'WHERE "user_shifts"."user_id" = $1;';
+                db.query(queryText, [userId], function (errorMakingQuery, result) {
+                    done(); // add + 1 to pool
+                    console.log('result.rows', result);
+                    if (errorMakingQuery) {
+                        console.log('Error making query', errorMakingQuery);
+                        res.sendStatus(500);
+                    } else {
+                        res.send(result.rows);
+                    }
+                }); // END QUERY
+            }
+        }); // end pool connect
+    } // end req.isAuthenticated
+    else {
+        console.log('User is not authenticated');
+    }
+}); //end get shifts
 
 // 'SELECT "post_shifts".*, "users"."name", "shift_bids"."bid_id", "shift_bids"."staff_comments" FROM (("post_shifts"' +
 // 'JOIN "shift_bids" ON "post_shifts"."shift_id" = "shift_bids"."shift_id")' +

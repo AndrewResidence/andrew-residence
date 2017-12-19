@@ -136,6 +136,13 @@ self.shift = {};
   //   })
   // }
 
+  self.getMyShifts = function() {
+    console.log('get my shifts clicked')
+    return $http.get('/shifts/getmyshifts').then(function (response) {
+      console.log('response from server', response.data)
+      return response.data;
+    })
+  }
 
 
   /* for Message testing; see popUpTest Controller and message.html */

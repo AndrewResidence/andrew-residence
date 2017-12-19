@@ -10,6 +10,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   vm.realPendingShifts = [];
 
   vm.shiftDetails = function (event, shift) {
+    console.log('event and shift', event, shift)
     ShiftService.shiftDetails(event, shift);
   };
   vm.addShift = function (event) {
@@ -164,7 +165,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
 
   vm.confirmShift = function(event, shift) {
     $mdDialog.show({
-      controller: 'SupervisorDialogController as sc',
+      controller: 'ConfirmShiftController as sc',
       templateUrl: '/views/dialogs/confirmShift.html',
       parent: angular.element(document.body),
       targetEvent: event,

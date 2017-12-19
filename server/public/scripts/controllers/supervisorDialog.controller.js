@@ -1,4 +1,4 @@
-myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdToast, UserService, ShiftService, pendingShift) {
+myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdToast, UserService, ShiftService) {
   console.log('SupervisorDialogController created');
   var vm = this;
   vm.userService = UserService;
@@ -12,10 +12,6 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
   vm.shifts = ['Day', 'Evening', 'ADL Evening', 'Night'];
   vm.shiftStatus = ['Open', 'Filled'];
   vm.shift = ShiftService.shift;
-  vm.pendingShift = pendingShift;
-  vm.pendingShifts = [];
-  
-
 
   vm.editShift = false;
 
@@ -57,18 +53,6 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
   vm.updateShift = function (id, comments, shift, mhw, adl, nurse, date, status) {
     ShiftService.updateShift(id, comments, shift, mhw, adl, nurse, date, status)
   };
-
-
-  vm.getPendingShifts = function(shiftId) {
-    console.log('shift id in dialog', shiftId);
-    vm.shiftService.getShiftsToConfirm(shiftId).then(function(response) {
-      console.log('got shifts', response.data);
-      vm.pendingShifts = response.data;
-      console.log('shifts here', vm.pendingShifts);
-    })
-  }
-
-  vm.getPendingShifts(vm.pendingShift.shift_id);
 
 });
 

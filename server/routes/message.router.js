@@ -28,11 +28,6 @@ var p = plivo.RestAPI({
     authId: AUTH_ID,
     authToken: AUTH_TOKEN,
 });//part of plivo libraryvar fs = require('fs');
-console.log('The Home Stretch!!');
-var p = plivo.RestAPI({
-    authId: AUTH_ID,
-    authToken: AUTH_TOKEN,
-});//part of plivo library
 
 var dateArray = [];
 var weeklyDigest = cron.schedule('40 19 * * SUN', function () {
@@ -104,7 +99,7 @@ var weeklyDigest = cron.schedule('40 19 * * SUN', function () {
 
 weeklyDigest.start();
 var phoneNumberArray = [];
-rrouter.post('/urgent', function (req, res) {
+router.post('/urgent', function (req, res) {
     if (req.isAuthenticated()) {
         pool.connect(function (errorConnectingToDb, db, done) {
             if (errorConnectingToDb) {

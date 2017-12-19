@@ -1,14 +1,16 @@
 <div ng-include="'views/partials/nav.html'"></div>
 <div class="staffPage" layout="column" layout-align="center center" ng-cloak>
   <div layout="row" layout-align="center center">
-    <!-- <md-button class="md-raised md-primary" >All</md-button> -->
-    <!-- <md-button class="md-raised md-primary">Open</md-button> -->
     <md-button class="md-raised md-primary" ng-click="sc.getMyShifts()">My Shifts</md-button>
+    <div class="legendRow" >
+        <div class="key">Shift Key:</div>
+        <div class="legend" id="open"><span>Open</span></div>
+        <div class="legend" id="pending"><span>Pending</span></div>
+        <div class="legend" id="filled"><span>Filled</span></div>
+      </div>
   </div>
-  <!-- This button will go in staff view when staff calendar is up and running: -->
-  <!-- <md-button class="md-raised md-primary" ng-click="sc.showDetailsDialog($event)">Pick Up Shift</md-button> -->
 
-  <div class="staffCalendarSpace" hide-xs>
+  <div class="staffCalendarSpace" hide-xs hide-sm>
     <div layout="row" class="staffCalHeader">
       <md-button class="md-raised md-primary" id="calHeadBtnLeft" ng-click="sc.prevMonth(sc.currentMonth.dates[0].month, sc.currentMonth.dates[0].year)">Prev</md-button>
       <div>{{sc.displayMonth}} {{sc.displayYear._i.year}}</div>
@@ -38,17 +40,30 @@
       </div>
     </div>
   </div>
-  <div class="mobileView" show-xs hide-sm hide-md hide-lg hide-xl><!-- mobile view -->
+  <div class="mobileView" show-xs show-sm hide-md hide-lg hide-xl><!-- mobile view -->
+    <div layout="row" layout-align="center center">
+        <md-button class="md-raised md-primary" aria-label="back" ng-click="sc.prevMonth(sc.currentMonth.dates[0].month, sc.currentMonth.dates[0].year)">
+            <md-icon md-svg-icon="../images/back-arrow.svg"></md-icon>
+        </md-button>
+        <div>{{sc.displayMonth}} {{sc.displayYear._i.year}}</div>
+        <md-button class="md-raised md-primary" aria-label="forward" ng-click="sc.nextMonth(sc.currentMonth.dates[0].month, sc.currentMonth.dates[0].year)">
+            <md-icon md-svg-icon="../images/forward-arrow.svg"></md-icon>
+        </md-button>
+    </div>
     <div ng-repeat="day in sc.currentMonth.dates">
       <div ng-repeat="shift in day.shifts track by $index">
-        <div class="mobileShiftButton" ng-click="sc.shiftDetails(event, shift)">
-          <div>{{shift.date  | amDateFormat: 'MM-DD-YYYY'}}</div>
+          <div layout="row" layout-align="center center">
+        <div class="mobileShiftButton" ng-class="{{'shift.shift_status'}}" ng-click="sc.shiftDetails(event, shift)">
           <md-icon ng-class="{{'shift.shift'}}" md-svg-icon="../images/ic_add_circle_black_18px.svg"></md-icon>
+          <span>{{shift.date | amDateFormat: 'MM-DD-YYYY'}}</span>
+          <span>{{shift.date | amDateFormat: 'dddd'}}</span>
+          <br>
           <span ng-show="shift.adl">ADL</span>
           <span ng-show="shift.nurse">Nurse</span>
           <span ng-show="shift.mhw">MHW</span>
           <div>{{shift.shift}}</div>
         </div>
+      </div>
       </div>
     </div>
   </div>

@@ -22,6 +22,13 @@ myApp.controller('ConfirmShiftController', function ($scope, $mdDialog, $mdToast
     }
   
     vm.getPendingShifts(vm.pendingShift.shift_id);
+
+    vm.showComments = function(staff) {
+        if (staff.staff_comments) {
+            return true;
+        }
+        return false;
+    }
   
   });
   

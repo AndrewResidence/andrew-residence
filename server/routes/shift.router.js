@@ -203,7 +203,7 @@ router.get('/shiftBid', function (req, res) {
                 var queryText =
                     'SELECT * FROM "post_shifts"' +
                     'JOIN "shift_bids" ON "post_shifts"."shift_id" = "shift_bids"."shift_id"' +
-                    'WHERE "post_shifts"."shift_status" = $1;';
+                    'WHERE "post_shifts"."shift_status" = $1 ORDER BY "post_shifts"."date" ASC;';
                 db.query(queryText, ["Pending"],
                     function (errorMakingQuery, result) {
                         done();

@@ -66,15 +66,8 @@ self.shift = {};
     // notify = self.newShift.notify;
     console.log('newshift', self.newShift);
     if (urgent) {
-      $http.get('/message/phones'+ self.newShift).then(function (response) {
-        $http.post('/message/urgent', response).then(function (response){
+      $http.post('/message/urgent').then(function (response) {
 
-        }).then(function (response) {
-          console.log(response);
-          
-        });
-        //self.sendMessage(response)
-        
 
       }).catch(function (response) {
         console.log('send urgent textMessage did not work:', response);
@@ -85,6 +78,7 @@ self.shift = {};
     }).catch(function (err) {
       console.log('Error');
     });
+
   }; //end addNewShift function and route
 
   self.getShifts = function () {

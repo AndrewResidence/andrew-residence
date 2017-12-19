@@ -94,7 +94,9 @@ self.shift = {};
   };
 
   self.getPendingShifts = function () {
-    return $http.get('/shifts/shiftbid').then(function (response) {
+    var today = moment().format('YYYY-MM-DD');
+    console.log('today', today);
+    return $http.get('/shifts/shiftbid/' + today).then(function (response) {
       // console.log('response', response.data);
       return response;
     });

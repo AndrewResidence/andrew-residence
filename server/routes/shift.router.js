@@ -192,8 +192,10 @@ router.post('/shiftBid', function (req, res) {
 });//end post route for new shifts
 
 //GET Shift bids
-router.get('/shiftBid', function (req, res) {
+router.get('/shiftBid/:today', function (req, res) {
     if (req.isAuthenticated()) {
+        var today = req.params.today;
+        console.log('today', today);
         pool.connect(function (errorConnectingToDb, db, done) {
             if (errorConnectingToDb) {
                 console.log('Error connecting', errorConnectingToDb);
@@ -203,8 +205,8 @@ router.get('/shiftBid', function (req, res) {
                 var queryText =
                     'SELECT * FROM "post_shifts"' +
                     'JOIN "shift_bids" ON "post_shifts"."shift_id" = "shift_bids"."shift_id"' +
-                    'WHERE "post_shifts"."shift_status" = $1 ORDER BY "post_shifts"."date" ASC;';
-                db.query(queryText, ["Pending"],
+                    'WHERE "post_shifts"."shift_status" ILIKE $1 AND "post_shifts"."date" >= $2 ORDER BY "post_shifts"."date" ASC;';
+                db.query(queryText, ["Pending", today],
                     function (errorMakingQuery, result) {
                         done();
                         if (errorMakingQuery) {

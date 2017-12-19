@@ -4,6 +4,7 @@ myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserSer
   vm.userService = UserService;
   vm.userObject = UserService.userObject;
   vm.shiftService = ShiftService;
+  vm.shiftComments = false;
   vm.shift = {
     user: vm.userService.userObject.userId,
     id: shift.shift_id,
@@ -40,6 +41,11 @@ myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserSer
       //closes dialog box
   };
   vm.role();
+
+  vm.showPickUpShift = function() {
+    vm.shiftComments = true;
+  }
+
   vm.pickUpShift = function (shift) {
     console.log('pick up shift', vm.shift);
     vm.shiftService.pickUpShift(shift).then(function (response) {

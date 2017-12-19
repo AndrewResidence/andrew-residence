@@ -13,7 +13,12 @@
         Supervisor Comments: {{sc.shift.comments}}
     </md-dialog-content>
 <md-dialog-actions>
-    <md-button ng-show="sc.showPickUpShift()" ng-click="sc.pickUpShift(sc.shift)">Pick Up Shift</md-button>
+    <md-button ng-click="sc.showPickUpShift()">Pick Up Shift</md-button>
+    <div ng-show="sc.showComments">
+       <br> <br> <br>
+        Add a comment: <input type="text" ng-model="sc.shift.staff_comments">
+        <md-button ng-click="sc.pickUpShift(sc.shift)">Pick Up Shift</md-button>
+    </div>
     <md-button ng-click="sc.cancel()">Cancel</md-button>
 </md-dialog-actions>
     </md-dialog>

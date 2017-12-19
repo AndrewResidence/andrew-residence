@@ -165,7 +165,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
 
   vm.confirmShift = function(event, shift) {
     $mdDialog.show({
-      controller: 'SupervisorDialogController as sc',
+      controller: 'ConfirmShiftController as sc',
       templateUrl: '/views/dialogs/confirmShift.html',
       parent: angular.element(document.body),
       targetEvent: event,

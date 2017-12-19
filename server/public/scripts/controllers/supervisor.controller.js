@@ -123,6 +123,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
           }
         }
       }
+      // console.log(' pending shifts', vm.pendingShifts);
       console.log('pending shifts', vm.pendingShifts);
     })
   }
@@ -160,8 +161,13 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
     })
   }
 
+  vm.getSupervisors = function () {
+    UserService.getSupervisors().then(function (response) {
+      vm.supervisors = response.data;
+      console.log('got supervisors', vm.supervisors);
   // IF there are two pending shifts that have the same date, display them in the same dialog box AND only show one button
-
+    })
+  }
 
   vm.confirmShift = function(event, shift) {
     $mdDialog.show({
@@ -173,6 +179,6 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
       locals: {pendingShift: shift},
       fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
     })
-  }
-});
+  } //end confirmShift
 
+})

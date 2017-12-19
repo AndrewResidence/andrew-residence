@@ -273,7 +273,6 @@ div.Pending {
   display: flex;
   justify-content: center;
   padding-top: 5px;
-  padding-bottom: -5px;
   border-radius: 2px;
   margin-right: 10px;
 }
@@ -284,4 +283,20 @@ div.Pending {
 
 #filled {
   background-color: #959595;
+}
+
+.mobileView {
+  width: 100%;
+}
+
+.mobileShiftButton {
+  border-radius: 2px;
+  background-color: #ffffff;
+  margin-bottom: 2px;
+  width: 70%;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);  
+  padding: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

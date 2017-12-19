@@ -1,6 +1,7 @@
 myApp.controller('StaffController', function (UserService, ShiftService, AvailabilityService, $mdDialog) {
   console.log('StaffController created');
   var vm = this;
+  
   vm.userService = UserService;
   vm.userObject = UserService.userObject;
   vm.displayMonth = '';
@@ -242,6 +243,10 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
       fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
     });
   };
+
+  vm.getMyShifts = function() {
+    ShiftService.getMyShifts();
+  }
   // vm.showDetailsDialog = function(event) {
   //   console.log('pick up shift button clicked');
   //   $mdDialog.show({

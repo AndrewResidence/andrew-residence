@@ -8,33 +8,48 @@
   <!-- This button will go in staff view when staff calendar is up and running: -->
   <!-- <md-button class="md-raised md-primary" ng-click="sc.showDetailsDialog($event)">Pick Up Shift</md-button> -->
 
-  <div class="staffCalendarSpace">
+  <div class="staffCalendarSpace" hide-xs>
     <div layout="row" class="staffCalHeader">
       <md-button class="md-raised md-primary" id="calHeadBtnLeft" ng-click="sc.prevMonth(sc.currentMonth.dates[0].month, sc.currentMonth.dates[0].year)">Prev</md-button>
       <div>{{sc.displayMonth}} {{sc.displayYear._i.year}}</div>
       <md-button class="md-raised md-primary" id="calHeadBtnRight" ng-click="sc.nextMonth(sc.currentMonth.dates[0].month, sc.currentMonth.dates[0].year)">Next</md-button>
     </div>
-    <div layout="row">
+    <div layout="row" hide-xs>
       <div class="calHeader" ng-repeat="dayheader in sc.dayList">
         <div>{{dayheader}}</div>
       </div>
     </div>
-    
-    <div class="staffCalBox" ng-repeat="day in sc.currentMonth.dates">
+
+    <div layout-xs="column" class="staffCalBox" ng-repeat="day in sc.currentMonth.dates">
       <div class="innerBox">
         <span class="dayNum">{{day.dayNum}}</span>
         <div layout="column" ng-repeat="shift in day.shifts track by $index">
           <div class="shiftButton" ng-class="{{'shift.shift_status'}}" ng-click="sc.shiftDetails(event, shift)">
-              <md-icon ng-class="{{'shift.shift'}}" md-svg-icon="../images/ic_add_circle_black_18px.svg"></md-icon>
-              <span ng-show="shift.adl">ADL</span>
-              <span ng-show="shift.nurse">Nurse</span>
-              <span ng-show="shift.mhw">MHW</span>
-              <span>{{shift.shift}}</span>
+            <md-icon ng-class="{{'shift.shift'}}" md-svg-icon="../images/ic_add_circle_black_18px.svg"></md-icon>
+            <span ng-show="shift.adl">ADL</span>
+            <span ng-show="shift.nurse">Nurse</span>
+            <span ng-show="shift.mhw">MHW</span>
+            <span>{{shift.shift}}</span>
+            <br>
+            <span>{{shift.shift_comments}}</span>
             <!-- <md-button class="md-raised md-primary" ng-click="sc.showDetailsDialog($event, shift)">Pick Up Shift</md-button> -->
           </div>
         </div>
       </div>
     </div>
   </div>
-
+  <div class="mobileView" show-xs><!-- mobile view -->
+    <div ng-repeat="day in sc.currentMonth.dates">
+      <div ng-repeat="shift in day.shifts track by $index">
+        <div class="mobileShiftButton" ng-click="sc.shiftDetails(event, shift)">
+          <div>{{shift.date  | amDateFormat: 'MM-DD-YYYY'}}</div>
+          <md-icon ng-class="{{'shift.shift'}}" md-svg-icon="../images/ic_add_circle_black_18px.svg"></md-icon>
+          <span ng-show="shift.adl">ADL</span>
+          <span ng-show="shift.nurse">Nurse</span>
+          <span ng-show="shift.mhw">MHW</span>
+          <div>{{shift.shift}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

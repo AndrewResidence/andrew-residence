@@ -200,14 +200,10 @@ router.get('/shiftBid', function (req, res) {
                 res.sendStatus(500);
             } //end if error connection to db
             else {
-<<<<<<< HEAD
-                var queryText =  'SELECT * FROM post_shifts WHERE shift_status ILIKE $1 ORDER BY date ASC;'
-=======
                 var queryText =
                     'SELECT * FROM "post_shifts"' +
                     'JOIN "shift_bids" ON "post_shifts"."shift_id" = "shift_bids"."shift_id"' +
                     'WHERE "post_shifts"."shift_status" = $1;';
->>>>>>> master
                 db.query(queryText, ["Pending"],
                     function (errorMakingQuery, result) {
                         done();
@@ -222,12 +218,8 @@ router.get('/shiftBid', function (req, res) {
                         }
                     });
             }
-<<<<<<< HEAD
-        }) // end req.isAuthenticated //end if statement
-=======
 
         }); // end req.isAuthenticated //end if statement
->>>>>>> master
     }
     else {
         console.log('User is not authenticated')
@@ -252,7 +244,7 @@ router.get('/shiftBidToConfirm/:id', function (req, res) {
                         if (errorMakingQuery) {
                             console.log('Error making query', errorMakingQuery);
                             res.sendStatus(500);
-                            return
+                            return;
                         }
                         else {
                             console.log('got shift bids');

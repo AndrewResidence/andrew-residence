@@ -38,7 +38,7 @@
       </div>
     </div>
   </div>
-  <div class="mobileView" show-xs><!-- mobile view -->
+  <div class="mobileView" show-xs hide-sm hide-md hide-lg hide-xl><!-- mobile view -->
     <div ng-repeat="day in sc.currentMonth.dates">
       <div ng-repeat="shift in day.shifts track by $index">
         <div class="mobileShiftButton" ng-click="sc.shiftDetails(event, shift)">

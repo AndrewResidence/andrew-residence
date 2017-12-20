@@ -239,19 +239,19 @@ router.get('/shiftBidToConfirm/:id', function (req, res) {
                 res.sendStatus(500);
             } //end if error connection to db
             else {
-                var queryText =  'SELECT "post_shifts".*, "shift_bids"."shift_id", "shift_bids"."staff_comments", "users"."name", "users"."role" FROM "shift_bids" JOIN "users" ON "shift_bids"."user_id" ="users".id JOIN "post_shifts" ON "post_shifts"."shift_id" = "shift_bids"."shift_id" WHERE "shift_bids"."shift_id" = $1;'
+                var queryText = 'SELECT "post_shifts".*, "shift_bids"."shift_id", "shift_bids"."staff_comments", "users"."name", "users"."role" FROM "shift_bids" JOIN "users" ON "shift_bids"."user_id" ="users".id JOIN "post_shifts" ON "post_shifts"."shift_id" = "shift_bids"."shift_id" WHERE "shift_bids"."shift_id" = $1;'
                 db.query(queryText, [shiftId], function (errorMakingQuery, result) {
-                        done();
-                        if (errorMakingQuery) {
-                            console.log('Error making query', errorMakingQuery);
-                            res.sendStatus(500);
-                            return
-                        }
-                        else {
-                            console.log('got shift bids');
-                            res.send(result.rows);
-                        }
-                    })
+                    done();
+                    if (errorMakingQuery) {
+                        console.log('Error making query', errorMakingQuery);
+                        res.sendStatus(500);
+                        return;
+                    }
+                    else {
+                        console.log('got shift bids');
+                        res.send(result.rows);
+                    }
+                })
             }
         }) // end req.isAuthenticated //end if statement
     }
@@ -271,11 +271,11 @@ router.get('/getmyshifts', function (req, res) {
                 res.sendStatus(500);
             } //end if error connection to db
             else {
-                var queryText = 
-                'SELECT "post_shifts"."date", "post_shifts"."shift", "post_shifts"."shift_comments", "post_shifts"."shift_status"' +
-                'FROM  "user_shifts" JOIN "post_shifts"' +
-                'ON "user_shifts"."shift_id" = "post_shifts"."shift_id"' +
-                'WHERE "user_shifts"."user_id" = $1;';
+                var queryText =
+                    'SELECT "post_shifts"."date", "post_shifts"."shift", "post_shifts"."shift_comments", "post_shifts"."shift_status"' +
+                    'FROM  "user_shifts" JOIN "post_shifts"' +
+                    'ON "user_shifts"."shift_id" = "post_shifts"."shift_id"' +
+                    'WHERE "user_shifts"."user_id" = $1;';
                 db.query(queryText, [userId], function (errorMakingQuery, result) {
                     done(); // add + 1 to pool
                     console.log('result.rows', result);

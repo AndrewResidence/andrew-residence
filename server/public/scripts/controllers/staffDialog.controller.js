@@ -46,7 +46,7 @@ myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserSer
         return true;
       }
       return false;
-    }
+    };
     
       //closes dialog box
   };

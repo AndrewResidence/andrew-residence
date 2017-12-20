@@ -243,7 +243,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     self.updatedShift.date = date;
     self.updatedShift.floor = floor;
     return $http.put('/shifts/update/' + id, self.updatedShift).then(function (response) {
-      return response
+      return response;
     }).catch(function (response) {
       console.log('Error updating shift');
     })
@@ -253,12 +253,12 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   //start deleteShift function
   self.deleteShift = function (shiftId) {
     return $http.delete('/shifts/delete' + shiftId).then(function (response) {
-      return response
+      return response;
     }).catch(function (response) {
       console.log('Error deleting shift');
 
-    })
-  }
+    });
+  };
   //end deleteShift function
 
   //start shiftFilled function
@@ -268,12 +268,12 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
 
  return $http.put('/shifts/filledBy/' + shiftId, self.filledShift)
  .then(function (response){
-  return response
+  return response;
 }).catch(function (response){
   console.log('Error filling shift');
 
-})
+});
   }
   //end shiftFilled function
 
-})
+});

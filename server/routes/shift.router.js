@@ -316,20 +316,19 @@ router.post('/confirm', function (req, res) {
 
 
 router.get('/getmyshifts', function (req, res) {
-    console.log('req.user.id', req.user.id)
-    var userId = req.user.id;
     if (req.isAuthenticated()) {
+        var userId = req.user.id;
         pool.connect(function (errorConnectingToDb, db, done) {
             if (errorConnectingToDb) {
                 console.log('Error connecting', errorConnectingToDb);
                 res.sendStatus(500);
             } //end if error connection to db
             else {
-                var queryText =
-                    'SELECT "post_shifts"."date", "post_shifts"."shift", "post_shifts"."shift_comments", "post_shifts"."shift_status"' +
-                    'FROM  "user_shifts" JOIN "post_shifts"' +
-                    'ON "user_shifts"."shift_id" = "post_shifts"."shift_id"' +
-                    'WHERE "user_shifts"."user_id" = $1;';
+                var queryText = 
+                'SELECT "post_shifts"."date", "post_shifts"."shift", "post_shifts"."shift_comments", "post_shifts"."shift_status", "post_shifts"."mhw", "post_shifts"."nurse", "post_shifts"."adl"' +
+                'FROM  "user_shifts" JOIN "post_shifts"' +
+                'ON "user_shifts"."shift_id" = "post_shifts"."shift_id"' +
+                'WHERE "user_shifts"."user_id" = $1;';
                 db.query(queryText, [userId], function (errorMakingQuery, result) {
                     done(); // add + 1 to pool
                     console.log('result.rows', result);

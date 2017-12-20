@@ -108,6 +108,16 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     });
   }; //end addNewShift function and route
 
+  self.getShifts = function () {
+    self.shiftsToDisplay.data = [];
+    console.log('shifts to display service', self.shiftsToDisplay.data)
+    return $http.get('/shifts').then(function (response) {
+      // console.log('response', response.data)
+      self.shiftsToDisplay.data = response.data;
+      console.log('shifts to display in service, after query', self.shiftsToDisplay.data)
+      return response;
+    });
+  };
   // self.getShifts = function () {
   //   self.shiftsToDisplay.data = [];
   //   console.log('shifts to display service', self.shiftsToDisplay.data)
@@ -143,16 +153,17 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     return $http.post('/shifts/shiftBid', shift).then(function (response) {
       console.log('posted shift bid', response);
     })}
+
   self.confirmShift = function(staffMember) {
     console.log('staff member to confirm', staffMember.name);
-    return $http.post('/shifts/confirm', staffMember).then(function(response) {
+    return $http.post('/shifts/confirm', staffMember).then(function (response) {
       console.log('confirmed shift', staffMember.name, response);
       return response;
     });
   }
-    
-  self.pickUpShift = function(shift) {
-    return $http.post('/shifts/shiftBid', shift).then(function(response) {
+
+  self.pickUpShift = function (shift) {
+    return $http.post('/shifts/shiftBid', shift).then(function (response) {
       console.log('posted shift bid', shift, response);
       return response;
     });
@@ -203,6 +214,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
       console.log('send textMessage did not work:', response);
     });
   };//end of sendTextMessage
+
   self.sendEmailMessage = function () {
     $http.post('/message/email').then(function (response) {
       // neccessary params for email transport object;
@@ -248,6 +260,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     })
   }
   //end deleteShift function
+
   //start shiftFilled function
   self.shiftFilled = function (id, shiftId) {
 

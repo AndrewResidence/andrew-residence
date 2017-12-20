@@ -29,7 +29,7 @@ var CLIENT_SECRET = process.env.CLIENT_SECRET;
 console.log('The Home Stretch!!');
 
 var dateArray = [];
-var weeklyDigest = cron.schedule('10 19 * * SUN', function (userEmails) {
+var nodeCron = cron.schedule('10 19 * * SUN', function (userEmails) {
     pool.connect(function (errorConnectingToDb, db, done) {
         if (errorConnectingToDb) {
             console.log('Error connecting', errorConnectingToDb);
@@ -100,33 +100,30 @@ var weeklyDigest = cron.schedule('10 19 * * SUN', function (userEmails) {
 
 
 var getUsers = function () {
-let emailArray=[];
+    let emailArray = [];
     return new Promise(function (resolve, reject) {
-        pool.connect(function (errorConnectingToDb, db, done) {
-            if (errorConnectingToDb) {
-                console.log('Error connecting', errorConnectingToDb);
-                res.sendStatus(500);
-            } //end if error connection to db
-            else {
-                var queryText = 'SELECT "username" FROM "users"';
-                db.query(queryText, function (errorMakingQuery, result) {
-                    done(); // add + 1 to pool
-                    if (errorMakingQuery) {
-                        console.log('Error making query', errorMakingQuery);
-                        res.sendStatus(500);
-                    } else {
-                          
-                            result.rows.forEach(function(emails){
-                             
-                                emailArray.push(emails.username +',');
-                                
+        cron.schedule('42 13 * * WED', function (userEmails) {
+            pool.connect(function (errorConnectingToDb, db, done) {
+                if (errorConnectingToDb) {
+                    console.log('Error connecting', errorConnectingToDb);
+                    res.sendStatus(500);
+                } //end if error connection to db
+                else {
+                    var queryText = 'SELECT "username" FROM "users"';
+                    db.query(queryText, function (errorMakingQuery, result) {
+                        done(); // add + 1 to pool
+                        if (errorMakingQuery) {
+                            console.log('Error making query', errorMakingQuery);
+                            res.sendStatus(500);
+                        } else {
+                            result.rows.forEach(function (emails) {
+                                emailArray.push(emails.username + ',');
                             });
-                        resolve(emailArray);
-
-                    }
-
-                });
-            }
+                            resolve(emailArray);
+                        }
+                    });
+                }
+            });
         });
     });
 };
@@ -214,9 +211,9 @@ router.post('/text', function (req, res) {
 });
 getUsers().then(function (result) {
 
-    console.log('this logged',result.join(''));
-    
-    weeklyDigest.start(result);
+    console.log('this logged', result.join(''));
+
+   
 
 
 });

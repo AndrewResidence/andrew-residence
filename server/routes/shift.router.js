@@ -34,7 +34,7 @@ router.post('/', function (req, res) {
                 for (var i = 0; i < newShift.shiftDate.length; i++) {
                     var theDate = newShift.shiftDate[i];
                     console.log('theDate', theDate);
-                    var queryText = 'INSERT INTO "post_shifts" ("created_by", "date", "urgent", "shift", "adl", "mhw", "nurse", "shift_comments", "notify", "filled", "floor", "shift_status" ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12);';
+                    var queryText = 'INSERT INTO "post_shifts" ("created_by", "date", "urgent", "shift", "adl", "mhw", "nurse", "shift_comments", "notify", "filled", "floor", "shift_status" ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING "notify";';
                     db.query(queryText, [createdBy, theDate, newShift.urgent, newShift.shift, newShift.adl, newShift.mhw, newShift.nurse, newShift.comments, [notify], newShift.filled, newShift.floor, newShift.shift_status],
                         function (errorMakingQuery, result) {
                             done();
@@ -42,10 +42,15 @@ router.post('/', function (req, res) {
                                 console.log('Error making query', errorMakingQuery);
                                 res.sendStatus(500);
                                 return;
+                            
+                            }else{
+                                console.log(result.rows);
+                                
                             }
                         });
                 }//end for loop
-                res.sendStatus(201);
+            
+                
             }
         }
         );
@@ -100,7 +105,7 @@ router.get('/payperiod/getdates', function (req, res) {
                     } else {
                         res.send(result.rows);
                     }
-                }) //end db.query
+                }); //end db.query
             } //end else in pool.connect
         }); // end pool connect
     } // end req.isAuthenticated
@@ -138,7 +143,7 @@ router.put('/payperiod/updatedates/:id', function (req, res) {
     else {
         console.log('User is not authenticated');
     }
-}) //end update pay period dates
+}); //end update pay period dates
 
 //POST shift bids
 router.post('/shiftBid', function (req, res) {
@@ -323,16 +328,16 @@ router.delete('/delete:id/', function (req, res) {
                     res.sendStatus(201); // send back success
                 }
             } //end query function 
-            ) // end query parameters
+            ); // end query parameters
         } //end pool function
-        ) // end pool connect     
+        ); // end pool connect     
     }// end if req.isAuthenticated
     else {
         console.log('User is not authenticated');
         // TODO: return response
     } //end authentication else statement
 }
-) //end delete route
+); //end delete route
 
 router.put('/update/:id', function (req, res) {
     if (req.isAuthenticated()) {
@@ -365,7 +370,7 @@ router.put('/update/:id', function (req, res) {
     else {
         console.log('User is not authenticated');
     }
-}) //end update shift
+}); //end update shift
 
 //fill shift route
 router.put('/filledBy/:id', function (req, res) {
@@ -401,6 +406,6 @@ router.put('/filledBy/:id', function (req, res) {
     else {
         console.log('User is not authenticated');
     }
-}) //end update shift
+}); //end update shift
 
 module.exports = router;

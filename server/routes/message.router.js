@@ -20,11 +20,6 @@ var p = plivo.RestAPI({
     authToken: AUTH_TOKEN,
 });//part of plivo library
 /* credentials for google oauth w/nodemailer*/
-
-var p = plivo.RestAPI({
-    authId: AUTH_ID,
-    authToken: AUTH_TOKEN,
-});//part of plivo library
 var nodemailer = require('nodemailer');
 var GMAIL_USER = process.env.GMAIL_USER;
 var REFRESH_TOKEN = process.env.REFRESH_TOKEN;
@@ -34,7 +29,7 @@ var CLIENT_SECRET = process.env.CLIENT_SECRET;
 console.log('The Home Stretch!!');
 
 var dateArray = [];
-var weeklyDigest = cron.schedule('40 19 * * SUN', function () {
+var weeklyDigest = cron.schedule('40 19 * * SUN', function (userEmails) {
     pool.connect(function (errorConnectingToDb, db, done) {
         if (errorConnectingToDb) {
             console.log('Error connecting', errorConnectingToDb);
@@ -120,7 +115,7 @@ var getUsers = function () {
                         console.log('Error making query', errorMakingQuery);
                         res.sendStatus(500);
                     } else {
-                            console.log(result.rows);
+                          
                             
                         resolve(result.rows);
 
@@ -199,13 +194,8 @@ router.post('/urgent', function (req, res) {
         console.log('User is not authenticated');
     }
 });
-
+//test route for texting, will be deleted once moved to production
 router.post('/text', function (req, res) {
-
-    var p = plivo.RestAPI({
-        authId: AUTH_ID,
-        authToken: AUTH_TOKEN,
-    });//part of plivo library
     var params = {
         src: plivoNumber, // Sender's phone number with country code
         dst: '17637448725',
@@ -218,16 +208,11 @@ router.post('/text', function (req, res) {
     });
     res.send(201);
 });
+getUsers().then(function (result) {
 
-
-
-var conSole = function () {
-    console.log(result);
-
-};
-getUsers().then(function () {
-    conSole();
-
+    console.log('result.rows', result.rows);
+    
+    weeklyDigest.start(result);
 
 
 });

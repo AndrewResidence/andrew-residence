@@ -35,21 +35,22 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
 
   self.shiftsToDisplay = { data: [] };
   //calls the addShift popup
-  self.addShift = function (event) {
-    console.log('add new shift button clicked');
-    $mdDialog.show({
-      controller: 'SupervisorDialogController as sd',
-      templateUrl: '/views/templates/addShift.html',
-      parent: angular.element(document.body),
-      targetEvent: event,
-      clickOutsideToClose: true,
-      fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
-    });
-  }; //end addShift popup function
-  //calls the shiftDetails popup
+  // self.addShift = function (event) {
+  //   console.log('add new shift button clicked');
+  //   $mdDialog.show({
+  //     controller: 'AddShiftController as sd',
+  //     templateUrl: '/views/templates/addShift.html',
+  //     parent: angular.element(document.body),
+  //     targetEvent: event,
+  //     clickOutsideToClose: true,
+  //     fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
+  //   })
+  // }; //end addShift popup function
+  //calls the popup to show shiftDetails allowing you edit, confirm, delete
   self.shiftDetails = function (event, shift) {
     console.log('shift details button clicked', shift);
     self.shift = shift;
+
     $mdDialog.show({
       controller: 'SupervisorDialogController as sd',
       templateUrl: '/views/templates/shiftDetails.html',
@@ -67,6 +68,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
       return response;
     });
   };
+
 
   //addNewShift function and route
   self.addNewShift = function (staffId, selection, shiftDate, shiftStatus, urgent, shift, role, comments, notify, nurse, adl, mhw, floor) {
@@ -97,22 +99,25 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     }
 
     return $http.post('/shifts/', self.newShift).then(function (response) {
+      
+      console.log('did it')
       return response;
+      
     }).catch(function (err) {
       console.log('Error');
     });
   }; //end addNewShift function and route
 
-  self.getShifts = function () {
-    self.shiftsToDisplay.data = [];
-    console.log('shifts to display service', self.shiftsToDisplay.data)
-    return $http.get('/shifts').then(function (response) {
-      // console.log('response', response.data)
-      // self.shiftsToDisplay.data = response.data;
-      console.log('shifts to display in service, after query', self.shiftsToDisplay.data)
-      return response;
-    });
-  };
+  // self.getShifts = function () {
+  //   self.shiftsToDisplay.data = [];
+  //   console.log('shifts to display service', self.shiftsToDisplay.data)
+  //   return $http.get('/shifts').then(function (response) {
+  //     // console.log('response', response.data)
+  //     // self.shiftsToDisplay.data = response.data;
+  //     console.log('shifts to display in service, after query', self.shiftsToDisplay.data)
+  //     return response;
+  //   });
+  // };
 
 
   // self.pickUpShift = function (shift) {
@@ -134,6 +139,10 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     });
   };
 
+  self.pickUpShift = function (shift) {
+    return $http.post('/shifts/shiftBid', shift).then(function (response) {
+      console.log('posted shift bid', response);
+    })}
   self.confirmShift = function(staffMember) {
     console.log('staff member to confirm', staffMember.name);
     return $http.post('/shifts/confirm', staffMember).then(function(response) {
@@ -221,15 +230,15 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     self.updatedShift.nurse = nurse;
     self.updatedShift.date = date;
     self.updatedShift.floor = floor;
-    return $http.put('/shifts/update/' + id, self.updatedShift).then(function (response){
+    return $http.put('/shifts/update/' + id, self.updatedShift).then(function (response) {
       return response
-    }).catch(function (response){
+    }).catch(function (response) {
       console.log('Error updating shift');
     })
   }
-//end updateShift function
+  //end updateShift function
 
-//start deleteShift function
+  //start deleteShift function
   self.deleteShift = function (shiftId) {
     return $http.delete('/shifts/delete' + shiftId).then(function (response) {
       return response
@@ -241,7 +250,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   //end deleteShift function
   //start shiftFilled function
   self.shiftFilled = function (id, shiftId) {
-  
+
     self.filledShift.filledBy = id;
 
  return $http.put('/shifts/filledBy/' + shiftId, self.filledShift)
@@ -249,8 +258,9 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   return response
 }).catch(function (response){
   console.log('Error filling shift');
-});
+
+})
   }
   //end shiftFilled function
 
-});
+})

@@ -13,9 +13,9 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
     console.log('event and shift', event, shift)
     ShiftService.shiftDetails(event, shift);
   };
-  vm.addShift = function (event) {
-    ShiftService.addShift(event);
-  };
+  // vm.addShift = function (event) {
+  //   ShiftService.addShift(event);
+  // };
 
   vm.updatePayPeriodDates = function () {
     calendarService.updatePayPeriodDates().then(function (response) {
@@ -85,8 +85,16 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   };
 
   vm.addShift = function (event) {
-    ShiftService.addShift(event);
-  };
+    console.log('add new shift button clicked');
+    $mdDialog.show({
+      controller: 'SupervisorDialogController as sd',
+      templateUrl: '/views/templates/addShift.html',
+      parent: angular.element(document.body),
+      targetEvent: event,
+      clickOutsideToClose: true,
+      fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
+    })
+  }; //end addShift popup function
 
   vm.getShifts = function () {
     vm.shiftsToDisplay = [];

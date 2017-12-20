@@ -303,7 +303,7 @@ md-icon.Night path.circle {
 #statusIndicator {
   opacity: 0.75;
   height: 25px;
-  width: 50px;
+  width: 60px;
   float: right;
   margin-top: 10px;
   margin-left: 40px;
@@ -426,4 +426,9 @@ div.Pending {
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);  
   padding: 1px;
   /* justify-content: center; */
+}
+
+#filledByName {
+    font-weight: bold;
+text-align: center
 }

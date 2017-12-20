@@ -16,9 +16,9 @@
 
             <div layout-gt-xl="row"></div>
             <md-datepicker id="editDate" ng-disabled="sd.editShift === false" ng-model="sd.shift.date">{{sd.shift.date}}</md-datepicker>
-     <div layout-align="center center" ng-if="sd.shift.shift_status === 'Open'" ng-style = "sd.shift.shift_status === 'Open' && {'background-color':'#187B18', 'color': 'white'}" id="statusIndicator">{{sd.shift.shift_status}}</div>
-        <div ng-if="sd.shift.shift_status === 'Pending'"ng-style="sd.shift.shift_status === 'Pending' && {'background-color':'#f7cc31'}" id="statusIndicator">{{sd.shift.shift_status}}</div>
-    <div ng-if="sd.shift.shift_status === 'Filled'" ng-style="sd.shift.shift_status === 'Filled' && {'background-color':'#A62020', 'color': 'white'}" id="statusIndicator">{{sd.shift.shift_status}}</div>
+     <div layout-align="center center" ng-if="sd.shift.shift_status === 'Open'" id="statusIndicator">{{sd.shift.shift_status}}</div>
+        <div ng-if="sd.shift.shift_status === 'Pending'"ng-style="sd.shift.shift_status === 'Pending' && {'background-color':'#FCF1C6'}" id="statusIndicator">{{sd.shift.shift_status}}</div>
+    <div ng-if="sd.shift.shift_status === 'Filled'" ng-style="sd.shift.shift_status === 'Filled' && {'background-color':'#959595', 'color': 'black'}" id="statusIndicator">{{sd.shift.shift_status}}</div>
     
     </div>
         
@@ -51,8 +51,8 @@
                             md-select-on-focus>{{sd.shift.shift_comments}}</textarea>
                     </md-input-container>
                 </div>
-                <div layout = "row" id="showFilledBy" ng-show="sd.shift.shift_status==='Filled'">
-                    <span>Shift Filled By: {{sd.filledByName.data[0].name}}</span>
+                <div layout="row" id="showFilledBy" ng-show="sd.shift.shift_status==='Filled'">
+                    <span id="filledByName">Shift Filled By: {{sd.filledByName.data[0].name}}</span>
             </div>
             <div layout="row" layout-align="center center" ng-if="sd.editFill === true">
                 <md-input-container class="md-block" "fillShiftWith">

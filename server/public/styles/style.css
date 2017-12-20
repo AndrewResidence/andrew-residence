@@ -145,7 +145,7 @@ li a:hover {
 
 .staffCalBox {
   width: 13.4%;
-  min-height: 200px;
+  min-height: 150px;
   background-color: #E7E7E7;
   display: inline-flex;
   padding: 2px;
@@ -178,10 +178,8 @@ li a:hover {
   margin: 2px 2px 2px 0px;
   width: 100%;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);  
-
   padding: 2px;
   cursor: pointer;
-
   padding: 1px;
   display: in-line flex;
   align-items: baseline;
@@ -306,9 +304,9 @@ md-icon.Night path.circle {
   margin-left: 40px;
   border-radius: 3px;
   text-align: center;
-vertical-align: middle;
-line-height: 25px;  
-margin-bottom: 10px;
+  vertical-align: middle;
+  line-height: 25px;  
+  margin-bottom: 10px;
 
 }
 
@@ -437,8 +435,15 @@ md-tabs:not(.md-no-tab-content):not(.md-dynamic-height) {
 
 .shiftButtonLeft {
   float:left;
+  display: flex;
+  align-self: center;
 }
 
 .shiftButtonRight {
   float:left;
+}
+
+.shiftStatusIndicator {
+  width: 20px;
+  height: 20px;
 }

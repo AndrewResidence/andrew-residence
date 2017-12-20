@@ -108,7 +108,6 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     });
   }; //end addNewShift function and route
 
-<<<<<<< HEAD
   self.getShifts = function () {
     self.shiftsToDisplay.data = [];
     console.log('shifts to display service', self.shiftsToDisplay.data)
@@ -119,7 +118,6 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
       return response;
     });
   };
-=======
   // self.getShifts = function () {
   //   self.shiftsToDisplay.data = [];
   //   console.log('shifts to display service', self.shiftsToDisplay.data)
@@ -130,7 +128,6 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   //     return response;
   //   });
   // };
->>>>>>> master
 
 
   // self.pickUpShift = function (shift) {
@@ -152,15 +149,12 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     });
   };
 
-<<<<<<< HEAD
-  self.confirmShift = function (staffMember) {
-=======
   self.pickUpShift = function (shift) {
     return $http.post('/shifts/shiftBid', shift).then(function (response) {
       console.log('posted shift bid', response);
     })}
+
   self.confirmShift = function(staffMember) {
->>>>>>> master
     console.log('staff member to confirm', staffMember.name);
     return $http.post('/shifts/confirm', staffMember).then(function (response) {
       console.log('confirmed shift', staffMember.name, response);

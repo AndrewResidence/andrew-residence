@@ -3,6 +3,7 @@ myApp.controller('UserController', function(UserService, $mdDialog) {
     var vm = this;
     vm.userService = UserService;
     vm.userObject = UserService.userObject;
+  vm.showName= true;
 
   vm.showEditDialogStaff = function (event, user) {
     console.log('button clicked');
@@ -32,6 +33,12 @@ myApp.controller('UserController', function(UserService, $mdDialog) {
       console.log('edited user', response);
       $mdDialog.hide();
     });
+  };
+
+  vm.toggleEdit = function(){
+    console.log('logged here on click', vm.showName);
+    
+      vm.showName = !vm.showName;
   };
   });
   

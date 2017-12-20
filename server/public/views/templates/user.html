@@ -28,12 +28,17 @@
                 <div flex="20" layout-padding ng-show="uc.showName">
                     {{uc.userObject.phone}}
                 </div>
-                <div flex="30" layout-padding ng-hide="uc.showName">
+                <div flex="20" layout-padding ng-hide="uc.showName">
                     <input placeholder="{{uc.userObject.phone}}">
                 </div>
 
                 <div flex="25" layout-padding>
-                    <md-button ng-click="uc.toggleEdit()">
+                    <md-button ng-click="uc.toggleEdit()" ng-hide="uc.showName">
+                        <md-icon md-svg-src="../images/check.svg"></md-icon>
+                    </md-button>
+
+
+                    <md-button ng-click="uc.editAndToggle()" ng-show="uc.showName">
                         <md-icon md-svg-src="../images/ic_mode_edit_black_18px.svg"></md-icon>
                     </md-button>
                 </div>

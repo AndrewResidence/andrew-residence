@@ -122,7 +122,7 @@ var getUsers = function () {
                     } else {
                             console.log(result.rows);
                             
-                        return result.rows;
+                        resolve(result.rows);
 
                     }
 
@@ -132,12 +132,7 @@ var getUsers = function () {
     });
 };
 
-getUsers().then(function(){
-     console.log('we are here');
-
-   
-    
-});
+//get route used to fetch staff phone numbers. Phone numbers are used to send text message indicating the urgent need for that staff members role.
 var phoneNumberArray = [];
 router.post('/urgent', function (req, res) {
     if (req.isAuthenticated()) {
@@ -224,4 +219,16 @@ router.post('/text', function (req, res) {
     res.send(201);
 });
 
+
+
+var conSole = function () {
+    console.log(result);
+
+};
+getUsers().then(function () {
+    conSole();
+
+
+
+});
 module.exports = router;

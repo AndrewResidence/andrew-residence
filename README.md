@@ -60,7 +60,7 @@ CREATE TABLE `shift_bids` (
 );
 
 CREATE TABLE `confirmed` (
-    `confirmed_id` INT NOT NULL AUTO_INCREMENT,
+    `confirmed_id` serial INT NOT NULL,
     `shift_id` INT NOT NULL,
     `user_id` INT NOT NULL,
     `shift_bid_id` INT NOT NULL,

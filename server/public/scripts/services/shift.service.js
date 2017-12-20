@@ -108,7 +108,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     console.log('shifts to display service', self.shiftsToDisplay.data)
     return $http.get('/shifts').then(function (response) {
       // console.log('response', response.data)
-      // self.shiftsToDisplay.data = response.data;
+      self.shiftsToDisplay.data = response.data;
       console.log('shifts to display in service, after query', self.shiftsToDisplay.data)
       return response;
     });
@@ -184,7 +184,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
       console.log('send textMessage did not work:', response);
     });
   };//end of sendTextMessage
-  
+
   self.sendEmailMessage = function () {
     $http.post('/message/email').then(function (response) {
       // neccessary params for email transport object;

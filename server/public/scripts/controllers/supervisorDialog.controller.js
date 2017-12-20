@@ -1,4 +1,4 @@
-myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdToast, UserService, ShiftService) {
+myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdToast, UserService, ShiftService, calendarService) {
   console.log('SupervisorDialogController created');
   var vm = this;
   vm.userService = UserService;
@@ -12,12 +12,14 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
   vm.shifts = ['Day', 'Evening', 'ADL Evening', 'Night'];
   vm.shiftStatus = ['Open', 'Filled'];
   vm.shift = ShiftService.shift;
-
+  
   vm.editShift = false;
   vm.myArrayOfDates = [];
   vm.updatedShift = ShiftService.updatedShift;
   vm.floors = ['2', '3', '4', '5', 'flt', 'N/A'];
   vm.editFill = false;
+  vm.shiftsToDisplay = [];
+  vm.currentSchedule = calendarService.currentSchedule.dates;
 
   $scope.$watch('myArrayOfDates', function (newValue, oldValue) {
     if (newValue) {
@@ -25,9 +27,21 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
       console.log('myArrayOfDates', newValue);
     }
   }, true);
-
+  
   vm.getShifts = function () {
-    ShiftService.getShifts();
+    vm.getPayPeriodDates();
+    ShiftService.getShifts().then(function(response){
+      vm.shiftsToDisplay = response.data;
+      console.log('shifts to display', vm.shiftsToDisplay)
+      for (var i = 0; i < vm.shiftsToDisplay.length; i++) {
+        for (var j = 0; j < vm.currentSchedule.length; j++) {
+          // vm.currentSchedule[j].shifts = [];
+          if (moment(vm.shiftsToDisplay[i].date).format('YYYY-MM-DD') === moment(vm.currentSchedule[j].moment).format('YYYY-MM-DD')) {
+            vm.currentSchedule[j].shifts.push(vm.shiftsToDisplay[i]);
+          }
+        }
+      }
+    })
   }
 
   vm.getSupervisors = function () {
@@ -47,11 +61,15 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
   };
   vm.getStaff();
 
+  vm.getPayPeriodDates = function() {
+    calendarService.getPayPeriodDates();
+  }
 
   //start newShift function
   vm.addNewShift = function (staffId, selection, shiftDate, shiftStatus, urgent, shift, role, comments, notify, nurse, adl, mhw) {
     ShiftService.addNewShift(staffId, selection, shiftDate, shiftStatus, urgent, shift, role, comments, notify, nurse, adl, mhw).then(function (response) {
-      vm.getShifts();
+      vm.getShifts()
+      vm.getPayPeriodDates();
       $mdDialog.hide();
       console.log('response', response);
       $mdToast.show(

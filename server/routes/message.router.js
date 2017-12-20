@@ -6,7 +6,7 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var path = require('path');
-
+var fs = require('fs');
 var cron = require('node-cron');
 var moment = require('moment');
 /* credentials for plivo*/
@@ -14,7 +14,11 @@ var plivo = require('plivo');
 
 var AUTH_ID = process.env.PLIVO_AUTH_ID;
 var AUTH_TOKEN = process.env.PLIVO_AUTH_TOKEN;
-var plivoNumber = '16128519117';//rented plivo number
+var plivoNumber = process.env.PLIVO_NUMBER;//rented plivo number
+var p = plivo.RestAPI({
+    authId: AUTH_ID,
+    authToken: AUTH_TOKEN,
+});//part of plivo library
 /* credentials for google oauth w/nodemailer*/
 
 var p = plivo.RestAPI({
@@ -27,12 +31,7 @@ var REFRESH_TOKEN = process.env.REFRESH_TOKEN;
 var ACCESS_TOKEN = process.env.ACCESS_TOKEN;
 var CLIENT_ID = process.env.CLIENT_ID;
 var CLIENT_SECRET = process.env.CLIENT_SECRET;
-var fs = require('fs');
 console.log('The Home Stretch!!');
-var p = plivo.RestAPI({
-    authId: AUTH_ID,
-    authToken: AUTH_TOKEN,
-});//part of plivo library
 
 
 var dateArray = [];
@@ -132,18 +131,18 @@ router.post('/urgent', function (req, res) {
                         console.log('this is result.rows', result.rows[0]);
 
 
-                        result.rows.forEach(function(urgent){
+                        result.rows.forEach(function (urgent) {
                             console.log('urgent', urgent.phone);
                             phoneNumberArray.push(urgent.phone);
-                            
+
                         });
 
                         var datesForText = req.body.shiftDate;
                         var textDates = [];
                         console.log(datesForText);
-                        
+
                         for (var i = 0; i < datesForText.length; i++) {
-                            
+
                             textDates.push(moment(datesForText[i]).format('MMM Do YYYY') + ' ' + 'Shift:' + '' + req.body.shift);
                         }
 

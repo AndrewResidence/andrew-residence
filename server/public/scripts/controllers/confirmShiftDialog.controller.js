@@ -12,7 +12,7 @@ myApp.controller('ConfirmShiftController', function ($scope, $mdDialog, $mdToast
       $mdDialog.hide();
     }; //end close dialog
   
-    vm.getPendingShifts = function(shiftId) {
+    vm.getShiftsToConfirm = function(shiftId) {
       console.log('shift id in dialog', shiftId);
       vm.shiftService.getShiftsToConfirm(shiftId).then(function(response) {
         console.log('got shifts', response.data);
@@ -21,7 +21,20 @@ myApp.controller('ConfirmShiftController', function ($scope, $mdDialog, $mdToast
       })
     }
   
-    vm.getPendingShifts(vm.pendingShift.shift_id);
+    vm.getShiftsToConfirm(vm.pendingShift.shift_id);
+
+    vm.showComments = function(staff) {
+        if (staff.staff_comments) {
+            return true;
+        }
+        return false;
+    }
+
+    vm.confirmShift = function(staffMember) {
+      vm.shiftService.confirmShift(staffMember).then(function(response) {
+        console.log('confirmed!', response);
+      })
+    }
   
   });
   

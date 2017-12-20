@@ -87,17 +87,28 @@ li a:hover {
   height: auto;
 }
 
+.adminTitle {
+ width: 100%;
+ text-align: center;
+}
+
 #adminContainer {
   display: flex;
   justify-content: space-around;
 }
 
 #editSupervisorBox {
-  background-color: skyblue;
+  background-color: #E7E7E7;
+  width: 45%;
+  margin: 5px;
+  padding: 5px;
 }
 
 #approveUsersBox {
-  background-color: coral;
+  background-color: #E7E7E7;
+  width: 45%;
+  margin: 5px;
+  padding: 5px;
 }
 
 .calendarSpace {

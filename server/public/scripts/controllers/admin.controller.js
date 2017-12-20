@@ -10,6 +10,13 @@ myApp.controller('AdminController', function ($mdDialog, $mdToast, UserService, 
   var show = false;
 
 
+  vm.noUsersMessage = function() {
+    if(vm.unconfirmed.length == 0) {
+      return true;
+    }
+    return false;
+  }
+  
   // GET unconfirmed users route
   vm.getUnconfirmed = function () {
     vm.userService.getUnconfirmed().then(function (response) {

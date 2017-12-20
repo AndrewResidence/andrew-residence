@@ -1,6 +1,7 @@
 <div ng-include="'views/partials/nav.html'"></div>
 <div class="container">
-  <br><br>
+  <br>
+  <h1 class="adminTitle">Administrator Tools</h1>
   <div id="adminContainer">
     <div id="editSupervisorBox">
       <h2>Supervisors:</h2>
@@ -17,7 +18,8 @@
       </div>
     </div>
     <div id="approveUsersBox">
-      <h2>Approve users box</h2>
+      <h2>Users Pending Account Confirmation</h2>
+      <div ng-show="ac.noUsersMessage()">hello</div>
       <div ng-repeat="user in ac.unconfirmed">
         {{user.name}}
         <button ng-click="ac.showConfirmDialog($event, user)">Confirm</button>

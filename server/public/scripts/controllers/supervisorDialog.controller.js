@@ -22,6 +22,7 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
   vm.updatedShift = ShiftService.updatedShift;
   vm.floors = ['2', '3', '4', '5', 'flt', 'N/A'];
   vm.editFill = false;
+  vm.filledByName = ShiftService.filledByName
 
   $scope.$watch('myArrayOfDates', function (newValue, oldValue) {
     if (newValue) {

@@ -8,14 +8,9 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   vm.shiftsToDisplay = [];
   vm.pendingShifts = [];
   vm.realPendingShifts = [];
+vm.filledByName = ShiftService.filledByName.data;
 
-  vm.shiftDetails = function (event, shift) {
-    console.log('event and shift', event, shift)
-    ShiftService.shiftDetails(event, shift);
-  };
-  // vm.addShift = function (event) {
-  //   ShiftService.addShift(event);
-  // };
+
 
   vm.updatePayPeriodDates = function () {
     calendarService.updatePayPeriodDates().then(function (response) {
@@ -81,7 +76,20 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
 
 
   vm.shiftDetails = function (event, shift) {
-    ShiftService.shiftDetails(event, shift)
+    vm.filledByName = [];
+      ShiftService.shiftDetails(event, shift).then(function (response) {
+        vm.filledByName = response.data;
+        console.log('whos is it filled by?')
+        $mdDialog.show({
+          controller: 'SupervisorDialogController as sd',
+          templateUrl: '/views/templates/shiftDetails.html',
+          parent: angular.element(document.body),
+          targetEvent: event,
+          clickOutsideToClose: true,
+          fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
+        });
+       }) //end shiftDetails popup function    
+
   };
 
   vm.addShift = function (event) {

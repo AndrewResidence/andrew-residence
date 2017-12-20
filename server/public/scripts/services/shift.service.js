@@ -1,7 +1,7 @@
 myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   console.log('ShiftService Loaded');
   var self = this;
-self.shift = {};
+  self.shift = {};
   self.newShift = {
     shiftDate: [],
     urgent: false,
@@ -31,7 +31,7 @@ self.shift = {};
   self.filledShift = {
     filledBy: '',
     shift_status: 'Filled'
-  }
+  };
 
   self.shiftsToDisplay = { data: [] };
   //calls the addShift popup
@@ -158,7 +158,7 @@ self.shift = {};
   //   })
   // }
 
-  self.getMyShifts = function() {
+  self.getMyShifts = function () {
     console.log('get my shifts clicked')
     return $http.get('/shifts/getmyshifts').then(function (response) {
       console.log('response from server', response.data)
@@ -239,8 +239,8 @@ self.shift = {};
   return response
 }).catch(function (response){
   console.log('Error filling shift');
-})
+});
   }
   //end shiftFilled function
 
-})
+});

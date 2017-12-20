@@ -129,16 +129,16 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
               .hideDelay(2500)
           );
 
-        })
+        });
 
       }
     } //   
-    ) // }
-  } //end delete shift  
+    ); // }
+  }; //end delete shift  
 
   vm.fillShift = function (event) {
     vm.editFill =! vm.editFill;
-  }
+  };
 
   vm.shiftFilled = function (id, shiftId) {
 console.log('clicked')
@@ -146,7 +146,7 @@ console.log('staff', id, shiftId)
 ShiftService.shiftFilled(id, shiftId).then(function (response){
   vm.getShifts();
 
-})
-  }
+});
+  };
 });
 

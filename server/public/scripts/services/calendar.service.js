@@ -181,6 +181,7 @@ myApp.service('calendarService', function ($http, $location, $mdDialog) {
                 }
             );
         }
+        console.log('self.currentSchedule.dates in currentPay period on the service', self.currentSchedule.dates)
     };
 
 });

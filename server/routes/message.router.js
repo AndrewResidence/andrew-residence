@@ -100,7 +100,7 @@ var weeklyDigest = cron.schedule('10 19 * * SUN', function (userEmails) {
 
 
 var getUsers = function () {
-
+let emailArray=[];
     return new Promise(function (resolve, reject) {
         pool.connect(function (errorConnectingToDb, db, done) {
             if (errorConnectingToDb) {
@@ -116,8 +116,12 @@ var getUsers = function () {
                         res.sendStatus(500);
                     } else {
                           
-                            
-                        resolve(result.rows);
+                            result.rows.forEach(function(emails){
+                             
+                                emailArray.push(emails.username +',');
+                                
+                            });
+                        resolve(emailArray);
 
                     }
 
@@ -210,7 +214,7 @@ router.post('/text', function (req, res) {
 });
 getUsers().then(function (result) {
 
-    console.log('result.rows', result.rows);
+    console.log('this logged',result.join(''));
     
     weeklyDigest.start(result);
 

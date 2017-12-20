@@ -136,7 +136,7 @@ self.shift = {};
     
   self.pickUpShift = function(shift) {
     return $http.post('/shifts/shiftBid', shift).then(function(response) {
-      console.log('posted shift bid', response);
+      console.log('posted shift bid', shift, response);
       return response;
     });
   };

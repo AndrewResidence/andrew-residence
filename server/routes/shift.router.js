@@ -156,7 +156,7 @@ router.post('/shiftBid', function (req, res) {
                 var queryText =
                     'INSERT INTO "shift_bids" ("shift_id", "user_id", "staff_comments")' +
                     'VALUES ($1, $2, $3);';
-                db.query(queryText, [shiftBid.id, shiftBid.user, shiftBid.comments],
+                db.query(queryText, [shiftBid.id, shiftBid.user, shiftBid.staff_comments],
                     function (errorMakingQuery, result) {
                         done();
                         if (errorMakingQuery) {

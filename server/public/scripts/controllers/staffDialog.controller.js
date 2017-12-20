@@ -4,13 +4,13 @@ myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserSer
   vm.userService = UserService;
   vm.userObject = UserService.userObject;
   vm.shiftService = ShiftService;
-  vm.shiftComments = false;
+  vm.showComments = false;
+  vm.edit = false;
   vm.shift = {
     user: vm.userService.userObject.userId,
     id: shift.shift_id,
     date: moment(shift.date).format('l'),
     shift: shift.shift,
-    comments: shift.shift_comments,
     adl: shift.adl,
     mhw: shift.mhw,
     nurse: shift.nurse,
@@ -43,7 +43,7 @@ myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserSer
   vm.role();
 
   vm.showPickUpShift = function() {
-    vm.shiftComments = true;
+    vm.showComments = true;
   }
 
   vm.pickUpShift = function (shift) {

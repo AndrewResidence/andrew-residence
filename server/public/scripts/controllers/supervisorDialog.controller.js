@@ -1,8 +1,9 @@
-myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdToast, UserService, ShiftService) {
+myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdToast, UserService, ShiftService, calendarService) {
   console.log('SupervisorDialogController created');
   var vm = this;
   vm.userService = UserService;
   vm.shiftService = ShiftService;
+  vm.calendarService = calendarService;
   vm.userObject = UserService.userObject;
   vm.addShift = ShiftService.addShift;
   vm.newShift = ShiftService.newShift;
@@ -12,6 +13,9 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
   vm.shifts = ['Day', 'Evening', 'ADL Evening', 'Night'];
   vm.shiftStatus = ['Open', 'Filled'];
   vm.shift = ShiftService.shift;
+  
+  vm.shiftsToDisplay = [];
+  vm.currentSchedule = calendarService.currentSchedule.dates;
 
   vm.editShift = false;
   vm.myArrayOfDates = [];
@@ -48,7 +52,7 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
   vm.getStaff();
 
 
-  //start newShift function
+  // //start newShift function
   vm.addNewShift = function (staffId, selection, shiftDate, shiftStatus, urgent, shift, role, comments, notify, nurse, adl, mhw) {
     ShiftService.addNewShift(staffId, selection, shiftDate, shiftStatus, urgent, shift, role, comments, notify, nurse, adl, mhw).then(function (response) {
       vm.getShifts();
@@ -76,6 +80,7 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
   vm.updateShift = function (id, comments, shift, mhw, adl, nurse, date, floor) {
     ShiftService.updateShift(id, comments, shift, mhw, adl, nurse, date, floor).then(function (response) {
       $mdDialog.hide();
+      vm.getShifts();
       $mdToast.show(
         $mdToast.simple()
           .textContent('Shift Updated')
@@ -121,8 +126,8 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
       }
       else {
         ShiftService.deleteShift(shiftId).then(function (response) {
-          vm.getShifts()
           $mdDialog.hide();
+          vm.getShifts();
           $mdToast.show(
             $mdToast.simple()
               .textContent('Shift deleted!')
@@ -137,16 +142,38 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
   }; //end delete shift  
 
   vm.fillShift = function (event) {
-    vm.editFill =! vm.editFill;
-  };
+    vm.editFill = !vm.editFill;
+  }
 
   vm.shiftFilled = function (id, shiftId) {
-console.log('clicked')
-console.log('staff', id, shiftId)
-ShiftService.shiftFilled(id, shiftId).then(function (response){
-  vm.getShifts();
+    console.log('clicked')
+    console.log('staff', id, shiftId)
+    ShiftService.shiftFilled(id, shiftId).then(function (response) {
+      vm.getShifts();
+      $mdDialog.hide();
 
-});
-  };
+    })
+  }
+//get shifts shows all shifts regardless of status
+  vm.getShifts = function () {
+    vm.getPayPeriodDates();
+    ShiftService.getShifts().then(function(response){
+      vm.shiftsToDisplay = response.data;
+      console.log('shifts to display', vm.shiftsToDisplay)
+      for (var i = 0; i < vm.shiftsToDisplay.length; i++) {
+        for (var j = 0; j < vm.currentSchedule.length; j++) {
+          // vm.currentSchedule[j].shifts = [];
+          if (moment(vm.shiftsToDisplay[i].date).format('YYYY-MM-DD') === moment(vm.currentSchedule[j].moment).format('YYYY-MM-DD')) {
+            vm.currentSchedule[j].shifts.push(vm.shiftsToDisplay[i]);
+          }
+        }
+      }
+    })
+  }
+
+
+vm.getPayPeriodDates = function() {
+    calendarService.getPayPeriodDates();
+  }
 });
 

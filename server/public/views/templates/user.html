@@ -14,24 +14,20 @@
             </div>
         </md-toolbar>
         <md-list>
-            <md-list-item layout="row" ng-hide layout-sm>
-                <div ng-show="uc.showName" flex="50" layout-padding>
+            <md-list-item layout="row">
+                <div flex="50" layout-padding>
                     {{uc.userObject.userName}}
-                    <md-button>
-                        <md-icon md-svg-src="./images/ic_mode_edit_black_18px.svg" ng-click="uc.toggleEdit()"></md-icon>
-                    </md-button>
+                    <md-icon ng-click="uc.toggleEdit()" md-svg-src="ic_mode_edit_black_18px"></md-icon>
                 </div>
-                <div ng-hide="uc.showName" flex="50" layout-padding>
+                <!-- <div ng-hide="uc.showName" flex="50" layout-padding>
                     <input placeholder={{uc.userObject.userName}}>
                     <md-button>
                         <md-icon md-svg-src="./images/check.svg" ng-click="uc.toggleEdit()"></md-icon>
                     </md-button>
                 </div>
                 <div flex="20" layout-padding> {{uc.userObject.role}}</div>
-                <div flex="20" layout-padding>{{uc.userObject.phone}}</div>
-                <div flex="25" layout-padding>
-                    <md-button class="md-warn" ng-click="uc.editProfile()">Edit Profile Information</md-button>
-                </div>
+                <div flex="20" layout-padding>{{uc.userObject.phone}}</div> -->
+               
             </md-list-item>
         </md-list>
 

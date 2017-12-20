@@ -12,12 +12,15 @@
       </div>
       <h2 class="adminTitle">On-Call Staff:</h2>
       <div class="editUsers" ng-repeat="staff in ac.staff">
-        <table>
-          
+        <table id="editUsersTable">
+          <tbody>
+            <td id="userName">{{staff.name}}</td>
+            <td><md-button id = "editButton" class="md-raised" ng-click="ac.showEditDialog($event, staff)">
+              <img class="editIcon" src="/styles/editIcon.png" alt="Edit">
+              </md-button></td>
+            <td><md-button id = "deleteButton" class="md-raised" ng-click="ac.deleteUser(staff)">Remove User</md-button></td>
+          </tbody>
         </table>
-        {{staff.name}}
-        <md-button class="md-raised" ng-click="ac.showEditDialog($event, staff)">Edit</md-button>
-        <md-button class="md-raised" ng-click="ac.deleteUser(staff)">Remove</md-button>
       </div>
     </div>
     <div id="approveUsersBox">

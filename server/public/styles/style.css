@@ -111,15 +111,37 @@ li a:hover {
   padding: 5px;
 }
 
-.approveUsers .editUsers {
+#editUsersTable td {
+  width: 25%;
+  border: 0px solid black;
+}
+
+#userName {
+  width: 50%;
+}
+
+.approveUsers, .editUsers {
   margin-left: 15px;
-  background-color: blue;
 }
 
 .NoUsersMessage {
   width: 100%;
   text-align: center;
   font-style: italic;
+}
+
+.editIcon, .deleteIcon {
+  height: 25px;
+  width: auto;
+}
+
+#editButton, #deleteButton {
+  min-width: 30px;
+  padding: 3px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+
 }
 
 .calendarSpace {

@@ -62,7 +62,7 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
         vm.pendingShifts[i].date = moment(vm.pendingShifts[i].date).format('l');
       }
       console.log(' pending shifts', vm.pendingShifts);
-    })
+    }) // .catch and displaying a generic error
   }
 
   vm.getPendingShifts();
@@ -263,6 +263,9 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
   vm.getMyShifts = function() {
     ShiftService.getMyShifts();
   }
+
+  // NOTE: This is the result of a merge conflict and should be removed
+
   // vm.showDetailsDialog = function(event) {
   //   console.log('pick up shift button clicked');
   //   $mdDialog.show({

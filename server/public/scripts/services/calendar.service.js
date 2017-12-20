@@ -172,6 +172,7 @@ myApp.service('calendarService', function ($http, $location, $mdDialog) {
 
     //gets current pay period and adds day objects to the array
     self.currentPayPeriod = function (scheduleDays) {
+
         for (var i = 0; i < scheduleDays.length; i++) {
             self.currentSchedule.dates.push(
                 {
@@ -180,6 +181,7 @@ myApp.service('calendarService', function ($http, $location, $mdDialog) {
                 }
             );
         }
+        console.log('self.currentSchedule.dates in currentPay period on the service', self.currentSchedule.dates)
     };
 
 });

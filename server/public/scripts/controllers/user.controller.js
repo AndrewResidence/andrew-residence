@@ -1,8 +1,9 @@
-myApp.controller('UserController', function(UserService, $mdDialog) {
-    console.log('UserController created');
-    var vm = this;
-    vm.userService = UserService;
-    vm.userObject = UserService.userObject;
+myApp.controller('UserController', function (UserService, $mdDialog) {
+  console.log('UserController created');
+  var vm = this;
+  vm.userService = UserService;
+  vm.userObject = UserService.userObject;
+  vm.showName = true;
 
   vm.showEditDialogStaff = function (event, user) {
     console.log('button clicked');
@@ -27,11 +28,23 @@ myApp.controller('UserController', function(UserService, $mdDialog) {
   };
   vm.editUser = function (user) {
     console.log(vm.service);
-    
+
     vm.userService.editUser(user).then(function (response) {
       console.log('edited user', response);
       $mdDialog.hide();
     });
   };
-  });
-  
+
+  vm.toggleEdit = function () {
+
+    vm.showName = !vm.showName;
+    
+  };
+
+  vm.toggleAndEdit = function(){
+
+/*place models here*/ 
+    console.log('logged here on click', vm.showName);
+    vm.toggleEdit();
+  };
+});

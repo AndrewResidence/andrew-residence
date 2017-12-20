@@ -5,7 +5,7 @@
       <md-content>
         <div class="staffPage" layout="column" layout-align="center center">
           <div layout="row" layout-align="center center">
-            <md-button class="md-raised md-primary" ng-click="sc.getMyShifts()">My Shifts</md-button>
+            <!-- <md-button class="md-raised md-primary" ng-click="sc.getMyShifts()">My Shifts</md-button> -->
             <div class="legendRow">
               <div class="key">Shift Key:</div>
               <div class="legend" id="open">
@@ -37,6 +37,64 @@
                 <span class="dayNum">{{day.dayNum}}</span>
                 <div layout="column" ng-repeat="shift in day.shifts track by $index">
                   <div class="shiftButton" ng-class="{{'shift.shift_status'}}" ng-click="sc.shiftDetails(event, shift)">
+                    <div class="shiftButtonLeft">
+                      <md-icon ng-class="{{'shift.shift'}}" md-svg-icon="../images/ic_add_circle_black_18px.svg"></md-icon>
+                    </div>
+                    <div class="shiftButtonRight">
+                      <span ng-show="shift.adl">ADL</span>
+                      <span ng-show="shift.nurse">Nurse</span>
+                      <span ng-show="shift.mhw">MHW</span>
+                      <br>
+                      <span>{{shift.shift}}</span>
+                      <br>
+                      <span>Floor: {{shift.floor}}</span>
+                      <br>
+                      <span>{{shift.shift_comments}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </md-content>
+    </md-tab>
+    <md-tab layout-fill label="My Shifts">
+      <md-content>
+        <div class="staffPage" layout="column" layout-align="center center">
+          <div layout="row" layout-align="center center">
+            <!-- <md-button class="md-raised md-primary" ng-click="sc.getMyShifts()">My Shifts</md-button> -->
+            <div class="legendRow">
+              <div class="key">Shift Key:</div>
+              <div class="legend" id="open">
+                <span>Open</span>
+              </div>
+              <div class="legend" id="pending">
+                <span>Pending</span>
+              </div>
+              <div class="legend" id="filled">
+                <span>Filled</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="staffCalendarSpace">
+            <div layout="row" class="staffCalHeader">
+              <md-button class="md-raised md-primary" id="calHeadBtnLeft" ng-click="sc.prevMonth(sc.currentMonth.dates[0].month, sc.currentMonth.dates[0].year)">Prev</md-button>
+              <div>{{sc.displayMonth}} {{sc.displayYear._i.year}}</div>
+              <md-button class="md-raised md-primary" id="calHeadBtnRight" ng-click="sc.nextMonth(sc.currentMonth.dates[0].month, sc.currentMonth.dates[0].year)">Next</md-button>
+            </div>
+            <div layout="row" hide-xs>
+              <div class="calHeader" ng-repeat="dayheader in sc.dayList">
+                <div>{{dayheader}}</div>
+              </div>
+            </div>
+
+            <div layout-xs="column" class="staffCalBox" ng-repeat="day in sc.currentMonth.dates">
+              <div class="innerBox">
+                <span class="dayNum">{{day.dayNum}}</span>
+                <div layout="column" ng-repeat="shift in day.usershifts track by $index">
+                  <div class="shiftButton" ng-class="{{'usershifts.shift_status'}}" ng-click="sc.shiftDetails(event, shift)">
                     <md-icon ng-class="{{'shift.shift'}}" md-svg-icon="../images/ic_add_circle_black_18px.svg"></md-icon>
                     <span ng-show="shift.adl">ADL</span>
                     <span ng-show="shift.nurse">Nurse</span>
@@ -53,25 +111,16 @@
         </div>
       </md-content>
     </md-tab>
-    <md-tab label="My Shifts">
-      <md-content>
-        Some words are here for now.
-      </md-content>
-    </md-tab>
   </md-tabs>
 </md-content>
 
 <div class="mobileView" show-xs show-sm hide-md hide-lg hide-xl>
   <!-- mobile view -->
   <md-content>
-    <md-tabs>
-      <md-tab label="All Open">
+    <md-tabs layout-fill flex>
+      <md-tab layout-fill label="All">
         <md-content>
-
           <div layout="row" layout-align="center center">
-            <div>
-
-            </div>
             <md-button class="md-icon-button md-primary" id="mobileNav" aria-label="back" ng-click="sc.prevMonth(sc.currentMonth.dates[0].month, sc.currentMonth.dates[0].year)">
               <md-icon md-svg-icon="../images/back-arrow.svg"></md-icon>
             </md-button>
@@ -83,8 +132,11 @@
           <div ng-repeat="day in sc.currentMonth.dates">
             <div ng-repeat="shift in day.shifts track by $index">
               <div layout="row" layout-align="center center">
-                <div class="mobileShiftButton" ng-class="{{'shift.shift_status'}}" ng-click="sc.shiftDetails(event, shift)">
-                  <md-icon ng-class="{{'shift.shift'}}" md-svg-icon="../images/ic_add_circle_black_18px.svg"></md-icon>
+                <div class="mobileShiftButton" ng-click="sc.shiftDetails(event, shift)">
+                  <div class="shiftStatusIndicator" ng-class="{{'shift.shift_status'}}">{{shift.shift_status}}</div>
+                  <div class="shiftButtonLeft">
+                    <md-icon ng-class="{{'shift.shift'}}" md-svg-icon="../images/ic_add_circle_black_18px.svg"></md-icon>
+                  </div>
                   <span>{{shift.date | amDateFormat: 'MM-DD-YYYY'}}</span>
                   <span>{{shift.date | amDateFormat: 'dddd'}}</span>
                   <br>
@@ -96,13 +148,26 @@
               </div>
             </div>
           </div>
-        </div>
-      </md-content>
-    </md-tab>
-    <md-tab label="My Shifts">
-      <md-content>
-        My schedule will go here
-      </md-content>
-    </md-tab>
-  </md-tabs>
-</md-content>
+        </md-content>
+      </md-tab>
+      <md-tab label="My Shifts">
+        <md-content>
+          <div layout="column" layout-align="center center">
+            <div ng-repeat="shift in sc.userShiftsToDisplay track by $index">
+              <div class="myShiftBlock">
+                <span>{{shift.date | amDateFormat: 'MM-DD-YYYY'}}</span>
+                <span>{{shift.date | amDateFormat: 'dddd'}}</span>
+                <span ng-show="shift.adl">ADL</span>
+                <span ng-show="shift.nurse">Nurse</span>
+                <span ng-show="shift.mhw">MHW</span>
+                <span>{{shift.shift}}</span>
+                <div class="shiftStatusIndicator" ng-class="{{'shift.shift_status'}}">{{shift.shift_status}}</div>
+                  <md-icon ng-class="{{'shift.shift'}}" md-svg-icon="../images/ic_add_circle_black_18px.svg"></md-icon>
+              </div>
+            </div>
+          </div>
+        </md-content>
+      </md-tab>
+    </md-tabs>
+  </md-content>
+</div>

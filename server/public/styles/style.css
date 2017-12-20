@@ -195,6 +195,11 @@ li a:hover {
 
 }
 
+.confirmBox {
+  border: 1px solid black;
+  margin: 3px;
+}
+
 .shifts {
   align-items: stretch;
 }

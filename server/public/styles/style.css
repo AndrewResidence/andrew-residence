@@ -299,7 +299,7 @@ md-icon.Night path.circle {
 #statusIndicator {
   opacity: 0.75;
   height: 25px;
-  width: 50px;
+  width: 60px;
   float: right;
   margin-top: 10px;
   margin-left: 40px;
@@ -424,6 +424,12 @@ div.Pending {
   /* justify-content: center; */
 }
 
+
+#filledByName {
+    font-weight: bold;
+text-align: center
+}
+
 md-tabs:not(.md-no-tab-content):not(.md-dynamic-height) {
   min-height: 1200px;
 }
@@ -479,4 +485,5 @@ md-tabs:not(.md-no-tab-content):not(.md-dynamic-height) {
 
 .registrationButton {
   margin-top: 20px;
+
 }

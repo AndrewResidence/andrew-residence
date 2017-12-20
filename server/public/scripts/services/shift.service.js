@@ -2,6 +2,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   console.log('ShiftService Loaded');
   var self = this;
   self.shift = {};
+  self.filledByName = {data: []}
   self.newShift = {
     shiftDate: [],
     urgent: false,
@@ -34,6 +35,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   };
 
   self.shiftsToDisplay = { data: [] };
+  self.filledByName = {data: []}
   //calls the addShift popup
   // self.addShift = function (event) {
   //   console.log('add new shift button clicked');
@@ -46,21 +48,15 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   //     fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
   //   })
   // }; //end addShift popup function
-  //calls the popup to show shiftDetails allowing you edit, confirm, delete
+  //calls 
   self.shiftDetails = function (event, shift) {
     console.log('shift details button clicked', shift);
     self.shift = shift;
-
-    $mdDialog.show({
-      controller: 'SupervisorDialogController as sd',
-      templateUrl: '/views/templates/shiftDetails.html',
-      parent: angular.element(document.body),
-      targetEvent: event,
-      clickOutsideToClose: true,
-      fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
-    });
-  }; //end shiftDetails popup function
-
+   return $http.get('/shifts/filled/who/' + shift.shift_id).then(function (response){
+      self.filledByName.data = response.data
+      return response
+    }) 
+  }
   self.getShifts = function () {
     return $http.get('/shifts').then(function (response) {
       console.log('response', response.data)

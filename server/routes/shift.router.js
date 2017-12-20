@@ -247,7 +247,7 @@ router.get('/shiftBidToConfirm/:id', function (req, res) {
                     if (errorMakingQuery) {
                         console.log('Error making query', errorMakingQuery);
                         res.sendStatus(500);
-                        return;
+                        return
                     }
                     else {
                         console.log('got shift bids');
@@ -420,10 +420,11 @@ router.put('/update/:id', function (req, res) {
     }
 }) //end update shift
 
-//fill shift route
+//fill shift route - shows shift filled
 router.put('/filledBy/:id', function (req, res) {
     if (req.isAuthenticated()) {
         console.log('thebody', req.body)
+        var confirmedBy = req.user.id
         var filledBy = req.body.filledBy;
         var shift_status = req.body.shift_status;
         var shiftId = req.params.id;
@@ -445,17 +446,35 @@ router.put('/filledBy/:id', function (req, res) {
                         console.log('Error making query', errorMakingQuery);
                         res.sendStatus(500);
                     } else {
-                        res.send(result.rows);
-                    }
-                }); //end db.query
-            } //end else in pool.connect
-        }); // end pool connect
-    } // end req.isAuthenticated
+                        pool.connect(function (errorConnectingToDb, db, done) {
+                            if (errorConnectingToDb) {
+                                console.log('Error connecting', errorConnectingToDb);
+                                res.sendStatus(500);
+                            } //end if error connection to db
+                            else {
+                                var queryText =
+                                    'INSERT INTO "confirmed" ("confirmed_by_id", "user_id", "shift_id")' +
+                                    'VALUES ($1, $2, $3)';
+                                db.query(queryText, [confirmedBy, filledBy, shiftId], function (errorMakingQuery, result) {
+                                    done();
+                                    console.log('result.rows', result);
+                                    if (errorMakingQuery) {
+                                        console.log('Error making query', errorMakingQuery);
+                                        res.sendStatus(500);
+                                    } else {
+                                        res.send(result.rows);
+                                    }
+                                }); //end db.query
+                            } //end else in pool.connect
+                        }); // end pool connect
+                    } // end 2nd else
+                }) //end query
+            } //end else
+        }//end first pool connect
+        ) //end pool connect
+    }//end if authenticated
     else {
         console.log('User is not authenticated');
     }
-}) //end update shift
-
-
-
+}) //end filledBy route
 module.exports = router;

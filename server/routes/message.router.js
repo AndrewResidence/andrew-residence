@@ -3,7 +3,7 @@ require('dotenv').config({ path: '../group-project/.env' });
 /* for the database connection*/
 var pool = require('../modules/pool.js');
 var express = require('express');
-var router = express.Router();
+var router = express.Router(); 
 var passport = require('passport');
 var path = require('path');
 var fs = require('fs');
@@ -32,7 +32,6 @@ var ACCESS_TOKEN = process.env.ACCESS_TOKEN;
 var CLIENT_ID = process.env.CLIENT_ID;
 var CLIENT_SECRET = process.env.CLIENT_SECRET;
 console.log('The Home Stretch!!');
-
 
 var dateArray = [];
 var weeklyDigest = cron.schedule('40 19 * * SUN', function () {
@@ -159,30 +158,6 @@ router.post('/urgent', function (req, res) {
                         });
                     }
                 });
-                // This should move into the else above ^^^^
-
-                // var datesForText = req.body.shiftDate;
-                // var textDates = [];
-                // for (var i = 0; i < datesForText.length; i++) {
-                //     moment(datesForText[i]).format('MMM Do YYYY');
-                //     textDates.push(moment(datesForText[i]).format('MMM Do YYYY') + ' ' + 'Shift:' + '' + req.body.shift);
-                // }
-                // // Prints the complete response
-                // var p = plivo.RestAPI({
-                //     authId: AUTH_ID,
-                //     authToken: AUTH_TOKEN,
-                // });//part of plivo library
-                // let callThisNumber = phoneNumberArray.join('');
-                // var params = {
-                //     src: plivoNumber, // Sender's phone number with country code
-                //     dst: callThisNumber,
-                //     text: 'Urgent Shift Posted:' + '' + textDates,
-                // };
-                // p.send_message(params, function (status, response) {
-                //     console.log('Status: ', status);
-                //     console.log('API Response:\n', response);
-
-                // });
             }
         });
         //res.sendStatus(201);
@@ -190,7 +165,7 @@ router.post('/urgent', function (req, res) {
     else {
         console.log('User is not authenticated');
     }
-}); //end post route for new shifts
+});
 
 router.post('/text', function (req, res) {
 
@@ -212,85 +187,3 @@ router.post('/text', function (req, res) {
 });// end of node-cron weekly digest email
 
 module.exports = router;
-
-
-// new Promise(function(){
-//     if (req.body.adl) {
-//         var role = 'ADL';
-//         var queryText = 'SELECT "phone" FROM "users" WHERE "role" = $1';
-//         db.query(queryText, [role], function (err, result) {
-//             done();
-//             if (err) {
-//                 console.log("Error getting phone: ", err);
-//                 res.sendStatus(500);
-//             } else {
-//                 result.rows.forEach(function (role) {
-//                     phoneNumberArray.push(role.phone + '<');
-//                     console.log('role.phone', phoneNumberArray);
-
-//                 });
-//             }
-//         });
-//     }
-// }).then(function(){
-//     if (req.body.mhw) {
-//         var mentalHealthWorker = 'MHW';
-//         var mentalHealthWorkerQueryText = 'SELECT "phone" FROM "users" WHERE "role" = $1';
-//         db.query(mentalHealthWorkerQueryText, [mentalHealthWorker], function (err, result) {
-//             done();
-//             if (err) {
-//                 console.log("Error getting phone: ", err);
-//                 res.sendStatus(500);
-//             } else {
-//                 console.log('help:', result.rows);
-//                 result.rows.forEach(function (healthWorker) {
-//                     phoneNumberArray.push(healthWorker.phone + '<');
-//                     console.log('role.phone', phoneNumberArray);
-//                 });
-//             }
-//         });
-//     }
-
-// }).then(function(){
-//     if (req.body.nurse) {
-//         var nurse = 'Nurse';
-//         var nurseQueryText = 'SELECT "phone" FROM "users" WHERE "role" = $1';
-//         db.query(nurseQueryText, [nurse], function (err, result) {
-//             done();
-//             if (err) {
-//                 console.log("Error getting phone from Nurse: ", err);
-//                 res.sendStatus(500);
-//             } else {
-//                 result.rows.forEach(function (nurseWorker) {
-//                     console.log(nurseWorker.phone);
-//                     phoneNumberArray.push(nurseWorker.phone + '<');
-
-//                     console.log('phoneNumberArray', phoneNumberArray);
-//                     console.log('phoneNumberArray.join', phoneNumberArray.join(''));
-
-
-//                 });
-//             }
-//         });
-
-//     }
-// }).then(function(){
-//         var datesForText = req.body.shiftDate;
-//         var textDates = [];
-//         for (var i = 0; i < datesForText.length; i++) {
-//             moment(datesForText[i]).format('MMM Do YYYY');
-//             textDates.push(moment(datesForText[i]).format('MMM Do YYYY') + ' ' + 'Shift:' + '' + req.body.shift);
-//         }
-//         // Prints the complete response
-//         var callThisNumber = phoneNumberArray.join('');
-//         var params = {
-//             src: plivoNumber, // Sender's phone number with country code
-//             dst: callThisNumber,
-//             text: 'Urgent Shift Posted:' + '' + textDates,
-//         };
-//         p.send_message(params, function (status, response) {
-//             console.log('Status: ', status);
-//             console.log('API Response:\n', response);
-
-//         });
-// });//end of promise chain

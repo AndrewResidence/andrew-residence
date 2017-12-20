@@ -29,7 +29,7 @@ var CLIENT_SECRET = process.env.CLIENT_SECRET;
 console.log('The Home Stretch!!');
 
 var dateArray = [];
-var nodeCron = cron.schedule('10 19 * * SUN', function (userEmails) {
+var weeklyDigest = function (userEmails) {
     pool.connect(function (errorConnectingToDb, db, done) {
         if (errorConnectingToDb) {
             console.log('Error connecting', errorConnectingToDb);
@@ -63,7 +63,7 @@ var nodeCron = cron.schedule('10 19 * * SUN', function (userEmails) {
                     let emailMessage = dateArray.join('');
                     var mailOptions = {
                         from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
-                        to: 'joshnothum@gmail.com', // list of receivers
+                        to: userEmails.join(''), // list of receivers
                         subject: 'Weekly Digest from Andrew Residence', // Subject line
                         html: ' <body style ="background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);">' +
                             '<h1>Good Day!</h1><h3>Available Shifts:</h3><ul>' + emailMessage + '</ul>' +
@@ -95,12 +95,12 @@ var nodeCron = cron.schedule('10 19 * * SUN', function (userEmails) {
             }); // END QUERY
         }
     }); // end pool connect
-}, false);
+};
 
 
-
+// get users is a function that uses node-cron to retrieve all the users email in the DB.  It returns a promise and chains to 
 var getUsers = function () {
-    let emailArray = [];
+    var emailArray = [];
     return new Promise(function (resolve, reject) {
         cron.schedule('42 13 * * WED', function (userEmails) {
             pool.connect(function (errorConnectingToDb, db, done) {

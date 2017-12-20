@@ -11,7 +11,7 @@ myApp.controller('LoginController', function ($http, $location, $mdDialog, UserS
   vm.login = function () {
     console.log('LoginController -- login');
     if (vm.user.username === '' || vm.user.password === '') {
-      vm.message = "Enter your username and password!";
+      vm.message = "Please enter your username and password.";
     } else {
       console.log('LoginController -- login -- sending to server...', vm.user);
       $http.post('/', vm.user).then(function (response) {
@@ -21,18 +21,18 @@ myApp.controller('LoginController', function ($http, $location, $mdDialog, UserS
           $location.path('/user'); // http://localhost:5000/#/user
         } else {
           console.log('LoginController -- login -- failure: ', response);
-          vm.message = "Wrong!!";
+          vm.message = "The username or password you entered is incorrect, please try again.";
         }
       }).catch(function (response) {
         console.log('LoginController -- registerUser -- failure: ', response);
-        vm.message = "Wrong!!";
+        vm.message = "The username or password you entered is incorrect, please try again";
       });
     }
   };
   vm.registerUser = function () {
     console.log('LoginController -- registerUser');
     if (vm.user.username === '' || vm.user.password === '') {
-      vm.message = "Choose a username and password!";
+      vm.message = "Please choose a username and password";
     } else {
       console.log('LoginController -- registerUser -- sending to server...', vm.user);
       $http.post('/register', vm.user).then(function (response) {

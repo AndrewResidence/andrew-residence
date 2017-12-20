@@ -4,26 +4,46 @@
     <h1 id="welcome" class="lead">Welcome, {{uc.userObject.name}}!</h1>
     <button class="btn btn-default" ng-click="uc.userService.logout()">Log Out</button>
 
-    <md-card style="width:50%;">
+    <md-card style="width:50%;" layout-sm="column">
         <md-toolbar>
-            <div class="md-toolbar-tools" layout="row">
+            <div class="md-toolbar-tools" layout="row" layout-sm="column">
                 <div flex="30" layout-padding>Email</div>
-                <div flex="25" layout-padding>Role</div>
+                <div flex="15" layout-padding>Role</div>
                 <div flex="20" layout-padding>Phone</div>
-                <div flex="20" layout-padding>Edit</div>
+                <div flex="25" layout-padding>Edit</div>
             </div>
         </md-toolbar>
         <md-list>
             <md-list-item layout="row">
-                <div flex="30" layout-padding>{{uc.userObject.userName}}</div>
-                <div flex="25" layout-padding>{{uc.userObject.role}}</div>
-                <div flex="20" layout-padding>{{uc.userObject.phone}}</div>
+                <div flex="30" layout-padding ng-show="uc.showName">
+                    {{uc.userObject.userName}}
+                </div>
+                <div flex="30" layout-padding ng-hide="uc.showName">
+                    <input placeholder="{{uc.userObject.userName}}">
+                </div>
+                <div flex="15" layout-padding>
+                    {{uc.userObject.role}}
+
+                </div>
+                <div flex="20" layout-padding ng-show="uc.showName">
+                    {{uc.userObject.phone}}
+                </div>
+                <div flex="20" layout-padding ng-hide="uc.showName">
+                    <input placeholder="{{uc.userObject.phone}}">
+                </div>
+
                 <div flex="25" layout-padding>
-                    <md-button class="md-warn" ng-click="uc.editProfile()">Edit Profile Information</md-button>
+                    <md-button ng-click="uc.toggleEdit()" ng-hide="uc.showName">
+                        <md-icon md-svg-src="../images/check.svg"></md-icon>
+                    </md-button>
+
+
+                    <md-button ng-click="uc.toggleEdit()" ng-show="uc.showName">
+                        <md-icon md-svg-src="../images/ic_mode_edit_black_18px.svg"></md-icon>
+                    </md-button>
                 </div>
             </md-list-item>
         </md-list>
-
 
     </md-card>
 

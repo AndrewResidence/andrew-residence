@@ -43,7 +43,7 @@ myApp.controller('UserController', function (UserService, $mdDialog) {
 
   vm.toggleAndEdit = function(){
 
-
+/*place models here*/ 
     console.log('logged here on click', vm.showName);
     vm.toggleEdit();
   };

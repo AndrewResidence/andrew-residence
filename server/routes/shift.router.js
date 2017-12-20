@@ -262,9 +262,8 @@ router.get('/shiftBidToConfirm/:id', function (req, res) {
 })//end post route for new shifts
 
 router.get('/getmyshifts', function (req, res) {
-    console.log('req.user.id', req.user.id)
-    var userId = req.user.id;
     if (req.isAuthenticated()) {
+        var userId = req.user.id;
         pool.connect(function (errorConnectingToDb, db, done) {
             if (errorConnectingToDb) {
                 console.log('Error connecting', errorConnectingToDb);
@@ -272,7 +271,7 @@ router.get('/getmyshifts', function (req, res) {
             } //end if error connection to db
             else {
                 var queryText = 
-                'SELECT "post_shifts"."date", "post_shifts"."shift", "post_shifts"."shift_comments", "post_shifts"."shift_status"' +
+                'SELECT "post_shifts"."date", "post_shifts"."shift", "post_shifts"."shift_comments", "post_shifts"."shift_status", "post_shifts"."mhw", "post_shifts"."nurse", "post_shifts"."adl"' +
                 'FROM  "user_shifts" JOIN "post_shifts"' +
                 'ON "user_shifts"."shift_id" = "post_shifts"."shift_id"' +
                 'WHERE "user_shifts"."user_id" = $1;';

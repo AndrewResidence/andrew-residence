@@ -1,7 +1,7 @@
 myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   console.log('ShiftService Loaded');
   var self = this;
-self.shift = {};
+  self.shift = {};
   self.newShift = {
     shiftDate: [],
     urgent: false,
@@ -131,9 +131,9 @@ self.shift = {};
       return response;
     });
   };
-    
-  self.pickUpShift = function(shift) {
-    return $http.post('/shifts/shiftBid', shift).then(function(response) {
+
+  self.pickUpShift = function (shift) {
+    return $http.post('/shifts/shiftBid', shift).then(function (response) {
       console.log('posted shift bid', response);
       return response;
     });
@@ -158,7 +158,7 @@ self.shift = {};
   //   })
   // }
 
-  self.getMyShifts = function() {
+  self.getMyShifts = function () {
     console.log('get my shifts clicked')
     return $http.get('/shifts/getmyshifts').then(function (response) {
       console.log('response from server', response.data)
@@ -184,6 +184,7 @@ self.shift = {};
       console.log('send textMessage did not work:', response);
     });
   };//end of sendTextMessage
+  
   self.sendEmailMessage = function () {
     $http.post('/message/email').then(function (response) {
       // neccessary params for email transport object;
@@ -211,15 +212,15 @@ self.shift = {};
     self.updatedShift.nurse = nurse;
     self.updatedShift.date = date;
     self.updatedShift.floor = floor;
-    return $http.put('/shifts/update/' + id, self.updatedShift).then(function (response){
+    return $http.put('/shifts/update/' + id, self.updatedShift).then(function (response) {
       return response
-    }).catch(function (response){
+    }).catch(function (response) {
       console.log('Error updating shift');
     })
   }
-//end updateShift function
+  //end updateShift function
 
-//start deleteShift function
+  //start deleteShift function
   self.deleteShift = function (shiftId) {
     return $http.delete('/shifts/delete' + shiftId).then(function (response) {
       return response
@@ -229,17 +230,16 @@ self.shift = {};
     })
   }
   //end deleteShift function
+
   //start shiftFilled function
   self.shiftFilled = function (id, shiftId) {
-  
     self.filledShift.filledBy = id;
-
- return $http.put('/shifts/filledBy/' + shiftId, self.filledShift)
- .then(function (response){
-  return response
-}).catch(function (response){
-  console.log('Error filling shift');
-})
+    return $http.put('/shifts/filledBy/' + shiftId, self.filledShift)
+      .then(function (response) {
+        return response
+      }).catch(function (response) {
+        console.log('Error filling shift');
+      })
   }
   //end shiftFilled function
 

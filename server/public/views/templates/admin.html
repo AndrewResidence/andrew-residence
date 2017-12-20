@@ -4,27 +4,30 @@
   <h1 class="adminTitle">Administrator Tools</h1>
   <div id="adminContainer">
     <div id="editSupervisorBox">
-      <h2>Supervisors:</h2>
+      <h2 class="adminTitle">Supervisors:</h2>
       <div ng-repeat="supervisor in ac.supervisors">
         {{supervisor.name}}
-        <button ng-click="ac.showEditDialog($event, supervisor)">Edit</button>
-        <button ng-click="ac.deleteUser(supervisor)">Remove</button>
+        <md-button class="md-raised" ng-click="ac.showEditDialog($event, supervisor)">Edit</md-button>
+        <md-button class="md-raised" ng-click="ac.deleteUser(supervisor)">Remove</md-button>
       </div>
-      <h2>On-Call Staff:</h2>
-      <div ng-repeat="staff in ac.staff">
+      <h2 class="adminTitle">On-Call Staff:</h2>
+      <div class="editUsers" ng-repeat="staff in ac.staff">
+        <table>
+          
+        </table>
         {{staff.name}}
-        <button ng-click="ac.showEditDialog($event, staff)">Edit</button>
-        <button ng-click="ac.deleteUser(staff)">Remove</button>
+        <md-button class="md-raised" ng-click="ac.showEditDialog($event, staff)">Edit</md-button>
+        <md-button class="md-raised" ng-click="ac.deleteUser(staff)">Remove</md-button>
       </div>
     </div>
     <div id="approveUsersBox">
-      <h2>Users Pending Account Confirmation</h2>
-      <div ng-show="ac.noUsersMessage()">hello</div>
-      <div ng-repeat="user in ac.unconfirmed">
+      <h2 class="adminTitle">Users Pending Account Confirmation</h2>
+      <div ng-show="ac.noUsersMessage()" class="NoUsersMessage">There are no users pending confirmation at this time.</div>
+      <div class="approveUsers" ng-repeat="user in ac.unconfirmed">
         {{user.name}}
-        <button ng-click="ac.showConfirmDialog($event, user)">Confirm</button>
-        <!-- Dialog pops up with option to add a role for the user. Whichever button they select gets sent back as the user's role, and the confirm button on the dialog will trigger the PUT route -->
-        <button ng-click="ac.deleteUser(user)">Remove</button>
+        <md-button class="md-raised" ng-click="ac.showConfirmDialog($event, user)">Confirm</md-button>
+        <!-- Dialog pops up with option to add a role for the user. Whichever md-button they select gets sent back as the user's role, and the confirm md-button on the dialog will trigger the PUT route -->
+        <md-button class="md-raised" ng-click="ac.deleteUser(user)">Remove</md-button>
       </div>
     </div>
 

@@ -1,5 +1,5 @@
 /* dotenv fetches credentials stored in .env file*/
-require('dotenv').config({ path: '../group-project/.env' });
+require('dotenv').config();
 /* for the database connection*/
 var pool = require('../modules/pool.js');
 var express = require('express');
@@ -15,6 +15,7 @@ var plivo = require('plivo');
 var AUTH_ID = process.env.PLIVO_AUTH_ID;
 var AUTH_TOKEN = process.env.PLIVO_AUTH_TOKEN;
 var plivoNumber = process.env.PLIVO_NUMBER;//rented plivo number
+
 var p = plivo.RestAPI({
     authId: AUTH_ID,
     authToken: AUTH_TOKEN,

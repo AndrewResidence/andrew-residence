@@ -111,6 +111,17 @@ li a:hover {
   padding: 5px;
 }
 
+.approveUsers .editUsers {
+  margin-left: 15px;
+  background-color: blue;
+}
+
+.NoUsersMessage {
+  width: 100%;
+  text-align: center;
+  font-style: italic;
+}
+
 .calendarSpace {
   width: 78%;
   height: 90%;

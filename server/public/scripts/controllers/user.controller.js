@@ -38,8 +38,6 @@ myApp.controller('UserController', function (UserService, $mdDialog) {
   vm.toggleEdit = function () {
 
     vm.showName = !vm.showName;
-   
-
     
   };
 

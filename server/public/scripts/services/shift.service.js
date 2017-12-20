@@ -31,7 +31,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   self.filledShift = {
     filledBy: '',
     shift_status: 'Filled'
-  }
+  };
 
   self.shiftsToDisplay = { data: [] };
   //calls the addShift popup
@@ -118,7 +118,9 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   // self.pickUpShift = function (shift) {
   //   return $http.post('/shifts/shiftBid', shift).then(function (response) {
   self.getPendingShifts = function () {
-    return $http.get('/shifts/shiftbid').then(function (response) {
+    var today = moment().format('YYYY-MM-DD');
+    console.log('today', today);
+    return $http.get('/shifts/shiftbid/' + today).then(function (response) {
       // console.log('response', response.data);
       return response;
     });
@@ -132,9 +134,17 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     });
   };
 
+  self.confirmShift = function (staffMember) {
+    console.log('staff member to confirm', staffMember.name);
+    return $http.post('/shifts/confirm', staffMember).then(function (response) {
+      console.log('confirmed shift', staffMember.name, response);
+      return response;
+    });
+  }
+
   self.pickUpShift = function (shift) {
     return $http.post('/shifts/shiftBid', shift).then(function (response) {
-      console.log('posted shift bid', response);
+      console.log('posted shift bid', shift, response);
       return response;
     });
   };
@@ -234,13 +244,14 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   //start shiftFilled function
   self.shiftFilled = function (id, shiftId) {
     self.filledShift.filledBy = id;
+
     return $http.put('/shifts/filledBy/' + shiftId, self.filledShift)
       .then(function (response) {
         return response
       }).catch(function (response) {
         console.log('Error filling shift');
-      })
+      });
   }
   //end shiftFilled function
 
-})
+});

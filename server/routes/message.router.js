@@ -1,5 +1,5 @@
 /* dotenv fetches credentials stored in .env file*/
-require('dotenv').config({ path: '../group-project/.env' });
+require('dotenv').config();
 /* for the database connection*/
 var pool = require('../modules/pool.js');
 var express = require('express');

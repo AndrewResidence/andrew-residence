@@ -178,10 +178,8 @@ li a:hover {
   margin: 2px 2px 2px 0px;
   width: 100%;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);  
-
   padding: 2px;
   cursor: pointer;
-
   padding: 1px;
   display: in-line flex;
   align-items: baseline;
@@ -209,10 +207,6 @@ li a:hover {
   width: 15%;
   margin-right: 20px;
 }
-
-
-
-
 
 #urgent {
   font-weight: bold;
@@ -260,6 +254,7 @@ li a:hover {
 padding-left: 20px;  
 width: 140px;
 }
+
 table{
   
     border-spacing: 5px;
@@ -309,9 +304,9 @@ md-icon.Night path.circle {
   margin-left: 40px;
   border-radius: 3px;
   text-align: center;
-vertical-align: middle;
-line-height: 25px;  
-margin-bottom: 10px;
+  vertical-align: middle;
+  line-height: 25px;  
+  margin-bottom: 10px;
 
 }
 
@@ -426,4 +421,29 @@ div.Pending {
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);  
   padding: 1px;
   /* justify-content: center; */
+}
+
+md-tabs:not(.md-no-tab-content):not(.md-dynamic-height) {
+  min-height: 1200px;
+}
+
+.myShiftBlock {
+  border-radius: 2px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);  
+  height: 75px;
+}
+
+.shiftButtonLeft {
+  float:left;
+  display: flex;
+  align-self: center;
+}
+
+.shiftButtonRight {
+  float:left;
+}
+
+.shiftStatusIndicator {
+  width: 20px;
+  height: 20px;
 }

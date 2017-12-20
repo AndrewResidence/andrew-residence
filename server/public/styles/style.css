@@ -135,6 +135,11 @@ li a:hover {
   height: auto;
 }
 
+#staffDrop {
+  width: 100px;
+  margin-left: 20px;
+}
+
 
 .staffCalendarSpace {
   width: 98%;
@@ -242,17 +247,17 @@ li a:hover {
 
 #floorDrop{
   margin-left: 20px;
-  width: 75px;
+  width: 100px;
 }
 
 #statusDrop {
   
   width: 100px;
+  margin-left: 20px;
 
 }
 
 #shiftInput {
-padding-left: 20px;  
 width: 140px;
 }
 

@@ -29,7 +29,7 @@ var CLIENT_SECRET = process.env.CLIENT_SECRET;
 console.log('The Home Stretch!!');
 
 var dateArray = [];
-var weeklyDigest = cron.schedule('40 19 * * SUN', function (userEmails) {
+var weeklyDigest = function (userEmails) {
     pool.connect(function (errorConnectingToDb, db, done) {
         if (errorConnectingToDb) {
             console.log('Error connecting', errorConnectingToDb);
@@ -63,7 +63,7 @@ var weeklyDigest = cron.schedule('40 19 * * SUN', function (userEmails) {
                     let emailMessage = dateArray.join('');
                     var mailOptions = {
                         from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
-                        to: 'joshnothum@gmail.com', // list of receivers
+                        to: userEmails.join(''), // list of receivers
                         subject: 'Weekly Digest from Andrew Residence', // Subject line
                         html: ' <body style ="background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);">' +
                             '<h1>Good Day!</h1><h3>Available Shifts:</h3><ul>' + emailMessage + '</ul>' +
@@ -95,34 +95,35 @@ var weeklyDigest = cron.schedule('40 19 * * SUN', function (userEmails) {
             }); // END QUERY
         }
     }); // end pool connect
-}, false);
+};
 
 
-
+// get users is a function that uses node-cron to retrieve all the users email in the DB.  It returns a promise and chains to weeklyDigest to  
 var getUsers = function () {
-
+    var emailArray = [];
     return new Promise(function (resolve, reject) {
-        pool.connect(function (errorConnectingToDb, db, done) {
-            if (errorConnectingToDb) {
-                console.log('Error connecting', errorConnectingToDb);
-                res.sendStatus(500);
-            } //end if error connection to db
-            else {
-                var queryText = 'SELECT "username" FROM "users"';
-                db.query(queryText, function (errorMakingQuery, result) {
-                    done(); // add + 1 to pool
-                    if (errorMakingQuery) {
-                        console.log('Error making query', errorMakingQuery);
-                        res.sendStatus(500);
-                    } else {
-                          
-                            
-                        resolve(result.rows);
-
-                    }
-
-                });
-            }
+        cron.schedule('42 13 * * WED', function (userEmails) {
+            pool.connect(function (errorConnectingToDb, db, done) {
+                if (errorConnectingToDb) {
+                    console.log('Error connecting', errorConnectingToDb);
+                    res.sendStatus(500);
+                } //end if error connection to db
+                else {
+                    var queryText = 'SELECT "username" FROM "users"';
+                    db.query(queryText, function (errorMakingQuery, result) {
+                        done(); // add + 1 to pool
+                        if (errorMakingQuery) {
+                            console.log('Error making query', errorMakingQuery);
+                            res.sendStatus(500);
+                        } else {
+                            result.rows.forEach(function (emails) {
+                                emailArray.push(emails.username + ',');
+                            });
+                            resolve(emailArray);
+                        }
+                    });
+                }
+            });
         });
     });
 };
@@ -198,7 +199,7 @@ router.post('/urgent', function (req, res) {
 router.post('/text', function (req, res) {
     var params = {
         src: plivoNumber, // Sender's phone number with country code
-        dst: '17637448725',
+        dst: '16512393734',
         text: "Be not afraid. You are never alone. The MonGod smiles upon you!",
     };
     // Prints the complete response
@@ -210,10 +211,6 @@ router.post('/text', function (req, res) {
 });
 getUsers().then(function (result) {
 
-    console.log('result.rows', result.rows);
-    
-    weeklyDigest.start(result);
-
-
+    console.log('this logged', result.join(''));
 });
 module.exports = router;

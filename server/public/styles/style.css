@@ -500,3 +500,7 @@ md-tabs:not(.md-no-tab-content):not(.md-dynamic-height) {
 .shiftInterestButton {
   align-self: flex-end;
 }
+
+.editUserInput {
+  width: 80%;
+}

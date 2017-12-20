@@ -36,7 +36,9 @@ myApp.controller('UserController', function (UserService, $mdDialog) {
   };
 
   vm.toggleEdit = function () {
-    console.log('logged here on click');
+
+    vm.showName = !vm.showName;
+    console.log('logged here on click', vm.showName);
 
     
   };

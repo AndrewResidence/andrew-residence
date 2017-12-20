@@ -8,26 +8,35 @@
         <md-toolbar>
             <div class="md-toolbar-tools" layout="row" layout-sm="column">
                 <div flex="30" layout-padding>Email</div>
-                <div flex="25" layout-padding>Role</div>
+                <div flex="15" layout-padding>Role</div>
                 <div flex="20" layout-padding>Phone</div>
-                <div flex="20" layout-padding>Edit</div>
+                <div flex="25" layout-padding>Edit</div>
             </div>
         </md-toolbar>
         <md-list>
             <md-list-item layout="row">
-                <div flex="50" layout-padding>
+                <div flex="30" layout-padding ng-show="uc.showName">
                     {{uc.userObject.userName}}
-                    <md-icon ng-click="uc.toggleEdit()" md-svg-src="ic_mode_edit_black_18px"></md-icon>
                 </div>
-                <!-- <div ng-hide="uc.showName" flex="50" layout-padding>
-                    <input placeholder={{uc.userObject.userName}}>
-                    <md-button>
-                        <md-icon md-svg-src="./images/check.svg" ng-click="uc.toggleEdit()"></md-icon>
+                <div flex="30" layout-padding ng-hide="uc.showName">
+                    <input placeholder="{{uc.userObject.userName}}">
+                </div>
+                <div flex="15" layout-padding>
+                    {{uc.userObject.role}}
+
+                </div>
+                <div flex="20" layout-padding ng-show="uc.showName">
+                    {{uc.userObject.phone}}
+                </div>
+                <div flex="30" layout-padding ng-hide="uc.showName">
+                    <input placeholder="{{uc.userObject.phone}}">
+                </div>
+
+                <div flex="25" layout-padding>
+                    <md-button ng-click="uc.toggleEdit()">
+                        <md-icon md-svg-src="../images/ic_mode_edit_black_18px.svg"></md-icon>
                     </md-button>
                 </div>
-                <div flex="20" layout-padding> {{uc.userObject.role}}</div>
-                <div flex="20" layout-padding>{{uc.userObject.phone}}</div> -->
-               
             </md-list-item>
         </md-list>
 

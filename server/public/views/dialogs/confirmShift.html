@@ -9,6 +9,7 @@
         </md-toolbar>
         <md-dialog-content flex="auto">
             <div class="confirmBox" ng-repeat = "staff in sc.pendingShifts">
+                {{staff}}
                 {{staff.name}} <br>
                 Role: {{staff.role}} <br>
                 <div ng-show = "sc.showComments(staff)">Comments: {{staff.staff_comments}}</div>

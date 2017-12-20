@@ -133,6 +133,14 @@ self.shift = {};
       return response;
     });
   };
+
+  self.confirmShift = function(staffMember) {
+    console.log('staff member to confirm', staffMember.name);
+    return $http.post('/shifts/confirm', staffMember).then(function(response) {
+      console.log('confirmed shift', staffMember.name, response);
+      return response;
+    });
+  }
     
   self.pickUpShift = function(shift) {
     return $http.post('/shifts/shiftBid', shift).then(function(response) {

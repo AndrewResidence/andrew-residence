@@ -11,11 +11,21 @@ myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserSer
     id: shift.shift_id,
     date: moment(shift.date).format('l'),
     shift: shift.shift,
+    shift_comments: shift.shift_comments,
     adl: shift.adl,
     mhw: shift.mhw,
     nurse: shift.nurse,
-    status: shift.shift_status
+    shift_status: shift.shift_status
   };
+  
+  vm.titleDate = moment(vm.shift.date).format('MM/DD');
+  vm.showShiftComment = function(shift) {
+    if (shift.shift_comments) {
+      return true;
+    }
+    return false;
+  }
+
   console.log('userObject', vm.userService.userObject);
   vm.adl = false;
   vm.mhw = false;

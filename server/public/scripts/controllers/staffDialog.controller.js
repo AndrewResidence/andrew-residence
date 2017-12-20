@@ -4,17 +4,28 @@ myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserSer
   vm.userService = UserService;
   vm.userObject = UserService.userObject;
   vm.shiftService = ShiftService;
+  vm.showComments = false;
+  vm.edit = false;
   vm.shift = {
     user: vm.userService.userObject.userId,
     id: shift.shift_id,
     date: moment(shift.date).format('l'),
     shift: shift.shift,
-    comments: shift.shift_comments,
+    shift_comments: shift.shift_comments,
     adl: shift.adl,
     mhw: shift.mhw,
     nurse: shift.nurse,
-    status: shift.shift_status
+    shift_status: shift.shift_status
   };
+  
+  vm.titleDate = moment(vm.shift.date).format('MM/DD');
+  vm.showShiftComment = function(shift) {
+    if (shift.shift_comments) {
+      return true;
+    }
+    return false;
+  }
+
   console.log('userObject', vm.userService.userObject);
   vm.adl = false;
   vm.mhw = false;
@@ -40,6 +51,11 @@ myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserSer
       //closes dialog box
   };
   vm.role();
+
+  vm.showPickUpShift = function() {
+    vm.showComments = true;
+  }
+
   vm.pickUpShift = function (shift) {
     console.log('pick up shift', vm.shift);
     vm.shiftService.pickUpShift(shift).then(function (response) {

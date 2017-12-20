@@ -66,7 +66,7 @@ router.get('/', function (req, res) {
                 var queryText = 'SELECT * FROM "post_shifts";';
                 db.query(queryText, function (errorMakingQuery, result) {
                     done(); // add + 1 to pool
-                    console.log('result.rows', result);
+               
                     if (errorMakingQuery) {
                         console.log('Error making query', errorMakingQuery);
                         res.sendStatus(500);
@@ -93,7 +93,7 @@ router.get('/payperiod/getdates', function (req, res) {
                 var queryText = 'SELECT * FROM "pay_period";';
                 db.query(queryText, function (errorMakingQuery, result) {
                     done();
-                    console.log('result.rows', result);
+                  
                     if (errorMakingQuery) {
                         console.log('Error making query', errorMakingQuery);
                         res.sendStatus(500);
@@ -124,7 +124,7 @@ router.put('/payperiod/updatedates/:id', function (req, res) {
                     'WHERE "id" = $1;';
                 db.query(queryText, [rowId], function (errorMakingQuery, result) {
                     done();
-                    console.log('result.rows', result);
+                 
                     if (errorMakingQuery) {
                         console.log('Error making query', errorMakingQuery);
                         res.sendStatus(500);
@@ -223,7 +223,7 @@ router.get('/shiftBid', function (req, res) {
         }); // end req.isAuthenticated //end if statement
     }
     else {
-        console.log('User is not authenticated')
+        console.log('User is not authenticated');
         res.sendStatus(403);
     }
 });//end post route for new shifts
@@ -251,7 +251,7 @@ router.get('/shiftBidToConfirm/:id', function (req, res) {
                         console.log('got shift bids');
                         res.send(result.rows);
                     }
-                })
+                });
             }
         }) // end req.isAuthenticated //end if statement
     }
@@ -278,7 +278,7 @@ router.get('/getmyshifts', function (req, res) {
                     'WHERE "user_shifts"."user_id" = $1;';
                 db.query(queryText, [userId], function (errorMakingQuery, result) {
                     done(); // add + 1 to pool
-                    console.log('result.rows', result);
+                 
                     if (errorMakingQuery) {
                         console.log('Error making query', errorMakingQuery);
                         res.sendStatus(500);
@@ -351,7 +351,7 @@ router.put('/update/:id', function (req, res) {
                     'WHERE "shift_id" = $8;';
                 db.query(queryText, [updatedShift.shift, updatedShift.comments, updatedShift.adl, updatedShift.mhw, updatedShift.nurse, updatedShift.date, updatedShift.floor, shiftId], function (errorMakingQuery, result) {
                     done();
-                    console.log('result.rows', result);
+                
                     if (errorMakingQuery) {
                         console.log('Error making query', errorMakingQuery);
                         res.sendStatus(500);
@@ -387,7 +387,7 @@ router.put('/filledBy/:id', function (req, res) {
                     'WHERE "shift_id" = $3;';
                 db.query(queryText, [filledBy, shift_status, shiftId], function (errorMakingQuery, result) {
                     done();
-                    console.log('result.rows', result);
+
                     if (errorMakingQuery) {
                         console.log('Error making query', errorMakingQuery);
                         res.sendStatus(500);

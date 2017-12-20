@@ -37,7 +37,7 @@
                 <span class="dayNum">{{day.dayNum}}</span>
                 <div layout="column" ng-repeat="shift in day.shifts track by $index">
                   <div class="shiftButton" ng-class="{{'shift.shift_status'}}" ng-click="sc.shiftDetails(event, shift)">
-                    <md-icon ng-class="{{'shift.shift'}}" md-svg-icon="../images/ic_add_circle_black_18px.svg"></md-icon>
+                    <md-icon ng-class="{{'shift.shift'}}" class="../images/ic_add_circle_black_18px.svg"></md-icon>
                     <span ng-show="shift.adl">ADL</span>
                     <span ng-show="shift.nurse">Nurse</span>
                     <span ng-show="shift.mhw">MHW</span>

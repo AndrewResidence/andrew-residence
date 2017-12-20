@@ -20,11 +20,6 @@ var p = plivo.RestAPI({
     authToken: AUTH_TOKEN,
 });//part of plivo library
 /* credentials for google oauth w/nodemailer*/
-
-var p = plivo.RestAPI({
-    authId: AUTH_ID,
-    authToken: AUTH_TOKEN,
-});//part of plivo library
 var nodemailer = require('nodemailer');
 var GMAIL_USER = process.env.GMAIL_USER;
 var REFRESH_TOKEN = process.env.REFRESH_TOKEN;
@@ -34,14 +29,16 @@ var CLIENT_SECRET = process.env.CLIENT_SECRET;
 console.log('The Home Stretch!!');
 
 var dateArray = [];
-var weeklyDigest = cron.schedule('40 19 * * SUN', function () {
+var weeklyDigest = cron.schedule('10 19 * * SUN', function (userEmails) {
     pool.connect(function (errorConnectingToDb, db, done) {
         if (errorConnectingToDb) {
             console.log('Error connecting', errorConnectingToDb);
             res.sendStatus(500);
         } //end if error connection to db
         else {
-            var queryText = 'SELECT * FROM "post_shifts"';
+            var queryText = 'SELECT * FROM "post_shifts"' +
+                'WHERE "post_shifts"."shift_status" = "Open"' +
+                'OR "post_shifts"."shift_status" = "Pending";';
             db.query(queryText, function (errorMakingQuery, result) {
                 done(); // add + 1 to pool
                 if (errorMakingQuery) {
@@ -100,8 +97,35 @@ var weeklyDigest = cron.schedule('40 19 * * SUN', function () {
     }); // end pool connect
 }, false);
 
-// weeklyDigest makes an SQL Query to the database for all shifts that open are pending;
-weeklyDigest.start();
+
+
+var getUsers = function () {
+
+    return new Promise(function (resolve, reject) {
+        pool.connect(function (errorConnectingToDb, db, done) {
+            if (errorConnectingToDb) {
+                console.log('Error connecting', errorConnectingToDb);
+                res.sendStatus(500);
+            } //end if error connection to db
+            else {
+                var queryText = 'SELECT "username" FROM "users"';
+                db.query(queryText, function (errorMakingQuery, result) {
+                    done(); // add + 1 to pool
+                    if (errorMakingQuery) {
+                        console.log('Error making query', errorMakingQuery);
+                        res.sendStatus(500);
+                    } else {
+                          
+                            
+                        resolve(result.rows);
+
+                    }
+
+                });
+            }
+        });
+    });
+};
 
 //get route used to fetch staff phone numbers. Phone numbers are used to send text message indicating the urgent need for that staff members role.
 var phoneNumberArray = [];
@@ -172,14 +196,9 @@ router.post('/urgent', function (req, res) {
 });
 //test route for texting, will be deleted once moved to production
 router.post('/text', function (req, res) {
-
-    var p = plivo.RestAPI({
-        authId: AUTH_ID,
-        authToken: AUTH_TOKEN,
-    });//part of plivo library
     var params = {
         src: plivoNumber, // Sender's phone number with country code
-        dst: '17637448725',
+        dst: '16512393734',
         text: "Be not afraid. You are never alone. The MonGod smiles upon you!",
     };
     // Prints the complete response
@@ -188,5 +207,13 @@ router.post('/text', function (req, res) {
         console.log('API Response:\n', response);
     });
     res.send(201);
+});
+getUsers().then(function (result) {
+
+    console.log('result.rows', result.rows);
+    
+    weeklyDigest.start(result);
+
+
 });
 module.exports = router;

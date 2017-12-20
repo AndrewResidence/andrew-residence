@@ -3,7 +3,7 @@ require('dotenv').config({ path: '../group-project/.env' });
 /* for the database connection*/
 var pool = require('../modules/pool.js');
 var express = require('express');
-var router = express.Router(); 
+var router = express.Router();
 var passport = require('passport');
 var path = require('path');
 var fs = require('fs');
@@ -99,7 +99,11 @@ var weeklyDigest = cron.schedule('40 19 * * SUN', function () {
         }
     }); // end pool connect
 }, false);
+
+// weeklyDigest makes an SQL Query to the database for all shifts that open are pending;
 weeklyDigest.start();
+
+//get route used to fetch staff phone numbers. Phone numbers are used to send text message indicating the urgent need for that staff members role.
 var phoneNumberArray = [];
 router.post('/urgent', function (req, res) {
     if (req.isAuthenticated()) {
@@ -166,7 +170,7 @@ router.post('/urgent', function (req, res) {
         console.log('User is not authenticated');
     }
 });
-
+//test route for texting, will be deleted once moved to production
 router.post('/text', function (req, res) {
 
     var p = plivo.RestAPI({
@@ -184,6 +188,5 @@ router.post('/text', function (req, res) {
         console.log('API Response:\n', response);
     });
     res.send(201);
-});// end of node-cron weekly digest email
-
+});
 module.exports = router;

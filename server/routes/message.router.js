@@ -22,12 +22,8 @@ var REFRESH_TOKEN = process.env.REFRESH_TOKEN;
 var ACCESS_TOKEN = process.env.ACCESS_TOKEN;
 var CLIENT_ID = process.env.CLIENT_ID;
 var CLIENT_SECRET = process.env.CLIENT_SECRET;
-var fs = require('fs');
-console.log('The Home Stretch!!');
-var p = plivo.RestAPI({
-    authId: AUTH_ID,
-    authToken: AUTH_TOKEN,
-});//part of plivo libraryvar fs = require('fs');
+
+console.log('Hello, JEMS! Happy working!', AUTH_ID, AUTH_TOKEN);
 
 var dateArray = [];
 var weeklyDigest = cron.schedule('40 19 * * SUN', function () {

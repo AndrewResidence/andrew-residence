@@ -145,7 +145,7 @@ li a:hover {
 
 .staffCalBox {
   width: 13.4%;
-  min-height: 150px;
+  min-height: 200px;
   background-color: #E7E7E7;
   display: inline-flex;
   padding: 2px;
@@ -210,10 +210,6 @@ li a:hover {
   margin-right: 20px;
 }
 
-
-
-
-
 #urgent {
   font-weight: bold;
   margin-left: 100px;
@@ -260,6 +256,7 @@ li a:hover {
 padding-left: 20px;  
 width: 140px;
 }
+
 table{
   
     border-spacing: 5px;
@@ -436,4 +433,12 @@ md-tabs:not(.md-no-tab-content):not(.md-dynamic-height) {
   border-radius: 2px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);  
   height: 75px;
+}
+
+.shiftButtonLeft {
+  float:left;
+}
+
+.shiftButtonRight {
+  float:left;
 }

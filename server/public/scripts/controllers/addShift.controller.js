@@ -47,7 +47,7 @@
 //     vm.addNewShift = function (staffId, selection, shiftDate, shiftStatus, urgent, shift, role, comments, notify, nurse, adl, mhw) {
 //         ShiftService.addNewShift(staffId, selection, shiftDate, shiftStatus, urgent, shift, role, comments, notify, nurse, adl, mhw).then(function (response) {
 //             calendarService.getPayPeriodDates();
-        
+
 //             $mdDialog.hide();
 //             console.log('response', response);
 //             $mdToast.show(

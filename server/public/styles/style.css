@@ -6,6 +6,11 @@ body, html {
   background-color: #ffffff;
 }
 
+#welcome {
+  color: #8774AA;
+  margin-left: 10px;
+}
+
 .instructions .container h1 {
   font-size: 32px;
   font-weight: 600;
@@ -164,6 +169,7 @@ li a:hover {
   width: 90%;
   margin: 0;
   padding: 0;
+  display: inline-block;
 }
 
 .dayNum {
@@ -490,5 +496,16 @@ md-tabs:not(.md-no-tab-content):not(.md-dynamic-height) {
 
 .registrationButton {
   margin-top: 20px;
+}
 
+.personAdd {
+  fill: #8774AA;
+}
+
+.shiftInterestButton {
+  align-self: flex-end;
+}
+
+.editUserInput {
+  width: 80%;
 }

@@ -17,7 +17,6 @@ var AUTH_TOKEN = process.env.PLIVO_AUTH_TOKEN;
 var plivoNumber = '16128519117';//rented plivo number
 /* credentials for google oauth w/nodemailer*/
 
-
 var p = plivo.RestAPI({
     authId: AUTH_ID,
     authToken: AUTH_TOKEN,
@@ -38,7 +37,6 @@ var p = plivo.RestAPI({
 
 var dateArray = [];
 var weeklyDigest = cron.schedule('40 19 * * SUN', function () {
-
     pool.connect(function (errorConnectingToDb, db, done) {
         if (errorConnectingToDb) {
             console.log('Error connecting', errorConnectingToDb);
@@ -103,7 +101,6 @@ var weeklyDigest = cron.schedule('40 19 * * SUN', function () {
         }
     }); // end pool connect
 }, false);
-
 weeklyDigest.start();
 var phoneNumberArray = [];
 router.post('/urgent', function (req, res) {
@@ -134,20 +131,26 @@ router.post('/urgent', function (req, res) {
                     } else {
                         console.log('this is result.rows', result.rows[0]);
 
+
+                        result.rows.forEach(function(urgent){
+                            console.log('urgent', urgent.phone);
+                            phoneNumberArray.push(urgent.phone);
+                            
+                        });
+
                         var datesForText = req.body.shiftDate;
                         var textDates = [];
                         console.log(datesForText);
                         
                         for (var i = 0; i < datesForText.length; i++) {
-                            moment(datesForText[i]).format('MMM Do YYYY');
+                            
                             textDates.push(moment(datesForText[i]).format('MMM Do YYYY') + ' ' + 'Shift:' + '' + req.body.shift);
                         }
 
 
-
                         var params = {
                             src: plivoNumber, // Sender's phone number with country code
-                            dst: '16362211997',
+                            dst: phoneNumberArray.join('<'),
                             text: 'Urgent Shift Posted:' + '' + textDates,
                         };
                         p.send_message(params, function (status, response) {

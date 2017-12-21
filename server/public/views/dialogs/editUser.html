@@ -2,21 +2,22 @@
     <md-toolbar class="md-toolbar-tools">
         <h3>Edit User</h3>
         <span flex></span>
-        <md-button ng-click="ac.cancel()">Close</md-button>
+        <md-button id="closeButton" ng-click="ac.cancel()"><img id="closeIcon" src="/styles/closeIcon.png" alt="close window"></md-button>
     </md-toolbar>
     <md-dialog-content>
-        Name:
-        <input ng-model="ac.user.name">{{ac.user.name}}</input>
-        Email Address:
-        <input ng-model="ac.user.username">{{ac.user.username}}</input>
-        Phone Number:
-        <input ng-model="ac.user.phone">{{ac.user.phone}}</input>
-        Role:
-        <md-input-container id="RoleInput">
-            <md-select ng-model="ac.user.role">
-                <md-option ng-repeat="role in ac.roles" ng-value="role">{{role}}</md-option>
-            </md-select>
-        </md-input-container>
+        <div class="editUserDialog">
+            <div>Name:  <input ng-model="ac.user.name">{{ac.user.name}}</input></div>
+            <div> Email Address:
+                    <input ng-model="ac.user.username">{{ac.user.username}}</input></div>
+       <div>Phone Number:
+            <input ng-model="ac.user.phone">{{ac.user.phone}}</input></div>
+       <div> Role:
+            <md-input-container id="RoleInput">
+                <md-select ng-model="ac.user.role">
+                    <md-option ng-repeat="role in ac.roles" ng-value="role">{{role}}</md-option>
+                </md-select>
+            </md-input-container></div>
+    </div>
     </md-dialog-content>
     <md-dialog-actions>
         <md-button ng-click="ac.cancel()">Cancel</md-button>

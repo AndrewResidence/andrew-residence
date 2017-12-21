@@ -73,16 +73,8 @@
         <div layout="row">
             <span flex></span>
             <div ng-show="sc.showPickUpShift()">
-                <md-button ng-hide="sc.comments" class="md-raised" ng-click="sc.showComments()">Pick Up Shift</md-button>
-                <div ng-show="sc.comments">
-                    <div>
-                        <br> Add a comment:
-                        <input type="text" ng-model="sc.shift.staff_comments">
-                    </div>
-                    <br>
-                    <md-button class="md-raised" ng-show="sc.showComments" ng-click="sc.pickUpShift(sc.shift)">Pick Up Shift</md-button>
-                    <span flex></span>
-                </div>
+                Add a comment:  <input type="text" ng-model="sc.shift.staff_comments">
+                <md-button class="md-raised" ng-click="sc.pickUpShift(sc.shift)">Pick Up Shift</md-button>
             </div>
 
         </div>

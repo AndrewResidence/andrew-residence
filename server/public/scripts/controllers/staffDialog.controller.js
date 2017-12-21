@@ -4,7 +4,6 @@ myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserSer
   vm.userService = UserService;
   vm.userObject = UserService.userObject;
   vm.shiftService = ShiftService;
-  vm.comments = false;
   vm.edit = false;
   vm.shift = {
     user: vm.userService.userObject.userId,
@@ -49,10 +48,6 @@ myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserSer
       return true;
     };
 
-    vm.showComments = function() {
-      vm.comments= true;
-    }
-    
       //closes dialog box
   };
   vm.role();

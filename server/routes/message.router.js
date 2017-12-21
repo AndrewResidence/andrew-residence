@@ -14,6 +14,7 @@ var plivo = require('plivo');
 var AUTH_ID = process.env.PLIVO_AUTH_ID;
 var AUTH_TOKEN = process.env.PLIVO_AUTH_TOKEN;
 var plivoNumber = process.env.PLIVO_NUMBER;//rented plivo number
+
 var p = plivo.RestAPI({
     authId: AUTH_ID,
     authToken: AUTH_TOKEN,
@@ -96,8 +97,6 @@ var weeklyDigest = function (userEmails) {
         }
     }); // end pool connect
 };
-
-
 // get users is a function that uses node-cron to retrieve all the users email in the DB.  It returns a promise and chains to weeklyDigest to  
 var getUsers = function () {
     var emailArray = [];
@@ -127,7 +126,6 @@ var getUsers = function () {
         });
     });
 };
-
 //get route used to fetch staff phone numbers. Phone numbers are used to send text message indicating the urgent need for that staff members role.
 var phoneNumberArray = [];
 router.post('/urgent', function (req, res) {

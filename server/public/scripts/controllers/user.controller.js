@@ -1,10 +1,10 @@
-myApp.controller('UserController', function (UserService, $mdDialog) {
+myApp.controller('UserController', function (UserService, $mdDialog, $mdToast) {
   console.log('UserController created');
   var vm = this;
   vm.userService = UserService;
   vm.userObject = UserService.userObject;
   vm.showName = true;
-  vm.editUserMode = false; 
+  vm.editUserMode = false;
 
   vm.showEditDialogStaff = function (event, user) {
     console.log('button clicked');
@@ -40,16 +40,30 @@ myApp.controller('UserController', function (UserService, $mdDialog) {
 
     vm.showName = !vm.showName;
 
-    
+
   };
 
   vm.editProfile = {};
 
-  vm.joshEdit = function(profileEdit){
+  vm.joshEdit = function (name, phone) {
+
+    console.log('here');
+
+    console.log(vm.userService);
 
 
-    vm.UserService.editProfile(profileEdit);
+    vm.userService.sendProfile(name, phone).then(function () {
+      $mdToast.show(
+        $mdToast.simple()
+          .textContent('User has been edited!')
+          .position('bottom left')
+          .hideDelay(2500)
+      );
+    }).then(function () {
+     vm.toggleEdit();
+      
+    });
 
- 
+
   };
 });

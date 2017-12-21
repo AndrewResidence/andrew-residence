@@ -251,7 +251,7 @@ var postedBy = req.user.id
 
     } // end req.isAuthenticated
     else {
-      console.log('User is not authenticated')
+      console.log('User is not authenticated');
     }
 })//end posting messages
 //gets all messages to display for staff and supervisors
@@ -269,14 +269,48 @@ router.get('/messages', function (req, res) {
           console.log("Error inserting data: ", err);
           res.sendStatus(500);
         } else {
-          res.send(result.rows);
+          res.send(201);
         }
       });
     });
   }
   else {
-    console.log('User is not authenticated.')
+    console.log('User is not authenticated.');
   }
-}) //end get route to receive all messages
 
+
+
+}); //end get route to receive all messages
+router.put('/profile', function (req, res) {
+  console.log('profile id', req.user.id);
+  console.log('profileEdit', req.body);
+  var profileEdit = {
+    id: req.user.id,
+    phone: req.body.phone,
+    username: req.body.email,
+  };
+
+  console.log(profileEdit.username);
+  
+  
+  if (req.isAuthenticated()) {
+    pool.connect(function (err, db, done) {
+      if (err) {
+        console.log('error connecting', err);
+        res.sendStatus(500);
+      }
+      var queryText = 'UPDATE "users" SET "username" =$1, "phone"=$2 WHERE "id" = $3;';
+      //insert into users new role and change confirmed to true;
+      db.query(queryText, [profileEdit.username, profileEdit.phone, profileEdit.id], function (err, result) {
+        done();
+        if (err) {
+          console.log("Error inserting data: ", err);
+          res.sendStatus(500);
+        } else {
+          res.send(200);
+        }
+      });
+    });
+  }
+});
 module.exports = router;

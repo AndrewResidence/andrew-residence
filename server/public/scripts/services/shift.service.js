@@ -229,7 +229,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
 
   //start updateShift function
   self.updateShift = function (id, comments, shift, mhw, adl, nurse, date, floor) {
-    console.log('UPDATED SHIFT', id, comments, shift, mhw, adl, nurse, date, floor)
+    console.log('UPDATED SHIFT', id, comments, shift, mhw, adl, nurse, date, floor);
     self.updatedShift.shift_id = id;
     self.updatedShift.comments = comments;
     self.updatedShift.shift = shift;
@@ -273,14 +273,3 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   //end shiftFilled function
 
 });
-
-self.editProfile = function(id, editProfile){
-return $http.put('/shifts/profile/'+ id, editProfile)
-.then(function(response){
-  return response;
-}).catch(function(response){
-  console.log('error making edit');
-  
-});
-
-};

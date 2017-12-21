@@ -1,8 +1,8 @@
 body, html {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
-  font-size: 14px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-size: 16px;
   background-color: #ffffff;
 }
 
@@ -61,6 +61,13 @@ body, html {
   background-color: #8774AA;
   width: 100%;
   border-radius: 0px;
+}
+
+.navContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
 }
 
 ul {
@@ -446,6 +453,7 @@ div.Pending {
 
 .legendRow {
   display: flex;
+  margin-top: 10px;
   /* justify-content: space-evenly; */
 }
 

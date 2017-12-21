@@ -84,4 +84,24 @@ myApp.service('UserService', function ($http, $location) {
       $location.path("/home");
     });
   };
+
+  self.message = {
+    messageBody: '',
+    headline: ''
+  }
+
+  self.createMessage = function (messageBody, headline){
+    self.message.messageBody = messageBody;
+    self.message.headline = headline;
+    return $http.post('/user/message/', self.message).then(function (response){
+      console.log(response)
+      return response
+    })
+  }
+
+  self.getNotifications = function (){
+    return $http.get('/user/messages/').then(function (response){
+      return response
+    })
+  }
 });

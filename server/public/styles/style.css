@@ -102,31 +102,39 @@ li a:hover {
   justify-content: space-around;
 }
 
-#editSupervisorBox {
+#editSupervisorBox, #approveUsersBox {
   background-color: #E7E7E7;
   width: 45%;
   margin: 5px;
   padding: 5px;
+  display: flex;
+  flex-direction: column;
+
 }
 
-#approveUsersBox {
+/* #approveUsersBox {
   background-color: #E7E7E7;
   width: 45%;
   margin: 5px;
   padding: 5px;
+} */
+
+#editUsersTable, #confirmUsersTable {
+  width: 70%; 
+  padding: 5px;
+  border: 2px solid lightslategray;
+  align-self: center;
+  margin: 0 auto;
 }
 
-#editUsersTable td {
+#editUsersTable td, #confirmUsersTable td {
   width: 25%;
   border: 0px solid black;
 }
 
-#userName {
+#editUsersTable #userName, #confirmUsersTable #userName {
   width: 50%;
-}
-
-.approveUsers, .editUsers {
-  margin-left: 15px;
+  text-align: center;
 }
 
 .NoUsersMessage {
@@ -135,12 +143,12 @@ li a:hover {
   font-style: italic;
 }
 
-.editIcon, .deleteIcon {
+.editIcon, .deleteIcon, #closeIcon {
   height: 25px;
   width: auto;
 }
 
-#editButton, #deleteButton {
+#editButton, #deleteButton, #closeButton {
   min-width: 30px;
   padding: 3px;
   border-radius: 5px;
@@ -563,6 +571,18 @@ md-tabs:not(.md-no-tab-content):not(.md-dynamic-height) {
   width: 80%;
 }
 
+
 .confirmComments {
   display: block;
+}
+
+#headline {
+  width: 400px;
+  margin-left: 20px;
+}
+
+#message {
+  width: 400px;
+  margin-left: 20px;
+
 }

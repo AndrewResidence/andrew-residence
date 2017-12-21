@@ -98,6 +98,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
       
       console.log('did it')
       return response;
+    
       
     }).catch(function (err) {
       console.log('Error');

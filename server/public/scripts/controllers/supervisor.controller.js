@@ -126,6 +126,7 @@ vm.filledByName = ShiftService.filledByName.data;
 
   vm.getPendingShifts = function () {
     ShiftService.getPendingShifts().then(function (response) {
+      // console.log('HHHHHHFDSLJSDFLJKSDFLJKSDFLJKSLDFLJKSDF')
       vm.pendingShifts = response.data;
       for (var i = 0; i < vm.pendingShifts.length; i++) {
         vm.pendingShifts[i].date = moment(vm.pendingShifts[i].date).format('M/D');

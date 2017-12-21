@@ -45,6 +45,5 @@ myApp.controller('UserController', function (UserService, $mdDialog) {
 
 /*place models here*/ 
     console.log('logged here on click', vm.showName);
-    vm.toggleEdit();
   };
 });

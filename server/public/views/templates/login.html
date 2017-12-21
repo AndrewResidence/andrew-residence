@@ -1,18 +1,18 @@
 <div class="container">
     <h1 class="lead">Login</h1>
     <h1 class="lead alert alert-danger" role="alert" ng-if="lc.message != ''">{{lc.message}}</h2>
-        
+
         <form layout="column" layout-align="center center" class="logRegForm" ng-submit="lc.login()">
             <div>
                 <md-input-container>
                     <label for="username">Email</label>
-                    <input type="text" ng-model="lc.user.username"/>
+                    <input type="text" ng-model="lc.user.username" />
                 </md-input-container>
             </div>
             <div>
                 <md-input-container>
                     <label for="password">Password:</label>
-                    <input type="password" ng-model="lc.user.password"/>
+                    <input type="password" ng-model="lc.user.password" />
                 </md-input-container>
             </div>
             <div>
@@ -24,9 +24,9 @@
 
             <div class="registrationButton">
                 <span>New Here?</span>
-                    <md-button class="md-raised md-primary" href="#register">
-                        Register
-                    </md-button>
+                <md-button class="md-raised md-primary" href="#register">
+                    Register
+                </md-button>
             </div>
         </form>
 

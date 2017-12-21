@@ -26,7 +26,7 @@ router.get('/', function (req, res) {
     };
 
     console.log(userInfo.name);
-    
+
 
     res.send(userInfo);
   } else {
@@ -220,39 +220,39 @@ router.get('/logout', function (req, res) {
 });
 //post messages/staff notifications created by supervisors
 router.post('/message/', function (req, res) {
-    if (req.isAuthenticated()) {
-      var message = req.body
-var postedBy = req.user.id
-      pool.connect(function (errorConnectingToDb, db, done) {
-        if (errorConnectingToDb) {
-          // No connection to database was made - error
-          console.log('Error connecting', errorConnectingToDb);
-          res.sendStatus(500);
-        } //end if error connection to db
-        else {
-          var queryText = 'INSERT INTO "notifications" ("posted_by", "headline", "message") VALUES ($1, $2, $3);';
-          db.query(queryText, [postedBy, message.headline, message.messageBody], function (errorMakingQuery, result) {
-            done(); // add + 1 to pool - we have received a result or error
-            if (errorMakingQuery) {
-              console.log('Error making query', errorMakingQuery);
-              res.sendStatus(500);
-            }
-            else {
-
-              res.sendStatus(201);
-            }
+  if (req.isAuthenticated()) {
+    var message = req.body
+    var postedBy = req.user.id
+    pool.connect(function (errorConnectingToDb, db, done) {
+      if (errorConnectingToDb) {
+        // No connection to database was made - error
+        console.log('Error connecting', errorConnectingToDb);
+        res.sendStatus(500);
+      } //end if error connection to db
+      else {
+        var queryText = 'INSERT INTO "notifications" ("posted_by", "headline", "message") VALUES ($1, $2, $3);';
+        db.query(queryText, [postedBy, message.headline, message.messageBody], function (errorMakingQuery, result) {
+          done(); // add + 1 to pool - we have received a result or error
+          if (errorMakingQuery) {
+            console.log('Error making query', errorMakingQuery);
+            res.sendStatus(500);
           }
-          ); // END QUERY
+          else {
 
+            res.sendStatus(201);
+          }
         }
+        ); // END QUERY
 
-      }); // end pool connect
+      }
+
+    }); // end pool connect
 
 
-    } // end req.isAuthenticated
-    else {
-      console.log('User is not authenticated');
-    }
+  } // end req.isAuthenticated
+  else {
+    console.log('User is not authenticated');
+  }
 })//end posting messages
 //gets all messages to display for staff and supervisors
 router.get('/messages', function (req, res) {
@@ -291,8 +291,8 @@ router.put('/profile', function (req, res) {
   };
 
   console.log(profileEdit.username);
-  
-  
+
+
   if (req.isAuthenticated()) {
     pool.connect(function (err, db, done) {
       if (err) {

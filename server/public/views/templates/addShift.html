@@ -3,7 +3,8 @@
         <div class="md-toolbar-tools">
             <h3>Add Shift</h3>
             <span flex="auto"></span>
-            <md-button id="closeButton" ng-click="sd.cancel()"><img id="closeIcon" src="/styles/closeIcon.png" alt="close window">
+            <md-button id="closeButton" ng-click="sd.cancel()">
+                <img id="closeIcon" src="/styles/closeIcon.png" alt="close window">
             </md-button>
         </div>
     </md-toolbar>
@@ -62,12 +63,12 @@
                 <textarea id="commentText" rows="3" name="shiftComments" ng-model="sd.newShift.comments" md-select-on-focus></textarea>
             </md-input-container>
         </div>
-            <span id="notifyFollowing"> Notify the following when a request to fill a shift is made: </span>
-            <br>
-            <br>
+        <span id="notifyFollowing"> Notify the following when a request to fill a shift is made: </span>
+        <br>
+        <br>
 
         <div layout="row" id="notifyFollowing" ng-repeat="name in sd.supervisors track by $index">
-            <md-checkbox id ="notifyFollowing" checklist-value="name.id" checklist-model="sd.myArrayOfSupervisors">{{name.name}}</md-checkbox>
+            <md-checkbox id="notifyFollowing" checklist-value="name.id" checklist-model="sd.myArrayOfSupervisors">{{name.name}}</md-checkbox>
             <span flex></span>
         </div>
 

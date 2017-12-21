@@ -96,8 +96,8 @@ myApp.service('UserService', function ($http, $location) {
     return $http.post('/user/message/', self.message).then(function (response){
       console.log(response);
       return response;
-    })
-  }
+    });
+  };
 
   self.getNotifications = function (){
     return $http.get('/user/messages/').then(function (response){

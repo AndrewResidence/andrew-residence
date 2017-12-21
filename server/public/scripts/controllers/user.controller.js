@@ -35,12 +35,8 @@ myApp.controller('UserController', function (UserService, $mdDialog, $mdToast) {
       $mdDialog.hide();
     });
   };
-
   vm.toggleEdit = function () {
-
     vm.showName = !vm.showName;
-
-
   };
 
   vm.editProfile = {};

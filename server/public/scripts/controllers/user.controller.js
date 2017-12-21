@@ -47,7 +47,6 @@ myApp.controller('UserController', function (UserService, $mdDialog, $mdToast) {
 
     console.log(vm.userService);
 
-
     vm.userService.sendProfile(name, phone).then(function () {
       $mdToast.show(
         $mdToast.simple()
@@ -57,7 +56,6 @@ myApp.controller('UserController', function (UserService, $mdDialog, $mdToast) {
       );
     }).then(function () {
      vm.toggleEdit();
-      
     });
 
 

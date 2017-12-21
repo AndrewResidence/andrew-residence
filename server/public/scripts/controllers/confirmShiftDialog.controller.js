@@ -35,8 +35,8 @@ myApp.controller('ConfirmShiftController', function ($scope, $mdDialog, $mdToast
         console.log('confirmed!', response);
       }).then(function() {
         $mdDialog.hide();
-      })
-    }
+      });
+    };
   
   });
   

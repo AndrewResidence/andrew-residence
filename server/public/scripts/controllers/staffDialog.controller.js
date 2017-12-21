@@ -24,7 +24,7 @@ myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserSer
       return true;
     }
     return false;
-  }
+  };
 
   console.log('userObject', vm.userService.userObject);
   vm.adl = false;
@@ -54,7 +54,7 @@ myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserSer
 
   vm.showPickUpShift = function() {
     vm.showComments = true;
-  }
+  };
 
   vm.pickUpShift = function (shift) {
     console.log('pick up shift', vm.shift);

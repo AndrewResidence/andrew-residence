@@ -297,7 +297,7 @@ router.get('/shiftBidToConfirm/:id', function (req, res) {
                 res.sendStatus(500);
             } //end if error connection to db
             else {
-                var queryText = 'SELECT "post_shifts".*, "shift_bids"."shift_id", "shift_bids"."bid_id", "shift_bids"."staff_comments", "users"."id", "users"."name", "users"."role" FROM "shift_bids" JOIN "users" ON "shift_bids"."user_id" ="users".id JOIN "post_shifts" ON "post_shifts"."shift_id" = "shift_bids"."shift_id" WHERE "shift_bids"."shift_id" = $1;'
+                var queryText = 'SELECT "post_shifts".*, "shift_bids"."shift_id", "shift_bids"."bid_id", "shift_bids"."staff_comments", "users"."id", "users"."name", "users"."role" FROM "shift_bids" JOIN "users" ON "shift_bids"."user_id" ="users".id JOIN "post_shifts" ON "post_shifts"."shift_id" = "shift_bids"."shift_id" WHERE "shift_bids"."shift_id" = $1;';
                 db.query(queryText, [shiftId], function (errorMakingQuery, result) {
                     done();
                     if (errorMakingQuery) {
@@ -314,7 +314,7 @@ router.get('/shiftBidToConfirm/:id', function (req, res) {
         }); // end req.isAuthenticated //end if statement
     }
     else {
-        console.log('User is not authenticated')
+        console.log('User is not authenticated');
         res.sendStatus(403);
     }
 })//end post route for new shifts
@@ -365,7 +365,7 @@ router.post('/confirm', function (req, res) {
         }); // end req.isAuthenticated //end if statement
     }
     else {
-        console.log('User is not authenticated')
+        console.log('User is not authenticated');
         res.sendStatus(403);
     }
 });//end post route for new shifts
@@ -479,7 +479,7 @@ router.put('/update/:id', function (req, res) {
 //fill shift route - shows shift filled
 router.put('/filledBy/:id', function (req, res) {
     if (req.isAuthenticated()) {
-        console.log('thebody', req.body)
+        console.log('thebody', req.body);
         var confirmedBy = req.user.id;
         var filledBy = req.body.filledBy;
         var shift_status = req.body.shift_status;

@@ -96,7 +96,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
 
     return $http.post('/shifts/', self.newShift).then(function (response) {
       
-      console.log('did it')
+      console.log('did it');
       self.newShift = {};
       return response;
       

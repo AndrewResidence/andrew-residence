@@ -4,7 +4,7 @@ myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserSer
   vm.userService = UserService;
   vm.userObject = UserService.userObject;
   vm.shiftService = ShiftService;
-  vm.showComments = false;
+  vm.comments = false;
   vm.edit = false;
   vm.shift = {
     user: vm.userService.userObject.userId,
@@ -42,19 +42,24 @@ myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserSer
     }
 
     vm.showPickUpShift = function() {
-      if (vm.shift.status !== 'Filled' && vm.shift.status !== 'filled') {
-        return true;
+      if (vm.shift.shift_status === 'Filled' || vm.shift.shift_status === 'filled') {
+        return false;
       }
-      return false;
+    
+      return true;
     };
+
+    vm.showComments = function() {
+      vm.comments= true;
+    }
     
       //closes dialog box
   };
   vm.role();
 
-  vm.showPickUpShift = function() {
-    vm.showComments = true;
-  }
+  // vm.showPickUpShift = function() {
+  //   vm.showComments = true;
+  // }
 
   vm.pickUpShift = function (shift) {
     console.log('pick up shift', vm.shift);

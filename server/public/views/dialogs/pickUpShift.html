@@ -28,7 +28,9 @@
         <div class="md-toolbar-tools">
             <h3>{{sc.titleDate}} {{sc.shift.shift}}</h3>
             <span flex="auto"></span>
-            <md-button id="closeButton" ng-click="sc.cancel()"><img id="closeIcon" src="/styles/closeIcon.png" alt="close window"></md-button>
+            <md-button id="closeButton" ng-click="sc.cancel()">
+                <img id="closeIcon" src="/styles/closeIcon.png" alt="close window">
+            </md-button>
         </div>
     </md-toolbar>
     <md-dialog-content flex="auto">
@@ -60,7 +62,7 @@
                 <label>Floor:</label>
                 {{sc.shift.floor}}
             </div>
-<br>
+            <br>
         </div>
         <div ng-show="sc.showShiftComment(sc.shift)" layout-gt-xl="row">
             <label>Shift Comments:</label>
@@ -70,14 +72,19 @@
     <md-dialog-actions>
         <div layout="row">
             <span flex></span>
-            <md-button ng-hide="sc.showComments" class="md-raised" ng-click="sc.showPickUpShift()">Pick Up Shift</md-button>
-            <div ng-show="sc.showComments">
-                <br> Add a comment:
-                <input type="text" ng-model="sc.shift.staff_comments">
+            <div ng-show="sc.showPickUpShift()">
+                <md-button ng-hide="sc.comments" class="md-raised" ng-click="sc.showComments()">Pick Up Shift</md-button>
+                <div ng-show="sc.comments">
+                    <div>
+                        <br> Add a comment:
+                        <input type="text" ng-model="sc.shift.staff_comments">
+                    </div>
+                    <br>
+                    <md-button class="md-raised" ng-show="sc.showComments" ng-click="sc.pickUpShift(sc.shift)">Pick Up Shift</md-button>
+                    <span flex></span>
+                </div>
             </div>
-            <br>
-            <md-button class="md-raised" ng-show="sc.showComments" ng-click="sc.pickUpShift(sc.shift)">Pick Up Shift</md-button>
-            <span flex></span>
+
         </div>
 
     </md-dialog-actions>

@@ -1,7 +1,7 @@
 <div class="container">
   <h1 class="lead">Register User</h1>
   <h1 class="lead alert alert-danger" role="alert" ng-if="lc.message != ''">{{lc.message}}</h2>
-    <form class="logRegForm" layout="column" layout-align="center center" ng-submit="lc.registerUser()">
+    <form class="logRegForm" layout="column" layout-align="left" ng-submit="lc.registerUser()">
       <md-input-container>
           <label for="username">Name</label>
           <input ng-required="true" type="text" ng-model="lc.user.name" />

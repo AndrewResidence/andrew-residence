@@ -121,12 +121,11 @@
 </md-content>
 <!-- ********************************************** MOBILE VIEW ***********************************************************  -->
 <div class="mobileView" show-xs show-sm hide-md hide-lg hide-xl>
-  <!-- mobile view -->
-  <md-content>
-    <md-tabs layout-fill flex>
-      <md-tab layout-fill label="All">
+  <md-content><!-- ALL OPENINGS -->
+    <md-tabs>
+      <md-tab label="All">
         <md-content>
-          <div layout="row" layout-align="center center">
+          <div layout="row" layout-align="center center"> <!-- calendar navigation header -->
             <md-button class="md-icon-button md-primary" id="mobileNav" aria-label="back" ng-click="sc.prevMonth(sc.currentMonth.dates[0].month, sc.currentMonth.dates[0].year)">
               <md-icon md-svg-icon="../images/back-arrow.svg"></md-icon>
             </md-button>
@@ -134,7 +133,7 @@
             <md-button class="md-icon-button md-primary" id="mobileNav" aria-label="forward" ng-click="sc.nextMonth(sc.currentMonth.dates[0].month, sc.currentMonth.dates[0].year)">
               <md-icon md-svg-icon="../images/forward-arrow.svg"></md-icon>
             </md-button>
-          </div>
+          </div> <!-- end calendar navigation header -->
           <div ng-repeat="day in sc.currentMonth.dates">
             <div ng-repeat="shift in day.shifts track by $index">
               <div layout="row" layout-align="center center">
@@ -143,8 +142,7 @@
                   <div class="shiftButtonLeft">
                     <md-icon ng-class="{{'shift.shift'}}" md-svg-icon="../images/ic_add_circle_black_18px.svg"></md-icon>
                   </div>
-                  <span>{{shift.date | amDateFormat: 'MM-DD-YYYY'}}</span>
-                  <span>{{shift.date | amDateFormat: 'dddd'}}</span>
+                  <span>{{shift.date | amDateFormat: 'dddd'}}, </span><span>{{shift.date | amDateFormat: 'MM-DD-YYYY'}}</span>
                   <br>
                   <span ng-show="shift.adl">ADL</span>
                   <span ng-show="shift.nurse">Nurse</span>
@@ -154,15 +152,14 @@
               </div>
             </div>
           </div>
-        </md-content>
+        </md-content> <!-- END ALL OPENINGS -->
       </md-tab>
-      <md-tab label="My Shifts">
+      <md-tab label="My Shifts"> <!-- MY OPENINGS -->
         <md-content>
-          <div layout="column" layout-align="center center">
+          
             <div ng-repeat="shift in sc.userShiftsToDisplay track by $index">
               <div class="myShiftBlock">
-                <span>{{shift.date | amDateFormat: 'MM-DD-YYYY'}}</span>
-                <span>{{shift.date | amDateFormat: 'dddd'}}</span>
+                <span>{{shift.date | amDateFormat: 'dddd'}}, </span><span>{{shift.date | amDateFormat: 'MM-DD-YYYY'}}</span>
                 <span ng-show="shift.adl">ADL</span>
                 <span ng-show="shift.nurse">Nurse</span>
                 <span ng-show="shift.mhw">MHW</span>
@@ -171,7 +168,7 @@
                   <md-icon ng-class="{{'shift.shift'}}" md-svg-icon="../images/ic_add_circle_black_18px.svg"></md-icon>
               </div>
             </div>
-          </div>
+        
         </md-content>
       </md-tab>
     </md-tabs>

@@ -194,6 +194,12 @@ vm.filledByName = ShiftService.filledByName.data;
       clickOutsideToClose: true,
       locals: {pendingShift: shift},
       fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
+    }).then(function() {
+      vm.pendingShifts = [];
+      vm.shiftsToDisplay = [];
+    }).then(function() {
+      vm.getPendingShifts();
+      vm.getShifts();
     })
   } //end confirmShift
 

@@ -1,5 +1,5 @@
 var pool = require('../modules/pool.js');
-require('dotenv').config({ path: '../group-project/.env' });
+require('dotenv').config();
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');

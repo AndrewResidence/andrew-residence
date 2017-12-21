@@ -86,7 +86,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     console.log('newshift', self.newShift);
     if (urgent) {
       $http.post('/message/urgent', self.newShift).then(function (response) {
-
+        self.newShift = {};
         console.log(response);
 
       }).catch(function (response) {
@@ -97,6 +97,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     return $http.post('/shifts/', self.newShift).then(function (response) {
       
       console.log('did it')
+      self.newShift = {};
       return response;
       
     }).catch(function (err) {

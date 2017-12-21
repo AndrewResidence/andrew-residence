@@ -5,20 +5,26 @@
   <div id="adminContainer">
     <div id="editSupervisorBox">
       <h2 class="adminTitle">Supervisors:</h2>
-      <div ng-repeat="supervisor in ac.supervisors">
-        {{supervisor.name}}
-        <md-button class="md-raised" ng-click="ac.showEditDialog($event, supervisor)">Edit</md-button>
-        <md-button class="md-raised" ng-click="ac.deleteUser(supervisor)">Remove</md-button>
+      <div class="editUsers" ng-repeat="supervisor in ac.supervisors">
+          <table id="editUsersTable">
+              <tbody>
+                <td id="userName">{{supervisor.name}}</td>
+                <td><md-button id = "editButton" class="md-raised md-primary" ng-click="ac.showEditDialog($event, staff)">
+                  <img class="editIcon" src="/styles/editIcon.png" alt="Edit">
+                  </md-button></td>
+                <td><md-button id = "deleteButton" class="md-raised md-primary" ng-click="ac.deleteUser(staff)">Remove User</md-button></td>
+              </tbody>
+            </table>
       </div>
       <h2 class="adminTitle">On-Call Staff:</h2>
       <div class="editUsers" ng-repeat="staff in ac.staff">
         <table id="editUsersTable">
           <tbody>
             <td id="userName">{{staff.name}}</td>
-            <td><md-button id = "editButton" class="md-raised" ng-click="ac.showEditDialog($event, staff)">
+            <td><md-button id = "editButton" class="md-raised md-primary" ng-click="ac.showEditDialog($event, staff)">
               <img class="editIcon" src="/styles/editIcon.png" alt="Edit">
               </md-button></td>
-            <td><md-button id = "deleteButton" class="md-raised" ng-click="ac.deleteUser(staff)">Remove User</md-button></td>
+            <td><md-button id = "deleteButton" class="md-raised md-primary" ng-click="ac.deleteUser(staff)">Remove User</md-button></td>
           </tbody>
         </table>
       </div>
@@ -27,10 +33,13 @@
       <h2 class="adminTitle">Users Pending Account Confirmation</h2>
       <div ng-show="ac.noUsersMessage()" class="NoUsersMessage">There are no users pending confirmation at this time.</div>
       <div class="approveUsers" ng-repeat="user in ac.unconfirmed">
-        {{user.name}}
-        <md-button class="md-raised" ng-click="ac.showConfirmDialog($event, user)">Confirm</md-button>
-        <!-- Dialog pops up with option to add a role for the user. Whichever md-button they select gets sent back as the user's role, and the confirm md-button on the dialog will trigger the PUT route -->
-        <md-button class="md-raised" ng-click="ac.deleteUser(user)">Remove</md-button>
+          <table id="confirmUsersTable">
+              <tbody>
+                <td id="userName">{{user.name}}</td>
+                <td><md-button class="md-raised md-primary" ng-click="ac.showConfirmDialog($event, user)">Confirm</md-button></td>
+                <td><md-button class="md-raised md-primary" ng-click="ac.deleteUser(user)">Remove</md-button></td>
+              </tbody>
+            </table>
       </div>
     </div>
 

@@ -96,8 +96,6 @@ var weeklyDigest = function (userEmails) {
         }
     }); // end pool connect
 };
-
-
 // get users is a function that uses node-cron to retrieve all the users email in the DB.  It returns a promise and chains to weeklyDigest to  
 var getUsers = function () {
     var emailArray = [];
@@ -127,7 +125,6 @@ var getUsers = function () {
         });
     });
 };
-
 //get route used to fetch staff phone numbers. Phone numbers are used to send text message indicating the urgent need for that staff members role.
 var phoneNumberArray = [];
 router.post('/urgent', function (req, res) {

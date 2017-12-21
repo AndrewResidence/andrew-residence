@@ -1,7 +1,7 @@
 <div ng-include="'views/partials/nav.html'"></div>
 <div class="container">
 
-    <h1 id="welcome">Welcome, {{uc.userObject.name}}!</h1>
+    <h1 id="welcome">Howdy, {{uc.userObject.name}}!</h1>
 
     <md-card hide-xs hide-sm show-md show-lg show-xl style="width:80%;" layout-sm="column">
         <md-toolbar>
@@ -16,17 +16,17 @@
                     {{uc.userObject.userName}}
                 </div>
                 <div flex="40" layout-padding ng-hide="uc.showName">
-                    <input placeholder="{{uc.userObject.userName}}">
+                    <input placeholder="{{uc.userObject.userName}}" ng-model="uc.editProfile.userName">
                 </div>
                 <div flex="40" layout-padding ng-show="uc.showName">
                     {{uc.userObject.phone}}
                 </div>
                 <div flex="40" layout-padding ng-hide="uc.showName">
-                    <input placeholder="{{uc.userObject.phone}}">
+                    <input placeholder="{{uc.userObject.phone}}" ng-model="uc.editProfile.phone">
                 </div>
 
                 <div flex="20" layout-padding>
-                    <md-button ng-click="uc.toggleEdit()" ng-hide="uc.showName">
+                    <md-button ng-click="uc.joshEdit(uc.editProfile.userName, uc.editProfile.phone)" ng-hide="uc.showName">
                         <md-icon md-svg-src="../images/check.svg"></md-icon>
                     </md-button>
                     <md-button ng-click="uc.toggleEdit()" ng-show="uc.showName">
@@ -36,7 +36,7 @@
             </md-list-item>
         </md-list>
     </md-card>
-    <div show-xs show-sm hide-md hide-lg hide-xl>
+    <!-- <div show-xs show-sm hide-md hide-lg hide-xl>
         <div layout="row">
             <div class="editUserInput" ng-show="uc.showName">
                 {{uc.userObject.userName}}
@@ -48,19 +48,21 @@
                 {{uc.userObject.phone}}
             </div>
             <div class="editUserInput" ng-hide="uc.showName">
-                <input placeholder="{{uc.userObject.phone}}">
+                <input placeholder="{{uc.userObject.phone}}" ng-model="uc.editUser.phone">
             </div>
         </div>
+        <div>
+            <md-button>
+                <md-icon md-svg-src="../images/ic_mode_edit_black_18px.svg"></md-icon>
+            </md-button>
+        </div>
+        <div>
+            <md-button ng-click="uc.joshEdit()">
+                <md-icon md-svg-src="../images/check.svg"></md-icon>
+            </md-button>
+        </div>
 
-        <md-button ng-click="uc.toggleEdit()" ng-hide="uc.showName">
-            <md-icon md-svg-src="../images/check.svg"></md-icon>
-        </md-button>
-        <md-button ng-click="uc.toggleEdit()" ng-show="uc.showName">
-            <md-icon md-svg-src="../images/ic_mode_edit_black_18px.svg"></md-icon>
-        </md-button>
-    </div>
+    </div> -->
 
-
-</div>
 
 </div>

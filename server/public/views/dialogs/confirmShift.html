@@ -8,13 +8,12 @@
             </div>
         </md-toolbar>
         <md-dialog-content flex="auto">
-            <div class="confirmBox" ng-repeat = "staff in sc.pendingShifts">
-                {{staff.name}} <br>
-                Role: {{staff.role}} <br>
-                <div ng-show = "sc.showComments(staff)">Comments: {{staff.staff_comments}}</div>
-            <md-button class="md-raised" ng-click="sc.confirmShift(staff)">Confirm</md-button>
-            </div>
+            <div layout="row" class="confirmBox" ng-repeat = "staff in sc.pendingShifts">
 
+                <div>{{staff.name}}  {{staff.role}} </div>
+                <div layout="row" class="confirmComments" ng-show = "sc.showComments(staff)">Comments: {{staff.staff_comments}}</div>
+            <md-button class="md-raised md-primary" ng-click="sc.confirmShift(staff)">Confirm</md-button>
+            </div>
         </md-dialog-content>
     
     </md-dialog>

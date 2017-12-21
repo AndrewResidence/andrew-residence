@@ -492,34 +492,37 @@ router.put('/filledBy/:id', function (req, res) {
     else {
         console.log('User is not authenticated');
     }
-}); //end update shift
-function notifyingSupers(supers) {
-    return new Promise(function () {
+
+}) //end filledBy route
+
+//get the name of the person that has the shift
+router.get('/filled/who/:id', function (req, res) {
+    if (req.isAuthenticated()) {
+        var filledBy = req.params.id
         pool.connect(function (errorConnectingToDb, db, done) {
             if (errorConnectingToDb) {
                 console.log('Error connecting', errorConnectingToDb);
                 res.sendStatus(500);
-            } else { //end if error connection to db
-
-                var queryText = 'SELECT "username" FROM "users" WHERE "id" = ANY($1::integer[])';
-                db.query(queryText, [supers], function (err, result) {
-                    done();
-                    if (err) {
-                        console.log("Error getting phone: ", err);
+            } //end if error connection to db
+            else {
+                var queryText = 'SELECT * FROM "confirmed" JOIN "users" on "users"."id" = "confirmed"."user_id" WHERE "confirmed"."shift_id" = $1;';
+                db.query(queryText, [filledBy], function (errorMakingQuery, result) {
+                    done(); // add + 1 to pool
+                    console.log('result.rows', result);
+                    if (errorMakingQuery) {
+                        console.log('Error making query', errorMakingQuery);
                         res.sendStatus(500);
                     } else {
-
-                        console.log('username', result.rows);
-                        
-                        return result.rows;
-                    
-
+                        res.send(result.rows)
                     }
-                });
+                }); // END QUERY
             }
-    });
-    });
-}
+        }); // end pool connect
+    } // end req.isAuthenticated
+    else {
+        console.log('User is not authenticated');
+    }
+}); //end get the name of the person that has the shift
 
 
 module.exports = router;

@@ -133,9 +133,9 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     });
   };
 
-  self.confirmShift = function(staffMember) {
+  self.confirmShift = function(staffMember, allShifts) {
     console.log('staff member to confirm', staffMember.name);
-    return $http.post('/shifts/confirm', staffMember).then(function (response) {
+    return $http.post('/shifts/confirm', staffMember, allShifts).then(function (response) {
       console.log('confirmed shift', staffMember.name, response);
       return response;
     });

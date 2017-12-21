@@ -523,6 +523,33 @@ router.get('/filled/who/:id', function (req, res) {
         console.log('User is not authenticated');
     }
 }); //end get the name of the person that has the shift
+function notifyingSupers(supers) {
+    return new Promise(function () {
+        pool.connect(function (errorConnectingToDb, db, done) {
+            if (errorConnectingToDb) {
+                console.log('Error connecting', errorConnectingToDb);
+                res.sendStatus(500);
+            } else { //end if error connection to db
+
+                var queryText = 'SELECT "username" FROM "users" WHERE "id" = ANY($1::integer[])';
+                db.query(queryText, [supers], function (err, result) {
+                    done();
+                    if (err) {
+                        console.log("Error getting phone: ", err);
+                        res.sendStatus(500);
+                    } else {
+
+                        console.log('username', result.rows);
+
+                        return result.rows;
+
+
+                    }
+                });
+            }
+        });
+    });
+}
 
 
 module.exports = router;

@@ -1,19 +1,24 @@
 <md-dialog aria-label="Confirm Shift Pop-up">
-        <md-toolbar>
-            <div class="md-toolbar-tools">
-                <h3>Confirm Shift</h3>
-                <span flex="auto"></span>
-                <md-button ng-click="sc.cancel()"> close
-                </md-button>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h3>Confirm Shift</h3>
+            <span flex="auto"></span>
+            <md-button id="closeButton" ng-click="sc.cancel()"><img id="closeIcon" src="/styles/closeIcon.png" alt="close window">
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content flex="auto">
+        <div layout="row" class="confirmBox" ng-repeat="staff in sc.pendingShifts">
+            <div>
+                <strong>{{staff.name}}</strong> 
+                <br> 
+                {{staff.role}}
+                <div layout="row" class="confirmComments" ng-show="sc.showComments(staff)">Comments: {{staff.staff_comments}}</div>
             </div>
-        </md-toolbar>
-        <md-dialog-content flex="auto">
-            <div layout="row" class="confirmBox" ng-repeat = "staff in sc.pendingShifts">
+            <div>
+                <md-button class="md-raised md-primary" ng-click="sc.confirmShift(staff, sc.pendingShifts)">Confirm</md-button>
+            </div>
+        </div>
+    </md-dialog-content>
 
-                <div>{{staff.name}}  {{staff.role}} </div>
-                <div layout="row" class="confirmComments" ng-show = "sc.showComments(staff)">Comments: {{staff.staff_comments}}</div>
-            <md-button class="md-raised md-primary" ng-click="sc.confirmShift(staff)">Confirm</md-button>
-            </div>
-        </md-dialog-content>
-    
-    </md-dialog>
+</md-dialog>

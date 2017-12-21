@@ -15,7 +15,7 @@ myApp.controller('AdminController', function ($mdDialog, $mdToast, UserService, 
       return true;
     }
     return false;
-  }
+  };
   
   // GET unconfirmed users route
   vm.getUnconfirmed = function () {
@@ -68,7 +68,7 @@ myApp.controller('AdminController', function ($mdDialog, $mdToast, UserService, 
 
   //Users DELETE route
   vm.deleteUser = function (user) {
-    vm.showDeleteToast(user)
+    vm.showDeleteToast(user);
   };
   //Show dialog for edit individual user
   vm.showEditDialog = function (event, user) {

@@ -63,7 +63,7 @@ myApp.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {
     })
     .otherwise({
       redirectTo: 'home'
-    })
+    });
 
   // var andrewResPurple = $mdThemingProvider.extendPalette('deep-purple', {
   //   '50': '9e8cbc',

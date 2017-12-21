@@ -279,4 +279,31 @@ router.get('/messages', function (req, res) {
   }
 }) //end get route to receive all messages
 
+//deletes the posted message
+router.delete('/messages/delete/:id', function (req, res) {
+  if (req.isAuthenticated()) {
+    deleteId = req.params.id;
+    console.log('delete', deleteId)
+    pool.connect(function (err, db, done) {
+      if (err) {
+        console.log('error connecting', err);
+        res.sendStatus(500);
+      }
+      var queryText = 'DELETE FROM "notifications" WHERE "notification_id" = $1;';
+      db.query(queryText, [deleteId], function (err, result) {
+        done();
+        if (err) {
+          console.log("Error inserting data: ", err);
+          res.sendStatus(500);
+        } else {
+          res.send(201);
+        }
+      });
+    });
+  }
+  else {
+    console.log('User is not authenticated.')
+  }
+}) //end get route to receive all messages
+
 module.exports = router;

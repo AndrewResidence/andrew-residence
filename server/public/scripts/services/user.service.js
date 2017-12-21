@@ -104,4 +104,10 @@ myApp.service('UserService', function ($http, $location) {
       return response
     })
   }
+
+  self.deleteNotifcation = function (id) {
+    return $http.delete('/user/messages/delete/' + id).then(function(response) {
+      return response
+    })
+  }
 });

@@ -11,16 +11,21 @@ var vm = this;
 vm.createMessage = function (messageBody, headline ){
     UserService.createMessage(messageBody, headline).then(function (response) {
         vm.cancel();
+        ptc.getNotifications();
         $mdToast.show(
             $mdToast.simple()
                 .textContent('Notification Created')
                 .hideDelay(2500)
         )
-        ptc.getNotifications();
+        
     })
 }
-    ptc.getNotifications = function () {
-        UserService.getNotifications
+    
+
+    vm.getNotifications = function () {
+        UserService.getNotifications().then(function (response) {
+            vm.notifications = response.data;
+        })
     }
 
 })

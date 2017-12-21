@@ -75,6 +75,7 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
 
   // //start newShift function
   vm.addNewShift = function (staffId, selection, shiftDate, shiftStatus, urgent, shift, role, comments, notify, nurse, adl, mhw) {
+    console.log('add shift clicked')
     ShiftService.addNewShift(staffId, selection, shiftDate, shiftStatus, urgent, shift, role, comments, notify, nurse, adl, mhw).then(function (response) {
       vm.getShifts()
       vm.getPayPeriodDates();

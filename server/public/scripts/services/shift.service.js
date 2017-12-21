@@ -15,7 +15,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     shift_status: '',
     floor: '',
     filled: null
-  };
+  }
 
   self.updatedShift = {
     shiftDate: [],
@@ -269,7 +269,18 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   console.log('Error filling shift');
 
 });
-  }
+  };
   //end shiftFilled function
 
 });
+
+self.editProfile = function(id, editProfile){
+return $http.put('/shifts/profile/'+ id, editProfile)
+.then(function(response){
+  return response;
+}).catch(function(response){
+  console.log('error making edit');
+  
+});
+
+};

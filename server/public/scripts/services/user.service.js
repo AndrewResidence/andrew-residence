@@ -105,3 +105,14 @@ myApp.service('UserService', function ($http, $location) {
     })
   }
 });
+
+self.editProfile = function (id, editProfile) {
+  return $http.put('/shifts/profile/' + id, editProfile)
+    .then(function (response) {
+      return response;
+    }).catch(function (response) {
+      console.log('error making edit');
+
+    });
+
+};

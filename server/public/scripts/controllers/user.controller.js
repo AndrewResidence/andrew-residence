@@ -48,7 +48,7 @@ myApp.controller('UserController', function (UserService, $mdDialog) {
   vm.joshEdit = function(profileEdit){
 
 
-    vm.ShiftService.editProfile(profileEdit);
+    vm.UserService.editProfile(profileEdit);
 
  
   };

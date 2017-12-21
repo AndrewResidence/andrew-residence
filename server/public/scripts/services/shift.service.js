@@ -15,7 +15,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     shift_status: '',
     floor: '',
     filled: null
-  }
+  };
 
   self.updatedShift = {
     shiftDate: [],

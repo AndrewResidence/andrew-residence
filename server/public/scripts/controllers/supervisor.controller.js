@@ -134,12 +134,9 @@ vm.filledByName = ShiftService.filledByName.data;
         for (var j = i+1; j < vm.pendingShifts.length; j++) {
           if (vm.pendingShifts[i].shift_id == vm.pendingShifts[j].shift_id) {
             vm.pendingShifts.splice(j, 1);
-            // vm.realPendingShifts.push(vm.pendingShifts[i]);
-            console.log('matching shift', vm.pendingShifts[i].shift_id);
           }
         }
       }
-      // console.log(' pending shifts', vm.pendingShifts);
       console.log('pending shifts', vm.pendingShifts);
     })
   }
@@ -195,11 +192,9 @@ vm.filledByName = ShiftService.filledByName.data;
       locals: {pendingShift: shift},
       fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
     }).then(function() {
-      vm.pendingShifts = [];
-      vm.shiftsToDisplay = [];
-    }).then(function() {
-      vm.getPendingShifts();
-      vm.getShifts();
+      // vm.getPendingShifts();
+      // vm.getShifts();
+      console.log('howdy');
     })
   } //end confirmShift
 

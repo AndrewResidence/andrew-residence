@@ -127,8 +127,6 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   // };
 
 
-  // self.pickUpShift = function (shift) {
-  //   return $http.post('/shifts/shiftBid', shift).then(function (response) {
   self.getPendingShifts = function () {
     var today = moment().format('YYYY-MM-DD');
     console.log('today', today);
@@ -146,11 +144,6 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     });
   };
 
-  self.pickUpShift = function (shift) {
-    return $http.post('/shifts/shiftBid', shift).then(function (response) {
-      console.log('posted shift bid', response);
-    })}
-
   self.confirmShift = function(staffMember) {
     console.log('staff member to confirm', staffMember.name);
     return $http.post('/shifts/confirm', staffMember).then(function (response) {
@@ -166,25 +159,6 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     });
   };
 
-  // self.getPayPeriodDates = function() {
-  //   return $http.get('/shifts/payperiod/getdates').then(function(response){
-  //     console.log('response', response.data)
-  //     // self.payPeriodStartAndEnd.data = response.data;
-  //     return response.data;
-  //   })
-  //   .catch(function(err){
-  //     console.log('error')
-  //   })
-  // }
-
-  // self.updatePayPeriodDates = function() {
-  //   var rowId = 1;
-  //   return $http.put('/shifts/payperiod/updatedates/' + rowId).then(function(response){
-  //     console.log('response', response.data)
-  //     return response.data;
-  //   })
-  // }
-
   self.getMyShifts = function () {
     console.log('get my shifts clicked')
     return $http.get('/shifts/getmyshifts').then(function (response) {
@@ -192,7 +166,6 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
       return response.data;
     })
   }
-
 
   /* for Message testing; see popUpTest Controller and message.html */
   self.sendTextMessage = function () {

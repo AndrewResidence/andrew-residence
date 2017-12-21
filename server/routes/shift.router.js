@@ -75,7 +75,7 @@ router.post('/', function (req, res) {
                                             // attachments:[{
                                             //     filename:'andrew_residence.png',
                                             //     path:'../public/images/andrew_residence.png',
-                                            //     cid:'headerPicture'
+                                            //     cid:'headerPicture'    
                                             // }],
                                             auth: {
                                                 user: GMAIL_USER,

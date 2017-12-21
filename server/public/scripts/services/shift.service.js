@@ -2,7 +2,11 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   console.log('ShiftService Loaded');
   var self = this;
   self.shift = {};
+<<<<<<< HEAD
   self.filledByName = {data: []};
+=======
+  self.filledByName = { data: [] }
+>>>>>>> master
   self.newShift = {
     shiftDate: [],
     urgent: false,
@@ -35,16 +39,28 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   };
 
   self.shiftsToDisplay = { data: [] };
-  self.filledByName = {data: []}
-
+  self.filledByName = { data: [] }
+  //calls the addShift popup
+  // self.addShift = function (event) {
+  //   console.log('add new shift button clicked');
+  //   $mdDialog.show({
+  //     controller: 'AddShiftController as sd',
+  //     templateUrl: '/views/templates/addShift.html',
+  //     parent: angular.element(document.body),
+  //     targetEvent: event,
+  //     clickOutsideToClose: true,
+  //     fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
+  //   })
+  // }; //end addShift popup function
+  //calls 
   self.shiftDetails = function (event, shift) {
     console.log('shift details button clicked', shift);
     self.shift = shift;
-   return $http.get('/shifts/filled/who/' + shift.shift_id).then(function (response){
-      self.filledByName.data = response.data;
-      return response;
-    });
-  };
+    return $http.get('/shifts/filled/who/' + shift.shift_id).then(function (response) {
+      self.filledByName.data = response.data
+      return response
+    })
+  }
   self.getShifts = function () {
     return $http.get('/shifts').then(function (response) {
       console.log('response', response.data)
@@ -83,11 +99,11 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     }
 
     return $http.post('/shifts/', self.newShift).then(function (response) {
-      
-      console.log('did it');
+
+      console.log('did it')
       self.newShift = {};
       return response;
-      
+
     }).catch(function (err) {
       console.log('Error');
     });
@@ -120,7 +136,13 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     });
   };
 
-  self.confirmShift = function(staffMember) {
+  self.pickUpShift = function (shift) {
+    return $http.post('/shifts/shiftBid', shift).then(function (response) {
+      console.log('posted shift bid', response);
+    })
+  }
+
+  self.confirmShift = function (staffMember) {
     console.log('staff member to confirm', staffMember.name);
     return $http.post('/shifts/confirm', staffMember).then(function (response) {
       console.log('confirmed shift', staffMember.name, response);
@@ -135,8 +157,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     });
   };
 
-
-
+  
   self.getMyShifts = function () {
     console.log('get my shifts clicked')
     return $http.get('/shifts/getmyshifts').then(function (response) {
@@ -146,7 +167,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   };
 
 
-
+  /* for Message testing; see popUpTest Controller and message.html */
   self.sendTextMessage = function () {
     //what is required for Plivo to deliver message;
     textParams = {
@@ -215,13 +236,13 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
 
     self.filledShift.filledBy = id;
 
- return $http.put('/shifts/filledBy/' + shiftId, self.filledShift)
- .then(function (response){
-  return response;
-}).catch(function (response){
-  console.log('Error filling shift');
+    return $http.put('/shifts/filledBy/' + shiftId, self.filledShift)
+      .then(function (response) {
+        return response;
+      }).catch(function (response) {
+        console.log('Error filling shift');
 
-});
+      });
   };
   //end shiftFilled function
 

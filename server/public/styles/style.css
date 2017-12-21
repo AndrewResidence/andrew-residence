@@ -250,8 +250,10 @@ li a:hover {
 }
 
 .confirmBox {
-  border: 1px solid black;
   margin: 3px;
+  padding-top: 20px;
+  padding-left: 20px;
+  border-bottom: 1px solid #CCCCCC;
 }
 
 .shifts {
@@ -447,7 +449,7 @@ div.Pending {
 .legend {
   height: 30px;
   width: 100px;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);  
+  /* box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);   */
   text-align: center;
   display: flex;
   justify-content: center;
@@ -456,12 +458,19 @@ div.Pending {
   margin-right: 10px;
 }
 
+#open {
+  background-color: #ffffff;
+  border: 1px solid #E6E8E6;
+}
+
 #pending {
   background-color: #FCF1C6;
+  border: 1px solid #FBE7A1;
 }
 
 #filled {
   background-color: #959595;
+  border: 1px solid #707070;
 }
 
 .mobileView {
@@ -554,6 +563,11 @@ md-tabs:not(.md-no-tab-content):not(.md-dynamic-height) {
   width: 80%;
 }
 
+
+.confirmComments {
+  display: block;
+}
+
 #headline {
   width: 400px;
   margin-left: 20px;
@@ -562,4 +576,5 @@ md-tabs:not(.md-no-tab-content):not(.md-dynamic-height) {
 #message {
   width: 400px;
   margin-left: 20px;
+
 }

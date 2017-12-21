@@ -25,6 +25,17 @@ var REFRESH_TOKEN = process.env.REFRESH_TOKEN;
 var ACCESS_TOKEN = process.env.ACCESS_TOKEN;
 var CLIENT_ID = process.env.CLIENT_ID;
 var CLIENT_SECRET = process.env.CLIENT_SECRET;
+
+var transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth: {
+        type: 'OAuth2',
+        clientId: CLIENT_ID,
+        clientSecret: CLIENT_SECRET,
+    }
+});
 console.log('The Home Stretch!!');
 
 var dateArray = [];
@@ -46,16 +57,6 @@ var weeklyDigest = function (userEmails) {
                 } else {
                     result.rows.forEach(function (shift) {
                         dateArray.push('<li>' + moment(shift.date).format('MMMM Do YYYY') + '<span>' + '------' + shift.shift + '</span></li>');
-                    });
-                    var transporter = nodemailer.createTransport({
-                        host: 'smtp.gmail.com',
-                        port: 465,
-                        secure: true,
-                        auth: {
-                            type: 'OAuth2',
-                            clientId: CLIENT_ID,
-                            clientSecret: CLIENT_SECRET,
-                        }
                     });
 
                     // setup email data 

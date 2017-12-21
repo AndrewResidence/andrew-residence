@@ -57,7 +57,7 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
       vm.supervisors = response.data;
       console.log('got supervisors', vm.supervisors);
     })
-  }
+  };
 
   vm.getSupervisors()
 
@@ -71,7 +71,7 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
 
   vm.getPayPeriodDates = function() {
     calendarService.getPayPeriodDates();
-  }
+  };
 
   // //start newShift function
   vm.addNewShift = function (staffId, selection, shiftDate, shiftStatus, urgent, shift, role, comments, notify, nurse, adl, mhw) {
@@ -114,12 +114,12 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
 
   //show staff dropdown based on statusUpdate
   vm.statusUpdate = function (value) {
-    vm.showStaff = !vm.showStaff;
     if (value === 'Filled') {
       vm.showStaff = true;
       console.log('true')
     }
     else {
+      vm.showStaff = false;
       console.log('false')
     }
   }

@@ -79,7 +79,7 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
       clickOutsideToClose: true,
       locals: { shift: shift },
       fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
-    })
+    });
   };
   
   //gets number of days in month

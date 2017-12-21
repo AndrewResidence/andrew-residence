@@ -10,30 +10,13 @@ myApp.controller('AdminController', function ($mdDialog, $mdToast, UserService, 
   var show = false;
 
 
-    //Filestack for add transaction dialog 
-    vm.apikey = 'AuSmv6aEsT2acrLuuw0HRz';
-    vm.filestackClient = filestack.init(vm.apikey);
-
-    vm.response = {img:''}; 
-
-    vm.openPicker = function() {
-      vm.filestackClient.pick({
-        fromSources:["local_file_system","dropbox", "url", "imagesearch"],
-        accept:["image/*"]
-      }).then(function(response) {
-        // declare this function to handle response
-        handleFilestack(response);
-      });
-    };
-  
-    function handleFilestack(response) {
-      console.log(response.filesUploaded[0]);
-      vm.response.img = response.filesUploaded[0].url;
-      console.log(vm.response);
+  vm.noUsersMessage = function() {
+    if(vm.unconfirmed.length == 0) {
+      return true;
     }
-
-
-
+    return false;
+  };
+  
   // GET unconfirmed users route
   vm.getUnconfirmed = function () {
     vm.userService.getUnconfirmed().then(function (response) {
@@ -85,7 +68,7 @@ myApp.controller('AdminController', function ($mdDialog, $mdToast, UserService, 
 
   //Users DELETE route
   vm.deleteUser = function (user) {
-    vm.showDeleteToast(user)
+    vm.showDeleteToast(user);
   };
   //Show dialog for edit individual user
   vm.showEditDialog = function (event, user) {

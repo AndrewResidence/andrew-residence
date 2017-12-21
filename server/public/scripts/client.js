@@ -52,23 +52,6 @@ myApp.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {
           return UserService.getuser();
         }
       }
-    })
-      .when('/staffHome', {
-        templateUrl: '/views/templates/staffHomePage.html',
-        controller: 'StaffController as sc',
-        resolve: {
-          getuser: function (UserService) {
-            return UserService.getuser();
-          }
-        }
-     }).when('/message', {
-      templateUrl: '/views/templates/message.html',
-      controller: 'PopupTestController as pop',
-      resolve: {
-        getuser: function (UserService) {
-          return UserService.getuser();
-        }
-      }
     }).when('/message', {
       templateUrl: '/views/templates/message.html',
       controller: 'PopupTestController as pop',
@@ -80,7 +63,7 @@ myApp.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {
     })
     .otherwise({
       redirectTo: 'home'
-    })
+    });
 
   // var andrewResPurple = $mdThemingProvider.extendPalette('deep-purple', {
   //   '50': '9e8cbc',

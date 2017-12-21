@@ -11,10 +11,10 @@ var cron = require('node-cron');
 var moment = require('moment');
 /* credentials for plivo*/
 var plivo = require('plivo');
-
 var AUTH_ID = process.env.PLIVO_AUTH_ID;
 var AUTH_TOKEN = process.env.PLIVO_AUTH_TOKEN;
 var plivoNumber = process.env.PLIVO_NUMBER;//rented plivo number
+
 var p = plivo.RestAPI({
     authId: AUTH_ID,
     authToken: AUTH_TOKEN,
@@ -26,6 +26,17 @@ var REFRESH_TOKEN = process.env.REFRESH_TOKEN;
 var ACCESS_TOKEN = process.env.ACCESS_TOKEN;
 var CLIENT_ID = process.env.CLIENT_ID;
 var CLIENT_SECRET = process.env.CLIENT_SECRET;
+
+var transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth: {
+        type: 'OAuth2',
+        clientId: CLIENT_ID,
+        clientSecret: CLIENT_SECRET,
+    }
+});
 console.log('The Home Stretch!!');
 
 var dateArray = [];
@@ -47,16 +58,6 @@ var weeklyDigest = function (userEmails) {
                 } else {
                     result.rows.forEach(function (shift) {
                         dateArray.push('<li>' + moment(shift.date).format('MMMM Do YYYY') + '<span>' + '------' + shift.shift + '</span></li>');
-                    });
-                    var transporter = nodemailer.createTransport({
-                        host: 'smtp.gmail.com',
-                        port: 465,
-                        secure: true,
-                        auth: {
-                            type: 'OAuth2',
-                            clientId: CLIENT_ID,
-                            clientSecret: CLIENT_SECRET,
-                        }
                     });
 
                     // setup email data 
@@ -96,8 +97,6 @@ var weeklyDigest = function (userEmails) {
         }
     }); // end pool connect
 };
-
-
 // get users is a function that uses node-cron to retrieve all the users email in the DB.  It returns a promise and chains to weeklyDigest to  
 var getUsers = function () {
     var emailArray = [];
@@ -127,7 +126,6 @@ var getUsers = function () {
         });
     });
 };
-
 //get route used to fetch staff phone numbers. Phone numbers are used to send text message indicating the urgent need for that staff members role.
 var phoneNumberArray = [];
 router.post('/urgent', function (req, res) {
@@ -199,7 +197,7 @@ router.post('/urgent', function (req, res) {
 router.post('/text', function (req, res) {
     var params = {
         src: plivoNumber, // Sender's phone number with country code
-        dst: '16512393734',
+        dst: '17637448725',
         text: "Be not afraid. You are never alone. The MonGod smiles upon you!",
     };
     // Prints the complete response

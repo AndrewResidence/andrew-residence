@@ -1,5 +1,5 @@
 var pool = require('../modules/pool.js');
-require('dotenv').config({ path: '../group-project/.env' });
+require('dotenv').config();
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
@@ -17,6 +17,9 @@ var ACCESS_TOKEN = process.env.ACCESS_TOKEN;
 var CLIENT_ID = process.env.CLIENT_ID;
 var CLIENT_SECRET = process.env.CLIENT_SECRET;
 //post route for new shifts
+
+
+var emailForNotify = [];
 router.post('/', function (req, res) {
     if (req.isAuthenticated()) {
         var newShift = req.body;
@@ -44,13 +47,21 @@ router.post('/', function (req, res) {
                                 return;
 
                             } else {
-                                console.log(result.rows);
+
+                                console.log('results', result.rows[0].notify);
+
+                                result.rows[0].notify.forEach(function (supers) {
+                                    console.log(supers);
+                                    notifyingSupers(supers).then(function (result) {
+                                        console.log(result);
+
+                                    });
+                                });
+
 
                             }
                         });
                 }//end for loop
-
-
             }
         }
         );
@@ -252,7 +263,7 @@ router.get('/shiftBidToConfirm/:id', function (req, res) {
                     if (errorMakingQuery) {
                         console.log('Error making query', errorMakingQuery);
                         res.sendStatus(500);
-                        return
+                        return;
                     }
                     else {
                         console.log('got shift bids');
@@ -260,7 +271,7 @@ router.get('/shiftBidToConfirm/:id', function (req, res) {
                     }
                 });
             }
-        }) // end req.isAuthenticated //end if statement
+        }); // end req.isAuthenticated //end if statement
     }
     else {
         console.log('User is not authenticated')
@@ -329,11 +340,11 @@ router.get('/getmyshifts', function (req, res) {
                 res.sendStatus(500);
             } //end if error connection to db
             else {
-                var queryText = 
-                'SELECT "post_shifts"."date", "post_shifts"."shift", "post_shifts"."shift_comments", "post_shifts"."shift_status", "post_shifts"."mhw", "post_shifts"."nurse", "post_shifts"."adl"' +
-                'FROM  "user_shifts" JOIN "post_shifts"' +
-                'ON "user_shifts"."shift_id" = "post_shifts"."shift_id"' +
-                'WHERE "user_shifts"."user_id" = $1;';
+                var queryText =
+                    'SELECT "post_shifts"."date", "post_shifts"."shift", "post_shifts"."shift_comments", "post_shifts"."shift_status", "post_shifts"."mhw", "post_shifts"."nurse", "post_shifts"."adl"' +
+                    'FROM  "user_shifts" JOIN "post_shifts"' +
+                    'ON "user_shifts"."shift_id" = "post_shifts"."shift_id"' +
+                    'WHERE "user_shifts"."user_id" = $1;';
                 db.query(queryText, [userId], function (errorMakingQuery, result) {
                     done(); // add + 1 to pool
 
@@ -429,7 +440,7 @@ router.put('/update/:id', function (req, res) {
 router.put('/filledBy/:id', function (req, res) {
     if (req.isAuthenticated()) {
         console.log('thebody', req.body)
-        var confirmedBy = req.user.id
+        var confirmedBy = req.user.id;
         var filledBy = req.body.filledBy;
         var shift_status = req.body.shift_status;
         var shiftId = req.params.id;
@@ -482,7 +493,33 @@ router.put('/filledBy/:id', function (req, res) {
         console.log('User is not authenticated');
     }
 }); //end update shift
+function notifyingSupers(supers) {
+    return new Promise(function () {
+        pool.connect(function (errorConnectingToDb, db, done) {
+            if (errorConnectingToDb) {
+                console.log('Error connecting', errorConnectingToDb);
+                res.sendStatus(500);
+            } else { //end if error connection to db
 
+                var queryText = 'SELECT "username" FROM "users" WHERE "id" = ANY($1::integer[])';
+                db.query(queryText, [supers], function (err, result) {
+                    done();
+                    if (err) {
+                        console.log("Error getting phone: ", err);
+                        res.sendStatus(500);
+                    } else {
+
+                        console.log('username', result.rows);
+                        
+                        return result.rows;
+                    
+
+                    }
+                });
+            }
+    });
+    });
+}
 
 
 module.exports = router;

@@ -2,7 +2,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   console.log('ShiftService Loaded');
   var self = this;
   self.shift = {};
-  self.filledByName = {data: []}
+  self.filledByName = { data: [] }
   self.newShift = {
     shiftDate: [],
     urgent: false,
@@ -35,7 +35,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   };
 
   self.shiftsToDisplay = { data: [] };
-  self.filledByName = {data: []}
+  self.filledByName = { data: [] }
   //calls the addShift popup
   // self.addShift = function (event) {
   //   console.log('add new shift button clicked');
@@ -52,10 +52,10 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   self.shiftDetails = function (event, shift) {
     console.log('shift details button clicked', shift);
     self.shift = shift;
-   return $http.get('/shifts/filled/who/' + shift.shift_id).then(function (response){
+    return $http.get('/shifts/filled/who/' + shift.shift_id).then(function (response) {
       self.filledByName.data = response.data
       return response
-    }) 
+    })
   }
   self.getShifts = function () {
     return $http.get('/shifts').then(function (response) {
@@ -95,11 +95,11 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     }
 
     return $http.post('/shifts/', self.newShift).then(function (response) {
-      
+
       console.log('did it')
       self.newShift = {};
       return response;
-      
+
     }).catch(function (err) {
       console.log('Error');
     });
@@ -115,17 +115,6 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
       return response;
     });
   };
-  // self.getShifts = function () {
-  //   self.shiftsToDisplay.data = [];
-  //   console.log('shifts to display service', self.shiftsToDisplay.data)
-  //   return $http.get('/shifts').then(function (response) {
-  //     // console.log('response', response.data)
-  //     // self.shiftsToDisplay.data = response.data;
-  //     console.log('shifts to display in service, after query', self.shiftsToDisplay.data)
-  //     return response;
-  //   });
-  // };
-
 
   self.getPendingShifts = function () {
     var today = moment().format('YYYY-MM-DD');
@@ -159,6 +148,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     });
   };
 
+  
   self.getMyShifts = function () {
     console.log('get my shifts clicked')
     return $http.get('/shifts/getmyshifts').then(function (response) {
@@ -236,13 +226,13 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
 
     self.filledShift.filledBy = id;
 
- return $http.put('/shifts/filledBy/' + shiftId, self.filledShift)
- .then(function (response){
-  return response;
-}).catch(function (response){
-  console.log('Error filling shift');
+    return $http.put('/shifts/filledBy/' + shiftId, self.filledShift)
+      .then(function (response) {
+        return response;
+      }).catch(function (response) {
+        console.log('Error filling shift');
 
-});
+      });
   }
   //end shiftFilled function
 

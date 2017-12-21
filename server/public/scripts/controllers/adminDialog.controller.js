@@ -24,8 +24,4 @@ myApp.controller('AdminDialogController', function ($mdDialog, UserService, user
         $mdDialog.cancel();
     };
 
-
-
-
-
 });

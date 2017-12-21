@@ -113,12 +113,12 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
 
   //show staff dropdown based on statusUpdate
   vm.statusUpdate = function (value) {
-    vm.showStaff = !vm.showStaff;
     if (value === 'Filled') {
       vm.showStaff = true;
       console.log('true')
     }
     else {
+      vm.showStaff = false;
       console.log('false')
     }
   }

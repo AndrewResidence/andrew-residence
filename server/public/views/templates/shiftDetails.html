@@ -17,11 +17,11 @@
             <div layout-gt-xl="row"></div>
             <md-datepicker id="editDate" ng-disabled="sd.editShift === false" ng-model="sd.shift.date">{{sd.shift.date}}</md-datepicker>
 
-            <div layout-align="center center" ng-if="sd.shift.shift_status === 'Open'" ng-style="sd.shift.shift_status === 'Open' && {'background-color':'#187B18', 'color': 'white'}"
+            <div layout-align="center center" ng-if="sd.shift.shift_status === 'Open'"
                 id="statusIndicator">{{sd.shift.shift_status}}</div>
-            <div ng-if="sd.shift.shift_status === 'Pending'" ng-style="sd.shift.shift_status === 'Pending' && {'background-color':'#f7cc31'}"
+            <div ng-if="sd.shift.shift_status === 'Pending'" ng-style="sd.shift.shift_status === 'Pending' && {'background-color':'#FCF1C6'}"
                 id="statusIndicator">{{sd.shift.shift_status}}</div>
-            <div ng-if="sd.shift.shift_status === 'Filled'" ng-style="sd.shift.shift_status === 'Filled' && {'background-color':'#A62020', 'color': 'white'}"
+            <div ng-if="sd.shift.shift_status === 'Filled'" ng-style="sd.shift.shift_status === 'Filled' && {'background-color':'#959595'}"
                 id="statusIndicator">{{sd.shift.shift_status}}</div>
 
         </div>
@@ -48,27 +48,6 @@
                 </md-select>
             </md-input-container>
         </div>
-
-        <div layout-gt-xl="row">
-            <md-input-container id="shiftCommentsText" class="md-block">
-                <label>Shift Comments:</label>
-                <textarea ng-disabled="sd.editShift === false" rows="2" width="300PX" name="shiftComments" ng-model="sd.shift.shift_comments"
-                    md-select-on-focus>{{sd.shift.shift_comments}}</textarea>
-            </md-input-container>
-        </div>
-        <div layout="row" id="showFilledBy" ng-show="sd.shift.shift_status==='Filled'">
-            <span>Shift Filled By: The Name Will Go Here</span>
-        </div>
-        <div layout="row" layout-align="center center" ng-if="sd.editFill === true">
-            <md-input-container class="md-block" "fillShiftWith">
-                <label>Fill Shift:</label>
-                <md-select id="fillShiftInput" ng-model="sd.shift.filled">
-                    <md-option ng-value="staff.id" ng-repeat="staff in sd.staff">{{staff.name}}</md-option>
-                </md-select>
-            </md-input-container>
-        </div>
-
-           
                 <div layout-gt-xl="row">
                     <md-input-container id="shiftCommentsText" class="md-block">
                         <label>Shift Comments:</label>

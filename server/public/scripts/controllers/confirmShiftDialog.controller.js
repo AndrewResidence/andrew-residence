@@ -18,8 +18,8 @@ myApp.controller('ConfirmShiftController', function ($scope, $mdDialog, $mdToast
         console.log('got shifts', response.data);
         vm.pendingShifts = response.data;
         console.log('shifts here', vm.pendingShifts);
-      })
-    }
+      });
+    };
   
     vm.getShiftsToConfirm(vm.pendingShift.shift_id);
 
@@ -33,8 +33,8 @@ myApp.controller('ConfirmShiftController', function ($scope, $mdDialog, $mdToast
     vm.confirmShift = function(staffMember) {
       vm.shiftService.confirmShift(staffMember).then(function(response) {
         console.log('confirmed!', response);
-      })
-    }
+      });
+    };
   
   });
   

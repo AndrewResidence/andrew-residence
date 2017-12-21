@@ -28,6 +28,7 @@
     "express": "^4.16.2",
     "express-session": "^1.13.0",
     "jquery": "^2.1.4",
+    "lodash": "^4.17.4",
     "moment": "^2.19.4",
     "multiple-date-picker": "^2.1.6",
     "node-cron": "^1.2.1",

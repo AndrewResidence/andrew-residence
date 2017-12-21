@@ -30,8 +30,8 @@ myApp.controller('ConfirmShiftController', function ($scope, $mdDialog, $mdToast
         return false;
     }
 
-    vm.confirmShift = function(staffMember) {
-      vm.shiftService.confirmShift(staffMember).then(function(response) {
+    vm.confirmShift = function(staffMember, allShifts) {
+      vm.shiftService.confirmShift(staffMember, allShifts).then(function(response) {
         console.log('confirmed!', response);
       }).then(function() {
         $mdDialog.hide();

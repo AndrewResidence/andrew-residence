@@ -343,7 +343,7 @@ router.post('/confirm', function (req, res) {
                             return;
                         }
                         else {
-                            console.log('posted shift bid');
+                            console.log('staff added to confirmed table');
                             var queryText = 'UPDATE "post_shifts" SET "shift_status" = $1 WHERE "shift_id" = $2;';
                             db.query(queryText, ["Filled", req.body.shift_id],
                                 function (errorMakingQuery, result) {

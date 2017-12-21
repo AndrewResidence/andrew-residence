@@ -1,0 +1,32 @@
+<md-dialog aria-label="Create Staff Update" class="calendarPop">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h3>Create Staff Notification</h3>
+            <span flex="auto"></span>
+            <md-button ng-click="nc.cancel()"> close
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content flex="auto">
+       <div layout-gt-xl="row"></div>
+    <md-input-container id="headline">
+        <label for="messageTitle">Headline</label>
+        <input type="text" ng-model="nc.message.headline" />
+    </md-input-container>
+        <div layout-gt-xl="row">
+            <md-input-container id="message" class="md-block">
+                <label>Message</label>
+                <textarea id="commentText" rows="10" name="message" ng-model="nc.message.messageBody" md-select-on-focus></textarea>
+            </md-input-container>
+        </div>
+    </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button ng-click="nc.cancel()">
+                Cancel
+            </md-button>
+            <span flex></span>
+            <md-button class="md-raised md-primary" ng-click="nc.createMessage(nc.message.messageBody, nc.message.headline)">
+                Create Message
+            </md-button>
+        </md-dialog-actions>
+</md-dialog>

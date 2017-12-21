@@ -1,7 +1,6 @@
 // myApp.controller('AddShiftController', function ($scope, $mdDialog, $mdToast, UserService, ShiftService, calendarService) {
 //     console.log('AddShiftController created');
 //     var vm = this;
-//     var vm = this;
 //     vm.userService = UserService;
 //     vm.shiftService = ShiftService;
 //     vm.calendarService = calendarService;

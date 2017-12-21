@@ -563,6 +563,18 @@ md-tabs:not(.md-no-tab-content):not(.md-dynamic-height) {
   width: 80%;
 }
 
+
 .confirmComments {
   display: block;
+}
+
+#headline {
+  width: 400px;
+  margin-left: 20px;
+}
+
+#message {
+  width: 400px;
+  margin-left: 20px;
+
 }

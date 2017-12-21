@@ -1,11 +1,11 @@
 <div ng-include="'views/partials/nav.html'"></div>
 <md-content ng-cloak hide-xs hide-sm>
   <md-tabs>
-    <md-tab label="All Open">
+    <md-tab label="All Open"> <!-- All Open Shifts -->
       <md-content>
         <div class="staffPage" layout="column" layout-align="center center">
           <div layout="row" layout-align="center center">
-            <!-- <md-button class="md-raised md-primary" ng-click="sc.getMyShifts()">My Shifts</md-button> -->
+
             <div class="legendRow">
               <div class="key">Shift Key:</div>
               <div class="legend" id="open">
@@ -21,11 +21,13 @@
           </div>
 
           <div class="staffCalendarSpace">
+
             <div layout="row" class="staffCalHeader">
               <md-button class="md-raised md-primary" id="calHeadBtnLeft" ng-click="sc.prevMonth(sc.currentMonth.dates[0].month, sc.currentMonth.dates[0].year)">Prev</md-button>
               <div>{{sc.displayMonth}} {{sc.displayYear._i.year}}</div>
               <md-button class="md-raised md-primary" id="calHeadBtnRight" ng-click="sc.nextMonth(sc.currentMonth.dates[0].month, sc.currentMonth.dates[0].year)">Next</md-button>
             </div>
+
             <div layout="row" hide-xs>
               <div class="calHeader" ng-repeat="dayheader in sc.dayList">
                 <div>{{dayheader}}</div>
@@ -49,30 +51,27 @@
                       <span ng-show="shift.mhw">MHW</span>
                       <br>
                       <span>{{shift.shift}}</span>
-                      <br>
-                      <span>Floor: {{shift.floor}}</span>
-                      <br>
-                      <span>{{shift.shift_comments}}</span>
                     </div>
                   </div>
                 </div>
               </div>
-              <div layout="row" class="shiftInterestButton">
+              <!-- Button if we are able to add availability to each day -->
+              <!-- <div layout="row" class="shiftInterestButton">
                   <md-button class="md-icon-button md-primary" aria-label="Add Person">
                       <md-icon md-svg-icon="../images/person_add.svg"></md-icon>
                     </md-button>
-                  </div>
+              </div> -->
             </div><!-- end staff cal box -->
-            
           </div>
         </div>
       </md-content>
-    </md-tab>
-    <md-tab layout-fill label="My Shifts">
+    </md-tab> <!-- End all open shifts tab -->
+
+    <md-tab layout-fill label="My Shifts"> <!-- Start my shifts tab -->
       <md-content>
         <div class="staffPage" layout="column" layout-align="center center">
           <div layout="row" layout-align="center center">
-            <!-- <md-button class="md-raised md-primary" ng-click="sc.getMyShifts()">My Shifts</md-button> -->
+            
             <div class="legendRow">
               <div class="key">Shift Key:</div>
               <div class="legend" id="open">
@@ -93,6 +92,7 @@
               <div>{{sc.displayMonth}} {{sc.displayYear._i.year}}</div>
               <md-button class="md-raised md-primary" id="calHeadBtnRight" ng-click="sc.nextMonth(sc.currentMonth.dates[0].month, sc.currentMonth.dates[0].year)">Next</md-button>
             </div>
+            
             <div layout="row" hide-xs>
               <div class="calHeader" ng-repeat="dayheader in sc.dayList">
                 <div>{{dayheader}}</div>
@@ -103,15 +103,12 @@
               <div class="innerBox">
                 <span class="dayNum">{{day.dayNum}}</span>
                 <div layout="column" ng-repeat="shift in day.usershifts track by $index">
-                  <div class="shiftButton" ng-class="{{'usershifts.shift_status'}}" ng-click="sc.shiftDetails(event, shift)">
+                  <div class="shiftButton" ng-class="{{'shift.shift_status'}}" ng-click="sc.shiftDetails(event, shift)">
                     <md-icon ng-class="{{'shift.shift'}}" md-svg-icon="../images/ic_add_circle_black_18px.svg"></md-icon>
                     <span ng-show="shift.adl">ADL</span>
                     <span ng-show="shift.nurse">Nurse</span>
                     <span ng-show="shift.mhw">MHW</span>
                     <span>{{shift.shift}}</span>
-                    <br>
-                    <span>{{shift.shift_comments}}</span>
-                    <!-- <md-button class="md-raised md-primary" ng-click="sc.showDetailsDialog($event, shift)">Pick Up Shift</md-button> -->
                   </div>
                 </div>
               </div>
@@ -122,7 +119,7 @@
     </md-tab>
   </md-tabs>
 </md-content>
-
+<!-- ********************************************** MOBILE VIEW ***********************************************************  -->
 <div class="mobileView" show-xs show-sm hide-md hide-lg hide-xl>
   <!-- mobile view -->
   <md-content>

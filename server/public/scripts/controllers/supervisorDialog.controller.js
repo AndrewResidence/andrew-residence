@@ -57,7 +57,7 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
       vm.supervisors = response.data;
       console.log('got supervisors', vm.supervisors);
     })
-  }
+  };
 
   vm.getSupervisors()
 
@@ -71,10 +71,11 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
 
   vm.getPayPeriodDates = function() {
     calendarService.getPayPeriodDates();
-  }
+  };
 
   // //start newShift function
   vm.addNewShift = function (staffId, selection, shiftDate, shiftStatus, urgent, shift, role, comments, notify, nurse, adl, mhw) {
+    console.log('add shift clicked')
     ShiftService.addNewShift(staffId, selection, shiftDate, shiftStatus, urgent, shift, role, comments, notify, nurse, adl, mhw).then(function (response) {
       vm.getShifts()
       vm.getPayPeriodDates();

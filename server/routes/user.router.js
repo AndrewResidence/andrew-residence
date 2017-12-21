@@ -1,4 +1,4 @@
-require('dotenv').config({ path: './server/.env' });
+require('dotenv').config();
 var express = require('express');
 var router = express.Router();
 var pool = require('../modules/pool.js');
@@ -134,7 +134,7 @@ router.put('/confirm/:id', function (req, res) {
           // setup email data 
           var mailOptions = {
             from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
-            to: emailConfirmAddress, // list of receivers
+            to: 'martapeterson@gmail.com', // list of receivers
             subject: 'Andrew Residence Account Confirmation ✔', // Subject line
             text: 'You\'re Confirmed!, // plain text body',
             html: '<p>Hello from Andrew Residence!!!  Thank you very much for signing up for the scheduling application. You are OFFICIAL!  We have created your profile and you may now begin picking up shifts. <button style="background-color: #4CAF50; /* Green */"+" See Shifts!</button>  See you soon!</p>', // html body
@@ -218,4 +218,65 @@ router.get('/logout', function (req, res) {
   req.logOut();
   res.sendStatus(200);
 });
+//post messages/staff notifications created by supervisors
+router.post('/message/', function (req, res) {
+    if (req.isAuthenticated()) {
+      var message = req.body
+var postedBy = req.user.id
+      pool.connect(function (errorConnectingToDb, db, done) {
+        if (errorConnectingToDb) {
+          // No connection to database was made - error
+          console.log('Error connecting', errorConnectingToDb);
+          res.sendStatus(500);
+        } //end if error connection to db
+        else {
+          var queryText = 'INSERT INTO "notifications" ("posted_by", "headline", "message") VALUES ($1, $2, $3);';
+          db.query(queryText, [postedBy, message.headline, message.messageBody], function (errorMakingQuery, result) {
+            done(); // add + 1 to pool - we have received a result or error
+            if (errorMakingQuery) {
+              console.log('Error making query', errorMakingQuery);
+              res.sendStatus(500);
+            }
+            else {
+
+              res.sendStatus(201);
+            }
+          }
+          ); // END QUERY
+
+        }
+
+      }); // end pool connect
+
+
+    } // end req.isAuthenticated
+    else {
+      console.log('User is not authenticated')
+    }
+})//end posting messages
+//gets all messages to display for staff and supervisors
+router.get('/messages', function (req, res) {
+  if (req.isAuthenticated()) {
+    pool.connect(function (err, db, done) {
+      if (err) {
+        console.log('error connecting', err);
+        res.sendStatus(500);
+      }
+      var queryText = 'SELECT * FROM "notifications" JOIN "users" on "users"."id" = "notifications"."posted_by";';
+      db.query(queryText, function (err, result) {
+        done();
+        if (err) {
+          console.log("Error inserting data: ", err);
+          res.sendStatus(500);
+        } else {
+          res.send(result.rows);
+        }
+      });
+    });
+  }
+  else {
+    console.log('User is not authenticated.')
+  }
+}) //end get route to receive all messages
+
 module.exports = router;

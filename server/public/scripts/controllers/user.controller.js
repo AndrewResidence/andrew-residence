@@ -4,6 +4,7 @@ myApp.controller('UserController', function (UserService, $mdDialog) {
   vm.userService = UserService;
   vm.userObject = UserService.userObject;
   vm.showName = true;
+  vm.editUserMode = false; 
 
   vm.showEditDialogStaff = function (event, user) {
     console.log('button clicked');
@@ -38,13 +39,17 @@ myApp.controller('UserController', function (UserService, $mdDialog) {
   vm.toggleEdit = function () {
 
     vm.showName = !vm.showName;
+
     
   };
 
-  vm.toggleAndEdit = function(){
+  vm.editProfile = {};
 
-/*place models here*/ 
-    console.log('logged here on click', vm.showName);
-    vm.toggleEdit();
+  vm.joshEdit = function(profileEdit){
+
+
+    vm.ShiftService.editProfile(profileEdit);
+
+ 
   };
 });

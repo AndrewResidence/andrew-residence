@@ -22,8 +22,8 @@ Fork repo from (https://github.com/Andrew-Residence/group-project)
 Link to software that is required to install the app (e.g. node).
 
 - [Node.js](https://nodejs.org/en/)
-- [AngularJS](https://angularjs.org/)
 - [PostgreSQL](https://www.postgresql.org/)
+- [AngularJS](https://angularjs.org/)
 - [Express](http://expressjs.com/)
 - [Angular Material](https://material.angularjs.org/latest/)
 - [Moment](https://momentjs.com/docs/)

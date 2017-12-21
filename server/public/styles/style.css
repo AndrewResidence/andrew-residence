@@ -553,3 +553,13 @@ md-tabs:not(.md-no-tab-content):not(.md-dynamic-height) {
 .editUserInput {
   width: 80%;
 }
+
+#headline {
+  width: 400px;
+  margin-left: 20px;
+}
+
+#message {
+  width: 400px;
+  margin-left: 20px;
+}

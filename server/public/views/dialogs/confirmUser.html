@@ -1,20 +1,22 @@
 <md-dialog aria-label="confirm user">
-    <md-toolbar>
+    <md-toolbar class="md-toolbar-tools">
         <h3>Confirm User</h3>
         <span flex></span>
-    <md-button id="closeButton" ng-click="ac.cancel()"><img id="closeIcon" src="/styles/closeIcon.png" alt="close window"></md-button>
+        <md-button id="closeButton" ng-click="ac.cancel()">
+            <img id="closeIcon" src="/styles/closeIcon.png" alt="close window">
+        </md-button>
     </md-toolbar>
     <md-dialog-content>
         Select Role for {{ac.user.name}}:
         <md-input-container id="RoleInput">
             <md-select ng-model="ac.user.role">
-                <md-option ng-repeat = "role in ac.roles" ng-value="role">{{role}}</md-option> 
+                <md-option ng-repeat="role in ac.roles" ng-value="role">{{role}}</md-option>
             </md-select>
-         </md-input-container>
+        </md-input-container>
     </md-dialog-content>
-<md-dialog-actions>
-    <md-button ng-click="ac.cancel()">Cancel</md-button>
-    <md-button ng-click="ac.confirmUser(ac.user)">Confirm</md-button>
-</md-dialog-actions>
+    <md-dialog-actions>
+        <md-button ng-click="ac.cancel()">Cancel</md-button>
+        <md-button ng-click="ac.confirmUser(ac.user)">Confirm</md-button>
+    </md-dialog-actions>
 
-    </md-dialog>
+</md-dialog>

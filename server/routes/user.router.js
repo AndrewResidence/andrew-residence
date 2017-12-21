@@ -1,4 +1,4 @@
-require('dotenv').config({ path: './server/.env' });
+require('dotenv').config();
 var express = require('express');
 var router = express.Router();
 var pool = require('../modules/pool.js');
@@ -134,7 +134,7 @@ router.put('/confirm/:id', function (req, res) {
           // setup email data 
           var mailOptions = {
             from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
-            to: emailConfirmAddress, // list of receivers
+            to: 'martapeterson@gmail.com', // list of receivers
             subject: 'Andrew Residence Account Confirmation ✔', // Subject line
             text: 'You\'re Confirmed!, // plain text body',
             html: '<p>Hello from Andrew Residence!!!  Thank you very much for signing up for the scheduling application. You are OFFICIAL!  We have created your profile and you may now begin picking up shifts. <button style="background-color: #4CAF50; /* Green */"+" See Shifts!</button>  See you soon!</p>', // html body

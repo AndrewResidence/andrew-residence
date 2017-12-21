@@ -92,17 +92,61 @@ li a:hover {
   height: auto;
 }
 
+.adminTitle {
+ width: 100%;
+ text-align: center;
+}
+
 #adminContainer {
   display: flex;
   justify-content: space-around;
 }
 
 #editSupervisorBox {
-  background-color: skyblue;
+  background-color: #E7E7E7;
+  width: 45%;
+  margin: 5px;
+  padding: 5px;
 }
 
 #approveUsersBox {
-  background-color: coral;
+  background-color: #E7E7E7;
+  width: 45%;
+  margin: 5px;
+  padding: 5px;
+}
+
+#editUsersTable td {
+  width: 25%;
+  border: 0px solid black;
+}
+
+#userName {
+  width: 50%;
+}
+
+.approveUsers, .editUsers {
+  margin-left: 15px;
+}
+
+.NoUsersMessage {
+  width: 100%;
+  text-align: center;
+  font-style: italic;
+}
+
+.editIcon, .deleteIcon {
+  height: 25px;
+  width: auto;
+}
+
+#editButton, #deleteButton {
+  min-width: 30px;
+  padding: 3px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+
 }
 
 .calendarSpace {
@@ -138,6 +182,11 @@ li a:hover {
 #addShiftPop {
   width: 600px;
   height: auto;
+}
+
+#staffDrop {
+  width: 100px;
+  margin-left: 20px;
 }
 
 
@@ -248,17 +297,17 @@ li a:hover {
 
 #floorDrop{
   margin-left: 20px;
-  width: 75px;
+  width: 100px;
 }
 
 #statusDrop {
   
   width: 100px;
+  margin-left: 20px;
 
 }
 
 #shiftInput {
-padding-left: 20px;  
 width: 140px;
 }
 

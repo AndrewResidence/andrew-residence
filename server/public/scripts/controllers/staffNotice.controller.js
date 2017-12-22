@@ -15,12 +15,12 @@ vm.createMessage = function (messageBody, headline ){
             $mdToast.simple()
                 .textContent('Notification Created')
                 .hideDelay(2500)
-        )
+        );
         ptc.getNotifications();
-    })
-}
+    });
+};
     ptc.getNotifications = function () {
-        UserService.getNotifications;
-    }
+        UserService.getNotifications
+    };
 
-})
+});

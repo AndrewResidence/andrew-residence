@@ -287,7 +287,7 @@ router.put('/profile', function (req, res) {
   var profileEdit = {
     id: req.user.id,
     phone: req.body.phone,
-    username: req.body.email,
+    username: req.body.username,
   };
 
   console.log(profileEdit.username);

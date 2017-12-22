@@ -314,7 +314,7 @@ router.get('/shiftBidToConfirm/:id', function (req, res) {
         }); // end req.isAuthenticated //end if statement
     }
     else {
-        console.log('User is not authenticated')
+        console.log('User is not authenticated');
         res.sendStatus(403);
     }
 });//end post route for new shifts
@@ -333,13 +333,17 @@ router.post('/confirm', function (req, res) {
             else {
                 var queryText =
                     'INSERT INTO "confirmed" ("shift_id", "user_id", "shift_bid_id", "confirmed_by_id")' +
-                    'VALUES ($1, $2, $3, $4);';
+                    'VALUES ($1, $2, $3, $4) RETURNING "user_id";';
                 db.query(queryText, [staffMember.shift_id, staffMember.id, staffMember.bid_id, req.user.id],
                     function (errorMakingQuery, result) {
+                        console.log(result.rows[0]);
+                        
                         done();
                         if (errorMakingQuery) {
                             console.log('Error making query', errorMakingQuery);
                             res.sendStatus(500);
+                            
+                            
                             return;
                         }
                         else {
@@ -354,6 +358,7 @@ router.post('/confirm', function (req, res) {
                                         return;
                                     }
                                     else {
+                                    
                                         res.sendStatus(201);
                                         console.log('updated shift status in shift table');
                                     }
@@ -365,7 +370,7 @@ router.post('/confirm', function (req, res) {
         }); // end req.isAuthenticated //end if statement
     }
     else {
-        console.log('User is not authenticated')
+        console.log('User is not authenticated');
         res.sendStatus(403);
     }
 });//end post route for new shifts

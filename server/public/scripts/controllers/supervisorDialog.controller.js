@@ -23,7 +23,7 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
   vm.floors = ['2', '3', '4', '5', 'flt', 'N/A'];
   vm.editFill = false;
 
-  vm.filledByName = ShiftService.filledByName
+  vm.filledByName = ShiftService.filledByName;
 
   vm.shiftsToDisplay = [];
   vm.currentSchedule = calendarService.currentSchedule.dates;
@@ -59,7 +59,7 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
     })
   };
 
-  vm.getSupervisors()
+  vm.getSupervisors();
 
   vm.getStaff = function () {
     vm.userService.getStaff().then(function (response) {
@@ -166,17 +166,17 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
 
   vm.fillShift = function (event) {
     vm.editFill = !vm.editFill;
-  }
+  };
 
   vm.shiftFilled = function (id, shiftId) {
-    console.log('clicked')
-    console.log('staff', id, shiftId)
+    console.log('clicked');
+    console.log('staff', id, shiftId);
     ShiftService.shiftFilled(id, shiftId).then(function (response) {
       vm.getShifts();
       $mdDialog.hide();
 
-    })
-  }
+    });
+  };
 //get shifts shows all shifts regardless of status
   vm.getShifts = function () {
     vm.getPayPeriodDates();
@@ -191,12 +191,12 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
           }
         }
       }
-    })
-  }
+    });
+  };
 
 
 vm.getPayPeriodDates = function() {
     calendarService.getPayPeriodDates();
-  }
+  };
 });
 

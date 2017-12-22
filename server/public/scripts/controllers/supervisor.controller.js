@@ -179,8 +179,8 @@ vm.filledByName = ShiftService.filledByName.data;
       vm.supervisors = response.data;
       console.log('got supervisors', vm.supervisors);
   // IF there are two pending shifts that have the same date, display them in the same dialog box AND only show one button
-    })
-  }
+    });
+  };
 
   vm.confirmShift = function(event, shift) {
     $mdDialog.show({
@@ -195,7 +195,7 @@ vm.filledByName = ShiftService.filledByName.data;
       // vm.getPendingShifts();
       // vm.getShifts();
       console.log('howdy');
-    })
-  } //end confirmShift
+    });
+  }; //end confirmShift
 
-})
+});

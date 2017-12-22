@@ -20,7 +20,7 @@ vm.createMessage = function (messageBody, headline ){
     })
 }
     ptc.getNotifications = function () {
-        UserService.getNotifications
+        UserService.getNotifications;
     }
 
 })

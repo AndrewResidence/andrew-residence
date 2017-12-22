@@ -8,11 +8,11 @@
         </div>
     </md-toolbar>
     <md-dialog-content flex="auto">
-       <div layout-gt-xl="row"></div>
-    <md-input-container id="headline">
-        <label for="messageTitle">Headline</label>
-        <input type="text" ng-model="nc.message.headline" />
-    </md-input-container>
+        <div layout-gt-xl="row"></div>
+        <md-input-container id="headline">
+            <label for="messageTitle">Headline</label>
+            <input type="text" ng-model="nc.message.headline" />
+        </md-input-container>
         <div layout-gt-xl="row">
             <md-input-container id="message" class="md-block">
                 <label>Message</label>
@@ -20,13 +20,13 @@
             </md-input-container>
         </div>
     </md-dialog-content>
-        <md-dialog-actions layout="row">
-            <md-button ng-click="nc.cancel()">
-                Cancel
-            </md-button>
-            <span flex></span>
-            <md-button class="md-raised md-primary" ng-click="nc.createMessage(nc.message.messageBody, nc.message.headline)">
-                Create Message
-            </md-button>
-        </md-dialog-actions>
+    <md-dialog-actions layout="row">
+        <md-button ng-click="nc.cancel()">
+            Cancel
+        </md-button>
+        <span flex></span>
+        <md-button class="md-raised md-primary" ng-click="nc.createMessage(nc.message.messageBody, nc.message.headline)">
+            Create Message
+        </md-button>
+    </md-dialog-actions>
 </md-dialog>

@@ -68,7 +68,7 @@ router.post('/', function (req, res) {
                                             to: 'joshnothum@gmail.com', // list of receivers
                                             subject: 'Shift Posted Notification', // Subject line
                                             html: ' <body style ="background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);">' +
-                                                '<h1>Hello!</h1><h3>You are being notified of the following shift posting:</h3><ul>' + newShift.shift+ ':'+ theDate+ '</ul>' +
+                                                '<h1>Hello!</h1><h3>You are being notified of the following shift posting:</h3><ul>' + newShift.shift + ':' + theDate + '</ul>' +
                                                 '<p>Please go to the scheduling app to sign-up for a shift.</p>' +
                                                 '<button style="background-color: #4CAF50;background-color:rgb(255, 193, 7);;color: white;padding: 15px 32px;text-align: center;font-size: 16px;">Let\'s Pick-up Some Shifts!</button>' +
                                                 '<p> We appreciate yor support!</p></body>',
@@ -89,12 +89,12 @@ router.post('/', function (req, res) {
                                                 console.log(error);
                                                 res.send(error);
                                             }
-                                            else{
-                                            console.log('Message sent: %s', info.messageId);
-                                            res.sendStatus(200);
+                                            else {
+                                                console.log('Message sent: %s', info.messageId);
+                                                res.sendStatus(200);
                                             }
                                         });
-                                        
+
                                     });
                                 });
 
@@ -343,7 +343,7 @@ router.post('/confirm', function (req, res) {
                             return;
                         }
                         else {
-                            console.log('posted shift bid');
+                            console.log('staff added to confirmed table');
                             var queryText = 'UPDATE "post_shifts" SET "shift_status" = $1 WHERE "shift_id" = $2;';
                             db.query(queryText, ["Filled", req.body.shift_id],
                                 function (errorMakingQuery, result) {
@@ -582,14 +582,14 @@ function notifyingSupers(supers) {
 
                         console.log('username', _.uniq(result.rows[0].username));
                         console.log('without lodash', result.rows);
-                       result.rows.forEach(function(userEmail){
-                        emailArray.push(userEmail.username);
-                       });
+                        result.rows.forEach(function (userEmail) {
+                            emailArray.push(userEmail.username);
+                        });
                         resolve(emailArray);
                     }
                 });
             }
-          
+
         });
     });
 }

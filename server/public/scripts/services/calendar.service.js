@@ -146,8 +146,8 @@ myApp.service('calendarService', function ($http, $location, $mdDialog) {
         })
             .catch(function (err) {
                 console.log('error')
-            })
-    }
+            });
+    };
 
     //verifies if it is the current pay period today
     self.checkPayPeriodCurrent = function (payPeriodStart, payPeriodEnd) {
@@ -156,19 +156,19 @@ myApp.service('calendarService', function ($http, $location, $mdDialog) {
             self.currentPayPeriod(self.scheduleDays);
         }
         else if (moment(self.today).format('MM-DD-YYYY') > moment(payPeriodEnd).format('MM-DD-YYYY')) {
-            self.updatePayPeriodDates().then(function(response) {
+            self.updatePayPeriodDates().then(function (response) {
                 self.getPayPeriodDates();
             });
         }
-    }
+    };
 
     //updates the pay period dates in the DB if needed
     self.updatePayPeriodDates = function () {
         var rowId = 1;
         return $http.put('/shifts/payperiod/updatedates/' + rowId).then(function (response) {
             return response.data;
-        })
-    }
+        });
+    };
 
     //gets current pay period and adds day objects to the array
     self.currentPayPeriod = function (scheduleDays) {

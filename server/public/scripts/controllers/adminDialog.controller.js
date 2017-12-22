@@ -9,7 +9,6 @@ myApp.controller('AdminDialogController', function ($mdDialog, UserService, user
         vm.userService.confirmUser(user).then(function (response) {
             console.log('confirmed user', response);
             $mdDialog.hide();
-
         });
     };
 

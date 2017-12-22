@@ -266,9 +266,10 @@ li a:hover {
 
 .confirmBox {
   margin: 3px;
-  padding-top: 20px;
-  padding-left: 20px;
+  padding: 10px;
   border-bottom: 1px solid #CCCCCC;
+  display: flex;
+  justify-content: space-between;
 }
 
 .shifts {

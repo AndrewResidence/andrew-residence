@@ -16,18 +16,18 @@
         <th class="notificationTableHead">Headline</th>
         <th class="notificationTableHead">Message</th>
         <th class="notificationTableHead">Posted By</th>
-                <th ng-show="pop.userObject.role === 'Supervisor'" class="notificationTableHead">Delete</th>
+        <th ng-show="pop.userObject.role === 'Supervisor'" class="notificationTableHead">Delete</th>
 
         <tr class="notificationTableRows" ng-repeat="notification in pop.notifications">
             <td class="notificationTableData">{{notification.date | amDateFormat:'dddd, MMMM Do YYYY, h:mm:ss a'}}</td>
             <td class="notificationTableData">{{notification.headline}}</td>
-                        <td class="notificationTableData">{{notification.message}}</td>
-                        <td class="notificationTableData">{{notification.name}}</td>
+            <td class="notificationTableData">{{notification.message}}</td>
+            <td class="notificationTableData">{{notification.name}}</td>
 
-            <td class="notificationTableData" ng-show = "pop.userObject.role === 'Supervisor'">
-            <md-button class="md-raised md-warn" ng-click="pop.deleteNotification(notification.notification_id)">Delete</md-button>
+            <td class="notificationTableData" ng-show="pop.userObject.role === 'Supervisor'">
+                <md-button class="md-raised md-warn" ng-click="pop.deleteNotification(notification.notification_id)">Delete</md-button>
             </td>
         </tr>
-        </table>
+    </table>
 
 </div>

@@ -2,11 +2,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   console.log('ShiftService Loaded');
   var self = this;
   self.shift = {};
-<<<<<<< HEAD
-  self.filledByName = {data: []};
-=======
   self.filledByName = { data: [] }
->>>>>>> master
   self.newShift = {
     shiftDate: [],
     urgent: false,

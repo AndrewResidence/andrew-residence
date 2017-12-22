@@ -2,11 +2,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   console.log('ShiftService Loaded');
   var self = this;
   self.shift = {};
-<<<<<<< HEAD
-  self.filledByName = {data: []};
-=======
   self.filledByName = { data: [] }
->>>>>>> master
   self.newShift = {
     shiftDate: [],
     urgent: false,
@@ -57,8 +53,8 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     console.log('shift details button clicked', shift);
     self.shift = shift;
     return $http.get('/shifts/filled/who/' + shift.shift_id).then(function (response) {
-      self.filledByName.data = response.data
-      return response
+      self.filledByName.data = response.data;
+      return response;
     })
   }
   self.getShifts = function () {

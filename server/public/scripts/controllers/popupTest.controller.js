@@ -28,9 +28,10 @@ console.log('made it to sendEmail');
      ptc.getNotifications = function () {
          UserService.getNotifications().then(function (response){
 ptc.notifications = response.data;
-console.log(ptc.notifications)
-         })
-     }
+console.log(ptc.notifications);
+         });
+         
+     };
 
      ptc.getNotifications();
 

@@ -52,15 +52,9 @@ myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserSer
   };
   vm.role();
 
-<<<<<<< HEAD
-  vm.showPickUpShift = function() {
-    vm.showComments = true;
-  };
-=======
   // vm.showPickUpShift = function() {
   //   vm.showComments = true;
   // }
->>>>>>> master
 
   vm.pickUpShift = function (shift) {
     console.log('pick up shift', vm.shift);

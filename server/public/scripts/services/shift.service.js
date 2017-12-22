@@ -2,11 +2,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   console.log('ShiftService Loaded');
   var self = this;
   self.shift = {};
-<<<<<<< HEAD
-  self.filledByName = {data: []};
-=======
   self.filledByName = { data: [] }
->>>>>>> master
   self.newShift = {
     shiftDate: [],
     urgent: false,
@@ -39,7 +35,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   };
 
   self.shiftsToDisplay = { data: [] };
-  self.filledByName = { data: [] }
+  self.filledByName = { data: [] };
   //calls the addShift popup
   // self.addShift = function (event) {
   //   console.log('add new shift button clicked');
@@ -137,6 +133,8 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   };
 
   self.confirmShift = function(staffMember, allShifts) {
+    console.log(staffMember, allShifts);
+    
     console.log('staff member to confirm', staffMember.name);
     return $http.post('/shifts/confirm', staffMember, allShifts).then(function (response) {
       console.log('confirmed shift', staffMember.name, response);

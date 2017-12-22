@@ -59,8 +59,34 @@
             <md-icon md-svg-src="../images/ic_mode_edit_black_18px.svg"></md-icon>
         </md-button>
     </div>
+    <br>
 
+    
+    <div layout="row" layout-align="center center">
+        <md-button ng-show="uc.userObject.role === 'Supervisor'" class="md-raised md-primary" ng-click="uc.createNotification()">Create Notification</md-button>
+    </div>
+   
+    <br>
+    <div layout="row" layout-align="center center">
+        <table class="Notifications">
+            <th class="notificationTableHead">Date Posted</th>
+            <th class="notificationTableHead">Headline</th>
+            <th class="notificationTableHead">Message</th>
+            <th class="notificationTableHead">Posted By</th>
+            <th ng-show="uc.userObject.role === 'Supervisor'" class="notificationTableHead">Delete</th>
 
+            <tr class="notificationTableRows" ng-repeat="notification in uc.notifications">
+                <td class="notificationTableData">{{notification.date | amDateFormat:'dddd, MMMM Do YYYY, h:mm:ss a'}}</td>
+                <td class="notificationTableData">{{notification.headline}}</td>
+                <td class="notificationTableData">{{notification.message}}</td>
+                <td class="notificationTableData">{{notification.name}}</td>
+
+                <td class="notificationTableData" ng-show="uc.userObject.role === 'Supervisor'">
+                    <md-button class="md-raised md-warn" ng-click="uc.deleteNotification(notification.notification_id)">Delete</md-button>
+                </td>
+            </tr>
+        </table>
+    </div>
 </div>
 
 </div>

@@ -296,7 +296,7 @@ router.delete('/messages/delete/:id', function (req, res) {
           console.log("Error inserting data: ", err);
           res.sendStatus(500);
         } else {
-          res.send(201);
+          res.sendStatus(201);
         }
       });
     });

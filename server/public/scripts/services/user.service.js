@@ -2,7 +2,7 @@ myApp.service('UserService', function ($http, $location) {
   console.log('UserService Loaded');
   var self = this;
   self.userObject = {};
-
+  self.notifications = {data: []}
   //GET user upon logging in
   self.getuser = function () {
     console.log('UserService -- getuser');
@@ -93,14 +93,13 @@ myApp.service('UserService', function ($http, $location) {
   self.createMessage = function (messageBody, headline){
     self.message.messageBody = messageBody;
     self.message.headline = headline;
-    return $http.post('/user/message/', self.message).then(function (response){
-      console.log(response)
-      return response
+     return $http.post('/user/message/', self.message).then(function (response){
+     return response
     })
   }
 
   self.getNotifications = function (){
-    return $http.get('/user/messages/').then(function (response){
+     return $http.get('/user/messages/').then(function (response){
       return response
     })
   }

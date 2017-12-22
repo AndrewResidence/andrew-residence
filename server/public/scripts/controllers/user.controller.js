@@ -1,4 +1,4 @@
-myApp.controller('UserController', function (UserService, $mdDialog) {
+myApp.controller('UserController', function ($mdToast, UserService, $mdDialog) {
   console.log('UserController created');
   var vm = this;
   vm.userService = UserService;
@@ -46,4 +46,60 @@ myApp.controller('UserController', function (UserService, $mdDialog) {
 /*place models here*/ 
     console.log('logged here on click', vm.showName);
   };
+
+  vm.createNotification = function () {
+    $mdDialog.show({
+      controller: 'NotificationController as nc',
+      templateUrl: '/views/templates/createMessage.html',
+      parent: angular.element(document.body),
+      targetEvent: event,
+      clickOutsideToClose: true,
+      fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
+    });
+  } //end shiftDetails popup function    
+
+  vm.getNotifications = function () {
+    UserService.getNotifications().then(function (response) {
+      vm.notifications = response.data;
+      console.log(vm.notifications)
+    })
+  }
+
+  vm.getNotifications();
+
+  vm.deleteNotification = function (id) {
+    var toast = $mdToast.simple()
+      .textContent('Are you sure you want to delete?')
+      .action('Cancel')
+      .highlightAction(true)
+      .highlightClass('md-accent');
+
+    $mdToast.show(toast).then(function (response) {
+      if (response == 'ok') {
+        // alert ('Delete cancelled.')
+        $mdDialog.show(
+          $mdDialog.alert()
+            .parent(angular.element(document.querySelector('#popupContainer')))
+            .clickOutsideToClose(true)
+            .title('Cancel!')
+            .textContent('You cancelled deleting the message.')
+            .ariaLabel('Alert Dialog Demo')
+            .ok('Thanks')
+            .targetEvent(event)
+        );
+      }
+      else {
+        UserService.deleteNotifcation(id).then(function (response) {
+          vm.getNotifications()
+          $mdDialog.hide();
+          $mdToast.show(
+            $mdToast.simple()
+              .textContent('Message deleted!')
+              .hideDelay(2500)
+          );
+
+        });
+      }
+    })
+  } //end delete message
 });

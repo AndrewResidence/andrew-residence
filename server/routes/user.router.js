@@ -269,7 +269,7 @@ router.get('/messages', function (req, res) {
           console.log("Error inserting data: ", err);
           res.sendStatus(500);
         } else {
-          res.send(201);
+          res.send(result.rows);
         }
       });
     });
@@ -277,23 +277,46 @@ router.get('/messages', function (req, res) {
   else {
     console.log('User is not authenticated.');
   }
+})
 
+//deletes the posted message
+router.delete('/messages/delete/:id', function (req, res) {
+  if (req.isAuthenticated()) {
+    deleteId = req.params.id;
+    console.log('delete', deleteId)
+      pool.connect(function (err, db, done) {
+        if (err) {
+          console.log('error connecting', err);
+          res.sendStatus(500);
+        }
+        var queryText = 'DELETE FROM "notifications" WHERE "notification_id" = $1;';
+        db.query(queryText, [deleteId], function (err, result) {
+          done();
+          if (err) {
+            console.log("Error inserting data: ", err);
+            res.sendStatus(500);
+          } else {
+            res.sendStatus(201);
+          }
+        });
+      });
+    }
+    else {
+      console.log('User is not authenticated.');
+    }
+  })
 
-
-}); //end get route to receive all messages
 router.put('/profile', function (req, res) {
+  if (req.isAuthenticated()) {
   console.log('profile id', req.user.id);
   console.log('profileEdit', req.body);
   var profileEdit = {
     id: req.user.id,
     phone: req.body.phone,
-    username: req.body.email,
+    username: req.body.username,
   };
-
   console.log(profileEdit.username);
-
-
-  if (req.isAuthenticated()) {
+  console.log('Profile', profileEdit)
     pool.connect(function (err, db, done) {
       if (err) {
         console.log('error connecting', err);
@@ -307,10 +330,14 @@ router.put('/profile', function (req, res) {
           console.log("Error inserting data: ", err);
           res.sendStatus(500);
         } else {
-          res.send(200);
+          res.sendStatus(201);
         }
       });
     });
   }
-});
+  else {
+    console.log('User is not authenticated.');
+  }
+})
+
 module.exports = router;

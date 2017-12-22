@@ -64,8 +64,8 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
         vm.pendingShifts[i].date = moment(vm.pendingShifts[i].date).format('l');
       }
       console.log(' pending shifts', vm.pendingShifts);
-    }) // .catch and displaying a generic error
-  }
+    }); // .catch and displaying a generic error
+  };
 
   vm.getPendingShifts();
 

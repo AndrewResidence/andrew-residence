@@ -53,8 +53,8 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     console.log('shift details button clicked', shift);
     self.shift = shift;
     return $http.get('/shifts/filled/who/' + shift.shift_id).then(function (response) {
-      self.filledByName.data = response.data
-      return response
+      self.filledByName.data = response.data;
+      return response;
     })
   }
   self.getShifts = function () {
@@ -86,20 +86,27 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     console.log('newshift', self.newShift);
     if (urgent) {
       $http.post('/message/urgent', self.newShift).then(function (response) {
-        self.newShift = {};
+
         console.log(response);
 
       }).catch(function (response) {
         console.log('send urgent textMessage did not work:', response);
       });
     }
+    // if (self.newShift.shift_status === 'Filled') {
+    //   $http.post('/shifts/confirmation', self.newShift).then(function (response) {
+
+    //     console.log(response);
+
+    //   }).catch(function (response) {
+    //     console.log('confirmed filled did not work:', response);
+    //   });
+    // }
 
     return $http.post('/shifts/', self.newShift).then(function (response) {
-
-      console.log('did it')
-      self.newShift = {};
+      console.log('the response', response)
+      self.newShift = {}
       return response;
-
     }).catch(function (err) {
       console.log('Error');
     });

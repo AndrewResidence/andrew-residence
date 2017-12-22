@@ -47,8 +47,8 @@ router.post('/', function (req, res) {
                 for (var i = 0; i < newShift.shiftDate.length; i++) {
                     var theDate = newShift.shiftDate[i];
                     console.log('theDate', theDate);
-                    var queryText = 'INSERT INTO "post_shifts" ("created_by", "date", "urgent", "shift", "adl", "mhw", "nurse", "shift_comments", "notify", "filled", "floor", "shift_status" ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING "notify";';
-                    db.query(queryText, [createdBy, theDate, newShift.urgent, newShift.shift, newShift.adl, newShift.mhw, newShift.nurse, newShift.comments, [notify], newShift.filled, newShift.floor, newShift.shift_status],
+                    var queryText = 'INSERT INTO "post_shifts" ("created_by", "date", "urgent", "shift", "adl", "mhw", "nurse", "shift_comments", "notify", "filled", "floor", "shift_status" ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING "notify", "shift_status", "shift_id", "created_by";';
+                    db.query(queryText, [createdBy, theDate, newShift.urgent, newShift.shift, newShift.adl, newShift.mhw, newShift.nurse, newShift.comments, [notify], newShift.filled, newShift.floor, newShift.shift_status],  
                         function (errorMakingQuery, result) {
                             done();
                             if (errorMakingQuery) {
@@ -57,7 +57,7 @@ router.post('/', function (req, res) {
                                 return;
 
                             } else {
-
+               
                                 console.log('results', result.rows[0]);
 
                                 result.rows[0].notify.forEach(function (supers) {
@@ -89,9 +89,9 @@ router.post('/', function (req, res) {
                                                 console.log(error);
                                                 res.send(error);
                                             }
-                                            else {
-                                                console.log('Message sent: %s', info.messageId);
-                                                res.sendStatus(200);
+                                            else{
+                                            console.log('Message sent: %s', info.messageId);
+                                            res.sendStatus(201);
                                             }
                                         });
 
@@ -243,7 +243,7 @@ router.post('/shiftBid', function (req, res) {
         }); // end req.isAuthenticated //end if statement
     }
     else {
-        console.log('User is not authenticated')
+        console.log('User is not authenticated');
         res.sendStatus(403);
     }
 });//end post route for new shifts
@@ -317,7 +317,7 @@ router.get('/shiftBidToConfirm/:id', function (req, res) {
         console.log('User is not authenticated');
         res.sendStatus(403);
     }
-})//end post route for new shifts
+});//end post route for new shifts
 
 //POST confirmed shift
 // When a supervisor confirms a staff person for a shift, post the shift in the 'confirmed' table and update the 'post_shifts' table so the shift status is 'filled'. 
@@ -333,13 +333,17 @@ router.post('/confirm', function (req, res) {
             else {
                 var queryText =
                     'INSERT INTO "confirmed" ("shift_id", "user_id", "shift_bid_id", "confirmed_by_id")' +
-                    'VALUES ($1, $2, $3, $4);';
+                    'VALUES ($1, $2, $3, $4) RETURNING "user_id";';
                 db.query(queryText, [staffMember.shift_id, staffMember.id, staffMember.bid_id, req.user.id],
                     function (errorMakingQuery, result) {
+                        console.log(result.rows[0]);
+                        
                         done();
                         if (errorMakingQuery) {
                             console.log('Error making query', errorMakingQuery);
                             res.sendStatus(500);
+                            
+                            
                             return;
                         }
                         else {
@@ -354,6 +358,7 @@ router.post('/confirm', function (req, res) {
                                         return;
                                     }
                                     else {
+                                    
                                         res.sendStatus(201);
                                         console.log('updated shift status in shift table');
                                     }
@@ -593,6 +598,45 @@ function notifyingSupers(supers) {
         });
     });
 }
+//post route to confirm table upon adding a shift
+// router.post('/confirmation/', function (req, res){
+//         if (req.isAuthenticated()) {
+//             var shift = req.body
+//             var postedBy = req.user.id
+//             pool.connect(function (errorConnectingToDb, db, done) {
+//                 if (errorConnectingToDb) {
+//                     // No connection to database was made - error
+//                     console.log('Error connecting', errorConnectingToDb);
+//                     res.sendStatus(500);
+//                 } //end if error connection to db
+//                 else {
+//                     var queryText = 'INSERT INTO "confirmed" ("confirmed_by_id", "user_id", "shift_id") VALUES ($1, $2, $3);';
+//                     db.query(queryText, [postedBy, shift.filled, shift.shift_id], function (errorMakingQuery, result) {
+//                         done(); // add + 1 to pool - we have received a result or error
+//                         if (errorMakingQuery) {
+//                             console.log('Error making query', errorMakingQuery);
+//                             res.sendStatus(500);
+//                         }
+//                         else {
+
+//                             res.sendStatus(201);
+//                         }
+//                     }
+//                     ); // END QUERY
+
+//                 }
+
+//             }); // end pool connect
+
+
+//         } // end req.isAuthenticated
+//         else {
+//             console.log('User is not authenticated')
+//         }
+//     })//end posting to confirmed table upon add shift 
 
 
 module.exports = router;
+
+
+// SELECT "users"."username" FROM "users" JOIN "shift_bids" ON "shift_bids"."user_id" = "users"."id" WHERE "users"."id" = $1;

@@ -1,16 +1,23 @@
 <div class="navbar" ng-controller="UserController as uc">
   <div class="container navContainer">
     <div class="leftSide">
-    <ul>
-      <li><a href="#/user">User Home</a></li>
-      <li><a href="#/admin">Admin View</a></li>
-      <li><a href="#/supervisor">Supervisor View</a></li>
-      <li><a href="#/staff">Staff View</a></li>
-      <li><a href="#/message">Notifications</a></li>
-    </ul>
+      <ul>
+        <li>
+          <a href="#/user">User Home</a>
+        </li>
+        <li>
+          <a href="#/admin">Admin View</a>
+        </li>
+        <li>
+          <a href="#/supervisor">Supervisor View</a>
+        </li>
+        <li>
+          <a href="#/staff">Staff View</a>
+        </li>
+      </ul>
     </div>
     <div class="rightSide">
-        <md-button class="md-raised md-primary" ng-click="uc.userService.logout()">Log Out</button>
+      <md-button class="md-raised md-primary" ng-click="uc.userService.logout()">Log Out</button>
     </div>
   </div>
 </div>

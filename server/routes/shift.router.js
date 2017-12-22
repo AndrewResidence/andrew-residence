@@ -47,8 +47,8 @@ router.post('/', function (req, res) {
                 for (var i = 0; i < newShift.shiftDate.length; i++) {
                     var theDate = newShift.shiftDate[i];
                     console.log('theDate', theDate);
-                    var queryText = 'INSERT INTO "post_shifts" ("created_by", "date", "urgent", "shift", "adl", "mhw", "nurse", "shift_comments", "notify", "filled", "floor", "shift_status" ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING "notify";';
-                    db.query(queryText, [createdBy, theDate, newShift.urgent, newShift.shift, newShift.adl, newShift.mhw, newShift.nurse, newShift.comments, [notify], newShift.filled, newShift.floor, newShift.shift_status],
+                    var queryText = 'INSERT INTO "post_shifts" ("created_by", "date", "urgent", "shift", "adl", "mhw", "nurse", "shift_comments", "notify", "filled", "floor", "shift_status" ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING "notify", "shift_status", "shift_id", "created_by";';
+                    db.query(queryText, [createdBy, theDate, newShift.urgent, newShift.shift, newShift.adl, newShift.mhw, newShift.nurse, newShift.comments, [notify], newShift.filled, newShift.floor, newShift.shift_status],  
                         function (errorMakingQuery, result) {
                             done();
                             if (errorMakingQuery) {
@@ -57,7 +57,7 @@ router.post('/', function (req, res) {
                                 return;
 
                             } else {
-
+               
                                 console.log('results', result.rows[0]);
 
                                 result.rows[0].notify.forEach(function (supers) {
@@ -89,9 +89,9 @@ router.post('/', function (req, res) {
                                                 console.log(error);
                                                 res.send(error);
                                             }
-                                            else {
-                                                console.log('Message sent: %s', info.messageId);
-                                                res.sendStatus(200);
+                                            else{
+                                            console.log('Message sent: %s', info.messageId);
+                                            res.sendStatus(201);
                                             }
                                         });
 
@@ -593,6 +593,42 @@ function notifyingSupers(supers) {
         });
     });
 }
+//post route to confirm table upon adding a shift
+// router.post('/confirmation/', function (req, res){
+//         if (req.isAuthenticated()) {
+//             var shift = req.body
+//             var postedBy = req.user.id
+//             pool.connect(function (errorConnectingToDb, db, done) {
+//                 if (errorConnectingToDb) {
+//                     // No connection to database was made - error
+//                     console.log('Error connecting', errorConnectingToDb);
+//                     res.sendStatus(500);
+//                 } //end if error connection to db
+//                 else {
+//                     var queryText = 'INSERT INTO "confirmed" ("confirmed_by_id", "user_id", "shift_id") VALUES ($1, $2, $3);';
+//                     db.query(queryText, [postedBy, shift.filled, shift.shift_id], function (errorMakingQuery, result) {
+//                         done(); // add + 1 to pool - we have received a result or error
+//                         if (errorMakingQuery) {
+//                             console.log('Error making query', errorMakingQuery);
+//                             res.sendStatus(500);
+//                         }
+//                         else {
+
+//                             res.sendStatus(201);
+//                         }
+//                     }
+//                     ); // END QUERY
+
+//                 }
+
+//             }); // end pool connect
+
+
+//         } // end req.isAuthenticated
+//         else {
+//             console.log('User is not authenticated')
+//         }
+//     })//end posting to confirmed table upon add shift 
 
 
 module.exports = router;

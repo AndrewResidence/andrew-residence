@@ -4,6 +4,8 @@ myApp.controller('UserController', function ($mdToast, UserService, $mdDialog) {
   vm.userService = UserService;
   vm.userObject = UserService.userObject;
   vm.showName = true;
+  vm.editUserMode = false;
+  vm.getNotications = []
 
   vm.showEditDialogStaff = function (event, user) {
     console.log('button clicked');
@@ -34,17 +36,32 @@ myApp.controller('UserController', function ($mdToast, UserService, $mdDialog) {
       $mdDialog.hide();
     });
   };
-
   vm.toggleEdit = function () {
-
     vm.showName = !vm.showName;
-    
   };
 
-  vm.toggleAndEdit = function(){
+  vm.editProfile = {};
 
-/*place models here*/ 
-    console.log('logged here on click', vm.showName);
+  vm.joshEdit = function (name, phone) {
+
+    console.log('here');
+
+    console.log(vm.userService);
+
+
+    vm.userService.sendProfile(name, phone).then(function () {
+      $mdToast.show(
+        $mdToast.simple()
+          .textContent('User has been edited!')
+          .position('bottom left')
+          .hideDelay(2500)
+      );
+    }).then(function () {
+     vm.toggleEdit();
+      
+    });
+
+
   };
 
   vm.createNotification = function () {
@@ -55,13 +72,12 @@ myApp.controller('UserController', function ($mdToast, UserService, $mdDialog) {
       targetEvent: event,
       clickOutsideToClose: true,
       fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
-    });
+    })
   } //end shiftDetails popup function    
 
   vm.getNotifications = function () {
     UserService.getNotifications().then(function (response) {
       vm.notifications = response.data;
-      console.log(vm.notifications)
     })
   }
 

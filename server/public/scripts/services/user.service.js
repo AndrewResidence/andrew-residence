@@ -88,7 +88,7 @@ myApp.service('UserService', function ($http, $location) {
   self.message = {
     messageBody: '',
     headline: ''
-  }
+  };
 
   self.createMessage = function (messageBody, headline){
     self.message.messageBody = messageBody;
@@ -109,4 +109,33 @@ myApp.service('UserService', function ($http, $location) {
       return response
     })
   }
+
+
+  self.getNotifications = function (){
+    return $http.get('/user/messages/').then(function (response){
+      return response;
+    });
+  };
+
+  self.sendProfile = function (newEmail, newPhone) {
+
+    var editProfile = {
+      username: newEmail,
+      phone: newPhone,
+
+    };
+
+    console.log(editProfile);
+
+    return $http.put('/user/profile/', editProfile)
+      .then(function (response) {
+        return response;
+      }).catch(function (response) {
+        console.log('error making edit');
+
+      });
+
+  };
+
 });
+

@@ -1,60 +1,56 @@
 <div ng-include="'views/partials/nav.html'"></div>
-<div class="container">
-  <br>
-  <h1 class="adminTitle">Administrator Tools</h1>
-  <div id="adminContainer">
-    <div id="editSupervisorBox">
-      <h2 class="adminTitle">Supervisors:</h2>
-      <div class="editUsers" ng-repeat="supervisor in ac.supervisors">
-        <table id="editUsersTable">
-          <tbody>
-            <td id="userName">{{supervisor.name}}</td>
-            <td>
-              <md-button id="editButton" class="md-raised md-primary" ng-click="ac.showEditDialog($event, staff)">
-                <img class="editIcon" src="/styles/editIcon.png" alt="Edit">
-              </md-button>
-            </td>
-            <td>
-              <md-button id="deleteButton" class="md-raised md-primary" ng-click="ac.deleteUser(staff)">Remove User</md-button>
-            </td>
-          </tbody>
-        </table>
-      </div>
-      <h2 class="adminTitle">On-Call Staff:</h2>
-      <div class="editUsers" ng-repeat="staff in ac.staff">
-        <table id="editUsersTable">
-          <tbody>
-            <td id="userName">{{staff.name}}</td>
-            <td>
-              <md-button id="editButton" class="md-raised md-primary" ng-click="ac.showEditDialog($event, staff)">
-                <img class="editIcon" src="/styles/editIcon.png" alt="Edit">
-              </md-button>
-            </td>
-            <td>
-              <md-button id="deleteButton" class="md-raised md-primary" ng-click="ac.deleteUser(staff)">Remove User</md-button>
-            </td>
-          </tbody>
-        </table>
+<!-- Nav Abovee -->
+<h1 class="adminTitle">Administrator Tools</h1>
+
+<div id="adminContainer">
+  <!-- Page Container -->
+
+    <div class="adminBoxes">
+    <h2 class="adminBoxHeader">Supervisors</h2>
+    <div class="adminUserRow" layout="row" layout-align="start center" ng-repeat="supervisor in ac.supervisors">
+      <!-- <div layout="row"> -->
+        <span class="adminNameBox">{{supervisor.name}}</span>
+        <md-button id="editButton" class="md-icon-button md-primary" ng-click="ac.showEditDialog($event, staff)">
+          <md-icon md-svg-src="../images/ic_mode_edit_black_18px.svg"></md-icon>
+        </md-button>
+        <md-button id="deleteButton" class="md-icon-button md-primary" ng-click="ac.deleteUser(staff)">
+          <md-icon md-svg-src="../images/ic_delete_black_18px.svg"></md-icon>
+        </md-button>
+
       </div>
     </div>
-    <div id="approveUsersBox">
-      <h2 class="adminTitle">Users Pending Account Confirmation</h2>
-      <div ng-show="ac.noUsersMessage()" class="NoUsersMessage">There are no users pending confirmation at this time.</div>
-      <div class="approveUsers" ng-repeat="user in ac.unconfirmed">
-        <table id="confirmUsersTable">
-          <tbody>
-            <td id="userName">{{user.name}}</td>
-            <td>
-              <md-button class="md-raised md-primary" ng-click="ac.showConfirmDialog($event, user)">Confirm</md-button>
-            </td>
-            <td>
-              <md-button class="md-raised md-primary" ng-click="ac.deleteUser(user)">Remove</md-button>
-            </td>
-          </tbody>
-        </table>
+    <!-- </div> -->
+
+    <div class="adminBoxes">
+      <h2 class="adminBoxHeader">On-Call Staff</h2>
+      <div class="adminUserRow" layout="row" layout-align="start center" ng-repeat="staff in ac.staff">
+        <!-- <div layout="row"> -->
+          <span class="adminNameBox">{{staff.name}}</span>
+          <md-button id="editButton" class="md-icon-button md-primary" ng-click="ac.showEditDialog($event, staff)">
+            <md-icon md-svg-src="../images/ic_mode_edit_black_18px.svg"></md-icon>
+          </md-button>
+          <md-button id="deleteButton" class="md-icon-button md-primary" ng-click="ac.deleteUser(staff)">
+              <md-icon md-svg-src="../images/ic_delete_black_18px.svg"></md-icon>
+          </md-button>
+        <!-- </div> -->
       </div>
     </div>
 
+    <div class="adminBoxes">
+      <h2 class="adminBoxHeader">Pending Users</h2>
+      <div ng-show="ac.noUsersMessage()" class="NoUsersMessage">There are no users pending confirmation at this time.</div>
+      <div class="adminUserRow" layout="row" layout-align="start center" class="approveUsers" ng-repeat="user in ac.unconfirmed">
+        <!-- <div layout="row"> -->
+          <span class="adminNameBox">{{user.name}}</span>
+          <md-button class="md-icon-button md-primary" ng-click="ac.showConfirmDialog($event, user)">
+              <md-icon md-svg-src="../images/check.svg"></md-icon>
+          </md-button>
+          <md-button class="md-icon-button md-primary" ng-click="ac.deleteUser(user)">
+              <md-icon md-svg-src="../images/ic_delete_black_18px.svg"></md-icon>
+          </md-button>
+        <!-- </div> -->
+      </div>
+    </div>
   </div>
 </div>
-</div>
+  <!-- End Page Container -->

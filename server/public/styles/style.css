@@ -14,11 +14,13 @@ body, html {
 .instructions .container h1 {
   font-size: 32px;
   font-weight: 600;
+  
 }
 
 .instructions {
   background-color: #ffffff;
   padding: 15px;
+  
 }
 
 .logo {
@@ -61,6 +63,7 @@ body, html {
   background-color: #8774AA;
   width: 100%;
   border-radius: 0px;
+  box-shadow: 0 8px 6px -6px black;
 }
 
 .navContainer {
@@ -620,4 +623,136 @@ md-tabs:not(.md-no-tab-content):not(.md-dynamic-height) {
   align-self: center;
   height: 25px;
   margin-right: 2px;
+}
+
+/* end messages on user page */
+
+.userMessages {
+  width: 80%;
+  margin: 10px 10px 60px 10px;
+}
+
+.userMessagesHeader {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.messagesHeader {
+  background-color: #8774AA;
+  color: #ffffff;
+  height: 40px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.messageHeadline {
+  font-weight: bold;
+}
+
+.userMessageRow {
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom: 1px solid #CCCCCC;
+  border-right: 1px solid #CCCCCC;
+  border-left: 1px solid #CCCCCC;
+}
+
+.messageDate {
+  width: 15%;
+}
+
+.messageMessage {
+  width:60%;
+}
+
+.messageBy {
+  width: 15%;
+}
+
+.messageDelete {
+  width: 10%;
+}
+
+.messageDateHeader {
+  font-weight: bold;
+  width: 15%;
+}
+
+.messageMessageHeader {
+  font-weight: bold;
+  width:60%;
+}
+
+.messageByHeader {
+  font-weight: bold;
+  width: 15%;
+}
+
+.addMessageButton {
+  float: right;
+  margin-right: 20px;
+}
+/* end messages on user page */
+
+.userInfo {
+  width: 80%;
+  margin: 10px;
+}
+
+.userMyInformation {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.userInfoHeader {
+  background-color: #8774AA;
+  color: #ffffff;
+  height: 40px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  font-weight: bold;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.userInfoRow {
+  border-bottom: 1px solid #CCCCCC;
+  border-right: 1px solid #CCCCCC;
+  border-left: 1px solid #CCCCCC;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.userInfoNameHeader {
+  width: 30%;
+}
+
+.userInfoEmailHeader {
+  width: 40%;
+}
+
+.userInfoPhoneHeader {
+  width: 20%;
+}
+
+.userInfoEditHeader {
+  width: 10%;
+}
+
+.userInfoName {
+  width: 30%;
+}
+
+.userInfoEmail {
+  width: 40%;
+}
+
+.userInfoPhone {
+  width: 20%;
+}
+
+.userInfoEdit {
+  width: 10%;
 }

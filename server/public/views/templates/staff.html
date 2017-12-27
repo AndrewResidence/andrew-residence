@@ -1,13 +1,13 @@
 <div ng-include="'views/partials/nav.html'"></div>
 <md-content ng-cloak hide-xs hide-sm>
   <md-tabs>
-    <md-tab label="All Open">
+    <md-tab label="All Shifts">
       <!-- All Open Shifts -->
       <md-content>
         <div class="staffPage" layout="column" layout-align="center center">
           <div layout="row" layout-align="center center">
 
-            <div class="legendRow">
+            <div layout="row" layout-align="start center" class="legendRow">
               <div class="key">Shift Key:</div>
               <div class="legend" id="open">
                 <span>Open</span>
@@ -69,9 +69,8 @@
       </md-content>
     </md-tab>
     <!-- End all open shifts tab -->
-
-    <md-tab layout-fill label="My Shifts">
       <!-- Start my shifts tab -->
+    <md-tab layout-fill label="My Shifts">
       <md-content>
         <div class="staffPage" layout="column" layout-align="center center">
           <div layout="row" layout-align="center center">

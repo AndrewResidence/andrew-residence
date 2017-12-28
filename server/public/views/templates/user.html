@@ -15,7 +15,7 @@
             <div class="messageMessageHeader">Message</div>
             <div class="messageByHeader">Posted by</div>
         </div>
-        <div class="userMessageRow" layout="row" layout-align="start center" ng-repeat="notification in uc.notifications track by $index">
+        <div class="userMessageRow" layout="row" layout-align="start center" ng-repeat="notification in uc.notifications.data track by $index">
             <div class="messageDate">
                 <span>{{notification.date | amDateFormat:'dddd'}}</span>
                 <br>
@@ -116,5 +116,26 @@
     <md-button ng-click="uc.toggleEdit()" ng-show="uc.showName">
         <md-icon md-svg-src="../images/ic_mode_edit_black_18px.svg"></md-icon>
     </md-button> -->
-    </div>
+   
+    <!-- <br>
+    <div layout="row" layout-align="center center">
+        <table id="Notifications">
+            <th class="notificationTableHead">Date Posted</th>
+            <th class="notificationTableHead">Headline</th>
+            <th class="notificationTableHead">Message</th>
+            <th class="notificationTableHead">Posted By</th>
+            <th ng-show="uc.userObject.role === 'Supervisor'" class="notificationTableHead">Delete</th>
+
+            <tr class="notificationTableRows" ng-repeat="notification in uc.notifications.data track by $index">
+                <td class="notificationTableData">{{notification.date | amDateFormat:'dddd, MMMM Do YYYY, h:mm:ss a'}}</td>
+                <td class="notificationTableData">{{notification.headline}}</td>
+                <td class="notificationTableData">{{notification.message}}</td>
+                <td class="notificationTableData">{{notification.name}}</td>
+
+                <td class="notificationTableData" ng-show="uc.userObject.role === 'Supervisor'">
+                    <md-button class="md-raised md-warn" ng-click="uc.deleteNotification(notification.notification_id)">Delete</md-button>
+                </td>
+            </tr>
+        </table>
+    </div> -->
 </div>

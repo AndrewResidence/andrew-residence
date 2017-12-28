@@ -5,7 +5,7 @@ myApp.controller('UserController', function ($mdToast, UserService, $mdDialog) {
   vm.userObject = UserService.userObject;
   vm.showName = true;
   vm.editUserMode = false;
-  vm.getNotications = []
+  vm.notifications = UserService.notifications
 
   vm.showEditDialogStaff = function (event, user) {
     console.log('button clicked');
@@ -76,9 +76,13 @@ myApp.controller('UserController', function ($mdToast, UserService, $mdDialog) {
   } //end shiftDetails popup function    
 
   vm.getNotifications = function () {
-    UserService.getNotifications().then(function (response) {
-      vm.notifications = response.data;
-    })
+    UserService.getNotifications()
+  //   .then(function (response) {
+  //     vm.notifications = response.data;
+  //   }).catch(function (error) {
+  //   console.log('get notification error');
+
+  // });
   }
 
   vm.getNotifications();

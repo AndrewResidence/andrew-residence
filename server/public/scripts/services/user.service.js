@@ -99,9 +99,11 @@ myApp.service('UserService', function ($http, $location) {
   }
 
   self.getNotifications = function (){
-      return $http.get('/user/messages/').then(function (response){
-      return response
-    })
+     $http.get('/user/messages/').then(function (response){
+       console.log('here in service')
+      console.log('response', response.data)
+      self.notifications.data = response.data
+     })
   }
 
   self.deleteNotifcation = function (id) {
@@ -111,11 +113,7 @@ myApp.service('UserService', function ($http, $location) {
   }
 
 
-  self.getNotifications = function (){
-    return $http.get('/user/messages/').then(function (response){
-      return response;
-    });
-  };
+
 
   self.sendProfile = function (newEmail, newPhone) {
 

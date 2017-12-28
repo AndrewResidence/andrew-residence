@@ -1,7 +1,7 @@
 body, html {
   margin: 0;
   padding: 0;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  /* font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; */
   font-size: 16px;
   background-color: #ffffff;
 }
@@ -543,25 +543,28 @@ md-tabs:not(.md-no-tab-content):not(.md-dynamic-height) {
 }
 
 .logRegForm {
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);  
+  /* box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);   */
   margin: 10px;
   display: flex;
   justify-content: center;
   padding-left: 20px;
   padding-right: 20px;
+
 }
 
 .lead {
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
   color: #8774AA;
+  padding-left: 20px;
 }
 
 .lead.alert.alert-danger {
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
   color: #8774AA;
   font-size: 16px;
+  padding-left: 20px;
 }
 
 .registrationButton {
@@ -598,4 +601,15 @@ md-tabs:not(.md-no-tab-content):not(.md-dynamic-height) {
 
 #Notifications {
   width: 800px;
+}
+  .mobileUserEdit {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.editUserInput {
+  border: 1px #cccccc solid;
+  align-self: center;
+  height: 25px;
+  margin-right: 2px;
 }

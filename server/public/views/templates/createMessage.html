@@ -3,7 +3,8 @@
         <div class="md-toolbar-tools">
             <h3>Create Staff Notification</h3>
             <span flex="auto"></span>
-            <md-button ng-click="nc.cancel()"> close
+            <md-button id="closeButton" ng-click="nc.cancel()">
+                <img id="closeIcon" src="/styles/closeIcon.png" alt="close window">
             </md-button>
         </div>
     </md-toolbar>
@@ -21,7 +22,7 @@
         </div>
     </md-dialog-content>
     <md-dialog-actions layout="row">
-        <md-button ng-click="nc.cancel()">
+        <md-button aria-label="Cancel Message" ng-click="nc.cancel()">
             Cancel
         </md-button>
         <span flex></span>

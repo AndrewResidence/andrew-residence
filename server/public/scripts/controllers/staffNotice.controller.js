@@ -8,6 +8,7 @@ myApp.controller('NotificationController', function ($scope, $mdDialog, $mdToast
     }; //end close dialog
 
     vm.getNotifications = function () {
+        vm.notifications = [];
         UserService.getNotifications().then(function (response) {
             vm.notifications = response.data;
             console.log('here it is', vm.notifications)
@@ -25,9 +26,7 @@ myApp.controller('NotificationController', function ($scope, $mdDialog, $mdToast
                     .hideDelay(2500)
             )
         })
+        UserService.getNotifications();
     }
-
-
-
 
 })

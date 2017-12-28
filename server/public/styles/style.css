@@ -41,6 +41,7 @@ body, html {
 
 .message {
   padding: 10px 0;
+  width: 90%;
 }
 
 .message p {
@@ -70,7 +71,7 @@ body, html {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 18px;
+  /* font-size: 18px; */
 }
 
 ul {
@@ -319,8 +320,8 @@ li a:hover {
 }
 
 #commentText {
-  width: 500px;
-  height: 300px;
+  width: 90%;
+  height: 90%;
 }
 
 #shiftCommentsText {
@@ -635,6 +636,7 @@ md-tabs:not(.md-no-tab-content):not(.md-dynamic-height) {
 .userMessagesHeader {
   font-size: 20px;
   font-weight: bold;
+  margin-bottom: 20px;
 }
 
 .messagesHeader {
@@ -755,4 +757,13 @@ md-tabs:not(.md-no-tab-content):not(.md-dynamic-height) {
 
 .userInfoEdit {
   width: 10%;
+}
+
+/* Start editUser HTML */
+.editUserDialogInput {
+  width: 50%;
+}
+
+.editUserDialog {
+  padding: 20px;
 }

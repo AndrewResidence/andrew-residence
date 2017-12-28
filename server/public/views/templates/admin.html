@@ -10,10 +10,10 @@
     <div class="adminUserRow" layout="row" layout-align="start center" ng-repeat="supervisor in ac.supervisors">
       <!-- <div layout="row"> -->
         <span class="adminNameBox">{{supervisor.name}}</span>
-        <md-button id="editButton" class="md-icon-button md-primary" ng-click="ac.showEditDialog($event, staff)">
+        <md-button aria-label="Edit Supervisor" id="editButton" class="md-icon-button md-primary" ng-click="ac.showEditDialog($event, supervisor)">
           <md-icon md-svg-src="../images/ic_mode_edit_black_18px.svg"></md-icon>
         </md-button>
-        <md-button id="deleteButton" class="md-icon-button md-primary" ng-click="ac.deleteUser(staff)">
+        <md-button aria-label="Delete Supervisor" id="deleteButton" class="md-icon-button md-primary" ng-click="ac.deleteUser(supervisor)">
           <md-icon md-svg-src="../images/ic_delete_black_18px.svg"></md-icon>
         </md-button>
 
@@ -26,10 +26,10 @@
       <div class="adminUserRow" layout="row" layout-align="start center" ng-repeat="staff in ac.staff">
         <!-- <div layout="row"> -->
           <span class="adminNameBox">{{staff.name}}</span>
-          <md-button id="editButton" class="md-icon-button md-primary" ng-click="ac.showEditDialog($event, staff)">
+          <md-button aria-label="Edit Staff" id="editButton" class="md-icon-button md-primary" ng-click="ac.showEditDialog($event, staff)">
             <md-icon md-svg-src="../images/ic_mode_edit_black_18px.svg"></md-icon>
           </md-button>
-          <md-button id="deleteButton" class="md-icon-button md-primary" ng-click="ac.deleteUser(staff)">
+          <md-button aria-label="Delete Staff" id="deleteButton" class="md-icon-button md-primary" ng-click="ac.deleteUser(staff)">
               <md-icon md-svg-src="../images/ic_delete_black_18px.svg"></md-icon>
           </md-button>
         <!-- </div> -->
@@ -42,10 +42,10 @@
       <div class="adminUserRow" layout="row" layout-align="start center" class="approveUsers" ng-repeat="user in ac.unconfirmed">
         <!-- <div layout="row"> -->
           <span class="adminNameBox">{{user.name}}</span>
-          <md-button class="md-icon-button md-primary" ng-click="ac.showConfirmDialog($event, user)">
+          <md-button aria-label="Confirm User" class="md-icon-button md-primary" ng-click="ac.showConfirmDialog($event, user)">
               <md-icon md-svg-src="../images/check.svg"></md-icon>
           </md-button>
-          <md-button class="md-icon-button md-primary" ng-click="ac.deleteUser(user)">
+          <md-button aria-label="Delete New User" class="md-icon-button md-primary" ng-click="ac.deleteUser(user)">
               <md-icon md-svg-src="../images/ic_delete_black_18px.svg"></md-icon>
           </md-button>
         <!-- </div> -->

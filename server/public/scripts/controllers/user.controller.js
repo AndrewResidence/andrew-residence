@@ -57,14 +57,14 @@ myApp.controller('UserController', function ($mdToast, UserService, $mdDialog) {
           .hideDelay(2500)
       );
     }).then(function () {
-     vm.toggleEdit();
+      vm.toggleEdit();
       
     });
 
 
   };
 
-  vm.createNotification = function () {
+  vm.createNotification = function (event) {
     $mdDialog.show({
       controller: 'NotificationController as nc',
       templateUrl: '/views/templates/createMessage.html',

@@ -1,11 +1,14 @@
 myApp.controller('NotificationController', function ($scope, $mdDialog, $mdToast, UserService, ShiftService, calendarService) {
     console.log('NotificationController created');
     var vm = this;
-    vm.notifications = [];
+    // vm.notifications = UserService.notifications;
+    vm.UserService = UserService;
+    vm.notifications = UserService.notifications
     //closes dialog box
     vm.cancel = function () {
         $mdDialog.hide();
     }; //end close dialog
+
 
     vm.getNotifications = function () {
         vm.notifications = [];
@@ -15,11 +18,12 @@ myApp.controller('NotificationController', function ($scope, $mdDialog, $mdToast
         })
     }
 
+
     //create message for staff
     vm.createMessage = function (messageBody, headline) {
         UserService.createMessage(messageBody, headline).then(function (response) {
-            vm.getNotifications();
             vm.cancel()
+            UserService.getNotifications();
             $mdToast.show(
                 $mdToast.simple()
                     .textContent('Notification Created')

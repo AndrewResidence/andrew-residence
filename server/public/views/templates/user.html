@@ -15,7 +15,7 @@
             <div class="messageMessageHeader">Message</div>
             <div class="messageByHeader">Posted by</div>
         </div>
-        <div class="userMessageRow" layout="row" layout-align="start center" ng-repeat="notification in uc.notifications track by $index">
+        <div class="userMessageRow" layout="row" layout-align="start center" ng-repeat="notification in uc.notifications.data track by $index">
             <div class="messageDate">
                 <span>{{notification.date | amDateFormat:'dddd'}}</span>
                 <br>
@@ -110,11 +110,12 @@
         </md-button>
     </div>
 
+
     <md-button ng-click="uc.toggleEdit()" ng-hide="uc.showName">
         <md-icon md-svg-src="../images/check.svg"></md-icon>
     </md-button>
     <md-button ng-click="uc.toggleEdit()" ng-show="uc.showName">
         <md-icon md-svg-src="../images/ic_mode_edit_black_18px.svg"></md-icon>
     </md-button> -->
-    </div>
+
 </div>

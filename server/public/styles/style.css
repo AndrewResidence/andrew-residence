@@ -599,7 +599,10 @@ md-tabs:not(.md-no-tab-content):not(.md-dynamic-height) {
 
 }
 
-.mobileUserEdit {
+#Notifications {
+  width: 800px;
+}
+  .mobileUserEdit {
   margin-left: 10px;
   margin-right: 10px;
 }

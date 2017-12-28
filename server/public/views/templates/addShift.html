@@ -68,7 +68,7 @@
         <br>
 
         <div layout="row" id="notifyFollowing" ng-repeat="name in sd.supervisors track by $index">
-            <md-checkbox id="notifyFollowing" checklist-value="name.id" checklist-model="sd.myArrayOfSupervisors">{{name.name}}</md-checkbox>
+            <md-checkbox required id="notifyFollowing" checklist-value="name.id" checklist-model="sd.myArrayOfSupervisors">{{name.name}}</md-checkbox>
             <span flex></span>
         </div>
 

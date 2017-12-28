@@ -595,3 +595,7 @@ md-tabs:not(.md-no-tab-content):not(.md-dynamic-height) {
   margin-left: 20px;
 
 }
+
+#Notifications {
+  width: 800px;
+}

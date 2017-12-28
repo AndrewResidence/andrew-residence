@@ -3,112 +3,119 @@
 
     <h1 id="welcome">Welcome, {{uc.userObject.name}}!</h1>
 
-    <md-card hide-xs hide-sm show-md show-lg show-xl style="width:80%;" layout-sm="column">
-        <md-toolbar>
-            <div class="md-toolbar-tools" layout="row" layout-sm="column">
-                <div flex="40" layout-padding>Email</div>
-                <div flex="40" layout-padding>Phone</div>
+    <div class="addMessageButton">
+        <!-- SUPERVISOR BUTTON TO ADD MESSAGES -->
+        <md-button ng-show="uc.userObject.role === 'Supervisor'" class="md-raised md-primary" ng-click="uc.createNotification()">Create Message</md-button>
+    </div>
+    <!-- ********** USER MESSAGES ********* -->
+    <div class="userMessages">
+        <div class="userMessagesHeader" layout="row" layout-align="center center">On-call Staff Messages</div>
+        <div class="messagesHeader" layout="row" layout-align="start center">
+            <div class="messageDateHeader">Date</div>
+            <div class="messageMessageHeader">Message</div>
+            <div class="messageByHeader">Posted by</div>
+        </div>
+        <div class="userMessageRow" layout="row" layout-align="start center" ng-repeat="notification in uc.notifications.data track by $index">
+            <div class="messageDate">
+                <span>{{notification.date | amDateFormat:'dddd'}}</span>
+                <br>
+                <span>{{notification.date | amDateFormat:'MM-DD-YY'}}</span>
             </div>
-        </md-toolbar>
-        <md-list>
-            <md-list-item layout="row">
-                <div flex="40" layout-padding ng-show="uc.showName">
-                    {{uc.userObject.userName}}
-                </div>
-                <div flex="40" layout-padding ng-hide="uc.showName">
-                    <input aria-label = "username" placeholder="{{uc.userObject.userName}}" ng-model="uc.editProfile.userName">
-                </div>
-                <div flex="40" layout-padding ng-show="uc.showName">
-                    {{uc.userObject.phone}}
-                </div>
-                <div flex="40" layout-padding ng-hide="uc.showName">
-                    <input aria-label = "phone" placeholder="{{uc.userObject.phone}}" ng-model="uc.editProfile.phone">
-                </div>
-
-                <div flex="20" layout-padding>
-                    <md-button aria-label = "edit" ng-click="uc.joshEdit(uc.editProfile.userName, uc.editProfile.phone)" ng-hide="uc.showName">
-                        <md-icon md-svg-src="../images/check.svg"></md-icon>
-                    </md-button>
-                    <md-button aria-label = "save" ng-click="uc.toggleEdit()" ng-show="uc.showName">
-                        <md-icon md-svg-src="../images/ic_mode_edit_black_18px.svg"></md-icon>
-                    </md-button>
-                </div>
-            </md-list-item>
-        </md-list>
-    </md-card>
-    <!-- <div class="mobileUserEdit" show-xs show-sm hide-md hide-lg hide-xl>
-            <span>My Information</span> -->
-    <!-- <div show-xs show-sm hide-md hide-lg hide-xl>
-        <div layout="row">
-            <div class="editUserInput" ng-show="uc.showName">
+            <div class="messageMessage">
+                <span class="messageHeadline">{{notification.headline}}</span>
+                <br>
+                <span>{{notification.message}}</span>
+            </div>
+            <div class="messageBy">{{notification.name}}</div>
+            <div class="messageDelete" ng-show="uc.userObject.role === 'Supervisor'">
+                <md-button aria-label="Delete Message" class="md-icon-button md-primary" ng-click="uc.deleteNotification(notification.notification_id)">
+                    <md-icon md-svg-src="../images/ic_delete_black_18px.svg"></md-icon>
+                </md-button>
+            </div>
+        </div>
+    </div>
+    <!-- ********** END USER MESSAGES ********* -->
+    <!-- ********** USER PROFILE EDIT ********* -->
+    <div class="userInfo">
+        <div class="userMyInformation" layout="row" layout-align="center center">My Information</div>
+        <div class="userInfoHeader" layout="row" layout-align="start center" hide-xs hide-sm show-md show-lg show-xl>
+            <div class="userInfoNameHeader">Name</div>
+            <div class="userInfoEmailHeader">Email</div>
+            <div class="userInfoPhoneHeader">Phone</div>
+            <div class="userInfoEditHeader"></div>
+        </div>
+        <div class="userInfoRow" layout="row" layout-align="start center">
+            <div class="userInfoName">
+                {{uc.userObject.name}}
+            </div>
+            <div class="userInfoEmail" ng-show="uc.showName">
                 {{uc.userObject.userName}}
             </div>
-            <div class="editUserInput" ng-hide="uc.showName">
-                <input placeholder="{{uc.userObject.userName}}" ng-model="uc.editUser.userName">
+            <div class="userInfoEmail" ng-hide="uc.showName">
+                <input aria-label="username" placeholder="{{uc.userObject.userName}}" ng-model="uc.editProfile.userName">
             </div>
-            <div class="editUserInput" ng-show="uc.showName">
+            <div class="userInfoPhone" ng-show="uc.showName">
                 {{uc.userObject.phone}}
             </div>
-            <div class="editUserInput" ng-hide="uc.showName">
-                <input placeholder="{{uc.userObject.phone}}" ng-model="uc.editUser.phone">
+            <div class="userInfoPhone" ng-hide="uc.showName">
+                <input aria-label="phone" placeholder="{{uc.userObject.phone}}" ng-model="uc.editProfile.phone">
             </div>
+            <div class="userInfoEdit">
+                <md-button aria-label="edit" ng-click="uc.joshEdit(uc.editProfile.userName, uc.editProfile.phone)" ng-hide="uc.showName">
+                    <md-icon md-svg-src="../images/check.svg"></md-icon>
+                </md-button>
+                <md-button aria-label="save" ng-click="uc.toggleEdit()" ng-show="uc.showName">
+                    <md-icon md-svg-src="../images/ic_mode_edit_black_18px.svg"></md-icon>
+                </md-button>
+            </div>
+        </div>
+    </div>
 
-        <md-button class="md-icon-button md-primary" ng-click="uc.toggleEdit()" ng-hide="uc.showName">
-            <md-icon md-svg-src="../images/check.svg"></md-icon>
-        </md-button>
-        <md-button  class="md-icon-button md-primary" ng-click="uc.toggleEdit()" ng-show="uc.showName">
+    <!-- ********** MOBILE USER PROFILE EDIT ********* -->
+    <div class="mobileUserEdit" show-xs show-sm hide-md hide-lg hide-xl>
+        <span>My Information</span>
+        <div show-xs show-sm hide-md hide-lg hide-xl>
+            <div layout="row">
+                <div class="editUserInput" ng-show="uc.showName">
+                    {{uc.userObject.userName}}
+                </div>
+                <div class="editUserInput" ng-hide="uc.showName">
+                    <input placeholder="{{uc.userObject.userName}}" ng-model="uc.editUser.userName">
+                </div>
+                <div class="editUserInput" ng-show="uc.showName">
+                    {{uc.userObject.phone}}
+                </div>
+                <div class="editUserInput" ng-hide="uc.showName">
+                    <input placeholder="{{uc.userObject.phone}}" ng-model="uc.editUser.phone">
+                </div>
+
+                <md-button aria-label="edit" class="md-icon-button md-primary" ng-click="uc.toggleEdit()" ng-hide="uc.showName">
+                    <md-icon md-svg-src="../images/check.svg"></md-icon>
+                </md-button>
+                <md-button aria-label="save" class="md-icon-button md-primary" ng-click="uc.toggleEdit()" ng-show="uc.showName">
+                    <md-icon md-svg-src="../images/ic_mode_edit_black_18px.svg"></md-icon>
+                </md-button>
+            </div>
+        </div>
+
+
+        <!-- <div>
+        <md-button>
             <md-icon md-svg-src="../images/ic_mode_edit_black_18px.svg"></md-icon>
         </md-button>
     </div>
-    </div>
-
-        </div>
-        <div>
-            <md-button>
-                <md-icon md-svg-src="../images/ic_mode_edit_black_18px.svg"></md-icon>
-            </md-button>
-        </div>
-        <div>
-            <md-button ng-click="uc.joshEdit()">
-                <md-icon md-svg-src="../images/check.svg"></md-icon>
-            </md-button>
-        </div>
-
-        <md-button ng-click="uc.toggleEdit()" ng-hide="uc.showName">
+    <div>
+        <md-button ng-click="uc.joshEdit()">
             <md-icon md-svg-src="../images/check.svg"></md-icon>
         </md-button>
-        <md-button ng-click="uc.toggleEdit()" ng-show="uc.showName">
-            <md-icon md-svg-src="../images/ic_mode_edit_black_18px.svg"></md-icon>
-        </md-button>
-    </div>-->
-    <br>
-
-    
-    <div layout="row" layout-align="center center">
-        <md-button ng-show="uc.userObject.role === 'Supervisor'" class="md-raised md-primary" ng-click="uc.createNotification()">Create Notification</md-button>
     </div>
-   
-    <br>
-    <div layout="row" layout-align="center center">
-        <table id="Notifications">
-            <th class="notificationTableHead">Date Posted</th>
-            <th class="notificationTableHead">Headline</th>
-            <th class="notificationTableHead">Message</th>
-            <th class="notificationTableHead">Posted By</th>
-            <th ng-show="uc.userObject.role === 'Supervisor'" class="notificationTableHead">Delete</th>
 
-            <tr class="notificationTableRows" ng-repeat="notification in uc.notifications.data track by $index">
-                <td class="notificationTableData">{{notification.date | amDateFormat:'dddd, MMMM Do YYYY, h:mm:ss a'}}</td>
-                <td class="notificationTableData">{{notification.headline}}</td>
-                <td class="notificationTableData">{{notification.message}}</td>
-                <td class="notificationTableData">{{notification.name}}</td>
 
-                <td class="notificationTableData" ng-show="uc.userObject.role === 'Supervisor'">
-                    <md-button class="md-raised md-warn" ng-click="uc.deleteNotification(notification.notification_id)">Delete</md-button>
-                </td>
-            </tr>
-        </table>
-    </div>
-</div>
+    <md-button ng-click="uc.toggleEdit()" ng-hide="uc.showName">
+        <md-icon md-svg-src="../images/check.svg"></md-icon>
+    </md-button>
+    <md-button ng-click="uc.toggleEdit()" ng-show="uc.showName">
+        <md-icon md-svg-src="../images/ic_mode_edit_black_18px.svg"></md-icon>
+    </md-button> -->
 
 </div>

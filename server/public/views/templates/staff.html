@@ -146,13 +146,14 @@
                   <div class="shiftButtonLeft">
                     <md-icon ng-class="{{'shift.shift'}}" md-svg-icon="../images/ic_add_circle_black_18px.svg"></md-icon>
                   </div>
-                  <div class="mobileShiftButtonDetails">
-                    <span>{{shift.date | amDateFormat: 'dddd'}}, </span><span>{{shift.date | amDateFormat: 'MM-DD-YYYY'}}</span>
-                    <br>
-                    <span ng-show="shift.adl">ADL</span>
-                    <span ng-show="shift.nurse">Nurse</span>
-                    <span ng-show="shift.mhw">MHW</span>
-                    <div>{{shift.shift}}</div>
+                  <div layout="column" layout-align="center start" class="mobileShiftButtonDetails">
+                    <div layout="row"><span>{{shift.date | amDateFormat: 'dddd'}}, </span><span>{{shift.date | amDateFormat: 'MM-DD-YYYY'}}</span></div>
+                    <div layout="row">
+                      <span ng-show="shift.adl">ADL</span>
+                      <span ng-show="shift.nurse">Nurse</span>
+                      <span ng-show="shift.mhw">MHW</span>
+                    </div>
+                    <div layout="row">{{shift.shift}}</div>
                   </div> 
                 </div>
               </div>
@@ -162,19 +163,29 @@
       </md-tab>
       <md-tab label="My Shifts"> <!-- MY OPENINGS -->
         <md-content>
-          
-            <div ng-repeat="shift in sc.userShiftsToDisplay track by $index">
+          <div class="myShiftsMobileSpace" >
+            <div layout="row" layout-align="center center" ng-repeat="shift in sc.userShiftsToDisplay track by $index">
               <div class="myShiftBlock">
-                <span>{{shift.date | amDateFormat: 'dddd'}}, </span><span>{{shift.date | amDateFormat: 'MM-DD-YYYY'}}</span>
-                <span ng-show="shift.adl">ADL</span>
-                <span ng-show="shift.nurse">Nurse</span>
-                <span ng-show="shift.mhw">MHW</span>
-                <span>{{shift.shift}}</span>
                 <div class="shiftStatusIndicator" ng-class="{{'shift.shift_status'}}">{{shift.shift_status}}</div>
-                <md-icon ng-class="{{'shift.shift'}}" md-svg-icon="../images/ic_add_circle_black_18px.svg"></md-icon>
+                <div class="shiftButtonLeft">
+                  <md-icon ng-class="{{'shift.shift'}}" md-svg-icon="../images/ic_add_circle_black_18px.svg"></md-icon>
+                </div>
+                <div layout="column" layout-align="center start" class="mobileShiftButtonDetails">
+                <div layout="row">
+                  <span>{{shift.date | amDateFormat: 'dddd'}}, </span><span>{{shift.date | amDateFormat: 'MM-DD-YYYY'}}</span>
+                </div>
+                <div layout="row">
+                  <span ng-show="shift.adl">ADL</span>
+                  <span ng-show="shift.nurse">Nurse</span>
+                  <span ng-show="shift.mhw">MHW</span>
+                </div>
+                <div layout="row">
+                  <span>{{shift.shift}}</span>
+                </div>
               </div>
             </div>
-        
+            </div>
+            </div>
         </md-content>
       </md-tab>
     </md-tabs>

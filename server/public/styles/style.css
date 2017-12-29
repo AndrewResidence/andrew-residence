@@ -535,12 +535,18 @@ md-tabs:not(.md-no-tab-content):not(.md-dynamic-height) {
   min-height: 1200px;
 }
 
+.myShiftsMobileSpace {
+  margin-top: 20px;
+}
+
 .myShiftBlock {
   border-radius: 2px;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);  
-  height: 75px;
-  width: 80%;
+  background-color: #ffffff;
   margin-bottom: 2px;
+  width: 90%;
+  height: 75px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);  
+  padding: 1px;
 }
 
 .shiftButtonLeft {
@@ -564,7 +570,6 @@ md-tabs:not(.md-no-tab-content):not(.md-dynamic-height) {
 
 .mobileShiftButtonDetails {
   padding-left: 10px;
-  display:inline-block;
 }
 
 .headerText {

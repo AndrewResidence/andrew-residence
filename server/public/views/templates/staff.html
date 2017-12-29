@@ -23,7 +23,7 @@
 
           <div class="staffCalendarSpace">
 
-            <div layout="row" class="staffCalHeader">
+            <div layout="row" layout-align="space-around center" class="staffCalHeader">
               <md-button class="md-raised md-primary" id="calHeadBtnLeft" ng-click="sc.prevMonth(sc.currentMonth.dates[0].month, sc.currentMonth.dates[0].year)">Prev</md-button>
               <div>{{sc.displayMonth}} {{sc.displayYear._i.year}}</div>
               <md-button class="md-raised md-primary" id="calHeadBtnRight" ng-click="sc.nextMonth(sc.currentMonth.dates[0].month, sc.currentMonth.dates[0].year)">Next</md-button>
@@ -90,7 +90,7 @@
           </div>
 
           <div class="staffCalendarSpace">
-            <div layout="row" class="staffCalHeader">
+            <div layout="row" layout-align="space-around center" class="staffCalHeader">
               <md-button class="md-raised md-primary" id="calHeadBtnLeft" ng-click="sc.prevMonth(sc.currentMonth.dates[0].month, sc.currentMonth.dates[0].year)">Prev</md-button>
               <div>{{sc.displayMonth}} {{sc.displayYear._i.year}}</div>
               <md-button class="md-raised md-primary" id="calHeadBtnRight" ng-click="sc.nextMonth(sc.currentMonth.dates[0].month, sc.currentMonth.dates[0].year)">Next</md-button>
@@ -137,6 +137,7 @@
               <md-icon md-svg-icon="../images/forward-arrow.svg"></md-icon>
             </md-button>
           </div> <!-- end calendar navigation header -->
+          
           <div ng-repeat="day in sc.currentMonth.dates">
             <div ng-repeat="shift in day.shifts track by $index">
               <div layout="row" layout-align="center center">
@@ -145,12 +146,14 @@
                   <div class="shiftButtonLeft">
                     <md-icon ng-class="{{'shift.shift'}}" md-svg-icon="../images/ic_add_circle_black_18px.svg"></md-icon>
                   </div>
-                  <span>{{shift.date | amDateFormat: 'dddd'}}, </span><span>{{shift.date | amDateFormat: 'MM-DD-YYYY'}}</span>
-                  <br>
-                  <span ng-show="shift.adl">ADL</span>
-                  <span ng-show="shift.nurse">Nurse</span>
-                  <span ng-show="shift.mhw">MHW</span>
-                  <div>{{shift.shift}}</div>
+                  <div class="mobileShiftButtonDetails">
+                    <span>{{shift.date | amDateFormat: 'dddd'}}, </span><span>{{shift.date | amDateFormat: 'MM-DD-YYYY'}}</span>
+                    <br>
+                    <span ng-show="shift.adl">ADL</span>
+                    <span ng-show="shift.nurse">Nurse</span>
+                    <span ng-show="shift.mhw">MHW</span>
+                    <div>{{shift.shift}}</div>
+                  </div> 
                 </div>
               </div>
             </div>

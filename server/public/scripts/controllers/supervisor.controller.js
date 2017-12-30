@@ -88,7 +88,7 @@ vm.filledByName = ShiftService.filledByName.data;
           clickOutsideToClose: true,
           fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
         });
-       }) //end shiftDetails popup function    
+      }) //end shiftDetails popup function    
 
   };
 

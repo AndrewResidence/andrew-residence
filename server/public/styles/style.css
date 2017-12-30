@@ -180,7 +180,7 @@ li a:hover {
 } */
 
 .calendarSpace {
-  width: 78%;
+  width: 80%;
   height: 90%;
   margin: 10px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -253,9 +253,14 @@ li a:hover {
 .staffCalHeader {
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   font-size: 20px;
-  align-items: center;
+  /* align-items: center; */
+}
+
+.calDays {
+  justify-items: center;
+  width: 100%
 }
 
 .shiftButton, #confirmShiftButton {

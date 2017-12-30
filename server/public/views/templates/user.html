@@ -61,10 +61,10 @@
                 <input aria-label="phone" placeholder="{{uc.userObject.phone}}" ng-model="uc.editProfile.phone">
             </div>
             <div class="userInfoEdit">
-                <md-button aria-label="edit" ng-click="uc.joshEdit(uc.editProfile.userName, uc.editProfile.phone)" ng-hide="uc.showName">
+                <md-button class="md-icon-button md-primary" aria-label="edit" ng-click="uc.joshEdit(uc.editProfile.userName, uc.editProfile.phone)" ng-hide="uc.showName">
                     <md-icon md-svg-src="../images/check.svg"></md-icon>
                 </md-button>
-                <md-button aria-label="save" ng-click="uc.toggleEdit()" ng-show="uc.showName">
+                <md-button class="md-icon-button md-primary" aria-label="save" ng-click="uc.toggleEdit()" ng-show="uc.showName">
                     <md-icon md-svg-src="../images/ic_mode_edit_black_18px.svg"></md-icon>
                 </md-button>
             </div>

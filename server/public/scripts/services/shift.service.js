@@ -122,6 +122,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
       return response;
     });
   };
+  
   self.getPendingShifts = function () {
     var today = moment().format('YYYY-MM-DD');
     console.log('today', today);

@@ -27,11 +27,12 @@
 </div>
 <div class="calendarSpace" display="flex">
 
-  <div layout="row" class="staffCalHeader">
+  <div layout="row" layout-align="space-between center" class="staffCalHeader">
     <md-button class="md-raised md-primary" ng-click="sc.prevTwoWeeks(sc.currentSchedule[0].moment)">Previous</md-button>
     <div>{{sc.month}} {{sc.year}}</div>
     <md-button class="md-raised md-primary" ng-click="sc.nextTwoWeeks(sc.currentSchedule[0].moment)">Next</md-button>
   </div>
+  <div class="calDays">
   <div layout="row">
     <div class="calHeader" ng-repeat="dayHeader in sc.dayList">
       <div>{{dayHeader}}</div>
@@ -50,5 +51,6 @@
       </div>
     </div>
   </div>
+</div>
 
 </div>

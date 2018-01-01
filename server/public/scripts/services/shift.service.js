@@ -129,17 +129,17 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   //   });
   // };
 
-  self.getShifts = function (firstOfMonth, lastOfMonth) {
+  self.getShifts = function (firstDayofShifts, lastDayofShifts) {
     console.log('get shifts is running');
-    console.log('first of month', firstOfMonth);
-    console.log('last Of Month', lastOfMonth);
-    var firstAndLastOfMonth = {
-      firstOfMonth: firstOfMonth, 
-      lastOfMonth: lastOfMonth
+    console.log('first of month', firstDayofShifts);
+    console.log('last Of Month', lastDayofShifts);
+    var firstAndLastDays = {
+      firstDayofShifts: firstDayofShifts, 
+      lastDayofShifts: lastDayofShifts
     }
     self.shiftsToDisplay.data = [];
     console.log('shifts to display service', self.shiftsToDisplay.data)
-    return $http.put('/shifts', firstAndLastOfMonth).then(function (response) {
+    return $http.put('/shifts', firstAndLastDays).then(function (response) {
       console.log('response', response.data)
       self.shiftsToDisplay.data = response.data;
       console.log('shifts to display in service, after query', self.shiftsToDisplay.data)

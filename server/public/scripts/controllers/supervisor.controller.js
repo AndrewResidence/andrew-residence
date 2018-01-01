@@ -32,7 +32,9 @@ vm.filledByName = ShiftService.filledByName.data;
   vm.getPayPeriodDates = function () {
     vm.month = moment(vm.today).format('MMMM');
     vm.year = moment(vm.today).format('YYYY');
-    calendarService.getPayPeriodDates();
+    calendarService.getPayPeriodDates().then(function(response){
+      vm.getShifts(calendarService.payPeriodStart, calendarService.payPeriodEnd);
+    })
   };
 
   //checks to see if the pay period is current, if not, it updates the DB
@@ -51,27 +53,31 @@ vm.filledByName = ShiftService.filledByName.data;
   //function to pull prior two weeks of dates
   vm.prevTwoWeeks = function (date) {
     vm.currentSchedule = [];
+    console.log('date in prev two weeks', date)
     var prevTwoWeeks = moment(date).subtract(14, 'days');
     vm.payPeriodStart = prevTwoWeeks;
+    vm.payPeriodEnd = moment(date).subtract(1, 'days');
     for (var i = 0; i < vm.scheduleDays.length; i++) {
       vm.currentSchedule.push({ moment: moment(prevTwoWeeks._d).add(vm.scheduleDays[i], 'days'), shifts: [] });
     }
     vm.month = moment(prevTwoWeeks._d).format('MMMM');
     vm.year = moment(prevTwoWeeks._d).format('YYYY');
-    vm.getShifts();
+    vm.getShifts(vm.payPeriodStart, vm.payPeriodEnd);
   };
 
   //function to get next two weeks of dates
   vm.nextTwoWeeks = function (date) {
     vm.currentSchedule = [];
     var nextTwoWeeks = moment(date).add(14, 'days');
+    vm.payPeriodEnd = moment(date).add(28, 'days');
     vm.payPeriodStart = nextTwoWeeks;
     for (var i = 0; i < vm.scheduleDays.length; i++) {
       vm.currentSchedule.push({ moment: moment(nextTwoWeeks._d).add(vm.scheduleDays[i], 'days'), shifts: [] });
     }
     vm.month = moment(nextTwoWeeks._d).format('MMMM');
     vm.year = moment(nextTwoWeeks._d).format('YYYY');
-    vm.getShifts();
+    console.log(vm.payPeriodStart, vm.payPeriodEnd)
+    vm.getShifts(vm.payPeriodStart, vm.payPeriodEnd);
   };
 
 
@@ -104,9 +110,12 @@ vm.filledByName = ShiftService.filledByName.data;
     })
   }; //end addShift popup function
 
-  vm.getShifts = function () {
+  vm.getShifts = function (payPeriodStart, payPeriodEnd) {
     vm.shiftsToDisplay = [];
-    ShiftService.getShifts().then(function (response) {
+    var firstDayofShifts = moment(payPeriodStart);
+    var lastDayofShifts = moment(payPeriodEnd)
+    console.log('pay period dates', firstDayofShifts, lastDayofShifts)
+    ShiftService.getShifts(firstDayofShifts, lastDayofShifts).then(function (response) {
       vm.shiftsToDisplay = response.data;
       console.log('shifts to display', vm.shiftsToDisplay)
       for (var i = 0; i < vm.shiftsToDisplay.length; i++) {
@@ -120,7 +129,7 @@ vm.filledByName = ShiftService.filledByName.data;
     });
   };
 
-  vm.getShifts();
+  // vm.getShifts(vm.payPeriodStart, vm.payPeriodEnd);
 
   //Where I left off: I'm trying to set things up in a way that will allow me to view all of the shift requests for a particular shift. So, the first thing I'm trying to do is match up all shift requests for the same shift. But I'm running into trouble with my for loop.
 

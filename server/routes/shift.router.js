@@ -111,24 +111,26 @@ router.post('/', function (req, res) {
 router.put('/', function (req, res) {
     if (req.isAuthenticated()) {
         console.log('router month details', req.body)
-        var firstOfMonth = req.body.firstOfMonth;
-        var lastOfMonth = req.body.lastOfMonth;
+        var firstDayofShifts = req.body.firstDayofShifts;
+        var lastDayofShifts = req.body.lastDayofShifts;
         pool.connect(function (errorConnectingToDb, db, done) {
             if (errorConnectingToDb) {
                 console.log('Error connecting', errorConnectingToDb);
                 res.sendStatus(500);
             } //end if error connection to db
             else {
+                console.log('hitting the query');
                 var queryText = 
                 'SELECT * FROM "post_shifts"' +
                 'WHERE "date" > $1 AND "date" < $2;';
-                db.query(queryText, [firstOfMonth, lastOfMonth], function (errorMakingQuery, result) {
+                db.query(queryText, [firstDayofShifts, lastDayofShifts], function (errorMakingQuery, result) {
                     done(); // add + 1 to pool
                     if (errorMakingQuery) {
                         console.log('Error making query', errorMakingQuery);
                         res.sendStatus(500);
                     } else {
                         res.send(result.rows);
+                        console.log('result.rows', result.rows);
                     }
                 }); // END QUERY
             }

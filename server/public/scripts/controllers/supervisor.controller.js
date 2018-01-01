@@ -25,8 +25,8 @@ vm.filledByName = ShiftService.filledByName.data;
   vm.scheduleDays = calendarService.scheduleDays;
   vm.payPeriodStartAndEnd = calendarService.payPeriodStartAndEnd;
   vm.currentSchedule = calendarService.currentSchedule.dates;
-  vm.payPeriodStart = '';
-  vm.payPeriodEnd = '';
+  // vm.payPeriodStart = '';
+  // vm.payPeriodEnd = '';
 
   //funciton to get the data for the calendar
   vm.getPayPeriodDates = function () {

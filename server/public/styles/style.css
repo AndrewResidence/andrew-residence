@@ -64,7 +64,8 @@ body, html {
   background-color: #8774AA;
   width: 100%;
   border-radius: 0px;
-  box-shadow: 0 8px 6px -6px black;
+  color: white;
+  font-weight: bold;
 }
 
 .navContainer {
@@ -76,6 +77,8 @@ body, html {
 
 #logOutButton {
   background-color: #8774AA;
+  font-weight: bold;
+  color: white;
 }
 
 ul {

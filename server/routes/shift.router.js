@@ -55,11 +55,8 @@ router.post('/', function (req, res) {
                                 console.log('Error making query', errorMakingQuery);
                                 res.sendStatus(500);
                                 return;
-
                             } else {
-               
                                 console.log('results', result.rows[0]);
-
                                 result.rows[0].notify.forEach(function (supers) {
                                     console.log('supers', supers);
                                     notifyingSupers(supers).then(function (result) {
@@ -111,18 +108,22 @@ router.post('/', function (req, res) {
     }
 });//end post route for new shifts
 //get route for post_shifts 
-router.get('/', function (req, res) {
+router.put('/', function (req, res) {
     if (req.isAuthenticated()) {
+        console.log('router month details', req.body)
+        var firstOfMonth = req.body.firstOfMonth;
+        var lastOfMonth = req.body.lastOfMonth;
         pool.connect(function (errorConnectingToDb, db, done) {
             if (errorConnectingToDb) {
                 console.log('Error connecting', errorConnectingToDb);
                 res.sendStatus(500);
             } //end if error connection to db
             else {
-                var queryText = 'SELECT * FROM "post_shifts";';
-                db.query(queryText, function (errorMakingQuery, result) {
+                var queryText = 
+                'SELECT * FROM "post_shifts"' +
+                'WHERE "date" > $1 AND "date" < $2;';
+                db.query(queryText, [firstOfMonth, lastOfMonth], function (errorMakingQuery, result) {
                     done(); // add + 1 to pool
-
                     if (errorMakingQuery) {
                         console.log('Error making query', errorMakingQuery);
                         res.sendStatus(500);

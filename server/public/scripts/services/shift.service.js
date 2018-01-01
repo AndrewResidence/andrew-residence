@@ -50,20 +50,23 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   // }; //end addShift popup function
   //calls 
   self.shiftDetails = function (event, shift) {
-    console.log('shift details button clicked', shift);
+    // console.log('shift details button clicked', shift);
     self.shift = shift;
     return $http.get('/shifts/filled/who/' + shift.shift_id).then(function (response) {
       self.filledByName.data = response.data
       return response
     })
   }
-  self.getShifts = function () {
-    return $http.get('/shifts').then(function (response) {
-      console.log('response', response.data)
-      self.shiftsToDisplay.data = response.data;
-      return response;
-    });
-  };
+
+  // self.getShifts = function (firstOfMonth, lastOfMonth) {
+  //   console.log('get shifts is running');
+  //   console.log('first and last of month - service', firstOfMonth, lastOfMonth)
+  //   return $http.get('/shifts').then(function (response) {
+  //     console.log('response', response.data)
+  //     self.shiftsToDisplay.data = response.data;
+  //     return response;
+  //   });
+  // };
 
 
   //addNewShift function and route
@@ -112,20 +115,43 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     });
   }; //end addNewShift function and route
 
-  self.getShifts = function () {
+  // self.getShifts = function (firstOfMonth, lastOfMonth) {
+  //   console.log('get shifts is running');
+  //   console.log('first of month', firstOfMonth);
+  //   console.log('last Of Month', lastOfMonth);
+  //   self.shiftsToDisplay.data = [];
+  //   // console.log('shifts to display service', self.shiftsToDisplay.data)
+  //   return $http.get('/shifts').then(function (response) {
+  //     // console.log('response', response.data)
+  //     self.shiftsToDisplay.data = response.data;
+  //     // console.log('shifts to display in service, after query', self.shiftsToDisplay.data)
+  //     return response;
+  //   });
+  // };
+
+  self.getShifts = function (firstDayofShifts, lastDayofShifts) {
+    console.log('get shifts is running');
+    console.log('first of month', firstDayofShifts);
+    console.log('last Of Month', lastDayofShifts);
+    var firstAndLastDays = {
+      firstDayofShifts: firstDayofShifts, 
+      lastDayofShifts: lastDayofShifts
+    }
     self.shiftsToDisplay.data = [];
     console.log('shifts to display service', self.shiftsToDisplay.data)
-    return $http.get('/shifts').then(function (response) {
-      // console.log('response', response.data)
+    return $http.put('/shifts', firstAndLastDays).then(function (response) {
+      console.log('response', response.data)
       self.shiftsToDisplay.data = response.data;
       console.log('shifts to display in service, after query', self.shiftsToDisplay.data)
       return response;
     });
   };
+
+  
   
   self.getPendingShifts = function () {
     var today = moment().format('YYYY-MM-DD');
-    console.log('today', today);
+    // console.log('today', today);
     return $http.get('/shifts/shiftbid/' + today).then(function (response) {
       // console.log('response', response.data);
       return response;
@@ -135,7 +161,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   self.getShiftsToConfirm = function (shiftId) {
     console.log('shift id in service', shiftId);
     return $http.get('/shifts/shiftbidToConfirm/' + shiftId).then(function (response) {
-      console.log('response', response.data);
+      // console.log('response', response.data);
       return response;
     });
   };
@@ -150,16 +176,16 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
 
   self.pickUpShift = function (shift) {
     return $http.post('/shifts/shiftBid', shift).then(function (response) {
-      console.log('posted shift bid', shift, response);
+      // console.log('posted shift bid', shift, response);
       return response;
     });
   };
 
   
   self.getMyShifts = function () {
-    console.log('get my shifts clicked')
+    // console.log('get my shifts clicked')
     return $http.get('/shifts/getmyshifts').then(function (response) {
-      console.log('response from server', response.data)
+      // console.log('response from server', response.data)
       return response.data;
     });
   };

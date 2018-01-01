@@ -64,7 +64,8 @@ body, html {
   background-color: #8774AA;
   width: 100%;
   border-radius: 0px;
-  box-shadow: 0 8px 6px -6px black;
+  color: white;
+  font-weight: bold;
 }
 
 .navContainer {
@@ -72,6 +73,12 @@ body, html {
   justify-content: space-between;
   align-items: center;
   /* font-size: 18px; */
+}
+
+#logOutButton {
+  background-color: #8774AA;
+  font-weight: bold;
+  color: white;
 }
 
 ul {
@@ -259,7 +266,7 @@ li a:hover {
 }
 
 .calDays {
-  justify-items: center;
+  justify-items                                                                                                                                                                                                                           : center;
   width: 100%
 }
 
@@ -518,7 +525,7 @@ div.Pending {
   border-radius: 2px;
   background-color: #ffffff;
   margin-bottom: 2px;
-  width: 80%;
+  width: 90%;
   height: 75px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);  
   padding: 1px;
@@ -535,24 +542,41 @@ md-tabs:not(.md-no-tab-content):not(.md-dynamic-height) {
   min-height: 1200px;
 }
 
+.myShiftsMobileSpace {
+  margin-top: 20px;
+}
+
 .myShiftBlock {
   border-radius: 2px;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);  
-  height: 75px;
-  width: 80%;
+  background-color: #ffffff;
   margin-bottom: 2px;
+  width: 90%;
+  height: 75px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);  
+  padding: 1px;
 }
 
 .shiftButtonLeft {
   float:left;
   display: flex;
   align-self: center;
+  height: 100%;
+  margin-left: 10px;
 }
 
 .shiftStatusIndicator {
   width: 50px;
   height: 20px;
   font-size: 10px;
+  float: right;
+  margin: 5px;
+  text-align: center;
+  border: 1px solid #CCCCCC;
+  border-radius: 3px;
+}
+
+.mobileShiftButtonDetails {
+  padding-left: 10px;
 }
 
 .headerText {
@@ -774,4 +798,13 @@ md-tabs:not(.md-no-tab-content):not(.md-dynamic-height) {
 
 .editUserDialog {
   padding: 20px;
+}
+
+.dialogBox {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.pickupDatePicker {
+  padding: 0;
 }

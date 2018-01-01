@@ -74,6 +74,10 @@ body, html {
   /* font-size: 18px; */
 }
 
+#logOutButton {
+  background-color: #8774AA;
+}
+
 ul {
   list-style-type: none;
   margin: 0;

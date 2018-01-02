@@ -182,9 +182,13 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   };
 
   
-  self.getMyShifts = function () {
+  self.getMyShifts = function (firstDayofShifts, lastDayofShifts) {
+    var firstAndLastDays = {
+        firstDayofShifts: firstDayofShifts, 
+        lastDayofShifts: lastDayofShifts
+    }
     // console.log('get my shifts clicked')
-    return $http.get('/shifts/getmyshifts').then(function (response) {
+    return $http.put('/shifts/getmyshifts', firstAndLastDays).then(function (response) {
       // console.log('response from server', response.data)
       return response.data;
     });

@@ -374,9 +374,12 @@ router.post('/confirm', function (req, res) {
 });//end post route for new shifts
 
 
-router.get('/getmyshifts', function (req, res) {
+router.put('/getmyshifts', function (req, res) {
     if (req.isAuthenticated()) {
         var userId = req.user.id;
+        var firstDayofShifts = req.body.firstDayofShifts;
+        var lastDayofShifts = req.body.lastDayofShifts;
+        console.log('get my shifts dates', req.body);
         pool.connect(function (errorConnectingToDb, db, done) {
             if (errorConnectingToDb) {
                 console.log('Error connecting', errorConnectingToDb);
@@ -387,8 +390,8 @@ router.get('/getmyshifts', function (req, res) {
                     'SELECT "post_shifts"."date", "post_shifts"."shift", "post_shifts"."shift_comments", "post_shifts"."shift_status", "post_shifts"."mhw", "post_shifts"."nurse", "post_shifts"."adl"' +
                     'FROM  "user_shifts" JOIN "post_shifts"' +
                     'ON "user_shifts"."shift_id" = "post_shifts"."shift_id"' +
-                    'WHERE "user_shifts"."user_id" = $1;';
-                db.query(queryText, [userId], function (errorMakingQuery, result) {
+                    'WHERE "post_shifts"."date" > $1 AND "post_shifts"."date" < $2 AND "user_shifts"."user_id" = $3;';
+                db.query(queryText, [firstDayofShifts, lastDayofShifts, userId], function (errorMakingQuery, result) {
                     done(); // add + 1 to pool
 
                     if (errorMakingQuery) {

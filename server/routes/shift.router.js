@@ -62,7 +62,7 @@ router.post('/', function (req, res) {
                                     notifyingSupers(supers).then(function (result) {
                                         var mailOptions = {
                                             from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
-                                            to: 'joshnothum@gmail.com', // list of receivers
+                                            to: 'martapeterson@gmail.com', // list of receivers
                                             subject: 'Shift Posted Notification', // Subject line
                                             html: ' <body style ="background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);">' +
                                                 '<h1>Hello!</h1><h3>You are being notified of the following shift posting:</h3><ul>' + newShift.shift + ':' + theDate + '</ul>' +
@@ -597,41 +597,41 @@ function notifyingSupers(supers) {
     });
 }
 //post route to confirm table upon adding a shift
-// router.post('/confirmation/', function (req, res){
-//         if (req.isAuthenticated()) {
-//             var shift = req.body
-//             var postedBy = req.user.id
-//             pool.connect(function (errorConnectingToDb, db, done) {
-//                 if (errorConnectingToDb) {
-//                     // No connection to database was made - error
-//                     console.log('Error connecting', errorConnectingToDb);
-//                     res.sendStatus(500);
-//                 } //end if error connection to db
-//                 else {
-//                     var queryText = 'INSERT INTO "confirmed" ("confirmed_by_id", "user_id", "shift_id") VALUES ($1, $2, $3);';
-//                     db.query(queryText, [postedBy, shift.filled, shift.shift_id], function (errorMakingQuery, result) {
-//                         done(); // add + 1 to pool - we have received a result or error
-//                         if (errorMakingQuery) {
-//                             console.log('Error making query', errorMakingQuery);
-//                             res.sendStatus(500);
-//                         }
-//                         else {
+router.post('/confirmation/', function (req, res){
+        if (req.isAuthenticated()) {
+            var shift = req.body
+            var postedBy = req.user.id
+            pool.connect(function (errorConnectingToDb, db, done) {
+                if (errorConnectingToDb) {
+                    // No connection to database was made - error
+                    console.log('Error connecting', errorConnectingToDb);
+                    res.sendStatus(500);
+                } //end if error connection to db
+                else {
+                    var queryText = 'INSERT INTO "confirmed" ("confirmed_by_id", "user_id", "shift_id") VALUES ($1, $2, $3);';
+                    db.query(queryText, [postedBy, shift.filled, shift.shift_id], function (errorMakingQuery, result) {
+                        done(); // add + 1 to pool - we have received a result or error
+                        if (errorMakingQuery) {
+                            console.log('Error making query', errorMakingQuery);
+                            res.sendStatus(500);
+                        }
+                        else {
 
-//                             res.sendStatus(201);
-//                         }
-//                     }
-//                     ); // END QUERY
+                            res.sendStatus(201);
+                        }
+                    }
+                    ); // END QUERY
 
-//                 }
+                }
 
-//             }); // end pool connect
+            }); // end pool connect
 
 
-//         } // end req.isAuthenticated
-//         else {
-//             console.log('User is not authenticated')
-//         }
-//     })//end posting to confirmed table upon add shift 
+        } // end req.isAuthenticated
+        else {
+            console.log('User is not authenticated')
+        }
+    })//end posting to confirmed table upon add shift 
 
 
 module.exports = router;

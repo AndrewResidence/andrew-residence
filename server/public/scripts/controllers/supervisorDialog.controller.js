@@ -178,21 +178,21 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
     })
   }
 //get shifts shows all shifts regardless of status
-  vm.getShifts = function () {
-    vm.getPayPeriodDates();
-    ShiftService.getShifts().then(function(response){
-      vm.shiftsToDisplay = response.data;
-      console.log('shifts to display', vm.shiftsToDisplay)
-      for (var i = 0; i < vm.shiftsToDisplay.length; i++) {
-        for (var j = 0; j < vm.currentSchedule.length; j++) {
-          // vm.currentSchedule[j].shifts = [];
-          if (moment(vm.shiftsToDisplay[i].date).format('YYYY-MM-DD') === moment(vm.currentSchedule[j].moment).format('YYYY-MM-DD')) {
-            vm.currentSchedule[j].shifts.push(vm.shiftsToDisplay[i]);
-          }
-        }
-      }
-    })
-  }
+  // vm.getShifts = function () {
+  //   vm.getPayPeriodDates();
+  //   ShiftService.getShifts().then(function(response){
+  //     vm.shiftsToDisplay = response.data;
+  //     console.log('shifts to display', vm.shiftsToDisplay)
+  //     for (var i = 0; i < vm.shiftsToDisplay.length; i++) {
+  //       for (var j = 0; j < vm.currentSchedule.length; j++) {
+  //         // vm.currentSchedule[j].shifts = [];
+  //         if (moment(vm.shiftsToDisplay[i].date).format('YYYY-MM-DD') === moment(vm.currentSchedule[j].moment).format('YYYY-MM-DD')) {
+  //           vm.currentSchedule[j].shifts.push(vm.shiftsToDisplay[i]);
+  //         }
+  //       }
+  //     }
+  //   })
+  // }
 
 
 vm.getPayPeriodDates = function() {

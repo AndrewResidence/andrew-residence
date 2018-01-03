@@ -96,19 +96,30 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
         console.log('send urgent textMessage did not work:', response);
       });
     }
-    if (self.newShift.shift_status === 'Filled') {
-      $http.post('/shifts/confirmation', self.newShift).then(function (response) {
+    // if (self.newShift.shift_status === 'Filled') {
+    //   console.log('here')
+    //   $http.post('/shifts/confirmation', self.newShift).then(function (response) {
 
-        console.log(response);
+    //     console.log(response);
 
-      }).catch(function (response) {
-        console.log('confirmed filled did not work:', response);
-      });
-    }
+    //   }).catch(function (response) {
+    //     console.log('confirmed filled did not work:', response);
+    //   });
+    // }
     return $http.post('/shifts/', self.newShift).then(function (response) {
       console.log('the response', response)
       self.newShift = {}
       return response;
+      //     if (self.newShift.shift_status === 'Filled') {
+      // console.log('here')
+      // $http.post('/shifts/confirmation', self.newShift).then(function (response) {
+
+      //   console.log(response);
+
+      // }).catch(function (response) {
+      //   console.log('confirmed filled did not work:', response);
+      // });
+    // }
     }).catch(function (err) {
       console.log('Error');
     });

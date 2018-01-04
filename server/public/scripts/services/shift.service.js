@@ -148,12 +148,16 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   };
 
   
-  
+  self.pendingShifts = {
+    data: []
+  };
+
   self.getPendingShifts = function () {
     var today = moment().format('YYYY-MM-DD');
     // console.log('today', today);
     return $http.get('/shifts/shiftbid/' + today).then(function (response) {
       // console.log('response', response.data);
+      self.pendingShifts.data = response.data;
       return response;
     });
   };

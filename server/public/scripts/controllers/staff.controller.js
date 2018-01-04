@@ -170,7 +170,7 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
     vm.numDaysInCurrentMonth = moment().year(vm.currentYear).month(vm.thisMonth).daysInMonth();
     vm.putDaysinCurrentMonthArray(vm.currentYear, vm.thisMonth, vm.numDaysInCurrentMonth);
     vm.getShifts(vm.firstOfMonth, vm.lastOfMonth);
-    vm.getMyShifts(vm.firstOfMonth, vm.lastOfMonth);
+    // vm.getMyShifts(vm.firstOfMonth, vm.lastOfMonth);
   }
 
   //function to get next month days and display for calendar
@@ -190,7 +190,7 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
     vm.numDaysInCurrentMonth = moment().year(vm.currentYear).month(vm.thisMonth).daysInMonth();
     vm.putDaysinCurrentMonthArray(vm.currentYear, vm.thisMonth, vm.numDaysInCurrentMonth)
     vm.getShifts(vm.firstOfMonth, vm.lastOfMonth);
-    vm.getMyShifts(vm.firstOfMonth, vm.lastOfMonth);
+    // vm.getMyShifts(vm.firstOfMonth, vm.lastOfMonth);
   }
 
   //shift details pop up

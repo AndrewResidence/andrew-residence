@@ -6,9 +6,9 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   vm.userObject = UserService.userObject;
   vm.shiftService = ShiftService;
   vm.shiftsToDisplay = [];
-  vm.pendingShifts = [];
+  vm.pendingShifts = ShiftService.pendingShifts.data;
   vm.realPendingShifts = [];
-vm.filledByName = ShiftService.filledByName.data;
+  vm.filledByName = ShiftService.filledByName.data;
 
 
 
@@ -34,6 +34,7 @@ vm.filledByName = ShiftService.filledByName.data;
     vm.year = moment(vm.today).format('YYYY');
     calendarService.getPayPeriodDates().then(function(response){
       vm.getShifts(calendarService.payPeriodStart, calendarService.payPeriodEnd);
+      vm.getPendingShifts();
     })
   };
 
@@ -131,12 +132,11 @@ vm.filledByName = ShiftService.filledByName.data;
 
   // vm.getShifts(vm.payPeriodStart, vm.payPeriodEnd);
 
-  //Where I left off: I'm trying to set things up in a way that will allow me to view all of the shift requests for a particular shift. So, the first thing I'm trying to do is match up all shift requests for the same shift. But I'm running into trouble with my for loop.
 
   vm.getPendingShifts = function () {
     ShiftService.getPendingShifts().then(function (response) {
       // console.log('HHHHHHFDSLJSDFLJKSDFLJKSDFLJKSLDFLJKSDF')
-      vm.pendingShifts = response.data;
+      console.log('pending shifts', vm.pendingShifts)
       for (var i = 0; i < vm.pendingShifts.length; i++) {
         vm.pendingShifts[i].date = moment(vm.pendingShifts[i].date).format('M/D');
       }
@@ -147,7 +147,7 @@ vm.filledByName = ShiftService.filledByName.data;
           }
         }
       }
-      console.log('pending shifts', vm.pendingShifts);
+      console.log('pending shifts', vm.pendingShifts.data);
     })
   }
 
@@ -162,7 +162,7 @@ vm.filledByName = ShiftService.filledByName.data;
     }
   }
 
-  vm.getPendingShifts();
+  // vm.getPendingShifts();
 
   vm.click = function (shift) {
     console.log('clicked');

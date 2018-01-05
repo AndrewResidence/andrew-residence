@@ -75,6 +75,7 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
 
   //displays shift details when shift is clicked on from calendar view
   vm.shiftDetails = function (event, shift) {
+
     $mdDialog.show({
       controller: 'StaffDialogController as sc',
       templateUrl: '/views/dialogs/pickUpShift.html',
@@ -207,13 +208,19 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
   };
 
   vm.shiftDetails = function (event, shift) {
+    ShiftService.showPickUpShift(shift);
+    console.log('shift', shift.shift_id)
     $mdDialog.show({
       controller: 'StaffDialogController as sc',
       templateUrl: '/views/dialogs/pickUpShift.html',
       parent: angular.element(document.body),
       targetEvent: event,
       clickOutsideToClose: true,
-      locals: { shift: shift },
+      locals: { 
+        shift: shift,
+        firstOfMonth: vm.firstOfMonth, 
+        lastOfMonth: vm.lastOfMonth
+      },
       fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
     });
   };

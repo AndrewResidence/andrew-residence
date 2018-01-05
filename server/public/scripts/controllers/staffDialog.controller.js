@@ -41,11 +41,23 @@ myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserSer
     }
 
     vm.showPickUpShift = function() {
-      if (vm.shift.shift_status === 'Filled' || vm.shift.shift_status === 'filled') {
-        return false;
-      }
-    
-      return true;
+      console.log('shift in staff dialog controller', vm.shift.id)
+      console.log('myShifts', ShiftService.myShifts.data)
+  //     if (vm.shift.shift_status === 'Filled' || vm.shift.shift_status === 'filled') {
+  //       return false;
+  //     }
+  // return true;
+        for (var i = 0; i < ShiftService.myShifts.data; i++) {
+          if (vm.shift.id === ShiftService.myShifts.data[i].shift_id) {
+          return false;
+          }
+          else if (vm.shift.shift_status === 'Filled' || vm.shift.shift_status === 'filled') {
+            return false;
+          }
+          else {
+            return true;
+          }
+        }
     };
 
       //closes dialog box
@@ -56,7 +68,7 @@ myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserSer
   //   vm.showComments = true;
   // }
 
-  vm.pickUpShift = function (shift) {
+  vm.pickUpShift = function () {
     console.log('pick up shift', vm.shift);
     vm.shiftService.pickUpShift(shift).then(function (response) {
       $mdDialog.hide();

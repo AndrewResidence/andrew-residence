@@ -158,6 +158,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     return $http.get('/shifts/shiftbid/' + today).then(function (response) {
       // console.log('response', response.data);
       self.pendingShifts.data = response.data;
+      console.log('service pending shifts', self.pendingShifts.data);
       return response;
     });
   };

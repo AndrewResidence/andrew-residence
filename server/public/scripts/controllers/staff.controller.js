@@ -208,6 +208,7 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
   };
 
   vm.shiftDetails = function (event, shift) {
+    ShiftService.showPickUpShift(shift);
     console.log('shift', shift.shift_id)
     $mdDialog.show({
       controller: 'StaffDialogController as sc',
@@ -215,7 +216,11 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
       parent: angular.element(document.body),
       targetEvent: event,
       clickOutsideToClose: true,
-      locals: { shift: shift },
+      locals: { 
+        shift: shift,
+        firstOfMonth: vm.firstOfMonth, 
+        lastOfMonth: vm.lastOfMonth
+      },
       fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
     });
   };

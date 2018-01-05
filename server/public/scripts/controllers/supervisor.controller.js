@@ -204,9 +204,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
       locals: {pendingShift: shift},
       fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
     }).then(function() {
-      // vm.getPendingShifts();
       vm.getPayPeriodDates();
-      console.log('howdy');
     })
   } //end confirmShift
 

@@ -93,15 +93,17 @@ myApp.service('UserService', function ($http, $location) {
   self.createMessage = function (messageBody, headline){
     self.message.messageBody = messageBody;
     self.message.headline = headline;
-     return $http.post('/user/message/', self.message).then(function (response){
-     return response
+      return $http.post('/user/message/', self.message).then(function (response){
+      return response
     })
   }
 
   self.getNotifications = function (){
-     return $http.get('/user/messages/').then(function (response){
-      return response
-    })
+     $http.get('/user/messages/').then(function (response){
+       console.log('here in service')
+      console.log('response', response.data)
+      self.notifications.data = response.data
+     })
   }
 
   self.deleteNotifcation = function (id) {
@@ -111,11 +113,7 @@ myApp.service('UserService', function ($http, $location) {
   }
 
 
-  self.getNotifications = function (){
-    return $http.get('/user/messages/').then(function (response){
-      return response;
-    });
-  };
+
 
   self.sendProfile = function (newEmail, newPhone) {
 

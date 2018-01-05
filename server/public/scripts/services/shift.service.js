@@ -148,7 +148,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
       lastDayofShifts: lastDayofShifts
     }
     self.shiftsToDisplay.data = [];
-    console.log('shifts to display service', self.shiftsToDisplay.data)
+    // console.log('shifts to display service', self.shiftsToDisplay.data)
     return $http.put('/shifts', firstAndLastDays).then(function (response) {
       console.log('response', response.data)
       self.shiftsToDisplay.data = response.data;
@@ -165,11 +165,28 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   self.getPendingShifts = function () {
     var today = moment().format('YYYY-MM-DD');
     // console.log('today', today);
-    return $http.get('/shifts/shiftbid/' + today).then(function (response) {
+    // return 
+    $http.get('/shifts/shiftbid/' + today).then(function (response) {
       // console.log('response', response.data);
       self.pendingShifts.data = response.data;
-      return response;
-    });
+      console.log('pending shifts', self.pendingShifts.data)
+      for (var i = 0; i < self.pendingShifts.data.length; i++) {
+        self.pendingShifts.data[i].date = moment(self.pendingShifts.data[i].date).format('M/D');
+      }
+      console.log('after first loop')
+      for (var i = 0; i < self.pendingShifts.data.length; i++) {
+        console.log('getting here after the second loop')
+        
+        for (var j = i + 1; j < self.pendingShifts.data.length; j++) {
+          console.log('now I am here after the 3rd')
+          if (self.pendingShifts.data[i].shift_id == self.pendingShifts.data[j].shift_id) {
+            self.pendingShifts.data.splice(j, 1);
+          }
+          console.log('after the loops', self.pendingShifts.data)
+        }
+      }
+    }
+        )   // return response;
   };
 
   self.getShiftsToConfirm = function (shiftId) {

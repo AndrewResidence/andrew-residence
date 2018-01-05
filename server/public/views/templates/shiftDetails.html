@@ -5,7 +5,7 @@
 
 
             <span flex="auto"></span>
-            <md-button class="md-icon-button md-primary" id="closeButton" ng-click="sd.cancel()">
+            <md-button aria-label="close" class="md-icon-button md-primary" id="closeButton" ng-click="sd.cancel()">
                 <img id="closeIcon" src="/styles/closeIcon.png" alt="close window">
             </md-button>
         </div>
@@ -71,15 +71,15 @@
     </md-dialog-content>
     <md-dialog-actions>
         <div layout="row">
-            <md-button class="md-raised md-warn" ng-click="sd.deleteShift(sd.shift.shift_id)">Delete</md-button>
+            <md-button aria-label="delete" class="md-raised md-warn" ng-click="sd.deleteShift(sd.shift.shift_id)">Delete</md-button>
             <span flex></span>
 
-            <md-button ng-hide="sd.shift.shift_status === 'Filled'" class="md-raised" ng-click="sd.editShiftDetails(event)" ng-show="sd.editShift === false">Edit</md-button>
-            <md-button class="md-raised" ng-show="sd.editShift === true" ng-click="sd.updateShift(sd.shift.shift_id, sd.shift.shift_comments, sd.shift.shift, sd.shift.mhw, sd.shift.adl, sd.shift.nurse, sd.shift.date, sd.shift.floor)">Update</md-button>
+            <md-button aria-label="edit button" ng-hide="sd.shift.shift_status === 'Filled'" class="md-raised" ng-click="sd.editShiftDetails(event)" ng-show="sd.editShift === false">Edit</md-button>
+            <md-button aria-label="edit button" class="md-raised" ng-show="sd.editShift === true" ng-click="sd.updateShift(sd.shift.shift_id, sd.shift.shift_comments, sd.shift.shift, sd.shift.mhw, sd.shift.adl, sd.shift.nurse, sd.shift.date, sd.shift.floor)">Update</md-button>
             <span flex></span>
-            <md-button ng-show="sd.editFill === false" ng-hide="sd.shift.shift_status === 'Filled'" id="fillShiftButton" class="md-raised md-primary"
+            <md-button aria-label="fill button" ng-show="sd.editFill === false" ng-hide="sd.shift.shift_status === 'Filled'" id="fillShiftButton" class="md-raised md-primary"
                 ng-click="sd.fillShift(event)">Fill</md-button>
-            <md-button ng-show="sd.editFill === true" id="fillShiftButton" class="md-raised md-primary" ng-click="sd.shiftFilled(sd.shift.filled, sd.shift.shift_id)">Save</md-button>
+            <md-button aria-label="fill button" ng-show="sd.editFill === true" id="fillShiftButton" class="md-raised md-primary" ng-click="sd.shiftFilled(sd.shift.filled, sd.shift.shift_id)">Save</md-button>
         </div>
 
     </md-dialog-actions>

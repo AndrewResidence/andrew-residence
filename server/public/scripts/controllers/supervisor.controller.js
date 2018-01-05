@@ -6,10 +6,9 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   vm.userObject = UserService.userObject;
   vm.shiftService = ShiftService;
   vm.shiftsToDisplay = [];
-  vm.pendingShifts = ShiftService.pendingShifts.data;
+  vm.pendingShifts = ShiftService.pendingShifts;
   vm.realPendingShifts = [];
   vm.filledByName = ShiftService.filledByName.data;
-
 
 
   vm.updatePayPeriodDates = function () {
@@ -32,7 +31,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   vm.getPayPeriodDates = function () {
     vm.month = moment(vm.today).format('MMMM');
     vm.year = moment(vm.today).format('YYYY');
-    calendarService.getPayPeriodDates().then(function(response){
+    calendarService.getPayPeriodDates().then(function (response) {
       vm.getShifts(calendarService.payPeriodStart, calendarService.payPeriodEnd);
       vm.getPendingShifts();
     })
@@ -84,18 +83,18 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
 
   vm.shiftDetails = function (event, shift) {
     vm.filledByName = [];
-      ShiftService.shiftDetails(event, shift).then(function (response) {
-        vm.filledByName = response.data;
-        console.log('whos is it filled by?')
-        $mdDialog.show({
-          controller: 'SupervisorDialogController as sd',
-          templateUrl: '/views/templates/shiftDetails.html',
-          parent: angular.element(document.body),
-          targetEvent: event,
-          clickOutsideToClose: true,
-          fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
-        });
-      }) //end shiftDetails popup function    
+    ShiftService.shiftDetails(event, shift).then(function (response) {
+      vm.filledByName = response.data;
+      console.log('whos is it filled by?')
+      $mdDialog.show({
+        controller: 'SupervisorDialogController as sd',
+        templateUrl: '/views/templates/shiftDetails.html',
+        parent: angular.element(document.body),
+        targetEvent: event,
+        clickOutsideToClose: true,
+        fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
+      });
+    }) //end shiftDetails popup function    
 
   };
 
@@ -134,26 +133,31 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
 
 
   vm.getPendingShifts = function () {
-    ShiftService.getPendingShifts().then(function (response) {
-      // console.log('HHHHHHFDSLJSDFLJKSDFLJKSDFLJKSLDFLJKSDF')
-      console.log('pending shifts', vm.pendingShifts)
-      for (var i = 0; i < vm.pendingShifts.length; i++) {
-        vm.pendingShifts[i].date = moment(vm.pendingShifts[i].date).format('M/D');
-      }
-      for (var i = 0; i < vm.pendingShifts.length; i++) {
-        for (var j = i+1; j < vm.pendingShifts.length; j++) {
-          if (vm.pendingShifts[i].shift_id == vm.pendingShifts[j].shift_id) {
-            vm.pendingShifts.splice(j, 1);
-          }
-        }
-      }
-      console.log('pending shifts', vm.pendingShifts.data);
-    })
+    console.log('called')
+    ShiftService.getPendingShifts()
+    // .then(function (response) {
+    //   // console.log('HHHHHHFDSLJSDFLJKSDFLJKSDFLJKSLDFLJKSDF')
+    //   console.log('pending shifts', vm.pendingShifts)
+    //   for (var i = 0; i < vm.pendingShifts.length; i++) {
+    //     vm.pendingShifts[i].date = moment(vm.pendingShifts[i].date).format('M/D');
+    //   }
+    //   for (var i = 0; i < vm.pendingShifts.length; i++) {
+    //     for (var j = i+1; j < vm.pendingShifts.length; j++) {
+    //       if (vm.pendingShifts[i].shift_id == vm.pendingShifts[j].shift_id) {
+    //         vm.pendingShifts.splice(j, 1);
+    //       }
+    //     }
+    //   }
+    //   console.log('pending shifts', vm.pendingShifts);
+    // })
   }
+
+  // vm.getPendingShifts();
+
 
   function checkShiftIds(array, id) {
     var result = false;
-    for (var i=0; i < array.length; i++) {
+    for (var i = 0; i < array.length; i++) {
       if (array[i].shift_id == id) {
         console.log('true', array[i].shift_id)
         result = true;
@@ -162,7 +166,6 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
     }
   }
 
-  // vm.getPendingShifts();
 
   vm.click = function (shift) {
     console.log('clicked');
@@ -188,22 +191,23 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
     UserService.getSupervisors().then(function (response) {
       vm.supervisors = response.data;
       console.log('got supervisors', vm.supervisors);
-  // IF there are two pending shifts that have the same date, display them in the same dialog box AND only show one button
+      // IF there are two pending shifts that have the same date, display them in the same dialog box AND only show one button
     })
   }
 
-  vm.confirmShift = function(event, shift) {
+  vm.confirmShift = function (event, shift) {
     $mdDialog.show({
       controller: 'ConfirmShiftController as sc',
       templateUrl: '/views/dialogs/confirmShift.html',
       parent: angular.element(document.body),
       targetEvent: event,
       clickOutsideToClose: true,
-      locals: {pendingShift: shift},
+      locals: { pendingShift: shift },
       fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
-    }).then(function() {
+    }).then(function () {
       // vm.getPendingShifts();
       // vm.getShifts();
+
       console.log('howdy');
     })
   } //end confirmShift

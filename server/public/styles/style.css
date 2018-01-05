@@ -808,3 +808,7 @@ md-tabs:not(.md-no-tab-content):not(.md-dynamic-height) {
 .pickupDatePicker {
   padding: 0;
 }
+
+#redAsterisk {
+  color: red;
+}

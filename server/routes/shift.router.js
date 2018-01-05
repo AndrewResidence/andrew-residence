@@ -387,7 +387,7 @@ router.put('/getmyshifts', function (req, res) {
             } //end if error connection to db
             else {
                 var queryText =
-                    'SELECT "post_shifts"."date", "post_shifts"."shift", "post_shifts"."shift_comments", "post_shifts"."shift_status", "post_shifts"."mhw", "post_shifts"."nurse", "post_shifts"."adl"' +
+                    'SELECT "post_shifts"."date", "post_shifts"."shift", "post_shifts"."shift_comments", "post_shifts"."shift_status", "post_shifts"."mhw", "post_shifts"."nurse", "post_shifts"."adl", "user_shifts"."shift_id"' +
                     'FROM  "user_shifts" JOIN "post_shifts"' +
                     'ON "user_shifts"."shift_id" = "post_shifts"."shift_id"' +
                     'WHERE "post_shifts"."date" > $1 AND "post_shifts"."date" < $2 AND "user_shifts"."user_id" = $3;';

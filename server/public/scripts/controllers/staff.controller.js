@@ -24,7 +24,7 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
 
   vm.userShiftsToDisplay = [];
   vm.shiftsToDisplay = [];
-  // vm.pendingShifts = ShiftService.pendingShifts.data;
+  // vm.pendingShifts = [];
 
   vm.showDetailsDialog = function(event) {
     // console.log('pick up shift button clicked');
@@ -62,15 +62,12 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
 
   //gets pending shifts
   // vm.getPendingShifts = function () {
-  //   console.log('called from staff controller')
-  //   ShiftService.getPendingShifts()
-    
-  //   .then(function (response) {
-  //     // vm.pendingShifts = response.data;
+  //   ShiftService.getPendingShifts().then(function (response) {
+  //     vm.pendingShifts = response.data;
   //     for (var i = 0; i < vm.pendingShifts.length; i++) {
   //       vm.pendingShifts[i].date = moment(vm.pendingShifts[i].date).format('l');
   //     }
-  //     console.log(' pending shifts', vm.pendingShifts);
+  //     // console.log(' pending shifts', vm.pendingShifts);
   //   }) // .catch and displaying a generic error
   // }
 

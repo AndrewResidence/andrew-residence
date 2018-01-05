@@ -7,7 +7,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   vm.shiftService = ShiftService;
   vm.shiftsToDisplay = [];
   vm.pendingShifts = ShiftService.pendingShifts;
-  vm.realPendingShifts = [];
+  // vm.realPendingShifts = [];
   vm.filledByName = ShiftService.filledByName.data;
 
 
@@ -133,23 +133,21 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
 
 
   vm.getPendingShifts = function () {
-    console.log('called')
-    ShiftService.getPendingShifts()
-    // .then(function (response) {
-    //   // console.log('HHHHHHFDSLJSDFLJKSDFLJKSDFLJKSLDFLJKSDF')
-    //   console.log('pending shifts', vm.pendingShifts)
-    //   for (var i = 0; i < vm.pendingShifts.length; i++) {
-    //     vm.pendingShifts[i].date = moment(vm.pendingShifts[i].date).format('M/D');
-    //   }
-    //   for (var i = 0; i < vm.pendingShifts.length; i++) {
-    //     for (var j = i+1; j < vm.pendingShifts.length; j++) {
-    //       if (vm.pendingShifts[i].shift_id == vm.pendingShifts[j].shift_id) {
-    //         vm.pendingShifts.splice(j, 1);
-    //       }
-    //     }
-    //   }
-    //   console.log('pending shifts', vm.pendingShifts);
-    // })
+    ShiftService.getPendingShifts().then(function (response) {
+      // console.log('HHHHHHFDSLJSDFLJKSDFLJKSDFLJKSLDFLJKSDF')
+      console.log('pending shifts', vm.pendingShifts)
+      for (var i = 0; i < vm.pendingShifts.length; i++) {
+        vm.pendingShifts[i].date = moment(vm.pendingShifts[i].date).format('M/D');
+      }
+      for (var i = 0; i < vm.pendingShifts.length; i++) {
+        for (var j = i+1; j < vm.pendingShifts.length; j++) {
+          if (vm.pendingShifts[i].shift_id == vm.pendingShifts[j].shift_id) {
+            vm.pendingShifts.splice(j, 1);
+          }
+        }
+      }
+      console.log('pending shifts', vm.pendingShifts);
+    })
   }
 
   // vm.getPendingShifts();

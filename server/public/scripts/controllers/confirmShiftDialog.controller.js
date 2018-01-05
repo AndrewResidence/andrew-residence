@@ -5,8 +5,8 @@ myApp.controller('ConfirmShiftController', function ($scope, $mdDialog, $mdToast
     vm.shiftService = ShiftService;
     vm.userObject = UserService.userObject;
     vm.pendingShift = pendingShift;
-    // vm.pendingShifts = ShiftService.pendingShifts.data;
-
+    vm.pendingShifts = ShiftService.pendingShifts;
+    
     //closes dialog box
     vm.cancel = function () {
       $mdDialog.hide();
@@ -40,24 +40,24 @@ myApp.controller('ConfirmShiftController', function ($scope, $mdDialog, $mdToast
       })
     }
 
-    // vm.getPendingShifts = function () {
-      // ShiftService.getPendingShifts()
-      // .then(function (response) {
-        // console.log('HHHHHHFDSLJSDFLJKSDFLJKSDFLJKSLDFLJKSDF')
-    //     console.log('pending shifts', vm.pendingShifts)
-    //     for (var i = 0; i < vm.pendingShifts.data.length; i++) {
-    //       vm.pendingShifts.data[i].date = moment(vm.pendingShifts.data[i].date).format('M/D');
-    //     }
-    //     for (var i = 0; i < vm.pendingShifts.data.length; i++) {
-    //       for (var j = i+1; j < vm.pendingShifts.data.length; j++) {
-    //         if (vm.pendingShifts.data[i].shift_id == vm.pendingShifts.data[j].shift_id) {
-    //           vm.pendingShifts.data.splice(j, 1);
-    //         }
-    //       }
-    //     }
-    //     console.log('pending shifts', vm.pendingShifts.data);
-    //   })
-    // }
+    vm.getPendingShifts = function () {
+      ShiftService.getPendingShifts()
+      .then(function (response) {
+        console.log('HHHHHHFDSLJSDFLJKSDFLJKSDFLJKSLDFLJKSDF')
+        console.log('pending shifts', vm.pendingShifts)
+        for (var i = 0; i < vm.pendingShifts.length; i++) {
+          vm.pendingShifts[i].date = moment(vm.pendingShifts[i].date).format('M/D');
+        }
+        for (var i = 0; i < vm.pendingShifts.length; i++) {
+          for (var j = i+1; j < vm.pendingShifts.length; j++) {
+            if (vm.pendingShifts[i].shift_id == vm.pendingShifts[j].shift_id) {
+              vm.pendingShifts.splice(j, 1);
+            }
+          }
+        }
+        console.log('pending shifts', vm.pendingShifts);
+      })
+    }
   
   });
   

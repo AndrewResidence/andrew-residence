@@ -6,8 +6,8 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   vm.userObject = UserService.userObject;
   vm.shiftService = ShiftService;
   vm.shiftsToDisplay = [];
-  vm.pendingShifts = ShiftService.pendingShifts.data;
-  vm.realPendingShifts = [];
+  vm.pendingShifts = ShiftService.pendingShifts;
+  // vm.realPendingShifts = [];
   vm.filledByName = ShiftService.filledByName.data;
 
 
@@ -147,7 +147,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
           }
         }
       }
-      console.log('pending shifts', vm.pendingShifts.data);
+      console.log('pending shifts', vm.pendingShifts);
     })
   }
 

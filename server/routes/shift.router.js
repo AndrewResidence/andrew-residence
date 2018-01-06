@@ -55,11 +55,8 @@ router.post('/', function (req, res) {
                                 console.log('Error making query', errorMakingQuery);
                                 res.sendStatus(500);
                                 return;
-
                             } else {
-               
                                 console.log('results', result.rows[0]);
-
                                 result.rows[0].notify.forEach(function (supers) {
                                     console.log('supers', supers);
                                     notifyingSupers(supers).then(function (result) {
@@ -111,23 +108,29 @@ router.post('/', function (req, res) {
     }
 });//end post route for new shifts
 //get route for post_shifts 
-router.get('/', function (req, res) {
+router.put('/', function (req, res) {
     if (req.isAuthenticated()) {
+        console.log('router month details', req.body)
+        var firstDayofShifts = req.body.firstDayofShifts;
+        var lastDayofShifts = req.body.lastDayofShifts;
         pool.connect(function (errorConnectingToDb, db, done) {
             if (errorConnectingToDb) {
                 console.log('Error connecting', errorConnectingToDb);
                 res.sendStatus(500);
             } //end if error connection to db
             else {
-                var queryText = 'SELECT * FROM "post_shifts";';
-                db.query(queryText, function (errorMakingQuery, result) {
+                console.log('hitting the query');
+                var queryText = 
+                'SELECT * FROM "post_shifts"' +
+                'WHERE "date" > $1 AND "date" < $2;';
+                db.query(queryText, [firstDayofShifts, lastDayofShifts], function (errorMakingQuery, result) {
                     done(); // add + 1 to pool
-
                     if (errorMakingQuery) {
                         console.log('Error making query', errorMakingQuery);
                         res.sendStatus(500);
                     } else {
                         res.send(result.rows);
+                        console.log('result.rows', result.rows);
                     }
                 }); // END QUERY
             }
@@ -175,8 +178,8 @@ router.put('/payperiod/updatedates/:id', function (req, res) {
             } //end if error connection to db
             else {
                 var queryText =
-                    'UPDATE "pay_period"' +
-                    'SET "start" = ("start" + 14), "end" = ("end" + 14)' +
+                    'UPDATE "pay_period" ' +
+                    'SET "start" = ("start" + \'15 days\'::interval )::date, "end" = ("end" + \'15 days\'::interval)::date ' +
                     'WHERE "id" = $1;';
                 db.query(queryText, [rowId], function (errorMakingQuery, result) {
                     done();
@@ -376,9 +379,12 @@ router.post('/confirm', function (req, res) {
 });//end post route for new shifts
 
 
-router.get('/getmyshifts', function (req, res) {
+router.put('/getmyshifts', function (req, res) {
     if (req.isAuthenticated()) {
         var userId = req.user.id;
+        var firstDayofShifts = req.body.firstDayofShifts;
+        var lastDayofShifts = req.body.lastDayofShifts;
+        console.log('get my shifts dates', req.body);
         pool.connect(function (errorConnectingToDb, db, done) {
             if (errorConnectingToDb) {
                 console.log('Error connecting', errorConnectingToDb);
@@ -386,11 +392,11 @@ router.get('/getmyshifts', function (req, res) {
             } //end if error connection to db
             else {
                 var queryText =
-                    'SELECT "post_shifts"."date", "post_shifts"."shift", "post_shifts"."shift_comments", "post_shifts"."shift_status", "post_shifts"."mhw", "post_shifts"."nurse", "post_shifts"."adl"' +
+                    'SELECT "post_shifts"."date", "post_shifts"."shift", "post_shifts"."shift_comments", "post_shifts"."shift_status", "post_shifts"."mhw", "post_shifts"."nurse", "post_shifts"."adl", "user_shifts"."shift_id"' +
                     'FROM  "user_shifts" JOIN "post_shifts"' +
                     'ON "user_shifts"."shift_id" = "post_shifts"."shift_id"' +
-                    'WHERE "user_shifts"."user_id" = $1;';
-                db.query(queryText, [userId], function (errorMakingQuery, result) {
+                    'WHERE "post_shifts"."date" > $1 AND "post_shifts"."date" < $2 AND "user_shifts"."user_id" = $3;';
+                db.query(queryText, [firstDayofShifts, lastDayofShifts, userId], function (errorMakingQuery, result) {
                     done(); // add + 1 to pool
 
                     if (errorMakingQuery) {

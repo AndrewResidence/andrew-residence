@@ -6,9 +6,9 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   vm.userObject = UserService.userObject;
   vm.shiftService = ShiftService;
   vm.shiftsToDisplay = [];
-  vm.pendingShifts = [];
-  vm.realPendingShifts = [];
-vm.filledByName = ShiftService.filledByName.data;
+  vm.pendingShifts = ShiftService.pendingShifts;
+  // vm.realPendingShifts = [];
+  vm.filledByName = ShiftService.filledByName.data;
 
 
 
@@ -25,14 +25,17 @@ vm.filledByName = ShiftService.filledByName.data;
   vm.scheduleDays = calendarService.scheduleDays;
   vm.payPeriodStartAndEnd = calendarService.payPeriodStartAndEnd;
   vm.currentSchedule = calendarService.currentSchedule.dates;
-  vm.payPeriodStart = '';
-  vm.payPeriodEnd = '';
+  // vm.payPeriodStart = '';
+  // vm.payPeriodEnd = '';
 
   //funciton to get the data for the calendar
   vm.getPayPeriodDates = function () {
     vm.month = moment(vm.today).format('MMMM');
     vm.year = moment(vm.today).format('YYYY');
-    calendarService.getPayPeriodDates();
+    calendarService.getPayPeriodDates().then(function(response){
+      vm.getShifts(calendarService.payPeriodStart, calendarService.payPeriodEnd);
+      vm.getPendingShifts();
+    })
   };
 
   //checks to see if the pay period is current, if not, it updates the DB
@@ -51,27 +54,31 @@ vm.filledByName = ShiftService.filledByName.data;
   //function to pull prior two weeks of dates
   vm.prevTwoWeeks = function (date) {
     vm.currentSchedule = [];
+    console.log('date in prev two weeks', date)
     var prevTwoWeeks = moment(date).subtract(14, 'days');
     vm.payPeriodStart = prevTwoWeeks;
+    vm.payPeriodEnd = moment(date).subtract(1, 'days');
     for (var i = 0; i < vm.scheduleDays.length; i++) {
       vm.currentSchedule.push({ moment: moment(prevTwoWeeks._d).add(vm.scheduleDays[i], 'days'), shifts: [] });
     }
     vm.month = moment(prevTwoWeeks._d).format('MMMM');
     vm.year = moment(prevTwoWeeks._d).format('YYYY');
-    vm.getShifts();
+    vm.getShifts(vm.payPeriodStart, vm.payPeriodEnd);
   };
 
   //function to get next two weeks of dates
   vm.nextTwoWeeks = function (date) {
     vm.currentSchedule = [];
     var nextTwoWeeks = moment(date).add(14, 'days');
+    vm.payPeriodEnd = moment(date).add(28, 'days');
     vm.payPeriodStart = nextTwoWeeks;
     for (var i = 0; i < vm.scheduleDays.length; i++) {
       vm.currentSchedule.push({ moment: moment(nextTwoWeeks._d).add(vm.scheduleDays[i], 'days'), shifts: [] });
     }
     vm.month = moment(nextTwoWeeks._d).format('MMMM');
     vm.year = moment(nextTwoWeeks._d).format('YYYY');
-    vm.getShifts();
+    console.log(vm.payPeriodStart, vm.payPeriodEnd)
+    vm.getShifts(vm.payPeriodStart, vm.payPeriodEnd);
   };
 
 
@@ -88,7 +95,7 @@ vm.filledByName = ShiftService.filledByName.data;
           clickOutsideToClose: true,
           fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
         });
-       }) //end shiftDetails popup function    
+      }) //end shiftDetails popup function    
 
   };
 
@@ -104,9 +111,12 @@ vm.filledByName = ShiftService.filledByName.data;
     })
   }; //end addShift popup function
 
-  vm.getShifts = function () {
+  vm.getShifts = function (payPeriodStart, payPeriodEnd) {
     vm.shiftsToDisplay = [];
-    ShiftService.getShifts().then(function (response) {
+    var firstDayofShifts = moment(payPeriodStart);
+    var lastDayofShifts = moment(payPeriodEnd)
+    console.log('pay period dates', firstDayofShifts, lastDayofShifts)
+    ShiftService.getShifts(firstDayofShifts, lastDayofShifts).then(function (response) {
       vm.shiftsToDisplay = response.data;
       console.log('shifts to display', vm.shiftsToDisplay)
       for (var i = 0; i < vm.shiftsToDisplay.length; i++) {
@@ -120,22 +130,23 @@ vm.filledByName = ShiftService.filledByName.data;
     });
   };
 
-  vm.getShifts();
+  // vm.getShifts(vm.payPeriodStart, vm.payPeriodEnd);
 
-  //Where I left off: I'm trying to set things up in a way that will allow me to view all of the shift requests for a particular shift. So, the first thing I'm trying to do is match up all shift requests for the same shift. But I'm running into trouble with my for loop.
 
   vm.getPendingShifts = function () {
     ShiftService.getPendingShifts().then(function (response) {
       // console.log('HHHHHHFDSLJSDFLJKSDFLJKSDFLJKSLDFLJKSDF')
-      vm.pendingShifts = response.data;
-      for (var i = 0; i < vm.pendingShifts.length; i++) {
-        vm.pendingShifts[i].date = moment(vm.pendingShifts[i].date).format('M/D');
-      }
-      for (var i = 0; i < vm.pendingShifts.length; i++) {
-        for (var j = i+1; j < vm.pendingShifts.length; j++) {
-          if (vm.pendingShifts[i].shift_id == vm.pendingShifts[j].shift_id) {
-            vm.pendingShifts.splice(j, 1);
-          }
+      console.log('pending shifts', vm.pendingShifts.data.length)
+      for (var i = 0; i < vm.pendingShifts.data.length; i++) {
+        console.log('in for loop', vm.pendingShifts.data);
+        vm.pendingShifts.data[i].date = moment(vm.pendingShifts.data[i].date).format('M/D');
+      };
+      for (var i = 0; i < vm.pendingShifts.data.length; i++) {
+        console.log('shift id in pending shifts', vm.pendingShifts.data[i].shift_id);
+        for (var j = i+1; j < vm.pendingShifts.data.length; j++) {
+          if (vm.pendingShifts.data[i].shift_id == vm.pendingShifts.data[j].shift_id) {
+            vm.pendingShifts.data.splice(j, 1);
+          };
         }
       }
       console.log('pending shifts', vm.pendingShifts);
@@ -153,7 +164,7 @@ vm.filledByName = ShiftService.filledByName.data;
     }
   }
 
-  vm.getPendingShifts();
+  // vm.getPendingShifts();
 
   vm.click = function (shift) {
     console.log('clicked');
@@ -193,10 +204,8 @@ vm.filledByName = ShiftService.filledByName.data;
       locals: {pendingShift: shift},
       fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
     }).then(function() {
-      // vm.getPendingShifts();
-      // vm.getShifts();
-      console.log('howdy');
-    });
-  }; //end confirmShift
+      vm.getPayPeriodDates();
+    })
+  } //end confirmShift
 
 });

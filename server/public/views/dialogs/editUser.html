@@ -2,22 +2,31 @@
     <md-toolbar class="md-toolbar-tools">
         <h3>Edit User</h3>
         <span flex></span>
-        <md-button id="closeButton" ng-click="ac.cancel()"><img id="closeIcon" src="/styles/closeIcon.png" alt="close window"></md-button>
+        <md-button class="md-icon-button md-primary" id="closeButton" ng-click="ac.cancel()">
+            <img id="closeIcon" src="/styles/closeIcon.png" alt="close window">
+        </md-button>
     </md-toolbar>
-    <md-dialog-content>
-        <div class="editUserDialog">
-            <div>Name:  <input ng-model="ac.user.name">{{ac.user.name}}</input></div>
-            <div> Email Address:
-                    <input ng-model="ac.user.username">{{ac.user.username}}</input></div>
-       <div>Phone Number:
-            <input ng-model="ac.user.phone">{{ac.user.phone}}</input></div>
-       <div> Role:
+    <md-dialog-content class="editUserDialog">
+        <div layout="column">
+            <md-input-container>
+                <label>Name</label>
+                <input ng-model="ac.user.name"></input>
+            </md-input-container>
+            <md-input-container>
+                <label>Email</label>
+                <input ng-model="ac.user.username"></input>
+            </md-input-container>
+            <md-input-container>
+                <label>Phone</label>
+                <input ng-model="ac.user.phone"></input>
+            </md-input-container>
             <md-input-container id="RoleInput">
+                <label>Role</label>
                 <md-select ng-model="ac.user.role">
                     <md-option ng-repeat="role in ac.roles" ng-value="role">{{role}}</md-option>
                 </md-select>
-            </md-input-container></div>
-    </div>
+            </md-input-container>
+        </div>
     </md-dialog-content>
     <md-dialog-actions>
         <md-button ng-click="ac.cancel()">Cancel</md-button>

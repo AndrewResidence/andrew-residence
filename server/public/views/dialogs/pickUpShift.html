@@ -15,7 +15,7 @@
 <md-dialog-actions>
     <md-button ng-click="sc.showPickUpShift()">Pick Up Shift</md-button>
     <div ng-show="sc.showComments">
-       <br> <br> <br>
+        <br> <br> <br>
         Add a comment: <input type="text" ng-model="sc.shift.staff_comments">
         <md-button ng-click="sc.pickUpShift(sc.shift)">Pick Up Shift</md-button>
     </div>
@@ -28,57 +28,51 @@
         <div class="md-toolbar-tools">
             <h3>{{sc.titleDate}} {{sc.shift.shift}}</h3>
             <span flex="auto"></span>
-            <md-button id="closeButton" ng-click="sc.cancel()">
+            <md-button aria-label="Close Dialog" class="md-icon-button md-primary" id="closeButton" ng-click="sc.cancel()">
                 <img id="closeIcon" src="/styles/closeIcon.png" alt="close window">
             </md-button>
         </div>
     </md-toolbar>
-    <md-dialog-content flex="auto">
+    <md-dialog-content class="dialogBox" flex="auto">
         <div layout="row">
-
-            <div layout-gt-xl="row"></div>
-            <md-datepicker ng-model="sc.shift.date" ng-disabled="sc.edit === false">{{sc.shift.date}}</md-datepicker>
-            <div layout-align="center center" ng-if="sc.shift.shift_status === 'Open'" ng-style="sc.shift.shift_status === 'Open' && {'background-color':'#187B18', 'color': 'white'}"
+            <md-datepicker class="pickupDatePicker" ng-model="sc.shift.date" ng-disabled="sc.edit === false">{{sc.shift.date}}</md-datepicker>
+        </div>    
+        <div >
+            <div ng-if="sc.shift.shift_status === 'Open'" ng-style="sc.shift.shift_status === 'Open' && {'background-color':'#ffffff', 'color': 'black', 'border': 'solid 1px #CCCCCC'}"
                 id="statusIndicator">{{sc.shift.shift_status}}</div>
-            <div ng-if="sc.shift.shift_status === 'Pending'" ng-style="sc.shift.shift_status === 'Pending' && {'background-color':'#f7cc31'}"
+            <div ng-if="sc.shift.shift_status === 'Pending'" ng-style="sc.shift.shift_status === 'Pending' && {'background-color':'#FCF1C6'}"
                 id="statusIndicator">{{sc.shift.shift_status}}</div>
-            <div ng-if="sc.shift.shift_status === 'Filled'" ng-style="sc.shift.shift_status === 'Filled' && {'background-color':'#A62020', 'color': 'white'}"
+            <div ng-if="sc.shift.shift_status === 'Filled'" ng-style="sc.shift.shift_status === 'Filled' && {'background-color':'#959595', 'color': 'white'}"
                 id="statusIndicator">{{sc.shift.shift_status}}</div>
 
         </div>
-        <div layout-gt-xl="row">
+        <div layout="row">
             <span id="shiftDetailRole">Role:</span>
             <md-checkbox ng-disabled="sc.edit === false" ng-model="sc.shift.nurse" ng-selected="'sc.shift.nurse'">Nurse</md-checkbox>
             <md-checkbox ng-disabled="sc.edit === false" ng-model="sc.shift.adl" ng-selected="'sc.shift.adl'">ADL</md-checkbox>
             <md-checkbox ng-disabled="sc.edit === false" ng-model="sc.shift.mhw" ng-selected="'sc.shift.mhw'">MHW</md-checkbox>
         </div>
-        <div>
-            <div>
-                <label>Shift:</label>
-                {{sc.shift.shift}}
+            <div layout="row" layout-align="start center">
+                <span>Shift: {{sc.shift.shift}}</span>
             </div>
-            <br>
-            <div>
-                <label>Floor:</label>
+            <div layout="row" layout-align="start center">
+                <span>Floor: </span>
                 {{sc.shift.floor}}
             </div>
-            <br>
-        </div>
-        <div ng-show="sc.showShiftComment(sc.shift)" layout-gt-xl="row">
-            <label>Shift Comments:</label>
+    
+        <div ng-show="sc.showShiftComment(sc.shift)" layout="row">
+            <span>Shift Comments:</span>
             {{sc.shift.shift_comments}}
         </div>
     </md-dialog-content>
     <md-dialog-actions>
         <div layout="row">
-            <span flex></span>
-            <div ng-show="sc.showPickUpShift()">
+            <!-- <span flex></span> -->
+            <div ng-show="sc.showPickUpButton">
                 Add a comment:  <input type="text" ng-model="sc.shift.staff_comments">
-                <md-button class="md-raised" ng-click="sc.pickUpShift(sc.shift)">Pick Up Shift</md-button>
+                <md-button class="md-raised md-primary" ng-click="sc.pickUpShift(sc.shift)">Pick Up Shift</md-button>
             </div>
-
         </div>
-
     </md-dialog-actions>
 
 </md-dialog>

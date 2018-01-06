@@ -47,7 +47,7 @@ router.post('/', function (req, res) {
                 for (var i = 0; i < newShift.shiftDate.length; i++) {
                     var theDate = newShift.shiftDate[i];
                     console.log('theDate', theDate);
-                    var queryText = 'INSERT INTO "post_shifts" ("created_by", "date", "urgent", "shift", "adl", "mhw", "nurse", "shift_comments", "notify", "filled", "floor", "shift_status" ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING "notify", "shift_status", "shift_id", "created_by";';
+                    var queryText = 'INSERT INTO "post_shifts" ("created_by", "date", "urgent", "shift", "adl", "mhw", "nurse", "shift_comments", "notify", "filled", "floor", "shift_status" ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING "notify", "shift_status", "shift_id", "created_by", "filled";';
                     db.query(queryText, [createdBy, theDate, newShift.urgent, newShift.shift, newShift.adl, newShift.mhw, newShift.nurse, newShift.comments, [notify], newShift.filled, newShift.floor, newShift.shift_status],  
                         function (errorMakingQuery, result) {
                             done();
@@ -57,7 +57,24 @@ router.post('/', function (req, res) {
                                 return;
 
                             } else {
-               
+                                var postedBy = result.rows[0].created_by;
+                                var filled = result.rows[0].filled;
+                                var shiftID = result.rows[0].shift_id;
+
+                                console.log('results', result.rows[0]);
+                                if (result.rows[0].shift_status === 'Filled') {
+                                    var queryText = 'INSERT INTO "confirmed" ("confirmed_by_id", "user_id", "shift_id") VALUES ($1, $2, $3);';
+                                    db.query(queryText, [postedBy, filled, shiftID], function (errorMakingQuery, result) {
+                                        done(); // add + 1 to pool - we have received a result or error
+                                        if (errorMakingQuery) {
+                                            console.log('Error making query', errorMakingQuery);
+                                            res.sendStatus(500);
+                                        }
+                                    });
+
+                                }
+                                else {
+
                                 console.log('results', result.rows[0]);
 
                                 result.rows[0].notify.forEach(function (supers) {
@@ -98,8 +115,9 @@ router.post('/', function (req, res) {
                                     });
                                 });
 
-
+                            
                             }
+                        }
                         });
                 }//end for loop
             }
@@ -333,7 +351,7 @@ router.post('/confirm', function (req, res) {
             else {
                 var queryText =
                     'INSERT INTO "confirmed" ("shift_id", "user_id", "shift_bid_id", "confirmed_by_id")' +
-                    'VALUES ($1, $2, $3, $4) RETURNING "user_id";';
+                    'VALUES ($1, $2, $3, $4)';
                 db.query(queryText, [staffMember.shift_id, staffMember.id, staffMember.bid_id, req.user.id],
                     function (errorMakingQuery, result) {
                         console.log(result.rows[0]);
@@ -635,6 +653,35 @@ function notifyingSupers(supers) {
 //         }
 //     })//end posting to confirmed table upon add shift 
 
+function insertPostShift(){
+    return new Promise(function(resolve, reject){
+        pool.connect(function (errorConnectingToDb, db, done) {
+            if (errorConnectingToDb) {
+                console.log('Error connecting', errorConnectingToDb);
+                res.sendStatus(500);
+            } else { //end if error connection to db
+
+                var queryText = 'INSERT INTO "confirmed" ("confirmed_by_id", "user_id", "shift_id") VALUES ($1, $2, $3);';
+                db.query(queryText, result.rows, function (err, result) {
+                    done();
+                    if (err) {
+                        console.log("Error getting phone: ", err);
+                        res.sendStatus(500);
+                    } else {
+
+                        console.log('username', _.uniq(result.rows[0].username));
+                        console.log('without lodash', result.rows);
+                        result.rows.forEach(function (userEmail) {
+                            emailArray.push(userEmail.username);
+                        });
+                        resolve(emailArray);
+                    }
+                });
+            }
+
+        });
+    });
+}
 
 module.exports = router;
 

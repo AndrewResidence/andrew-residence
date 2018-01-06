@@ -60,6 +60,9 @@ myApp.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {
           return UserService.getuser();
         }
       }
+    }).when('/forgot', {
+      templateUrl: '/views/templates/forgot.html',
+      controller: 'ForgotController as fc',
     })
     .otherwise({
       redirectTo: 'home'

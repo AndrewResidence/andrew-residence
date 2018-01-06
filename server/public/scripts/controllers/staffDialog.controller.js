@@ -1,4 +1,4 @@
-myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserService, ShiftService, AvailabilityService, shift) {
+myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserService, ShiftService, AvailabilityService, shift, firstOfMonth, lastOfMonth) {
   console.log('StaffDialogController created');
   var vm = this;
   vm.userService = UserService;
@@ -16,6 +16,8 @@ myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserSer
     nurse: shift.nurse,
     shift_status: shift.shift_status
   };
+  vm.firstOfMonth = firstOfMonth;
+  vm.lastOfMonth = firstOfMonth;
   
   vm.titleDate = moment(vm.shift.date).format('MM/DD');
   vm.showShiftComment = function(shift) {
@@ -23,8 +25,8 @@ myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserSer
       return true;
     }
     return false;
-  };
-
+  }
+  vm.showPickUpButton = ShiftService.showPickUpButton;
   console.log('userObject', vm.userService.userObject);
   vm.adl = false;
   vm.mhw = false;
@@ -39,25 +41,31 @@ myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserSer
     if (shift.nurse) {
       vm.nurse = true;
     }
-
-    vm.showPickUpShift = function() {
-      if (vm.shift.shift_status === 'Filled' || vm.shift.shift_status === 'filled') {
-        return false;
-      }
-    
-      return true;
-    };
+    // vm.showPickUpButton = ShiftService.showPickUpButton;
+    // vm.showPickUpShift = function() {
+    //   console.log('shift in staff dialog controller', vm.shift.id)
+    //   console.log('myShifts', ShiftService.myShifts.data)
+    //   if (vm.shift.shift_status === 'Filled' || vm.shift.shift_status === 'filled') {
+    //     vm.showPickUpButton = false;
+    //     console.log('vm.showPickUpButton', vm.showPickUpButton)
+    //   }
+    //   for (var i = 0; i < ShiftService.myShifts.length; i++) {
+    //     console.log('in the for loop')
+    //     if (parseInt(vm.shift.id) === parseInt(ShiftService.myShifts.data[i].shift_id)) {
+    //       vm.showPickUpButton = false;
+    //     }
+    //   }
+    // };
 
       //closes dialog box
   };
   vm.role();
-
+  // vm.showPickUpShift();
   // vm.showPickUpShift = function() {
   //   vm.showComments = true;
   // }
 
   vm.pickUpShift = function (shift) {
-    console.log('pick up shift', vm.shift);
     vm.shiftService.pickUpShift(shift).then(function (response) {
       $mdDialog.hide();
       console.log('response', response);
@@ -68,6 +76,8 @@ myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserSer
       );
     });
   };
+
+
   //closes dialog box
   vm.cancel = function () {
     $mdDialog.hide();

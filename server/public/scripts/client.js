@@ -64,6 +64,10 @@ myApp.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {
       templateUrl: '/views/templates/forgot.html',
       controller: 'ForgotController as fc',
     })
+    .when('/update', {
+      templateUrl: '/views/templates/update.html',
+      controller: 'ForgotController as fc',
+    })
     .otherwise({
       redirectTo: 'home'
     });

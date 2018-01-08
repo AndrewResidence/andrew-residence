@@ -6,8 +6,27 @@ var Chance = require('chance'),
     chance = new Chance();
 var pool = require('../modules/pool.js');
 var encryptLib = require('../modules/encryption');
+var nodemailer = require('nodemailer');
+var GMAIL_USER = process.env.GMAIL_USER;
+var REFRESH_TOKEN = process.env.REFRESH_TOKEN;
+var ACCESS_TOKEN = process.env.ACCESS_TOKEN;
+var CLIENT_ID = process.env.CLIENT_ID;
+var CLIENT_SECRET = process.env.CLIENT_SECRET;
+
+var transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth: {
+        type: 'OAuth2',
+        clientId: CLIENT_ID,
+        clientSecret: CLIENT_SECRET,
+    }
+});
+
 router.put('/check', function (req, res) {
     var email = req.body.email;
+console.log(email);
 
     pool.connect(function (err, client, done) {
         if (err) {
@@ -41,7 +60,35 @@ router.put('/check', function (req, res) {
                             res.sendStatus(500);
                         } else {
                             // Send out an e-mail via node mailer
-                            console.log('The url:', 'localhost:5000/#/updatepass?code=' + code);
+                            let updateLink = '<a href="http://localhost:5000/#/update?code=' + code + '">Click Here</a>';
+                            var mailOptions = {
+                                from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
+                                to: email, // list of receivers
+                                subject: 'Weekly Digest from Andrew Residence', // Subject line
+                                html: ' <body style ="background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);">' +
+                                    '<h1>Hello!!</h1><h3>Please use this code to reset your password:</h3><ul>'+ updateLink+'</ul>' +
+                                    '<p>Thank you</p>' +
+                                    '<p> "http:localhost:5000/#/update?code='+ code + '"</p></body>',
+                                // attachments:[{
+                                //     filename:'andrew_residence.png',
+                                //     path:'../public/images/andrew_residence.png',
+                                //     cid:'headerPicture'
+                                // }],
+                                auth: {
+                                    user: GMAIL_USER,
+                                    refreshToken: REFRESH_TOKEN,
+                                    accessToken: ACCESS_TOKEN,
+                                }
+                            };
+                            // send mail with defined transport object
+                            transporter.sendMail(mailOptions, function (error, info) {
+                                if (error) {
+                                    console.log(error);
+                                    res.send(error);
+                                }
+                                console.log('Message sent: %s', info.messageId);
+                                res.sendStatus(200);
+                            });
                             res.sendStatus(200);
                         }
                     }); // END Update query
@@ -55,12 +102,14 @@ router.put('/reset', function (req, res) {
     var email = req.body.email;
     var code = req.body.code;
     var password = encryptLib.encryptPassword(req.body.password);
+    console.log(email,'password:', password);
+    
     pool.connect(function (err, client, done) {
         if (err) {
             console.log('connection err ', err);
             done();
         } else {
-            client.query("UPDATE users SET password = $1, code = null WHERE username = $2 AND code = $3 AND code IS NOT NULL;",
+            client.query('UPDATE "users" SET "password" = $1, "code" = null WHERE "username" = $2 AND "code" = $3 AND "code" IS NOT NULL;',
                 [password, email, code],
                 function (err, result) {
                     done();

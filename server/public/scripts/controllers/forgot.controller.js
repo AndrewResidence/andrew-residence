@@ -1,12 +1,16 @@
-myApp.controller('ForgotController', function ($http, $location, $mdDialog, UserService) {
+myApp.controller('ForgotController', function ($http, $location) {
     console.log('ForgotController created');
     var vm = this;
 
     // Query parameter
-    var searchObject = $location.search();
-    console.log(searchObject);
+    vm.searchObject = $location.search();
+    console.log(vm.searchObject);
+
+    
 
     vm.newPass = function (email) {
+        console.log(email);
+        
         var body = { email: email };
         $http.put('/forgot/check', body).then(function (response) {
             $location.path('/home');
@@ -16,8 +20,10 @@ myApp.controller('ForgotController', function ($http, $location, $mdDialog, User
     };
 
     vm.resetPassword = function (email, password) {
-        var body = { email: email, code: searchObject.code, password: password };
-        $http.put('/auth/reset', body).then(function (response) {
+        var body = { email: email, code: vm.searchObject.code, password: password };
+        console.log(body);
+        
+        $http.put('/forgot/reset', body).then(function (response) {
             // Clear query params
             $location.search({});
             // Redirect back to home

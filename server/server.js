@@ -12,7 +12,7 @@ var registerRouter = require('./routes/register.router');
 var shiftRouter = require('./routes/shift.router');
 var availabilityRouter = require('./routes/availability.router');
 var messageRouter = require('./routes/message.router');
-var forgotRouter = require('./routes/message.router');
+var forgotRouter = require('./routes/forgot.router');
 var port = process.env.PORT || 5000;
 
 

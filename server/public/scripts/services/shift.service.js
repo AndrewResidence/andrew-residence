@@ -97,6 +97,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
       });
     }
     // if (self.newShift.shift_status === 'Filled') {
+    //   console.log('here')
     //   $http.post('/shifts/confirmation', self.newShift).then(function (response) {
 
     //     console.log(response);
@@ -105,11 +106,20 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     //     console.log('confirmed filled did not work:', response);
     //   });
     // }
-
     return $http.post('/shifts/', self.newShift).then(function (response) {
       console.log('the response', response)
       self.newShift = {}
       return response;
+      //     if (self.newShift.shift_status === 'Filled') {
+      // console.log('here')
+      // $http.post('/shifts/confirmation', self.newShift).then(function (response) {
+
+      //   console.log(response);
+
+      // }).catch(function (response) {
+      //   console.log('confirmed filled did not work:', response);
+      // });
+    // }
     }).catch(function (err) {
       console.log('Error');
     });
@@ -138,7 +148,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
       lastDayofShifts: lastDayofShifts
     }
     self.shiftsToDisplay.data = [];
-    console.log('shifts to display service', self.shiftsToDisplay.data)
+    // console.log('shifts to display service', self.shiftsToDisplay.data)
     return $http.put('/shifts', firstAndLastDays).then(function (response) {
       console.log('response', response.data)
       self.shiftsToDisplay.data = response.data;

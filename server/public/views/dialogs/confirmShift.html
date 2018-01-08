@@ -9,7 +9,7 @@
         </div>
     </md-toolbar>
     <md-dialog-content flex="auto">
-        <div layout="row" class="confirmBox" ng-repeat="staff in sc.pendingShifts">
+        <div layout="row" class="confirmBox" ng-repeat="staff in sc.theShifts">
             <div>
                 <strong>{{staff.name}}</strong> 
                 <br> 
@@ -17,7 +17,7 @@
                 <div layout="row" class="confirmComments" ng-show="sc.showComments(staff)">Comments: {{staff.staff_comments}}</div>
             </div>
             <div>
-                <md-button class="md-raised md-primary" ng-click="sc.confirmShift(staff, sc.pendingShifts)">Confirm</md-button>
+                <md-button class="md-raised md-primary" ng-click="sc.confirmShift(staff, sc.theShifts)">Confirm</md-button>
             </div>
         </div>
     </md-dialog-content>

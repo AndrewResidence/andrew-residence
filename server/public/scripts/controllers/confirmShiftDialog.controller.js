@@ -16,8 +16,8 @@ myApp.controller('ConfirmShiftController', function ($scope, $mdDialog, $mdToast
       console.log('shift id in dialog', shiftId);
       vm.shiftService.getShiftsToConfirm(shiftId).then(function(response) {
         console.log('got shifts', response.data);
-        vm.pendingShifts = response.data;
-        console.log('shifts here', vm.pendingShifts);
+        vm.theShifts = response.data;
+        console.log('shifts here', vm.theShifts);
       });
     };
   
@@ -34,15 +34,16 @@ myApp.controller('ConfirmShiftController', function ($scope, $mdDialog, $mdToast
       vm.shiftService.confirmShift(staffMember, allShifts).then(function(response) {
         console.log('confirmed!', response);
         // ShiftService.pendingShifts = [];
-        vm.getPendingShifts();
+        ShiftService.getPendingShifts();
       }).then(function() {
         $mdDialog.hide();
       })
     }
 
     vm.getPendingShifts = function () {
-      ShiftService.getPendingShifts().then(function (response) {
-        // console.log('HHHHHHFDSLJSDFLJKSDFLJKSDFLJKSLDFLJKSDF')
+      ShiftService.getPendingShifts()
+      .then(function (response) {
+        console.log('HHHHHHFDSLJSDFLJKSDFLJKSDFLJKSLDFLJKSDF')
         console.log('pending shifts', vm.pendingShifts)
         for (var i = 0; i < vm.pendingShifts.length; i++) {
           vm.pendingShifts[i].date = moment(vm.pendingShifts[i].date).format('M/D');

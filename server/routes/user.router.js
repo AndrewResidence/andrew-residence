@@ -262,7 +262,7 @@ router.get('/messages', function (req, res) {
         console.log('error connecting', err);
         res.sendStatus(500);
       }
-      var queryText = 'SELECT * FROM "notifications" JOIN "users" on "users"."id" = "notifications"."posted_by";';
+      var queryText = 'SELECT * FROM "notifications" JOIN "users" on "users"."id" = "notifications"."posted_by" order by "notifications"."date" DESC;';
       db.query(queryText, function (err, result) {
         done();
         if (err) {

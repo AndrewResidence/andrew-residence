@@ -5,13 +5,13 @@
         <li>
           <a href="#/user">User Home</a>
         </li>
-        <li>
+        <li ng-if="uc.userObject.role === 'Administrator'">
           <a href="#/admin">Admin View</a>
         </li>
-        <li>
+        <li ng-if="uc.userObject.role === 'Supervisor'">
           <a href="#/supervisor">Supervisor View</a>
         </li>
-        <li>
+        <li ng-if="uc.userObject.role === 'ADL' || uc.userObject.role === 'MHW' || uc.userObject.role === 'Nurse'">
           <a href="#/staff">Staff View</a>
         </li>
       </ul>

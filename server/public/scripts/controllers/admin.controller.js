@@ -73,8 +73,24 @@ myApp.controller('AdminController', function ($mdDialog, $mdToast, UserService, 
 
   //Users DELETE route
   vm.deleteUser = function (user) {
-    vm.showDeleteToast(user);
-  };
+    // vm.showDeleteToast(user);
+    var confirm = $mdDialog.confirm()
+          .title('Delete User')
+          .textContent('Are you sure you would like to delete this user? This cannot be undone.')
+          .ariaLabel('Delete User')
+          .targetEvent(user)
+          .ok('Delete')
+          .cancel('Cancel');
+
+    $mdDialog.show(confirm).then(function() {
+      vm.userService.deleteUser(user).then(function (response) {
+        console.log('user deleted', response);
+        vm.getStaff();
+        vm.getSupervisors();
+        vm.getUnconfirmed();
+      })
+  })
+}
 
   //Show dialog for edit individual user
   vm.showEditDialog = function (event, user) {
@@ -112,30 +128,30 @@ myApp.controller('AdminController', function ($mdDialog, $mdToast, UserService, 
     );
   };
   
-  vm.showDeleteToast = function (user) {
-    console.log('user in toast', user);
-    var toast = $mdToast.simple()
-      .textContent('User has been deleted')
-      .action('UNDO')
-      .highlightAction(true)
-      .position('bottom left')
-      .hideDelay(3000);
-    var undoToast = $mdToast.simple()
-      .textContent('Undo successful')
-      .position('bottom left')
-      .hideDelay(2500);
-    $mdToast.show(toast).then(function (response) {
-      if (response === 'ok') {
-        $mdToast.show(undoToast);
-      } else {
-        vm.userService.deleteUser(user).then(function (response) {
-          console.log('user deleted', response);
-          vm.getStaff();
-          vm.getSupervisors();
-          vm.getUnconfirmed();
-        });
-      }
-    });
-  };
+  // vm.showDeleteToast = function (user) {
+  //   console.log('user in toast', user);
+  //   var toast = $mdToast.simple()
+  //     .textContent('User has been deleted')
+  //     .action('UNDO')
+  //     .highlightAction(true)
+  //     .position('bottom left')
+  //     .hideDelay(3000);
+  //   var undoToast = $mdToast.simple()
+  //     .textContent('Undo successful')
+  //     .position('bottom left')
+  //     .hideDelay(2500);
+  //   $mdToast.show(toast).then(function (response) {
+  //     if (response === 'ok') {
+  //       $mdToast.show(undoToast);
+  //     } else {
+  //       vm.userService.deleteUser(user).then(function (response) {
+  //         console.log('user deleted', response);
+  //         vm.getStaff();
+  //         vm.getSupervisors();
+  //         vm.getUnconfirmed();
+  //       });
+  //     }
+  //   });
+  // };
 
 });

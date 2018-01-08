@@ -69,7 +69,7 @@ router.post('/', function (req, res) {
                                     notifyingSupers(supers).then(function (result) {
                                         var mailOptions = {
                                             from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
-                                            to: 'martapeterson@gmail.com', // list of receivers
+                                            to: 'joshnothum@gmail.com', // list of receivers
                                             subject: 'Shift Posted Notification', // Subject line
                                             html: ' <body style ="background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);">' +
                                                 '<h1>Hello!</h1><h3>You are being notified of the following shift posting:</h3><ul>' + newShift.shift + ':' + theDate + '</ul>' +

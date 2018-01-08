@@ -12,9 +12,9 @@
             <form name="Form">
                 <md-input-container class="md-block">
                     <label>Email Address</label>
-                    <input type="text" name="email" ng-model="fc.formData.email" placeholder="email" required="" />
-                    <div ng-messages="Form.email.$error" role="alert" multiple="">
-                        <div ng-message="required" class="my-message">Please enter your email.</div>
+                    <input type="text" name="email" ng-model="fc.email" placeholder="email" required="" />
+                    <div ng-messages="Form.email.$error" role="alert">
+                        <div ng-message="required">Please enter your email.</div>
                     </div>
                 </md-input-container>
                 <md-button ng-disabled="!Form.$valid" ng-click="fc.submit()" class="md-raised md-primary">&nbsp Login &nbsp</md-button>

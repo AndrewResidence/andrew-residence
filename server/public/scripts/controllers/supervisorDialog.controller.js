@@ -13,6 +13,7 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
   vm.shifts = ['Day', 'Evening', 'ADL Evening', 'Night'];
   vm.shiftStatus = ['Open', 'Filled'];
   vm.shift = ShiftService.shift;
+  vm.myArrayOfSupervisors = [];
   
   vm.shiftsToDisplay = [];
   vm.currentSchedule = calendarService.currentSchedule.dates;

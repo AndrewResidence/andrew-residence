@@ -190,14 +190,17 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     });
   };
 
-  self.pickUpShift = function (shift) {
+  self.pickUpShift = function (shift, firstOfMonth, lastOfMonth) {
     return $http.post('/shifts/shiftBid', shift).then(function (response) {
+      self.getShifts(firstOfMonth, lastOfMonth)
       // console.log('posted shift bid', shift, response);
       return response;
     });
   };
 
-  
+  self.myShifts = {
+    data: []
+  }
   self.getMyShifts = function (firstDayofShifts, lastDayofShifts) {
     var firstAndLastDays = {
         firstDayofShifts: firstDayofShifts, 
@@ -206,6 +209,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     // console.log('get my shifts clicked')
     return $http.put('/shifts/getmyshifts', firstAndLastDays).then(function (response) {
       // console.log('response from server', response.data)
+      self.myShifts.data = response.data;
       return response.data;
     });
   };
@@ -289,5 +293,23 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
       });
   };
   //end shiftFilled function
+
+  self.showPickUpButton = true;
+  self.showPickUpShift = function(shift) {
+    self.showPickUpButton = true;
+    console.log('shift in service', self.showPickUpButton)
+    console.log('shift in staff dialog controller', shift.shift_id)
+    console.log('myShifts', self.myShifts.data)
+    if (shift.shift_status === 'Filled' || shift.shift_status === 'filled') {
+      self.showPickUpButton = false;
+      console.log('vm.showPickUpButton', self.showPickUpButton)
+    }
+    for (var i = 0; i < self.myShifts.data.length; i++) {
+      console.log('in the for loop')
+      if (shift.shift_id === self.myShifts.data[i].shift_id) {
+        self.showPickUpButton = false;
+      }
+    }
+  };
 
 });

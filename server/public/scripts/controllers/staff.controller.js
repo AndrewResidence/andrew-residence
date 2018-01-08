@@ -1,4 +1,4 @@
-myApp.controller('StaffController', function (UserService, ShiftService, AvailabilityService, $mdDialog) {
+myApp.controller('StaffController', function (UserService, ShiftService, AvailabilityService, calendarService, $mdDialog) {
   console.log('StaffController created');
   var vm = this;
   vm.shiftService = ShiftService;
@@ -16,7 +16,18 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
   vm.currentMonth = {
     dates: []
   };
+  vm.currentSchedule = calendarService.currentSchedule.dates;
+  vm.payPeriodStart = '';
+  vm.payPeriodEnd = '';
 
+  vm.getPayPeriodDates = function() {
+    calendarService.getPayPeriodDates();
+    console.log('vm.currentSchedule', vm.currentSchedule);
+    // vm.payPeriodStart = vm.currentSchedule[0];
+    // vm.payPeriodEnd = vm.currentSchedule[13];
+  }
+
+  vm.getPayPeriodDates();
   //puts each day of the month in array
   vm.monthDays = {
     dates: []
@@ -75,6 +86,7 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
 
   //displays shift details when shift is clicked on from calendar view
   vm.shiftDetails = function (event, shift) {
+
     $mdDialog.show({
       controller: 'StaffDialogController as sc',
       templateUrl: '/views/dialogs/pickUpShift.html',
@@ -207,13 +219,19 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
   };
 
   vm.shiftDetails = function (event, shift) {
+    ShiftService.showPickUpShift(shift);
+    console.log('shift', shift)
     $mdDialog.show({
       controller: 'StaffDialogController as sc',
       templateUrl: '/views/dialogs/pickUpShift.html',
       parent: angular.element(document.body),
       targetEvent: event,
       clickOutsideToClose: true,
-      locals: { shift: shift },
+      locals: { 
+        shift: shift,
+        firstOfMonth: vm.firstOfMonth, 
+        lastOfMonth: vm.lastOfMonth
+      },
       fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
     });
   };

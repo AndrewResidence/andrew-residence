@@ -106,7 +106,7 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
   vm.updateShift = function (id, comments, shift, mhw, adl, nurse, date, floor) {
     ShiftService.updateShift(id, comments, shift, mhw, adl, nurse, date, floor).then(function (response) {
       $mdDialog.hide();
-      vm.getShifts();
+      vm.getPayPeriodDates();
       $mdToast.show(
         $mdToast.simple()
           .textContent('Shift Updated')
@@ -153,7 +153,7 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
       else {
         ShiftService.deleteShift(shiftId).then(function (response) {
           $mdDialog.hide();
-          vm.getShifts();
+          vm.getPayPeriodDates();
           $mdToast.show(
             $mdToast.simple()
               .textContent('Shift deleted!')
@@ -175,7 +175,7 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
     console.log('clicked')
     console.log('staff', id, shiftId)
     ShiftService.shiftFilled(id, shiftId).then(function (response) {
-      vm.getShifts();
+      vm.getPayPeriodDates();
       $mdDialog.hide();
 
     })

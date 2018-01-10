@@ -35,7 +35,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   };
 
   self.shiftsToDisplay = { data: [] };
-  self.filledByName = { data: [] }
+  self.filledByName = { data: [] };
   //calls the addShift popup
   // self.addShift = function (event) {
   //   console.log('add new shift button clicked');
@@ -146,7 +146,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     var firstAndLastDays = {
       firstDayofShifts: firstDayofShifts, 
       lastDayofShifts: lastDayofShifts
-    }
+    };
     self.shiftsToDisplay.data = [];
     // console.log('shifts to display service', self.shiftsToDisplay.data)
     return $http.put('/shifts', firstAndLastDays).then(function (response) {
@@ -182,6 +182,8 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   };
 
   self.confirmShift = function(staffMember, allShifts) {
+    console.log(staffMember, allShifts);
+    
     console.log('staff member to confirm', staffMember.name);
     return $http.post('/shifts/confirm', staffMember, allShifts).then(function (response) {
       console.log('confirmed shift', staffMember.name, response);

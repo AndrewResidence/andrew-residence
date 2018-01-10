@@ -3,7 +3,7 @@ myApp.controller('NotificationController', function ($scope, $mdDialog, $mdToast
     var vm = this;
     // vm.notifications = UserService.notifications;
     vm.UserService = UserService;
-    vm.notifications = UserService.notifications
+    vm.notifications = UserService.notifications;
     //closes dialog box
     vm.cancel = function () {
         $mdDialog.hide();
@@ -15,8 +15,8 @@ myApp.controller('NotificationController', function ($scope, $mdDialog, $mdToast
         UserService.getNotifications().then(function (response) {
             vm.notifications = response.data;
             console.log('here it is', vm.notifications)
-        })
-    }
+        });
+    };
 
 
     //create message for staff

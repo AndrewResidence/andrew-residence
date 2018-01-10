@@ -125,7 +125,7 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
       vm.showStaff = false;
       console.log('false')
     }
-  }
+  };
 
   //start delete shift
   vm.deleteShift = function (shiftId) {

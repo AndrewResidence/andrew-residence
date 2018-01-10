@@ -28,9 +28,11 @@ myApp.controller('ConfirmShiftController', function ($scope, $mdDialog, $mdToast
             return true;
         }
         return false;
-    }
+    };
 
     vm.confirmShift = function(staffMember, allShifts) {
+      console.log('staff member',staffMember,'allshifts', allShifts);
+      
       vm.shiftService.confirmShift(staffMember, allShifts).then(function(response) {
         console.log('confirmed!', response);
         // ShiftService.pendingShifts = [];

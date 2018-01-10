@@ -21,6 +21,7 @@ CREATE TABLE "post_shifts" (
 	"shift_comments" varchar NOT NULL,
 	"created_by" integer NOT NULL,
 	"urgent" BOOLEAN NOT NULL,
+	"adl"
 	CONSTRAINT post_shifts_pk PRIMARY KEY ("shift_id")
 ) WITH (
   OIDS=FALSE

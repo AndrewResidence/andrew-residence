@@ -72,17 +72,17 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
   // vm.getShifts(vm.firstOfMonth, vm.lastOfMonth);
 
   //gets pending shifts
-  // vm.getPendingShifts = function () {
-  //   ShiftService.getPendingShifts().then(function (response) {
-  //     vm.pendingShifts = response.data;
-  //     for (var i = 0; i < vm.pendingShifts.length; i++) {
-  //       vm.pendingShifts[i].date = moment(vm.pendingShifts[i].date).format('l');
-  //     }
-  //     // console.log(' pending shifts', vm.pendingShifts);
-  //   }) // .catch and displaying a generic error
-  // }
+  vm.getPendingShifts = function () {
+    ShiftService.getPendingShifts().then(function (response) {
+      vm.pendingShifts = response.data;
+      for (var i = 0; i < vm.pendingShifts.length; i++) {
+        vm.pendingShifts[i].date = moment(vm.pendingShifts[i].date).format('l');
+      }
+      console.log(' pending shifts', vm.pendingShifts);
+    }); // .catch and displaying a generic error
+  };
 
-  // vm.getPendingShifts();
+  vm.getPendingShifts();
 
   //displays shift details when shift is clicked on from calendar view
   vm.shiftDetails = function (event, shift) {

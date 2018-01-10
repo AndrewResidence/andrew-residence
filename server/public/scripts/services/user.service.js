@@ -90,7 +90,7 @@ myApp.service('UserService', function ($http, $location) {
     headline: ''
   };
 
-  self.createMessage = function (messageBody, headline){
+  self.createMessage = function (messageBody, headline) {
     self.message.messageBody = messageBody;
     self.message.headline = headline;
       return $http.post('/user/message/', self.message).then(function (response){
@@ -108,10 +108,9 @@ myApp.service('UserService', function ($http, $location) {
 
   self.deleteNotifcation = function (id) {
     return $http.delete('/user/messages/delete/' + id).then(function(response) {
-      return response
+      return response;
     })
   }
-
 
 
 

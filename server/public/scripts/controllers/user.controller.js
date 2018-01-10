@@ -48,7 +48,6 @@ myApp.controller('UserController', function ($mdToast, UserService, $mdDialog) {
 
     console.log(vm.userService);
 
-
     vm.userService.sendProfile(name, phone).then(function () {
       $mdToast.show(
         $mdToast.simple()
@@ -120,6 +119,6 @@ myApp.controller('UserController', function ($mdToast, UserService, $mdDialog) {
 
         });
       }
-    })
-  } //end delete message
+    });
+  }; //end delete message
 });

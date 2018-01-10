@@ -37,6 +37,7 @@ router.post('/', function (req, res) {
         console.log('req.body.shiftDate', req.body.shiftDate);
 
         var createdBy = req.user.id;
+        
         pool.connect(function (errorConnectingToDb, db, done) {
             if (errorConnectingToDb) {
                 console.log('Error connecting', errorConnectingToDb);
@@ -60,7 +61,7 @@ router.post('/', function (req, res) {
                                 if (result.rows[0].shift_status === 'Filled') {
                                     var shiftId = result.rows[0].shift_id;
                                     var filledId = result.rows[0].filled;
-                                    var confirmedBy = result.rows[0].created_by
+                                    var confirmedBy = result.rows[0].created_by;
                                     filledOnAdd(shiftId, filledId, confirmedBy, function success(){
                                         res.sendStatus(201);
                                     }, function failure() {
@@ -111,6 +112,7 @@ router.put('/', function (req, res) {
     } // end req.isAuthenticated
     else {
         console.log('User is not authenticated');
+        res.sendStatus(401);
     }
 }); //end get shifts
 //gets the current pay period start and end dates
@@ -138,6 +140,7 @@ router.get('/payperiod/getdates', function (req, res) {
     } // end req.isAuthenticated
     else {
         console.log('User is not authenticated');
+        res.sendStatus(403);
     }
 }); //end get pay period dates
 //updates the pay period start and end date in the database
@@ -169,6 +172,7 @@ router.put('/payperiod/updatedates/:id', function (req, res) {
     } // end req.isAuthenticated
     else {
         console.log('User is not authenticated');
+        res.sendStatus(403);
     }
 }); //end update pay period dates
 
@@ -384,6 +388,7 @@ router.put('/getmyshifts', function (req, res) {
     } // end req.isAuthenticated
     else {
         console.log('User is not authenticated');
+        res.sendStatus(401);
     }
 }); //end get shifts
 
@@ -422,6 +427,7 @@ router.delete('/delete:id/', function (req, res) {
     }// end if req.isAuthenticated
     else {
         console.log('User is not authenticated');
+        res.sendStatus(401);
         // TODO: return response
     } //end authentication else statement
 }
@@ -457,6 +463,8 @@ router.put('/update/:id', function (req, res) {
     } // end req.isAuthenticated
     else {
         console.log('User is not authenticated');
+        res.sendStatus(401);
+      
     }
 }); //end update shift
 
@@ -515,6 +523,7 @@ router.put('/filledBy/:id', function (req, res) {
     }//end if authenticated
     else {
         console.log('User is not authenticated');
+        res.sendStatus(401);
     }
 
 }); //end filledBy route
@@ -537,7 +546,7 @@ router.get('/filled/who/:id', function (req, res) {
                         console.log('Error making query', errorMakingQuery);
                         res.sendStatus(500);
                     } else {
-                        res.send(result.rows)
+                        res.send(result.rows);
                     }
                 }); // END QUERY
             }
@@ -545,6 +554,7 @@ router.get('/filled/who/:id', function (req, res) {
     } // end req.isAuthenticated
     else {
         console.log('User is not authenticated');
+        res.sendStatus(401);
     }
 }); //end get the name of the person that has the shift
 function notifyingSupers(supers) {
@@ -579,8 +589,6 @@ function notifyingSupers(supers) {
 }
 //post route to confirm table upon adding a shift
 function filledOnAdd(shiftId, filledId, confirmedBy, success, failure) {
-    console.log('this is happening!')
-    console.log('the shiftId, the filledId', shiftId, filledId)
 
     pool.connect(function (errorConnectingToDb, db, done) {
         if (errorConnectingToDb) {

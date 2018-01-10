@@ -1,7 +1,6 @@
 #Andrew Residence Shift Calendar
 
-Shift Scheduler 
-Andrew Residence requires a calendar/scheduling application to assist in sceduling on-call staff.  Shift Scheduler 
+Andrew Residence requires a calendar/scheduling application to assist in sceduling on-call staff.  
 
 ## Built With
 
@@ -122,35 +121,38 @@ ALTER TABLE `user_availability` ADD CONSTRAINT `user_availability_fk0` FOREIGN K
 
 ALTER TABLE `shift_interest` ADD CONSTRAINT `shift_interest_fk0` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`);
 
-
+ALTER TABLE `public`.`users` ADD COLUMN `code` character varying DEFAULT 'false';
 
 ```
 
 ## Screen Shot
 
-Include one or two screen shots of your project here (optional). Remove if unused.
+![Supervisor Calendar]
+(server/public/styles/screenshot1.png)
+![Supervisor Add Shift View](server/public/styles/screenshot2.png)
+![On Call Staff Calendar](server/public/styles/screenshot3.png)
 
 
 ### Completed Features
-####Administrator features:
+Administrator features:
 - [x] Confirm new users and indicate a new user's role (supervisor or on-call staff)
 - [x] Edit users
 - [x] Remove users
 
-####Communication features:
+Communication features:
 - [x] Weekly digest email is sent out to all on-call staff with all open upcoming shifts
 - [x] When a supervisor posts an 'urgent' shift, an SMS is immediately sent out to all on-call staff with the role(s) that the supervisor marked when adding the shift.
 - [x] When an on-call staff member picks up a shift, an email is sent to all supervisors to inform them
 - [x] When a supervisor confirms an on-call staff member for a shift, an email is sent to that staff member letting them know they have been confirmed. If another on-call staff member has requested the same shift, an email will also be sent to that staff member letting them know someone else has been confirmed for the shift.
 
-####Supervisor features: 
+Supervisor features: 
 - [x] View all open, pending and confirmed shifts in a calendar of the current pay-period
 - [x] Post a new shift, including shift role(s), floor, shift time, shift date(s), and comments
 - [x] Schedule urgent shifts and notify staff with SMS
 - [x] Confirm on-call staff for shifts
 - [x] Edit and delete an existing shift if the shift has not been confirmed
 
-####On-call Staff Features
+On-call Staff Features
 - [x] View all open, pending and confirmed shifts in a calendar of the current month
 - [x] Calendar view is mobile-responsive
 - [x] View a 'My Shifts' tab that shows the shifts they have picked up, including both pending shifts and confirmed shifts

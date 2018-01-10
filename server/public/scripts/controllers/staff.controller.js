@@ -1,7 +1,7 @@
 myApp.controller('StaffController', function (UserService, ShiftService, AvailabilityService, calendarService, $mdDialog) {
   console.log('StaffController created');
   var vm = this;
-  
+  vm.shiftService = ShiftService;
   vm.userService = UserService;
   vm.userObject = UserService.userObject;
   vm.displayMonth = '';

@@ -20,13 +20,12 @@
               </div>
             </div>
           </div>
-
           <div class="staffCalendarSpace">
 
             <div layout="row" layout-align="space-around center" class="staffCalHeader">
-              <md-button class="md-raised md-primary" id="calHeadBtnLeft" ng-click="sc.prevMonth(sc.currentMonth.dates[0].month, sc.currentMonth.dates[0].year)">Prev</md-button>
+              <md-button class="md-raised md-accent" id="calHeadBtnLeft" ng-click="sc.prevMonth(sc.currentMonth.dates[0].month, sc.currentMonth.dates[0].year)">Prev</md-button>
               <div>{{sc.displayMonth}} {{sc.displayYear._i.year}}</div>
-              <md-button class="md-raised md-primary" id="calHeadBtnRight" ng-click="sc.nextMonth(sc.currentMonth.dates[0].month, sc.currentMonth.dates[0].year)">Next</md-button>
+              <md-button class="md-raised md-accent" id="calHeadBtnRight" ng-click="sc.nextMonth(sc.currentMonth.dates[0].month, sc.currentMonth.dates[0].year)">Next</md-button>
             </div>
 
             <div layout="row" hide-xs>
@@ -56,12 +55,6 @@
                   </div>
                 </div>
               </div>
-              <!-- Button if we are able to add availability to each day -->
-              <!-- <div layout="row" class="shiftInterestButton">
-                  <md-button class="md-icon-button md-primary" aria-label="Add Person">
-                      <md-icon md-svg-icon="../images/person_add.svg"></md-icon>
-                    </md-button>
-              </div> -->
             </div>
             <!-- end staff cal box -->
           </div>
@@ -77,14 +70,11 @@
 
             <div class="legendRow">
               <div class="key">Shift Key:</div>
-              <div class="legend" id="open">
-                <span>Open</span>
-              </div>
               <div class="legend" id="pending">
                 <span>Pending</span>
               </div>
               <div class="legend" id="filled">
-                <span>Filled</span>
+                <span>Confirmed</span>
               </div>
             </div>
           </div>
@@ -165,6 +155,7 @@
         <md-content>
           <div class="myShiftsMobileSpace" >
             <div layout="row" layout-align="center center" ng-repeat="shift in sc.userShiftsToDisplay track by $index">
+
               <div class="myShiftBlock">
                 <div class="shiftStatusIndicator" ng-class="{{'shift.shift_status'}}">{{shift.shift_status}}</div>
                 <div class="shiftButtonLeft">

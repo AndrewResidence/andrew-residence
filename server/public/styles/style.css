@@ -432,19 +432,20 @@ md-icon.Night path.circle {
   padding-left: 20px;
 }
 
-#fillShiftButton {
+/* #fillShiftButton {
   background-color: #3b5998;
   color: white;
-}
+} */
 
 #showFilledBy {
   height: 25px;
   width: 300px;
-    text-align: center;
-vertical-align: middle;
-line-height: 25px;  
-margin-left: 20px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 25px;  
+  margin-left: 20px;
 }
+
 .pageHeader {
   margin-left: 20px;
   color: #3F3F3F;
@@ -805,10 +806,29 @@ md-tabs:not(.md-no-tab-content):not(.md-dynamic-height) {
   padding-right: 10px;
 }
 
-.pickupDatePicker {
+#pickupDatePicker {
   padding: 0;
+  margin: 0;
 }
 
 #redAsterisk {
   color: red;
 }
+
+#checkBoxSpace {
+  margin-right: 10px;
+}
+
+.boldDetails {
+  font-weight: bold;
+}
+
+.notBoldDetails {
+  font-weight: normal;
+}
+
+#confirmUserName {
+  font-weight: bold;
+  margin-left: 10px;
+}
+

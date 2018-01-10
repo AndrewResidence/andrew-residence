@@ -14,10 +14,11 @@ myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserSer
     adl: shift.adl,
     mhw: shift.mhw,
     nurse: shift.nurse,
-    shift_status: shift.shift_status
+    shift_status: shift.shift_status,
+    floor: shift.floor
   };
   vm.firstOfMonth = firstOfMonth;
-  vm.lastOfMonth = firstOfMonth;
+  vm.lastOfMonth = lastOfMonth;
   
   vm.titleDate = moment(vm.shift.date).format('MM/DD');
   vm.showShiftComment = function(shift) {
@@ -65,8 +66,17 @@ myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserSer
   //   vm.showComments = true;
   // }
 
-  vm.pickUpShift = function (shift) {
+  // vm.getShifts = function(firstOfMonth, lastOfMonth) {
+  //   ShiftService.getShifts(firstOfMonth, lastOfMonth)
+  // }
+
+  // vm.getPendingShifts = function(firstOfMonth, lastOfMonth) {
+  //   ShiftService.getPendingShifts(firstOfMonth, lastOfMonth)
+  // }
+
+  vm.pickUpShift = function (shift, firstOfMonth, lastOfMonth) {
     vm.shiftService.pickUpShift(shift).then(function (response) {
+      // console.log('start and end dates', vm.firstOfMonth, vm.lastOfMonth)
       $mdDialog.hide();
       console.log('response', response);
       $mdToast.show(
@@ -75,6 +85,7 @@ myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserSer
           .hideDelay(2500)
       );
     });
+    // vm.getShifts(vm.firstOfMonth, vm.lastOfMonth);
   };
 
 

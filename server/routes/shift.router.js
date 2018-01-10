@@ -47,10 +47,17 @@ router.post('/', function (req, res) {
                 for (var i = 0; i < newShift.shiftDate.length; i++) {
                     var theDate = newShift.shiftDate[i];
                     console.log('theDate', theDate);
-                    var queryText = 'INSERT INTO "post_shifts" ("created_by", "date", "urgent", "shift", "adl", "mhw", "nurse", "shift_comments", "notify", "filled", "floor", "shift_status" ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING "notify", "shift_status", "shift_id", "created_by";';
-                    db.query(queryText, [createdBy, theDate, newShift.urgent, newShift.shift, newShift.adl, newShift.mhw, newShift.nurse, newShift.comments, [notify], newShift.filled, newShift.floor, newShift.shift_status],  
+                    var queryText = 'INSERT INTO "post_shifts" ("created_by", "date", "urgent", "shift", "adl", "mhw", "nurse", "shift_comments", "notify", "filled", "floor", "shift_status" ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING "notify", "shift_status", "shift_id", "filled", "created_by";';
+                    db.query(queryText, [createdBy, theDate, newShift.urgent, newShift.shift, newShift.adl, newShift.mhw, newShift.nurse, newShift.comments, [notify], newShift.filled, newShift.floor, newShift.shift_status],
                         function (errorMakingQuery, result) {
                             done();
+                            console.log('hey', result.rows[0].shift_status)
+                            if (result.rows[0].shift_status === 'Filled') {
+                            var shiftId = result.rows[0].shift_id;
+                            var filledId = result.rows[0].filled;
+                            var confirmedBy = result.rows[0].created_by
+                                filledOnAdd(shiftId, filledId, confirmedBy)
+                            }
                             if (errorMakingQuery) {
                                 console.log('Error making query', errorMakingQuery);
                                 res.sendStatus(500);
@@ -86,9 +93,9 @@ router.post('/', function (req, res) {
                                                 console.log(error);
                                                 res.send(error);
                                             }
-                                            else{
-                                            console.log('Message sent: %s', info.messageId);
-                                            res.sendStatus(201);
+                                            else {
+                                                console.log('Message sent: %s', info.messageId);
+                                                res.sendStatus(201)
                                             }
                                         });
 
@@ -120,9 +127,9 @@ router.put('/', function (req, res) {
             } //end if error connection to db
             else {
                 console.log('hitting the query');
-                var queryText = 
-                'SELECT * FROM "post_shifts"' +
-                'WHERE "date" > $1 AND "date" < $2;';
+                var queryText =
+                    'SELECT * FROM "post_shifts"' +
+                    'WHERE "date" > $1 AND "date" < $2;';
                 db.query(queryText, [firstDayofShifts, lastDayofShifts], function (errorMakingQuery, result) {
                     done(); // add + 1 to pool
                     if (errorMakingQuery) {
@@ -600,41 +607,47 @@ function notifyingSupers(supers) {
     });
 }
 //post route to confirm table upon adding a shift
-// router.post('/confirmation/', function (req, res){
-//         if (req.isAuthenticated()) {
-//             var shift = req.body
-//             var postedBy = req.user.id
-//             pool.connect(function (errorConnectingToDb, db, done) {
-//                 if (errorConnectingToDb) {
-//                     // No connection to database was made - error
-//                     console.log('Error connecting', errorConnectingToDb);
-//                     res.sendStatus(500);
-//                 } //end if error connection to db
-//                 else {
-//                     var queryText = 'INSERT INTO "confirmed" ("confirmed_by_id", "user_id", "shift_id") VALUES ($1, $2, $3);';
-//                     db.query(queryText, [postedBy, shift.filled, shift.shift_id], function (errorMakingQuery, result) {
-//                         done(); // add + 1 to pool - we have received a result or error
-//                         if (errorMakingQuery) {
-//                             console.log('Error making query', errorMakingQuery);
-//                             res.sendStatus(500);
-//                         }
-//                         else {
+function filledOnAdd(shiftId, filledId, confirmedBy) {
+    console.log('this is happening!')
+    console.log('the shiftId, the filledId', shiftId, filledId)
+    var shiftId = shiftId;
+    var filledId = filledId;
+    var confirmedBy = confirmedBy;
+// router.post('/confirmation/', function (req, res) {
+//     if (req.isAuthenticated()) {
+//         var shiftId = shiftId;
+//         var filledId = filledId;
+//         var postedBy = req.user.id;
+        pool.connect(function (errorConnectingToDb, db, done) {
+            if (errorConnectingToDb) {
+                // No connection to database was made - error
+                console.log('Error connecting', errorConnectingToDb);
+                res.sendStatus(500);
+            } //end if error connection to db
+            else {
+                var queryText = 'INSERT INTO "confirmed" ("confirmed_by_id", "user_id", "shift_id") VALUES ($1, $2, $3);';
+                db.query(queryText, [confirmedBy, filledId, shiftId], function (errorMakingQuery, result) {
+                    done(); // add + 1 to pool - we have received a result or error
+                    // if (errorMakingQuery) {
+                    //     console.log('Error making query', errorMakingQuery);
+                    //     res.sendStatus(500);
+                    // }
+                    // else {
+                    //     res.sendStatus(201);
+                    // }
+                }
+                ); // END QUERY
 
-//                             res.sendStatus(201);
-//                         }
-//                     }
-//                     ); // END QUERY
+            }
 
-//                 }
-
-//             }); // end pool connect
+        }); // end pool connect
 
 
-//         } // end req.isAuthenticated
-//         else {
-//             console.log('User is not authenticated')
-//         }
-//     })//end posting to confirmed table upon add shift 
-
+//     } // end req.isAuthenticated
+//     else {
+//         console.log('User is not authenticated')
+//     }
+// })//end posting to confirmed table upon add shift 
+}//end function
 
 module.exports = router;

@@ -11,7 +11,6 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   vm.filledByName = ShiftService.filledByName.data;
 
 
-
   vm.updatePayPeriodDates = function () {
     calendarService.updatePayPeriodDates().then(function (response) {
       console.log(response)
@@ -32,7 +31,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   vm.getPayPeriodDates = function () {
     vm.month = moment(vm.today).format('MMMM');
     vm.year = moment(vm.today).format('YYYY');
-    calendarService.getPayPeriodDates().then(function(response){
+    calendarService.getPayPeriodDates().then(function (response) {
       vm.getShifts(calendarService.payPeriodStart, calendarService.payPeriodEnd);
       vm.getPendingShifts();
     })
@@ -84,18 +83,18 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
 
   vm.shiftDetails = function (event, shift) {
     vm.filledByName = [];
-      ShiftService.shiftDetails(event, shift).then(function (response) {
-        vm.filledByName = response.data;
-        console.log('whos is it filled by?')
-        $mdDialog.show({
-          controller: 'SupervisorDialogController as sd',
-          templateUrl: '/views/templates/shiftDetails.html',
-          parent: angular.element(document.body),
-          targetEvent: event,
-          clickOutsideToClose: true,
-          fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
-        });
-      }) //end shiftDetails popup function    
+    ShiftService.shiftDetails(event, shift).then(function (response) {
+      vm.filledByName = response.data;
+      console.log('whos is it filled by?')
+      $mdDialog.show({
+        controller: 'SupervisorDialogController as sd',
+        templateUrl: '/views/templates/shiftDetails.html',
+        parent: angular.element(document.body),
+        targetEvent: event,
+        clickOutsideToClose: true,
+        fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
+      });
+    }) //end shiftDetails popup function    
 
   };
 
@@ -153,9 +152,12 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
     })
   }
 
+  // vm.getPendingShifts();
+
+
   function checkShiftIds(array, id) {
     var result = false;
-    for (var i=0; i < array.length; i++) {
+    for (var i = 0; i < array.length; i++) {
       if (array[i].shift_id == id) {
         console.log('true', array[i].shift_id)
         result = true;
@@ -164,7 +166,6 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
     }
   }
 
-  // vm.getPendingShifts();
 
   vm.click = function (shift) {
     console.log('clicked');
@@ -190,18 +191,18 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
     UserService.getSupervisors().then(function (response) {
       vm.supervisors = response.data;
       console.log('got supervisors', vm.supervisors);
-  // IF there are two pending shifts that have the same date, display them in the same dialog box AND only show one button
+      // IF there are two pending shifts that have the same date, display them in the same dialog box AND only show one button
     })
   }
 
-  vm.confirmShift = function(event, shift) {
+  vm.confirmShift = function (event, shift) {
     $mdDialog.show({
       controller: 'ConfirmShiftController as sc',
       templateUrl: '/views/dialogs/confirmShift.html',
       parent: angular.element(document.body),
       targetEvent: event,
       clickOutsideToClose: true,
-      locals: {pendingShift: shift},
+      locals: { pendingShift: shift },
       fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
     }).then(function() {
       vm.getPayPeriodDates();

@@ -594,7 +594,7 @@ function filledOnAdd(shiftId, filledId, confirmedBy, success, failure) {
         if (errorConnectingToDb) {
             // No connection to database was made - error
             console.log('Error connecting', errorConnectingToDb);
-            failure();;
+            failure();
         } //end if error connection to db
         else {
             var queryText = 'INSERT INTO "confirmed" ("confirmed_by_id", "user_id", "shift_id") VALUES ($1, $2, $3);';

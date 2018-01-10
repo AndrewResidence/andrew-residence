@@ -127,8 +127,7 @@ ALTER TABLE `public`.`users` ADD COLUMN `code` character varying DEFAULT 'false'
 
 ## Screen Shot
 
-![Supervisor Calendar]
-(server/public/styles/screenshot1.png)
+![Supervisor Calendar](server/public/styles/screenshot1.png)
 ![Supervisor Add Shift View](server/public/styles/screenshot2.png)
 ![On Call Staff Calendar](server/public/styles/screenshot3.png)
 

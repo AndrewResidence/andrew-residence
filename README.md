@@ -1,4 +1,4 @@
-# 
+#Andrew Residence Shift Calendar
 
 Shift Scheduler 
 Andrew Residence requires a calendar/scheduling application to assist in sceduling on-call staff.  Shift Scheduler 
@@ -50,7 +50,7 @@ CREATE TABLE `post_shifts` (
     `date` DATE NOT NULL,
     `shift_id` INT NOT NULL AUTO_INCREMENT,
     `shift` varchar NOT NULL
-    `shift_status` varchar DEFAULT 'open',
+    `shift_status` varchar NOT NULL DEFAULT 'Open',
     `shift_comments` varchar,
     `created_by` INT NOT NULL,
     `urgent` BOOLEAN NOT NULL DEFAULT 'false',
@@ -58,16 +58,16 @@ CREATE TABLE `post_shifts` (
     `mhw` BOOLEAN DEFAULT 'false',
     `nurse` BOOLEAN DEFAULT 'false',
     `notify` varchar[],
-    `filled` INT NOT NULL,
-    `floor` VARCHAR(255) NOT NULL,
+    `filled` INT,
+    `floor` VARCHAR(20) NOT NULL,
     PRIMARY KEY (`shift_id`)
 );
 
 CREATE TABLE `shift_bids` (
     `shift_id` INT NOT NULL,
     `user_id` INT NOT NULL,
-    `bid_id` INT NOT NULL AUTO_INCREMENT,
-    `staff_comments` varchar,
+    `bid_id` INT AUTO_INCREMENT,
+    `staff_comments` (varchar),
     PRIMARY KEY (`bid_id`)
 );
 
@@ -81,7 +81,7 @@ CREATE TABLE `confirmed` (
 );
 
 CREATE TABLE `user_availability` (
-    `user_id` BINARY NOT NULL,
+    `user_id` INT NOT NULL,
     `availability_id` INT NOT NULL AUTO_INCREMENT,
     PRIMARY KEY (`availability_id`)
 );
@@ -132,21 +132,31 @@ ALTER TABLE `shift_interest` ADD CONSTRAINT `shift_interest_fk0` FOREIGN KEY (`u
 ![Supervisor Add Shift View](server/public/styles/screenshot2.png)
 ![On Call Staff Calendar](server/public/styles/screenshot3.png)
 
-## Documentation
-
-Link to a read-only version of your scope document or other relevant documentation here (optional). Remove if unused.
 
 ### Completed Features
+####Administrator features:
+- [x] Confirm new users and indicate a new user's role (supervisor or on-call staff)
+- [x] Edit users
+- [x] Remove users
 
-Supervisors
-- [x] Post avaialble shifts
-- [x] Confirm shifts
+####Communication features:
+- [x] Weekly digest email is sent out to all on-call staff with all open upcoming shifts
+- [x] When a supervisor posts an 'urgent' shift, an SMS is immediately sent out to all on-call staff with the role(s) that the supervisor marked when adding the shift.
+- [x] When an on-call staff member picks up a shift, an email is sent to all supervisors to inform them
+- [x] When a supervisor confirms an on-call staff member for a shift, an email is sent to that staff member letting them know they have been confirmed. If another on-call staff member has requested the same shift, an email will also be sent to that staff member letting them know someone else has been confirmed for the shift.
+
+####Supervisor features: 
+- [x] View all open, pending and confirmed shifts in a calendar of the current pay-period
+- [x] Post a new shift, including shift role(s), floor, shift time, shift date(s), and comments
 - [x] Schedule urgent shifts and notify staff with SMS
-- [x] Send weekly shift reminder
+- [x] Confirm on-call staff for shifts
+- [x] Edit and delete an existing shift if the shift has not been confirmed
 
-On-call Staff
-- [x] View available shifts and previously scheduled shifts
-- [x] Place bids on available shifts
+####On-call Staff Features
+- [x] View all open, pending and confirmed shifts in a calendar of the current month
+- [x] Calendar view is mobile-responsive
+- [x] View a 'My Shifts' tab that shows the shifts they have picked up, including both pending shifts and confirmed shifts
+- [x] Pick up available shifts, with the option of adding comment 
 - [x] Edit profile information
 
 
@@ -167,4 +177,5 @@ Add additional notes about how to deploy this on a live system
 
 ## Acknowledgments
 
-* Hat tip to anyone who's code was used
+* Thank you to Chris Black and Kris Szafranski, our instructors at Prime Digital Academy.
+* Thank you to instructors at Prime Digital Academy for providing the Passport architecture for this project.

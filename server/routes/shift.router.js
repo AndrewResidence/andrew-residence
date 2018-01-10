@@ -57,8 +57,10 @@ router.post('/', function (req, res) {
                                 console.log('Error making query', errorMakingQuery);
                                 res.sendStatus(500);
                                 return;
-                            } else {
+                            } 
+                            else {
                                 if (result.rows[0].shift_status === 'Filled') {
+                                    console.log('this')
                                     var shiftId = result.rows[0].shift_id;
                                     var filledId = result.rows[0].filled;
                                     var confirmedBy = result.rows[0].created_by;
@@ -68,10 +70,12 @@ router.post('/', function (req, res) {
                                         res.sendStatus(500);
                                     });
                                 }
+                                res.send(201)
                             }
                         });
                         
                 }//end for loop
+                console.log('This happens')
             }
         });
     } // end req.isAuthenticated //end if statement

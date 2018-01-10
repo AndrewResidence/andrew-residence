@@ -69,7 +69,7 @@ router.post('/', function (req, res) {
                                         res.sendStatus(500);
                                     });
                                 }
-                                res.sendStatus(201)
+                                res.sendStatus(201);
                             }
                         });
                         
@@ -99,7 +99,7 @@ router.put('/', function (req, res) {
                 console.log('hitting the query');
                 var queryText =
                     'SELECT * FROM "post_shifts"' +
-                    'WHERE "date" > $1 AND "date" < $2;';
+                    'WHERE "date" >= $1 AND "date" <= $2;';
                 db.query(queryText, [firstDayofShifts, lastDayofShifts], function (errorMakingQuery, result) {
                     done(); // add + 1 to pool
                     if (errorMakingQuery) {

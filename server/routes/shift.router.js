@@ -95,7 +95,7 @@ router.post('/', function (req, res) {
                                             }
                                             else {
                                                 console.log('Message sent: %s', info.messageId);
-                                                res.sendStatus(201)
+                                                res.sendStatus(201);
                                             }
                                         });
 

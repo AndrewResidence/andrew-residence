@@ -629,7 +629,6 @@ function insertPostShift(){
                         reject();
                     } else {
 
-                      
                         result.rows.forEach(function (userEmail) {
                             emailArray.push(userEmail.username);
                         });

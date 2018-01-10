@@ -128,7 +128,9 @@ ALTER TABLE `shift_interest` ADD CONSTRAINT `shift_interest_fk0` FOREIGN KEY (`u
 
 ## Screen Shot
 
-Include one or two screen shots of your project here (optional). Remove if unused.
+![Supervisor Calendar](server/public/styles/screenshot1.png)
+![Supervisor Add Shift View](server/public/styles/screenshot2.png)
+![On Call Staff Calendar](server/public/styles/screenshot3.png)
 
 ## Documentation
 

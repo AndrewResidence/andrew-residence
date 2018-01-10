@@ -37,6 +37,7 @@ router.post('/', function (req, res) {
         console.log('req.body.shiftDate', req.body.shiftDate);
 
         var createdBy = req.user.id;
+        
         pool.connect(function (errorConnectingToDb, db, done) {
             if (errorConnectingToDb) {
                 console.log('Error connecting', errorConnectingToDb);
@@ -51,69 +52,35 @@ router.post('/', function (req, res) {
                     db.query(queryText, [createdBy, theDate, newShift.urgent, newShift.shift, newShift.adl, newShift.mhw, newShift.nurse, newShift.comments, [notify], newShift.filled, newShift.floor, newShift.shift_status],
                         function (errorMakingQuery, result) {
                             done();
-                            console.log('hey', result.rows[0].shift_status)
-                            if (result.rows[0].shift_status === 'Filled') {
-                            var shiftId = result.rows[0].shift_id;
-                            var filledId = result.rows[0].filled;
-                            var confirmedBy = result.rows[0].created_by
-                                filledOnAdd(shiftId, filledId, confirmedBy)
-                            }
+                            console.log('hey', result.rows[0].shift_status);
                             if (errorMakingQuery) {
                                 console.log('Error making query', errorMakingQuery);
                                 res.sendStatus(500);
                                 return;
                             } else {
-                                console.log('results', result.rows[0]);
-                                result.rows[0].notify.forEach(function (supers) {
-                                    console.log('supers', supers);
-                                    notifyingSupers(supers).then(function (result) {
-                                        var mailOptions = {
-                                            from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
-                                            to: 'joshnothum@gmail.com', // list of receivers
-                                            subject: 'Shift Posted Notification', // Subject line
-                                            html: ' <body style ="background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);">' +
-                                                '<h1>Hello!</h1><h3>You are being notified of the following shift posting:</h3><ul>' + newShift.shift + ':' + theDate + '</ul>' +
-                                                '<p>Please go to the scheduling app to sign-up for a shift.</p>' +
-                                                '<button style="background-color: #4CAF50;background-color:rgb(255, 193, 7);;color: white;padding: 15px 32px;text-align: center;font-size: 16px;">Let\'s Pick-up Some Shifts!</button>' +
-                                                '<p> We appreciate yor support!</p></body>',
-                                            // attachments:[{
-                                            //     filename:'andrew_residence.png',
-                                            //     path:'../public/images/andrew_residence.png',
-                                            //     cid:'headerPicture'    
-                                            // }],
-                                            auth: {
-                                                user: GMAIL_USER,
-                                                refreshToken: REFRESH_TOKEN,
-                                                accessToken: ACCESS_TOKEN,
-                                            }
-                                        };
-                                        // send mail with defined transport object
-                                        transporter.sendMail(mailOptions, function (error, info) {
-                                            if (error) {
-                                                console.log(error);
-                                                res.send(error);
-                                            }
-                                            else {
-                                                console.log('Message sent: %s', info.messageId);
-                                                res.sendStatus(201)
-                                            }
-                                        });
-
+                                if (result.rows[0].shift_status === 'Filled') {
+                                    var shiftId = result.rows[0].shift_id;
+                                    var filledId = result.rows[0].filled;
+                                    var confirmedBy = result.rows[0].created_by;
+                                    filledOnAdd(shiftId, filledId, confirmedBy, function success(){
+                                        res.sendStatus(201);
+                                    }, function failure() {
+                                        res.sendStatus(500);
                                     });
-                                });
-
-
+                                }
                             }
                         });
+                        
                 }//end for loop
             }
-        }
-        );
+        });
     } // end req.isAuthenticated //end if statement
     else {
         console.log('User is not authenticated');
+        res.sendStatus(401);
     }
 });//end post route for new shifts
+
 //get route for post_shifts 
 router.put('/', function (req, res) {
     if (req.isAuthenticated()) {
@@ -145,6 +112,7 @@ router.put('/', function (req, res) {
     } // end req.isAuthenticated
     else {
         console.log('User is not authenticated');
+        res.sendStatus(401);
     }
 }); //end get shifts
 //gets the current pay period start and end dates
@@ -172,6 +140,7 @@ router.get('/payperiod/getdates', function (req, res) {
     } // end req.isAuthenticated
     else {
         console.log('User is not authenticated');
+        res.sendStatus(403);
     }
 }); //end get pay period dates
 //updates the pay period start and end date in the database
@@ -203,6 +172,7 @@ router.put('/payperiod/updatedates/:id', function (req, res) {
     } // end req.isAuthenticated
     else {
         console.log('User is not authenticated');
+        res.sendStatus(403);
     }
 }); //end update pay period dates
 
@@ -253,7 +223,7 @@ router.post('/shiftBid', function (req, res) {
         }); // end req.isAuthenticated //end if statement
     }
     else {
-        console.log('User is not authenticated')
+        console.log('User is not authenticated');
         res.sendStatus(403);
     }
 });//end post route for new shifts
@@ -307,7 +277,7 @@ router.get('/shiftBidToConfirm/:id', function (req, res) {
                 res.sendStatus(500);
             } //end if error connection to db
             else {
-                var queryText = 'SELECT "post_shifts".*, "shift_bids"."shift_id", "shift_bids"."bid_id", "shift_bids"."staff_comments", "users"."id", "users"."name", "users"."role" FROM "shift_bids" JOIN "users" ON "shift_bids"."user_id" ="users".id JOIN "post_shifts" ON "post_shifts"."shift_id" = "shift_bids"."shift_id" WHERE "shift_bids"."shift_id" = $1;'
+                var queryText = 'SELECT "post_shifts".*, "shift_bids"."shift_id", "shift_bids"."bid_id", "shift_bids"."staff_comments", "users"."id", "users"."name", "users"."role" FROM "shift_bids" JOIN "users" ON "shift_bids"."user_id" ="users".id JOIN "post_shifts" ON "post_shifts"."shift_id" = "shift_bids"."shift_id" WHERE "shift_bids"."shift_id" = $1;';
                 db.query(queryText, [shiftId], function (errorMakingQuery, result) {
                     done();
                     if (errorMakingQuery) {
@@ -324,10 +294,10 @@ router.get('/shiftBidToConfirm/:id', function (req, res) {
         }); // end req.isAuthenticated //end if statement
     }
     else {
-        console.log('User is not authenticated')
+        console.log('User is not authenticated');
         res.sendStatus(403);
     }
-})//end post route for new shifts
+});//end post route for new shifts
 
 //POST confirmed shift
 // When a supervisor confirms a staff person for a shift, post the shift in the 'confirmed' table and update the 'post_shifts' table so the shift status is 'filled'. 
@@ -343,13 +313,17 @@ router.post('/confirm', function (req, res) {
             else {
                 var queryText =
                     'INSERT INTO "confirmed" ("shift_id", "user_id", "shift_bid_id", "confirmed_by_id")' +
-                    'VALUES ($1, $2, $3, $4);';
+                    'VALUES ($1, $2, $3, $4)';
                 db.query(queryText, [staffMember.shift_id, staffMember.id, staffMember.bid_id, req.user.id],
                     function (errorMakingQuery, result) {
+                        console.log(result.rows[0]);
+                        
                         done();
                         if (errorMakingQuery) {
                             console.log('Error making query', errorMakingQuery);
                             res.sendStatus(500);
+                            
+                            
                             return;
                         }
                         else {
@@ -364,6 +338,7 @@ router.post('/confirm', function (req, res) {
                                         return;
                                     }
                                     else {
+                                    
                                         res.sendStatus(201);
                                         console.log('updated shift status in shift table');
                                     }
@@ -375,7 +350,7 @@ router.post('/confirm', function (req, res) {
         }); // end req.isAuthenticated //end if statement
     }
     else {
-        console.log('User is not authenticated')
+        console.log('User is not authenticated');
         res.sendStatus(403);
     }
 });//end post route for new shifts
@@ -413,6 +388,7 @@ router.put('/getmyshifts', function (req, res) {
     } // end req.isAuthenticated
     else {
         console.log('User is not authenticated');
+        res.sendStatus(401);
     }
 }); //end get shifts
 
@@ -451,6 +427,7 @@ router.delete('/delete:id/', function (req, res) {
     }// end if req.isAuthenticated
     else {
         console.log('User is not authenticated');
+        res.sendStatus(401);
         // TODO: return response
     } //end authentication else statement
 }
@@ -486,13 +463,15 @@ router.put('/update/:id', function (req, res) {
     } // end req.isAuthenticated
     else {
         console.log('User is not authenticated');
+        res.sendStatus(401);
+      
     }
 }); //end update shift
 
 //fill shift route - shows shift filled
 router.put('/filledBy/:id', function (req, res) {
     if (req.isAuthenticated()) {
-        console.log('thebody', req.body)
+        console.log('thebody', req.body);
         var confirmedBy = req.user.id;
         var filledBy = req.body.filledBy;
         var shift_status = req.body.shift_status;
@@ -544,6 +523,7 @@ router.put('/filledBy/:id', function (req, res) {
     }//end if authenticated
     else {
         console.log('User is not authenticated');
+        res.sendStatus(401);
     }
 
 }); //end filledBy route
@@ -566,7 +546,7 @@ router.get('/filled/who/:id', function (req, res) {
                         console.log('Error making query', errorMakingQuery);
                         res.sendStatus(500);
                     } else {
-                        res.send(result.rows)
+                        res.send(result.rows);
                     }
                 }); // END QUERY
             }
@@ -574,6 +554,7 @@ router.get('/filled/who/:id', function (req, res) {
     } // end req.isAuthenticated
     else {
         console.log('User is not authenticated');
+        res.sendStatus(401);
     }
 }); //end get the name of the person that has the shift
 function notifyingSupers(supers) {
@@ -607,47 +588,61 @@ function notifyingSupers(supers) {
     });
 }
 //post route to confirm table upon adding a shift
-function filledOnAdd(shiftId, filledId, confirmedBy) {
-    console.log('this is happening!')
-    console.log('the shiftId, the filledId', shiftId, filledId)
-    var shiftId = shiftId;
-    var filledId = filledId;
-    var confirmedBy = confirmedBy;
-// router.post('/confirmation/', function (req, res) {
-//     if (req.isAuthenticated()) {
-//         var shiftId = shiftId;
-//         var filledId = filledId;
-//         var postedBy = req.user.id;
+function filledOnAdd(shiftId, filledId, confirmedBy, success, failure) {
+
+    pool.connect(function (errorConnectingToDb, db, done) {
+        if (errorConnectingToDb) {
+            // No connection to database was made - error
+            console.log('Error connecting', errorConnectingToDb);
+            failure();
+        } //end if error connection to db
+        else {
+            var queryText = 'INSERT INTO "confirmed" ("confirmed_by_id", "user_id", "shift_id") VALUES ($1, $2, $3);';
+            db.query(queryText, [confirmedBy, filledId, shiftId], function (errorMakingQuery, result) {
+                done(); // add + 1 to pool - we have received a result or error
+                if (errorMakingQuery) {
+                    console.log('Error making query', errorMakingQuery);
+                    failure();
+                }
+                else {
+                    success();
+                }
+            }
+            ); // END QUERY
+        }
+    }); // end pool connect
+}
+
+function insertPostShift(){
+    return new Promise(function(resolve, reject){
         pool.connect(function (errorConnectingToDb, db, done) {
             if (errorConnectingToDb) {
-                // No connection to database was made - error
                 console.log('Error connecting', errorConnectingToDb);
-                res.sendStatus(500);
-            } //end if error connection to db
-            else {
-                var queryText = 'INSERT INTO "confirmed" ("confirmed_by_id", "user_id", "shift_id") VALUES ($1, $2, $3);';
-                db.query(queryText, [confirmedBy, filledId, shiftId], function (errorMakingQuery, result) {
-                    done(); // add + 1 to pool - we have received a result or error
-                    // if (errorMakingQuery) {
-                    //     console.log('Error making query', errorMakingQuery);
-                    //     res.sendStatus(500);
-                    // }
-                    // else {
-                    //     res.sendStatus(201);
-                    // }
-                }
-                ); // END QUERY
+                reject();
+            } else { //end if error connection to db
 
+                var queryText = 'INSERT INTO "confirmed" ("confirmed_by_id", "user_id", "shift_id") VALUES ($1, $2, $3);';
+                db.query(queryText, result.rows, function (err, result) {
+                    done();
+                    if (err) {
+                        console.log("Error getting phone: ", err);
+                        reject();
+                    } else {
+
+                      
+                        result.rows.forEach(function (userEmail) {
+                            emailArray.push(userEmail.username);
+                        });
+                        resolve(emailArray);
+                    }
+                });
             }
 
-        }); // end pool connect
-
-
-//     } // end req.isAuthenticated
-//     else {
-//         console.log('User is not authenticated')
-//     }
-// })//end posting to confirmed table upon add shift 
-}//end function
+        });
+    });
+};
 
 module.exports = router;
+
+
+// SELECT "users"."username" FROM "users" JOIN "shift_bids" ON "shift_bids"."user_id" = "users"."id" WHERE "users"."id" = $1;

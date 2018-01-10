@@ -191,6 +191,7 @@ router.post('/urgent', function (req, res) {
     } // end req.isAuthenticated //end if statement
     else {
         console.log('User is not authenticated');
+        res.sendStatus(403);
     }
 });
 //test route for texting, will be deleted once moved to production

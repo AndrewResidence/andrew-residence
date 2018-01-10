@@ -136,7 +136,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     var firstAndLastDays = {
       firstDayofShifts: firstDayofShifts, 
       lastDayofShifts: lastDayofShifts
-    }
+    };
     self.shiftsToDisplay.data = [];
     console.log('shifts to display service', self.shiftsToDisplay.data)
     return $http.put('/shifts', firstAndLastDays).then(function (response) {

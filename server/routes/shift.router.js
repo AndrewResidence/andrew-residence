@@ -60,7 +60,6 @@ router.post('/', function (req, res) {
                             } 
                             else {
                                 if (result.rows[0].shift_status === 'Filled') {
-                                    console.log('this')
                                     var shiftId = result.rows[0].shift_id;
                                     var filledId = result.rows[0].filled;
                                     var confirmedBy = result.rows[0].created_by;
@@ -70,7 +69,7 @@ router.post('/', function (req, res) {
                                         res.sendStatus(500);
                                     });
                                 }
-                                res.send(201)
+                                res.sendStatus(201)
                             }
                         });
                         

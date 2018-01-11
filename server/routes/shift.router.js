@@ -69,12 +69,13 @@ router.post('/', function (req, res) {
                                         res.sendStatus(500);
                                     });
                                 }
-                                res.sendStatus(201);
+                                
                             }
                         });
                         
                 }//end for loop
                 console.log('This happens')
+                res.sendStatus(201);
             }
         });
     } // end req.isAuthenticated //end if statement

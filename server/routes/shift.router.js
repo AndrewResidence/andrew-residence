@@ -74,7 +74,7 @@ router.post('/', function (req, res) {
                         });
                         
                 }//end for loop
-                console.log('This happens')
+                console.log('Success');
                 res.sendStatus(201);
             }
         });

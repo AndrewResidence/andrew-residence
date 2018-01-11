@@ -59,19 +59,23 @@ router.post('/', function (req, res) {
                                 return;
                             } 
                             else {
-                                if (result.rows[0].shift_status === 'Filled') {
-                                    console.log('this')
-                                    var shiftId = result.rows[0].shift_id;
-                                    var filledId = result.rows[0].filled;
-                                    var confirmedBy = result.rows[0].created_by;
-                                    filledOnAdd(shiftId, filledId, confirmedBy, function success(){
-                                        res.sendStatus(201);
-                                    }, function failure() {
-                                        res.sendStatus(500);
-                                    });
-                                }
-                                res.send(201)
+                                // if (result.rows[0].shift_status === 'Filled') {
+                                //     console.log('this')
+                                //     var shiftId = result.rows[0].shift_id;
+                                //     var filledId = result.rows[0].filled;
+                                //     var confirmedBy = result.rows[0].created_by;
+                                //     filledOnAdd(shiftId, filledId, confirmedBy, function success(){
+                                //         res.sendStatus(201);
+                                //     }, function failure() {
+                                //         res.sendStatus(500);
+                                //     });
+                                // }
+                                // else {
+                                    res.sendStatus(201);
+                                // }
+                                // res.sendStatus(201)
                             }
+                            // res.sendStatus(201)
                         });
                         
                 }//end for loop
@@ -108,7 +112,7 @@ router.put('/', function (req, res) {
                         res.sendStatus(500);
                     } else {
                         res.send(result.rows);
-                        console.log('result.rows', result.rows);
+                        console.log('result.rows in get shifts', result.rows);
                     }
                 }); // END QUERY
             }
@@ -131,7 +135,6 @@ router.get('/payperiod/getdates', function (req, res) {
                 var queryText = 'SELECT * FROM "pay_period";';
                 db.query(queryText, function (errorMakingQuery, result) {
                     done();
-
                     if (errorMakingQuery) {
                         console.log('Error making query', errorMakingQuery);
                         res.sendStatus(500);

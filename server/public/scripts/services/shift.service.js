@@ -192,11 +192,11 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   };
 
   self.pickUpShift = function (shift, firstOfMonth, lastOfMonth) {
-    return $http.post('/shifts/shiftBid', shift).then(function (response) {
-      self.getShifts(firstOfMonth, lastOfMonth)
+    return $http.post('/shifts/shiftBid', shift)//.then(function (response) {
+      // self.getShifts(firstOfMonth, lastOfMonth)
       // console.log('posted shift bid', shift, response);
       return response;
-    });
+    //});
   };
 
   self.myShifts = {

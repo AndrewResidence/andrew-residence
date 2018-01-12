@@ -324,7 +324,6 @@ router.post('/confirm', function (req, res) {
                     function (errorMakingQuery, result) {
                         console.log(result.rows[0]);
                         
-                        done();
                         if (errorMakingQuery) {
                             console.log('Error making query', errorMakingQuery);
                             res.sendStatus(500);

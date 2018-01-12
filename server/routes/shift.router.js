@@ -470,7 +470,7 @@ router.put('/update/:id', function (req, res) {
     else {
         console.log('User is not authenticated');
         res.sendStatus(401);
-      
+    
     }
 }); //end update shift
 

@@ -51,7 +51,7 @@ router.post('/', function (req, res) {
                     var queryText = 'INSERT INTO "post_shifts" ("created_by", "date", "urgent", "shift", "adl", "mhw", "nurse", "shift_comments", "notify", "filled", "floor", "shift_status" ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING "notify", "shift_status", "shift_id", "filled", "created_by";';
                     db.query(queryText, [createdBy, theDate, newShift.urgent, newShift.shift, newShift.adl, newShift.mhw, newShift.nurse, newShift.comments, [notify], newShift.filled, newShift.floor, newShift.shift_status],
                         function (errorMakingQuery, result) {
-                            done();
+                            
                             console.log('hey', result.rows[0].shift_status);
                             if (errorMakingQuery) {
                                 console.log('Error making query', errorMakingQuery);
@@ -59,27 +59,25 @@ router.post('/', function (req, res) {
                                 return;
                             } 
                             else {
-                                // if (result.rows[0].shift_status === 'Filled') {
-                                //     console.log('this')
-                                //     var shiftId = result.rows[0].shift_id;
-                                //     var filledId = result.rows[0].filled;
-                                //     var confirmedBy = result.rows[0].created_by;
-                                //     filledOnAdd(shiftId, filledId, confirmedBy, function success(){
-                                //         res.sendStatus(201);
-                                //     }, function failure() {
-                                //         res.sendStatus(500);
-                                //     });
-                                // }
-                                // else {
-                                    res.sendStatus(201);
-                                // }
-                                // res.sendStatus(201)
+                                if (result.rows[0].shift_status === 'Filled') {
+                                    var shiftId = result.rows[0].shift_id;
+                                    var filledId = result.rows[0].filled;
+                                    var confirmedBy = result.rows[0].created_by;
+                                    filledOnAdd(shiftId, filledId, confirmedBy, function success(){
+                                        res.sendStatus(201);
+                                    }, function failure() {
+                                        res.sendStatus(500);
+                                    });
+                                }
+                                
                             }
                             // res.sendStatus(201)
                         });
                         
                 }//end for loop
-                console.log('This happens')
+                console.log('Success');
+                res.sendStatus(201);
+                done();
             }
         });
     } // end req.isAuthenticated //end if statement
@@ -102,9 +100,10 @@ router.put('/', function (req, res) {
             } //end if error connection to db
             else {
                 console.log('hitting the query');
+                //equal to the date or between
                 var queryText =
                     'SELECT * FROM "post_shifts"' +
-                    'WHERE "date" > $1 AND "date" < $2;';
+                    'WHERE "date" >= $1 AND "date" <= $2;';
                 db.query(queryText, [firstDayofShifts, lastDayofShifts], function (errorMakingQuery, result) {
                     done(); // add + 1 to pool
                     if (errorMakingQuery) {

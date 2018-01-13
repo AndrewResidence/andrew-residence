@@ -200,7 +200,6 @@ router.post('/shiftBid', function (req, res) {
                     'VALUES ($1, $2, $3);';
                 db.query(queryText, [shiftBid.id, shiftBid.user, shiftBid.staff_comments],
                     function (errorMakingQuery, result) {
-                        done();
                         if (errorMakingQuery) {
                             console.log('Error making query', errorMakingQuery);
                             res.sendStatus(500);

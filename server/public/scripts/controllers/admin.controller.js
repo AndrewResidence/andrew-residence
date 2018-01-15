@@ -21,14 +21,14 @@ myApp.controller('AdminController', function ($mdDialog, $mdToast, UserService, 
   vm.getUnconfirmed = function () {
     vm.userService.getUnconfirmed().then(function (response) {
       vm.unconfirmed = response.data;
-      console.log('got users', response.data);
-    });
+    }).catch(function(error){
+      console.log('error in getting unconfirmed')
+    })
   };
   vm.getUnconfirmed();
 
   //Show dialog for confirm user
   vm.showConfirmDialog = function (event, user) {
-    console.log('button clicked');
     $mdDialog.show({
       controller: 'AdminDialogController as ac',
       templateUrl: '/views/dialogs/confirmUser.html',
@@ -47,7 +47,6 @@ myApp.controller('AdminController', function ($mdDialog, $mdToast, UserService, 
   //Users PUT route to confirm users and define their role (supervisor, nurse, MHW or ADL) 
   vm.confirmUser = function (user) {
     vm.userService.confirmUser(user).then(function (response) {
-      console.log('changed user', response);
     });
   };
 
@@ -55,8 +54,9 @@ myApp.controller('AdminController', function ($mdDialog, $mdToast, UserService, 
   vm.getSupervisors = function () {
     vm.userService.getSupervisors().then(function (response) {
       vm.supervisors = response.data;
-      console.log('got supervisors', vm.supervisors);
-    });
+    }).catch(function(error){
+      console.log('error in getting supervisors')
+    })
   };
 
   vm.getSupervisors();
@@ -65,8 +65,9 @@ myApp.controller('AdminController', function ($mdDialog, $mdToast, UserService, 
   vm.getStaff = function () {
     vm.userService.getStaff().then(function (response) {
       vm.staff = response.data;
-      console.log('got staff', vm.staff);
-    });
+    }).catch(function(error){
+      console.log('error in getting staff')
+    })
   };
 
   vm.getStaff();
@@ -89,6 +90,8 @@ myApp.controller('AdminController', function ($mdDialog, $mdToast, UserService, 
         vm.getSupervisors();
         vm.getUnconfirmed();
       })
+  }).catch(function(error){
+    console.log('error in deleting user')
   })
 }
 
@@ -127,31 +130,5 @@ myApp.controller('AdminController', function ($mdDialog, $mdToast, UserService, 
         .hideDelay(2500)
     );
   };
-  
-  // vm.showDeleteToast = function (user) {
-  //   console.log('user in toast', user);
-  //   var toast = $mdToast.simple()
-  //     .textContent('User has been deleted')
-  //     .action('UNDO')
-  //     .highlightAction(true)
-  //     .position('bottom left')
-  //     .hideDelay(3000);
-  //   var undoToast = $mdToast.simple()
-  //     .textContent('Undo successful')
-  //     .position('bottom left')
-  //     .hideDelay(2500);
-  //   $mdToast.show(toast).then(function (response) {
-  //     if (response === 'ok') {
-  //       $mdToast.show(undoToast);
-  //     } else {
-  //       vm.userService.deleteUser(user).then(function (response) {
-  //         console.log('user deleted', response);
-  //         vm.getStaff();
-  //         vm.getSupervisors();
-  //         vm.getUnconfirmed();
-  //       });
-  //     }
-  //   });
-  // };
 
 });

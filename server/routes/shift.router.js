@@ -51,7 +51,7 @@ router.post('/', function (req, res) {
                     var queryText = 'INSERT INTO "post_shifts" ("created_by", "date", "urgent", "shift", "adl", "mhw", "nurse", "shift_comments", "notify", "filled", "floor", "shift_status" ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING "shift_status", "shift_id", "filled", "created_by";';
                     db.query(queryText, [createdBy, theDate, newShift.urgent, newShift.shift, newShift.adl, newShift.mhw, newShift.nurse, newShift.comments, [notify], newShift.filled, newShift.floor, newShift.shift_status],
                         function (errorMakingQuery, result) {
-                            
+                            done(); 
                             console.log('hey', result.rows[0].shift_status);
                             if (errorMakingQuery) {
                                 console.log('Error making query', errorMakingQuery);
@@ -71,7 +71,7 @@ router.post('/', function (req, res) {
                                             res.sendStatus(500)
                                         }
                                         else {
-                                           console.log('success')
+                                            console.log('success')
                                         }
                                     }
                                     ); // END QUERY
@@ -84,7 +84,7 @@ router.post('/', function (req, res) {
                 }//end for loop
                 console.log('Success');
                 res.sendStatus(201);
-                done();
+                // done();
             }
         });
     } // end req.isAuthenticated //end if statement

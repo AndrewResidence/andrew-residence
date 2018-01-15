@@ -42,37 +42,9 @@ myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserSer
     if (shift.nurse) {
       vm.nurse = true;
     }
-    // vm.showPickUpButton = ShiftService.showPickUpButton;
-    // vm.showPickUpShift = function() {
-    //   console.log('shift in staff dialog controller', vm.shift.id)
-    //   console.log('myShifts', ShiftService.myShifts.data)
-    //   if (vm.shift.shift_status === 'Filled' || vm.shift.shift_status === 'filled') {
-    //     vm.showPickUpButton = false;
-    //     console.log('vm.showPickUpButton', vm.showPickUpButton)
-    //   }
-    //   for (var i = 0; i < ShiftService.myShifts.length; i++) {
-    //     console.log('in the for loop')
-    //     if (parseInt(vm.shift.id) === parseInt(ShiftService.myShifts.data[i].shift_id)) {
-    //       vm.showPickUpButton = false;
-    //     }
-    //   }
-    // };
-
-      //closes dialog box
   };
+
   vm.role();
-  // vm.showPickUpShift();
-  // vm.showPickUpShift = function() {
-  //   vm.showComments = true;
-  // }
-
-  // vm.getShifts = function(firstOfMonth, lastOfMonth) {
-  //   ShiftService.getShifts(firstOfMonth, lastOfMonth)
-  // }
-
-  // vm.getPendingShifts = function(firstOfMonth, lastOfMonth) {
-  //   ShiftService.getPendingShifts(firstOfMonth, lastOfMonth)
-  // }
 
   vm.pickUpShift = function (shift, firstOfMonth, lastOfMonth) {
     vm.shiftService.pickUpShift(shift).then(function (response) {
@@ -84,8 +56,9 @@ myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserSer
           .textContent('You\'ve signed up for a shift. Shift is pending until confirmed.')
           .hideDelay(2500)
       );
-    });
-    // vm.getShifts(vm.firstOfMonth, vm.lastOfMonth);
+    }).catch(function(error){
+      console.log('error in pick up shift')
+    })
   };
 
 

@@ -71,6 +71,7 @@ router.post('/', function (req, res) {
                                 }
                                 
                             }
+                            // res.sendStatus(201)
                         });
                         
                 }//end for loop
@@ -110,7 +111,7 @@ router.put('/', function (req, res) {
                         res.sendStatus(500);
                     } else {
                         res.send(result.rows);
-                        console.log('result.rows', result.rows);
+                        console.log('result.rows in get shifts', result.rows);
                     }
                 }); // END QUERY
             }
@@ -133,7 +134,6 @@ router.get('/payperiod/getdates', function (req, res) {
                 var queryText = 'SELECT * FROM "pay_period";';
                 db.query(queryText, function (errorMakingQuery, result) {
                     done();
-
                     if (errorMakingQuery) {
                         console.log('Error making query', errorMakingQuery);
                         res.sendStatus(500);
@@ -468,7 +468,7 @@ router.put('/update/:id', function (req, res) {
     else {
         console.log('User is not authenticated');
         res.sendStatus(401);
-      
+    
     }
 }); //end update shift
 
@@ -633,7 +633,6 @@ function insertPostShift(){
                         reject();
                     } else {
 
-                      
                         result.rows.forEach(function (userEmail) {
                             emailArray.push(userEmail.username);
                         });

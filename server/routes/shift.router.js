@@ -63,11 +63,18 @@ router.post('/', function (req, res) {
                                     var shiftId = result.rows[0].shift_id;
                                     var filledId = result.rows[0].filled;
                                     var confirmedBy = result.rows[0].created_by;
-                                    filledOnAdd(shiftId, filledId, confirmedBy, function success(){
-                                        res.sendStatus(201);
-                                    }, function failure() {
-                                        res.sendStatus(500);
-                                    });
+                                    var queryText = 'INSERT INTO "confirmed" ("confirmed_by_id", "user_id", "shift_id") VALUES ($1, $2, $3);';
+                                    db.query(queryText, [confirmedBy, filledId, shiftId], function (errorMakingQuery, result) {
+                                        // done(); // add + 1 to pool - we have received a result or error
+                                        if (errorMakingQuery) {
+                                            console.log('Error making query', errorMakingQuery);
+                                            res.sendStatus(500)
+                                        }
+                                        else {
+                                           console.log('success')
+                                        }
+                                    }
+                                    ); // END QUERY
                                 }
                                 
                             }
@@ -592,30 +599,6 @@ function notifyingSupers(supers) {
     });
 }
 //post route to confirm table upon adding a shift
-function filledOnAdd(shiftId, filledId, confirmedBy, success, failure) {
-
-    pool.connect(function (errorConnectingToDb, db, done) {
-        if (errorConnectingToDb) {
-            // No connection to database was made - error
-            console.log('Error connecting', errorConnectingToDb);
-            failure();
-        } //end if error connection to db
-        else {
-            var queryText = 'INSERT INTO "confirmed" ("confirmed_by_id", "user_id", "shift_id") VALUES ($1, $2, $3);';
-            db.query(queryText, [confirmedBy, filledId, shiftId], function (errorMakingQuery, result) {
-                done(); // add + 1 to pool - we have received a result or error
-                if (errorMakingQuery) {
-                    console.log('Error making query', errorMakingQuery);
-                    failure();
-                }
-                else {
-                    success();
-                }
-            }
-            ); // END QUERY
-        }
-    }); // end pool connect
-}
 
 function insertPostShift(){
     return new Promise(function(resolve, reject){

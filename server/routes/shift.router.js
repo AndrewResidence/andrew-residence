@@ -161,7 +161,7 @@ router.put('/payperiod/updatedates/:id', function (req, res) {
             else {
                 var queryText =
                     'UPDATE "pay_period" ' +
-                    'SET "start" = ("start" + \'15 days\'::interval )::date, "end" = ("end" + \'15 days\'::interval)::date ' +
+                    'SET "start" = ("start" + \'14 days\'::interval )::date, "end" = ("end" + \'14 days\'::interval)::date ' +
                     'WHERE "id" = $1;';
                 db.query(queryText, [rowId], function (errorMakingQuery, result) {
                     done();

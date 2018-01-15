@@ -12,13 +12,13 @@ myApp.controller('ConfirmShiftController', function ($scope, $mdDialog, $mdToast
       $mdDialog.hide();
     }; //end close dialog
   
+    //gets shifts
     vm.getShiftsToConfirm = function(shiftId) {
-      console.log('shift id in dialog', shiftId);
       vm.shiftService.getShiftsToConfirm(shiftId).then(function(response) {
-        console.log('got shifts', response.data);
         vm.theShifts = response.data;
-        console.log('shifts here', vm.theShifts);
-      });
+      }).catch(function(error){
+        console.log('error in get shifts to confirm')
+      })
     };
   
     vm.getShiftsToConfirm(vm.pendingShift.shift_id);
@@ -30,23 +30,21 @@ myApp.controller('ConfirmShiftController', function ($scope, $mdDialog, $mdToast
         return false;
     };
 
-    vm.confirmShift = function(staffMember, allShifts) {
-      console.log('staff member',staffMember,'allshifts', allShifts);
-      
+    //confirms users shift
+    vm.confirmShift = function(staffMember, allShifts) {      
       vm.shiftService.confirmShift(staffMember, allShifts).then(function(response) {
-        console.log('confirmed!', response);
-        // ShiftService.pendingShifts = [];
         ShiftService.getPendingShifts();
       }).then(function() {
         $mdDialog.hide();
+      }).catch(function(error){
+        console.log('error in confirming shift')
       })
     }
-
+    
+    //gets pending shifts
     vm.getPendingShifts = function () {
       ShiftService.getPendingShifts()
       .then(function (response) {
-        console.log('HHHHHHFDSLJSDFLJKSDFLJKSDFLJKSLDFLJKSDF')
-        console.log('pending shifts', vm.pendingShifts)
         for (var i = 0; i < vm.pendingShifts.length; i++) {
           vm.pendingShifts[i].date = moment(vm.pendingShifts[i].date).format('M/D');
         }
@@ -57,7 +55,8 @@ myApp.controller('ConfirmShiftController', function ($scope, $mdDialog, $mdToast
             }
           }
         }
-        console.log('pending shifts', vm.pendingShifts);
+      }).catch(function(error){
+        console.log('error getting pending shifts')
       })
     }
   

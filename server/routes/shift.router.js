@@ -51,7 +51,7 @@ router.post('/', function (req, res) {
                     var queryText = 'INSERT INTO "post_shifts" ("created_by", "date", "urgent", "shift", "adl", "mhw", "nurse", "shift_comments", "notify", "filled", "floor", "shift_status" ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING "notify", "shift_status", "shift_id", "filled", "created_by";';
                     db.query(queryText, [createdBy, theDate, newShift.urgent, newShift.shift, newShift.adl, newShift.mhw, newShift.nurse, newShift.comments, [notify], newShift.filled, newShift.floor, newShift.shift_status],
                         function (errorMakingQuery, result) {
-                            
+                            done(); 
                             console.log('hey', result.rows[0].shift_status);
                             if (errorMakingQuery) {
                                 console.log('Error making query', errorMakingQuery);
@@ -64,7 +64,7 @@ router.post('/', function (req, res) {
                                     var filledId = result.rows[0].filled;
                                     var confirmedBy = result.rows[0].created_by;
                                     filledOnAdd(shiftId, filledId, confirmedBy, function success(){
-                                        res.sendStatus(201);
+                                        // res.sendStatus(201);
                                     }, function failure() {
                                         res.sendStatus(500);
                                     });
@@ -77,7 +77,7 @@ router.post('/', function (req, res) {
                 }//end for loop
                 console.log('Success');
                 res.sendStatus(201);
-                done();
+                // done();
             }
         });
     } // end req.isAuthenticated //end if statement
@@ -609,7 +609,8 @@ function filledOnAdd(shiftId, filledId, confirmedBy, success, failure) {
                     failure();
                 }
                 else {
-                    success();
+                    // success();
+                    sendStatus(201);
                 }
             }
             ); // END QUERY

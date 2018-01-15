@@ -7,15 +7,17 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   vm.shiftService = ShiftService;
   vm.shiftsToDisplay = [];
   vm.pendingShifts = ShiftService.pendingShifts;
-  // vm.realPendingShifts = [];
   vm.filledByName = ShiftService.filledByName.data;
 
 
   vm.updatePayPeriodDates = function () {
     calendarService.updatePayPeriodDates().then(function (response) {
       console.log(response)
-    });
+    }).catch(function(error){
+      console.log('error in update pay periods')
+    })
   };
+
   // //used for assigning month/day in the calendar header
   vm.month = calendarService.month;
   vm.year = calendarService.year;
@@ -24,8 +26,6 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   vm.scheduleDays = calendarService.scheduleDays;
   vm.payPeriodStartAndEnd = calendarService.payPeriodStartAndEnd;
   vm.currentSchedule = calendarService.currentSchedule.dates;
-  // vm.payPeriodStart = '';
-  // vm.payPeriodEnd = '';
 
   //funciton to get the data for the calendar
   vm.getPayPeriodDates = function () {
@@ -34,6 +34,8 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
     calendarService.getPayPeriodDates().then(function (response) {
       vm.getShifts(calendarService.payPeriodStart, calendarService.payPeriodEnd);
       vm.getPendingShifts();
+    }).catch(function(error){
+      console.log('error in get pay period dates')
     })
   };
 
@@ -85,7 +87,6 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
     vm.filledByName = [];
     ShiftService.shiftDetails(event, shift).then(function (response) {
       vm.filledByName = response.data;
-      console.log('whos is it filled by?')
       $mdDialog.show({
         controller: 'SupervisorDialogController as sd',
         templateUrl: '/views/templates/shiftDetails.html',
@@ -94,12 +95,12 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
         clickOutsideToClose: true,
         fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
       });
-    }) //end shiftDetails popup function    
-
+    }).catch(function(error){
+      console.log('eror in shift details')
+    })
   };
 
   vm.addShift = function (event) {
-    console.log('add new shift button clicked');
     $mdDialog.show({
       controller: 'SupervisorDialogController as sd',
       templateUrl: '/views/templates/addShift.html',
@@ -110,49 +111,41 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
     })
   }; //end addShift popup function
 
+  //get all shifts
   vm.getShifts = function (payPeriodStart, payPeriodEnd) {
     vm.shiftsToDisplay = [];
     var firstDayofShifts = moment(payPeriodStart);
     var lastDayofShifts = moment(payPeriodEnd)
-    console.log('pay period dates', firstDayofShifts, lastDayofShifts)
     ShiftService.getShifts(firstDayofShifts, lastDayofShifts).then(function (response) {
       vm.shiftsToDisplay = response.data;
-      console.log('shifts to display', vm.shiftsToDisplay)
       for (var i = 0; i < vm.shiftsToDisplay.length; i++) {
         for (var j = 0; j < vm.currentSchedule.length; j++) {
-          // vm.currentSchedule[j].shifts = [];
           if (moment(vm.shiftsToDisplay[i].date).format('YYYY-MM-DD') === moment(vm.currentSchedule[j].moment).format('YYYY-MM-DD')) {
             vm.currentSchedule[j].shifts.push(vm.shiftsToDisplay[i]);
           }
         }
       }
-    });
+    }).catch(function(error){
+      console.log('error in getting shifts')
+    })
   };
 
-  // vm.getShifts(vm.payPeriodStart, vm.payPeriodEnd);
-
-
+  //get pending shifts for supervisor page
   vm.getPendingShifts = function () {
     ShiftService.getPendingShifts().then(function (response) {
-      // console.log('HHHHHHFDSLJSDFLJKSDFLJKSDFLJKSLDFLJKSDF')
       console.log('pending shifts', vm.pendingShifts.data.length)
       for (var i = 0; i < vm.pendingShifts.data.length; i++) {
-        console.log('in for loop', vm.pendingShifts.data);
         vm.pendingShifts.data[i].date = moment(vm.pendingShifts.data[i].date).format('M/D');
       };
       for (var i = 0; i < vm.pendingShifts.data.length; i++) {
-        console.log('shift id in pending shifts', vm.pendingShifts.data[i].shift_id);
         for (var j = i+1; j < vm.pendingShifts.data.length; j++) {
           if (vm.pendingShifts.data[i].shift_id == vm.pendingShifts.data[j].shift_id) {
             vm.pendingShifts.data.splice(j, 1);
           };
         }
       }
-      console.log('pending shifts', vm.pendingShifts);
     })
   }
-
-  // vm.getPendingShifts();
 
 
   function checkShiftIds(array, id) {
@@ -170,12 +163,10 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   vm.click = function (shift) {
     console.log('clicked');
     console.log(shift);
-    // console.log('this', this)
-    // console.log('this.date', this.currentSchedule.dates[index]);
+
   };
   //This is a pick-up shift dialog that WILL BE MOVED to the staff controller once the staff calendar is up and running.
   vm.showDetailsDialog = function (event, shift) {
-    console.log('pick up shift button clicked');
     $mdDialog.show({
       controller: 'StaffDialogController as sc',
       templateUrl: '/views/dialogs/pickUpShift.html',
@@ -187,12 +178,13 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
     })
   }
 
+  //get supervisors 
   vm.getSupervisors = function () {
     UserService.getSupervisors().then(function (response) {
       vm.supervisors = response.data;
-      console.log('got supervisors', vm.supervisors);
-  // IF there are two pending shifts that have the same date, display them in the same dialog box AND only show one button
-    });
+    }).catch(function(error){
+      console.log('error in getting supervisors')
+    })
   };
 
   vm.confirmShift = function (event, shift) {

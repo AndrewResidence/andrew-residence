@@ -3,7 +3,6 @@
   <md-button class="md-raised md-primary" ng-click="sc.addShift($event)">Add Shift</md-button>
   <h2>Shifts waiting for Confirmation</h2>
   <div ng-repeat="shift in sc.pendingShifts.data | filter: shift.date">
-    <!-- <span ng-show="shift.nurse">Nurse </span> <span ng-show="shift.mhw">MHW </span><span ng-show="shift.adl">ADL</span> -->
     <md-button id="confirmShiftButton" ng-click="sc.confirmShift($event, shift)">
       <md-icon ng-class="{{'shift.shift'}}" md-svg-icon="../images/ic_add_circle_black_18px.svg"></md-icon>
       <span>{{shift.date}}</span>

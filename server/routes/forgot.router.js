@@ -42,8 +42,6 @@ console.log(email);
                 user = result.rows[0];
 
                 if (!user) {
-                    // If no, return an error response
-                    // user not found
                     done();
                     res.sendStatus(404);
                 } else {
@@ -67,13 +65,8 @@ console.log(email);
                                 subject: 'Weekly Digest from Andrew Residence', // Subject line
                                 html: ' <body style ="background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);">' +
                                     '<h1>Hello!!</h1><h3>Please use this code to reset your password:</h3><ul>'+ updateLink+'</ul>' +
-                                    '<p>Thank you</p>' +
-                                    '<p> "http:localhost:5000/#/update?code='+ code + '"</p></body>',
-                                // attachments:[{
-                                //     filename:'andrew_residence.png',
-                                //     path:'../public/images/andrew_residence.png',
-                                //     cid:'headerPicture'
-                                // }],
+                                    '<p>Thank you</p>',
+                              
                                 auth: {
                                     user: GMAIL_USER,
                                     refreshToken: REFRESH_TOKEN,

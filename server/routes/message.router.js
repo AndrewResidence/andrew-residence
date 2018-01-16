@@ -26,7 +26,7 @@ var REFRESH_TOKEN = process.env.REFRESH_TOKEN;
 var ACCESS_TOKEN = process.env.ACCESS_TOKEN;
 var CLIENT_ID = process.env.CLIENT_ID;
 var CLIENT_SECRET = process.env.CLIENT_SECRET;
-
+//object for googleOauth
 var transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 465,
@@ -39,6 +39,8 @@ var transporter = nodemailer.createTransport({
 });
 console.log('The Home Stretch!!');
 
+
+// weekly digest email that contains all newly availble unfilled shift
 var dateArray = [];
 var weeklyDigest = function (userEmails) {
     pool.connect(function (errorConnectingToDb, db, done) {
@@ -97,7 +99,7 @@ var weeklyDigest = function (userEmails) {
         }
     }); // end pool connect
 };
-// get users is a function that uses node-cron to retrieve all the users email in the DB.  It returns a promise and chains to weeklyDigest to  
+// get users is a function that uses node-cron to retrieve all the users email in the DB.  It returns a promise and chains to weeklyDigest
 var getUsers = function () {
     var emailArray = [];
     return new Promise(function (resolve, reject) {
@@ -126,7 +128,7 @@ var getUsers = function () {
         });
     });
 };
-//get route used to fetch staff phone numbers. Phone numbers are used to send text message indicating the urgent need for that staff members role.
+//get route used to fetch staff phone numbers. Phone numbers are used to send text message indicating the urgent need for that staff member's role.
 var phoneNumberArray = [];
 router.post('/urgent', function (req, res) {
     if (req.isAuthenticated()) {
@@ -154,19 +156,13 @@ router.post('/urgent', function (req, res) {
                         console.log("Error getting phone: ", err);
                         res.sendStatus(500);
                     } else {
-                        console.log('this is result.rows', result.rows[0]);
-
-
                         result.rows.forEach(function (urgent) {
                             console.log('urgent', urgent.phone);
                             phoneNumberArray.push(urgent.phone);
-
                         });
-
                         var datesForText = req.body.shiftDate;
                         var textDates = [];
                         console.log(datesForText);
-
                         for (var i = 0; i < datesForText.length; i++) {
 
                             textDates.push(moment(datesForText[i]).format('MMM Do YYYY') + ' ' + 'Shift:' + '' + req.body.shift);

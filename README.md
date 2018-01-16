@@ -16,6 +16,12 @@ Plivo API
 
 Fork repo from (https://github.com/Andrew-Residence/group-project)
 
+Download or clone this repository
+Get a [Plivo API Key and Phone Number](https://developers.plivo.com/);
+Get [Google oAuth Credentials] (https://console.developers.google.com/)
+Copy the example.env file and rename to .env add your Keys and Secrets
+
+
 ### Prerequisites
 
 Link to software that is required to install the app (e.g. node).

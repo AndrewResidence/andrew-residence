@@ -22,7 +22,8 @@ router.get('/', function (req, res) {
       userId: req.user.id,
       name: req.user.name,
       phone: req.user.phone,
-      role: req.user.role
+      role: req.user.role,
+      confirmed: req.user.confirmed
     };
 
     console.log(userInfo.name);

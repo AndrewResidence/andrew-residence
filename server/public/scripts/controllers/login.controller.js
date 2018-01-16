@@ -18,7 +18,7 @@ myApp.controller('LoginController', function ($http, $location, $mdDialog, UserS
         if (response.data.username) {
           console.log('LoginController -- login -- success: ', response.data);
           // location works with SPA (ng-route)
-          $location.path('/user'); // http://localhost:5000/#/user
+          $location.path('/user'); // http://localhost:5000/#/user 
         } else {
           console.log('LoginController -- login -- failure: ', response);
           vm.message = "The username or password you entered is incorrect, please try again.";

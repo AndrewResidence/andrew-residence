@@ -15,7 +15,7 @@ router.post('/', function (req, res, next) {
 
   var saveUser = {
     name: req.body.name,
-    username: req.body.username,
+    username: req.body.username.toLowerCase(),
     password: encryptLib.encryptPassword(req.body.password),
     phone: req.body.phone
   };

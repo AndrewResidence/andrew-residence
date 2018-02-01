@@ -29,7 +29,7 @@ myApp.service('calendarService', function ($http, $location, $mdDialog) {
             self.checkPayPeriodCurrent(self.payPeriodStart, self.payPeriodEnd)
         })
             .catch(function (err) {
-                console.log('error')
+                console.log('error in getting pay period dates')
             });
     };
 
@@ -51,7 +51,9 @@ myApp.service('calendarService', function ($http, $location, $mdDialog) {
         var rowId = 1;
         return $http.put('/shifts/payperiod/updatedates/' + rowId).then(function (response) {
             return response.data;
-        });
+        }).catch(function(error){
+            console.log('error in updating pay period service')
+        })
     };
 
     //gets current pay period and adds day objects to the array
@@ -65,7 +67,6 @@ myApp.service('calendarService', function ($http, $location, $mdDialog) {
                 }
             );
         }
-        console.log('self.currentSchedule.dates in currentPay period on the service', self.currentSchedule.dates)
     };
 
 });

@@ -15,7 +15,9 @@ myApp.controller('NotificationController', function ($scope, $mdDialog, $mdToast
         UserService.getNotifications().then(function (response) {
             vm.notifications = response.data;
             console.log('here it is', vm.notifications)
-        });
+        }).catch(function(error){
+            console.log('error in getting notifications')
+        })
     };
 
 
@@ -29,7 +31,9 @@ myApp.controller('NotificationController', function ($scope, $mdDialog, $mdToast
                     .textContent('Notification Created')
                     .hideDelay(2500)
             );
-        });
+        }).catch(function(error){
+            console.log('error in creating a message')
+        })
     };
 
 

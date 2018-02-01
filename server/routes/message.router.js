@@ -37,7 +37,7 @@ var transporter = nodemailer.createTransport({
         clientSecret: CLIENT_SECRET,
     }
 });
-console.log('The Home Stretch!!');
+console.log('I can make commits!!');
 
 
 // weekly digest email that contains all newly availble unfilled shift

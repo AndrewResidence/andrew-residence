@@ -22,9 +22,6 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
 
   vm.getPayPeriodDates = function() {
     calendarService.getPayPeriodDates();
-    console.log('vm.currentSchedule', vm.currentSchedule);
-    // vm.payPeriodStart = vm.currentSchedule[0];
-    // vm.payPeriodEnd = vm.currentSchedule[13];
   }
 
   vm.getPayPeriodDates();
@@ -51,25 +48,21 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
 
   //gets all shifts from the server for display on the staff calendar
   vm.getShifts = function (firstOfMonth, lastOfMonth) {
-    // vm.shiftsToDisplay = [];
     ShiftService.getShifts(firstOfMonth, lastOfMonth).then(function (response) {
       vm.shiftsToDisplay = response.data;
-      console.log('shifts', vm.shiftsToDisplay);
       vm.getMyShifts(vm.firstOfMonth, vm.lastOfMonth);
       // console.log('dates', vm.currentSchedule.dates);
       for (var i = 0; i < vm.shiftsToDisplay.length; i++) {
         for (var j = 0; j < vm.currentMonth.dates.length; j++) {
           if (moment(vm.shiftsToDisplay[i].date).format('YYYY-MM-DD') === moment(vm.currentMonth.dates[j].day).format('YYYY-MM-DD')) {
-            // console.log('true');
             vm.currentMonth.dates[j].shifts.push(vm.shiftsToDisplay[i]);
           }
         }
       }
-      
-    });
+    }).catch(function(error){
+      console.log('error in get shifts')
+    })
   };
-  //runs on page load
-  // vm.getShifts(vm.firstOfMonth, vm.lastOfMonth);
 
   //gets pending shifts
   vm.getPendingShifts = function () {
@@ -78,8 +71,9 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
       for (var i = 0; i < vm.pendingShifts.length; i++) {
         vm.pendingShifts[i].date = moment(vm.pendingShifts[i].date).format('l');
       }
-      console.log(' pending shifts', vm.pendingShifts);
-    }); // .catch and displaying a generic error
+    }).catch(function(error){
+      console.log('error in get pending shifts')
+    })
   };
 
   vm.getPendingShifts();
@@ -119,7 +113,6 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
   //creates day object and pushes to array to get month days
   vm.dayInWeek = '';
   vm.getMonthDays = function (currentYear, currentMonth, monthDays) {
-    // console.log('currentMonth', currentMonth);
     vm.dayInWeek = '';
     for (var i = 1; i <= monthDays.length; i++) {
       eachDay = {
@@ -144,7 +137,6 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
   //checks for the first day of the month and adds objects to push calendar start to align with day header
   vm.checkFirstDayOfMonth = function (dayInWeek, currentMonth, currentYear) {
     var dayInWeek = parseInt(dayInWeek);
-    // console.log('firstDayofMonth', firstDayofMonth)
     if (dayInWeek != 0) {
       for (var i = 1; i <= dayInWeek; i++) {
         eachDay = {
@@ -159,7 +151,6 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
         vm.currentMonth.dates.unshift(eachDay);
       }
     }
-    // console.log('dates', vm.currentMonth.dates)
   };
 
   //starts process to get days for month
@@ -171,18 +162,15 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
     if (currentDisplayMonth === 0) {
       vm.thisMonth = 11;
       vm.currentYear = currentYear - 1;
-      // console.log('year, month', vm.currentYear, vm.thisMonth)
     }
     else {
       vm.thisMonth = currentDisplayMonth - 1;
-      // console.log('year, month', vm.currentYear, vm.thisMonth)
     }
     vm.firstOfMonth = moment().year(vm.currentYear).month(vm.thisMonth).date(1);
     vm.lastOfMonth = moment().year(vm.currentYear).month(vm.thisMonth).date(vm.numDaysInCurrentMonth);
     vm.numDaysInCurrentMonth = moment().year(vm.currentYear).month(vm.thisMonth).daysInMonth();
     vm.putDaysinCurrentMonthArray(vm.currentYear, vm.thisMonth, vm.numDaysInCurrentMonth);
     vm.getShifts(vm.firstOfMonth, vm.lastOfMonth);
-    // vm.getMyShifts(vm.firstOfMonth, vm.lastOfMonth);
   }
 
   //function to get next month days and display for calendar
@@ -191,23 +179,19 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
     if (currentDisplayMonth === 11) {
       vm.thisMonth = 0
       vm.currentYear = currentYear + 1;
-      console.log('year, month', vm.currentYear, vm.thisMonth)
     }
     else {
       vm.thisMonth = currentDisplayMonth + 1;
-      console.log('year, month', vm.currentYear, vm.thisMonth)
     }
-    vm.firstOfMonth = moment().year(vm.currentYear).month(vm.thisMonth).date(1);
-    vm.lastOfMonth = moment().year(vm.currentYear).month(vm.thisMonth).date(vm.numDaysInCurrentMonth);
-    vm.numDaysInCurrentMonth = moment().year(vm.currentYear).month(vm.thisMonth).daysInMonth();
-    vm.putDaysinCurrentMonthArray(vm.currentYear, vm.thisMonth, vm.numDaysInCurrentMonth)
-    vm.getShifts(vm.firstOfMonth, vm.lastOfMonth);
-    // vm.getMyShifts(vm.firstOfMonth, vm.lastOfMonth);
+      vm.firstOfMonth = moment().year(vm.currentYear).month(vm.thisMonth).date(1);
+      vm.lastOfMonth = moment().year(vm.currentYear).month(vm.thisMonth).date(vm.numDaysInCurrentMonth);
+      vm.numDaysInCurrentMonth = moment().year(vm.currentYear).month(vm.thisMonth).daysInMonth();
+      vm.putDaysinCurrentMonthArray(vm.currentYear, vm.thisMonth, vm.numDaysInCurrentMonth)
+      vm.getShifts(vm.firstOfMonth, vm.lastOfMonth);
   }
 
   //shift details pop up
   vm.showDetailsDialog = function (event) {
-    // console.log('pick up shift button clicked');
     $mdDialog.show({
       controller: 'StaffDialogController as sc',
       templateUrl: '/views/dialogs/pickUpShift.html',
@@ -218,16 +202,16 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
     });
   };
 
+  //pick up shift dialog function
   vm.shiftDetails = function (event, shift) {
     ShiftService.showPickUpShift(shift);
-    console.log('shift', shift)
     $mdDialog.show({
-      controller: 'StaffDialogController as sc',
-      templateUrl: '/views/dialogs/pickUpShift.html',
-      parent: angular.element(document.body),
-      targetEvent: event,
-      clickOutsideToClose: true,
-      locals: { 
+        controller: 'StaffDialogController as sc',
+        templateUrl: '/views/dialogs/pickUpShift.html',
+        parent: angular.element(document.body),
+        targetEvent: event,
+        clickOutsideToClose: true,
+        locals: { 
         shift: shift,
         firstOfMonth: vm.firstOfMonth, 
         lastOfMonth: vm.lastOfMonth
@@ -240,7 +224,6 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
   vm.getMyShifts = function(firstOfMonth, lastOfMonth) {
     ShiftService.getMyShifts(firstOfMonth, lastOfMonth).then(function(response){
       vm.userShiftsToDisplay = response;
-      console.log('vm.usershiftstodisplay', vm.userShiftsToDisplay)
       for (var i = 0; i < vm.userShiftsToDisplay.length; i++) {
         for (var j = 0; j < vm.currentMonth.dates.length; j++) {
           if (moment(vm.userShiftsToDisplay[i].date).format('YYYY-MM-DD') === moment(vm.currentMonth.dates[j].day).format('YYYY-MM-DD')) {
@@ -248,8 +231,9 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
           }
         }
       }
+    }).catch(function(error){
+      console.log('error in get my shifts')
     })
   }
 
-  // vm.getMyShifts(vm.firstOfMonth, vm.lastOfMonth);
 });

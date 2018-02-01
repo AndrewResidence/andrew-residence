@@ -16,6 +16,13 @@ Plivo API
 
 Fork repo from (https://github.com/Andrew-Residence/group-project)
 
+Download or clone this repository
+Get a [Plivo API Key and Phone Number](https://developers.plivo.com/);
+Get [Google oAuth Credentials] (https://console.developers.google.com/)
+Copy the example.env file and rename to .env add your Keys and Secrets
+Create database using the Andrew Residence_postgres_create.sql document
+
+
 ### Prerequisites
 
 Link to software that is required to install the app (e.g. node).
@@ -31,99 +38,8 @@ Link to software that is required to install the app (e.g. node).
 
 ### Installing
 
-Steps to get the development environment running.
+Run npm install
 
-```sql
-CREATE TABLE `users` (
-    `id` INT NOT NULL AUTO_INCREMENT,
-    `name` varchar NOT NULL,
-    `password` varchar NOT NULL,
-    `username` varchar NOT NULL UNIQUE,
-    `role` varchar,
-    `phone` INT,
-    `confirmed` BOOLEAN NOT NULL DEFAULT 'false',
-    PRIMARY KEY (`id`)
-);
-
-CREATE TABLE `post_shifts` (
-    `date` DATE NOT NULL,
-    `shift_id` INT NOT NULL AUTO_INCREMENT,
-    `shift` varchar NOT NULL
-    `shift_status` varchar NOT NULL DEFAULT 'Open',
-    `shift_comments` varchar,
-    `created_by` INT NOT NULL,
-    `urgent` BOOLEAN NOT NULL DEFAULT 'false',
-    `adl` BOOLEAN DEFAULT 'false',
-    `mhw` BOOLEAN DEFAULT 'false',
-    `nurse` BOOLEAN DEFAULT 'false',
-    `notify` varchar[],
-    `filled` INT,
-    `floor` VARCHAR(20) NOT NULL,
-    PRIMARY KEY (`shift_id`)
-);
-
-CREATE TABLE `shift_bids` (
-    `shift_id` INT NOT NULL,
-    `user_id` INT NOT NULL,
-    `bid_id` INT AUTO_INCREMENT,
-    `staff_comments` (varchar),
-    PRIMARY KEY (`bid_id`)
-);
-
-CREATE TABLE `confirmed` (
-    `confirmed_id` serial INT NOT NULL,
-    `shift_id` INT NOT NULL,
-    `user_id` INT NOT NULL,
-    `shift_bid_id` INT NOT NULL,
-    `confirmed_by_id` INT NOT NULL,
-    PRIMARY KEY (`confirmed_id`)
-);
-
-CREATE TABLE `user_availability` (
-    `user_id` INT NOT NULL,
-    `availability_id` INT NOT NULL AUTO_INCREMENT,
-    PRIMARY KEY (`availability_id`)
-);
-
-CREATE TABLE `shift_interest` (
-    `shift_interest_id` INT NOT NULL,
-    `user_id` INT NOT NULL,
-    `day` DATE NOT NULL,
-    `shift` VARCHAR(255) NOT NULL,
-    `comment` VARCHAR(255),
-    PRIMARY KEY (`shift_interest_id`)
-);
-
-CREATE TABLE `pay_period` (
-    `id` INT NOT NULL AUTO_INCREMENT,
-    `start` DATE NOT NULL,
-    `end` DATE NOT NULL,
-    PRIMARY KEY (`id`)
-);
-
-ALTER TABLE `post_shifts` ADD CONSTRAINT `post_shifts_fk0` FOREIGN KEY (`created_by`) REFERENCES `users`(`id`);
-
-ALTER TABLE `post_shifts` ADD CONSTRAINT `post_shifts_fk1` FOREIGN KEY (`filled`) REFERENCES `users`(`id`);
-
-ALTER TABLE `shift_bids` ADD CONSTRAINT `shift_bids_fk0` FOREIGN KEY (`shift_id`) REFERENCES `post_shifts`(`shift_id`);
-
-ALTER TABLE `shift_bids` ADD CONSTRAINT `shift_bids_fk1` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`);
-
-ALTER TABLE `confirmed` ADD CONSTRAINT `confirmed_fk0` FOREIGN KEY (`shift_id`) REFERENCES `post_shifts`(`shift_id`);
-
-ALTER TABLE `confirmed` ADD CONSTRAINT `confirmed_fk1` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`);
-
-ALTER TABLE `confirmed` ADD CONSTRAINT `confirmed_fk2` FOREIGN KEY (`shift_bid_id`) REFERENCES `shift_bids`(`bid_id`);
-
-ALTER TABLE `confirmed` ADD CONSTRAINT `confirmed_fk3` FOREIGN KEY (`confirmed_by_id`) REFERENCES `users`(`id`);
-
-ALTER TABLE `user_availability` ADD CONSTRAINT `user_availability_fk0` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`);
-
-ALTER TABLE `shift_interest` ADD CONSTRAINT `shift_interest_fk0` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`);
-
-ALTER TABLE `public`.`users` ADD COLUMN `code` character varying DEFAULT 'false';
-
-```
 
 ## Screen Shot
 

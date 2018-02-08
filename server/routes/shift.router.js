@@ -334,7 +334,6 @@ router.post('/confirm', function (req, res) {
                             console.log('Error making query', errorMakingQuery);
                             res.sendStatus(500);
 
-
                             return;
                         }
                         else {
@@ -530,7 +529,7 @@ router.put('/filledBy/:id', function (req, res) {
                 }); //end query
             } //end else
         }//end first pool connect
-        ) //end pool connect
+        ); //end pool connect
     }//end if authenticated
     else {
         console.log('User is not authenticated');
@@ -612,7 +611,7 @@ function insertPostShift() {
                 db.query(queryText, result.rows, function (err, result) {
                     done();
                     if (err) {
-                        console.log("Error getting phone: ", err);
+                        console.log("Error getting email: ", err);
                         reject();
                     } else {
 

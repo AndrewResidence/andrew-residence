@@ -66,7 +66,7 @@ console.log(email);
                                 html: ' <body style ="background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);">' +
                                     '<h1>Hello!!</h1><h3>Please use this code to reset your password:</h3><ul>'+ updateLink+'</ul>' +
                                     '<p>Thank you</p>',
-                              
+                            
                                 auth: {
                                     user: GMAIL_USER,
                                     refreshToken: REFRESH_TOKEN,

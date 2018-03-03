@@ -35,36 +35,14 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   };
 
   self.shiftsToDisplay = { data: [] };
-  self.filledByName = { data: [] }
-  //calls the addShift popup
-  // self.addShift = function (event) {
-  //   console.log('add new shift button clicked');
-  //   $mdDialog.show({
-  //     controller: 'AddShiftController as sd',
-  //     templateUrl: '/views/templates/addShift.html',
-  //     parent: angular.element(document.body),
-  //     targetEvent: event,
-  //     clickOutsideToClose: true,
-  //     fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
-  //   })
-  // }; //end addShift popup function
-  //calls 
+  self.filledByName = { data: [] };
   self.shiftDetails = function (event, shift) {
-    console.log('shift details button clicked', shift);
     self.shift = shift;
     return $http.get('/shifts/filled/who/' + shift.shift_id).then(function (response) {
-      self.filledByName.data = response.data
-      return response
+      self.filledByName.data = response.data;
+      return response;
     })
   }
-  self.getShifts = function () {
-    return $http.get('/shifts').then(function (response) {
-      console.log('response', response.data)
-      self.shiftsToDisplay.data = response.data;
-      return response;
-    });
-  };
-
 
   //addNewShift function and route
   self.addNewShift = function (staffId, selection, shiftDate, shiftStatus, urgent, shift, role, comments, notify, nurse, adl, mhw, floor) {
@@ -93,15 +71,6 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
         console.log('send urgent textMessage did not work:', response);
       });
     }
-    // if (self.newShift.shift_status === 'Filled') {
-    //   $http.post('/shifts/confirmation', self.newShift).then(function (response) {
-
-    //     console.log(response);
-
-    //   }).catch(function (response) {
-    //     console.log('confirmed filled did not work:', response);
-    //   });
-    // }
 
     return $http.post('/shifts/', self.newShift).then(function (response) {
       console.log('the response', response)
@@ -112,55 +81,73 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     });
   }; //end addNewShift function and route
 
-  self.getShifts = function () {
+
+  self.getShifts = function (firstDayofShifts, lastDayofShifts) {
+    console.log('get shifts is running');
+    console.log('first of month', firstDayofShifts);
+    console.log('last Of Month', lastDayofShifts);
+    var firstAndLastDays = {
+      firstDayofShifts: firstDayofShifts, 
+      lastDayofShifts: lastDayofShifts
+    };
     self.shiftsToDisplay.data = [];
-    console.log('shifts to display service', self.shiftsToDisplay.data)
-    return $http.get('/shifts').then(function (response) {
-      // console.log('response', response.data)
+    // console.log('shifts to display service', self.shiftsToDisplay.data)
+    return $http.put('/shifts', firstAndLastDays).then(function (response) {
       self.shiftsToDisplay.data = response.data;
-      console.log('shifts to display in service, after query', self.shiftsToDisplay.data)
-      return response;
-    });
-  };
-  self.getPendingShifts = function () {
-    var today = moment().format('YYYY-MM-DD');
-    console.log('today', today);
-    return $http.get('/shifts/shiftbid/' + today).then(function (response) {
-      // console.log('response', response.data);
-      return response;
-    });
-  };
-
-  self.getShiftsToConfirm = function (shiftId) {
-    console.log('shift id in service', shiftId);
-    return $http.get('/shifts/shiftbidToConfirm/' + shiftId).then(function (response) {
-      console.log('response', response.data);
-      return response;
-    });
-  };
-
-  self.confirmShift = function(staffMember, allShifts) {
-    console.log('staff member to confirm', staffMember.name);
-    return $http.post('/shifts/confirm', staffMember, allShifts).then(function (response) {
-      console.log('confirmed shift', staffMember.name, response);
-      return response;
-    });
-  };
-
-  self.pickUpShift = function (shift) {
-    return $http.post('/shifts/shiftBid', shift).then(function (response) {
-      console.log('posted shift bid', shift, response);
       return response;
     });
   };
 
   
-  self.getMyShifts = function () {
-    console.log('get my shifts clicked')
-    return $http.get('/shifts/getmyshifts').then(function (response) {
-      console.log('response from server', response.data)
+  self.pendingShifts = {
+    data: []
+  };
+
+  self.getPendingShifts = function () {
+    var today = moment().format('YYYY-MM-DD');
+    return $http.get('/shifts/shiftbid/' + today).then(function (response) {
+      self.pendingShifts.data = response.data;
+      return response;
+    }).catch(function(error){
+      console.log('error in get pending shifts')
+    })
+  };
+
+  self.getShiftsToConfirm = function (shiftId) {
+    return $http.get('/shifts/shiftbidToConfirm/' + shiftId).then(function (response) {
+      return response;
+    }).catch(function(error){
+      consoel.log('error in getting shifts to confirm')
+    })
+  };
+
+  self.confirmShift = function(staffMember, allShifts) {
+    return $http.post('/shifts/confirm', staffMember, allShifts).then(function (response) {
+      return response;
+    }).catch(function(error){
+      console.log('error in confirming shifts')
+    })
+  };
+
+  self.pickUpShift = function (shift, firstOfMonth, lastOfMonth) {
+    return $http.post('/shifts/shiftBid', shift)
+      return response;
+  };
+
+  self.myShifts = {
+    data: []
+  }
+  self.getMyShifts = function (firstDayofShifts, lastDayofShifts) {
+    var firstAndLastDays = {
+        firstDayofShifts: firstDayofShifts, 
+        lastDayofShifts: lastDayofShifts
+    }
+    return $http.put('/shifts/getmyshifts', firstAndLastDays).then(function (response) {
+      self.myShifts.data = response.data;
       return response.data;
-    });
+    }).catch(function(error){
+      console.log('error in getting my shifts')
+    })
   };
 
 
@@ -200,7 +187,6 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
 
   //start updateShift function
   self.updateShift = function (id, comments, shift, mhw, adl, nurse, date, floor) {
-    console.log('UPDATED SHIFT', id, comments, shift, mhw, adl, nurse, date, floor);
     self.updatedShift.shift_id = id;
     self.updatedShift.comments = comments;
     self.updatedShift.shift = shift;
@@ -226,7 +212,6 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
 
     });
   };
-  //end deleteShift function
 
   //start shiftFilled function
   self.shiftFilled = function (id, shiftId) {
@@ -242,5 +227,18 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
       });
   };
   //end shiftFilled function
+
+  self.showPickUpButton = true;
+  self.showPickUpShift = function(shift) {
+    self.showPickUpButton = true;
+    if (shift.shift_status === 'Filled' || shift.shift_status === 'filled') {
+      self.showPickUpButton = false;
+    }
+    for (var i = 0; i < self.myShifts.data.length; i++) {
+      if (shift.shift_id === self.myShifts.data[i].shift_id) {
+        self.showPickUpButton = false;
+      }
+    }
+  };
 
 });

@@ -90,7 +90,7 @@ myApp.service('UserService', function ($http, $location) {
     headline: ''
   };
 
-  self.createMessage = function (messageBody, headline){
+  self.createMessage = function (messageBody, headline) {
     self.message.messageBody = messageBody;
     self.message.headline = headline;
       return $http.post('/user/message/', self.message).then(function (response){
@@ -99,19 +99,18 @@ myApp.service('UserService', function ($http, $location) {
   }
 
   self.getNotifications = function (){
-     $http.get('/user/messages/').then(function (response){
-       console.log('here in service')
+    $http.get('/user/messages/').then(function (response){
+      console.log('here in service')
       console.log('response', response.data)
       self.notifications.data = response.data
-     })
+    })
   }
 
   self.deleteNotifcation = function (id) {
     return $http.delete('/user/messages/delete/' + id).then(function(response) {
-      return response
+      return response;
     })
   }
-
 
 
 
@@ -120,7 +119,6 @@ myApp.service('UserService', function ($http, $location) {
     var editProfile = {
       username: newEmail,
       phone: newPhone,
-
     };
 
     console.log(editProfile);
@@ -130,7 +128,6 @@ myApp.service('UserService', function ($http, $location) {
         return response;
       }).catch(function (response) {
         console.log('error making edit');
-
       });
 
   };

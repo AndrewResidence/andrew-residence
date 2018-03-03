@@ -18,11 +18,12 @@ router.get('/', function (req, res) {
     // send back user object from database
     console.log('logged in', req.user);
     var userInfo = {
-      username: req.user.username,
+      username: req.user.username.toLowerCase(),
       userId: req.user.id,
       name: req.user.name,
       phone: req.user.phone,
-      role: req.user.role
+      role: req.user.role,
+      confirmed: req.user.confirmed
     };
 
     console.log(userInfo.name);
@@ -134,7 +135,7 @@ router.put('/confirm/:id', function (req, res) {
           // setup email data 
           var mailOptions = {
             from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
-            to: 'martapeterson@gmail.com', // list of receivers
+            to: emailConfirmAddress, // list of receivers
             subject: 'Andrew Residence Account Confirmation ✔', // Subject line
             text: 'You\'re Confirmed!, // plain text body',
             html: '<p>Hello from Andrew Residence!!!  Thank you very much for signing up for the scheduling application. You are OFFICIAL!  We have created your profile and you may now begin picking up shifts. <button style="background-color: #4CAF50; /* Green */"+" See Shifts!</button>  See you soon!</p>', // html body
@@ -262,7 +263,7 @@ router.get('/messages', function (req, res) {
         console.log('error connecting', err);
         res.sendStatus(500);
       }
-      var queryText = 'SELECT * FROM "notifications" JOIN "users" on "users"."id" = "notifications"."posted_by";';
+      var queryText = 'SELECT * FROM "notifications" JOIN "users" on "users"."id" = "notifications"."posted_by" order by "notifications"."date" DESC;';
       db.query(queryText, function (err, result) {
         done();
         if (err) {

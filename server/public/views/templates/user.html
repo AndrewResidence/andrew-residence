@@ -8,6 +8,7 @@
         <md-button ng-show="uc.userObject.role === 'Supervisor'" class="md-raised md-primary" ng-click="uc.createNotification()">Create Message</md-button>
     </div>
     <!-- ********** USER MESSAGES ********* -->
+    <!-- Standard View -->
     <div class="userMessages">
         <div class="userMessagesHeader" layout="row" layout-align="center center">On-call Staff Messages</div>
         <div class="messagesHeader" layout="row" layout-align="start center">
@@ -34,6 +35,10 @@
             </div>
         </div>
     </div>
+
+    <!-- Mobile View -->
+
+    
     <!-- ********** END USER MESSAGES ********* -->
     <!-- ********** USER PROFILE EDIT ********* -->
     <div class="userInfo">
@@ -61,10 +66,10 @@
                 <input aria-label="phone" placeholder="{{uc.userObject.phone}}" ng-model="uc.editProfile.phone">
             </div>
             <div class="userInfoEdit">
-                <md-button aria-label="edit" ng-click="uc.joshEdit(uc.editProfile.userName, uc.editProfile.phone)" ng-hide="uc.showName">
+                <md-button class="md-icon-button md-primary" aria-label="edit" ng-click="uc.joshEdit(uc.editProfile.userName, uc.editProfile.phone)" ng-hide="uc.showName">
                     <md-icon md-svg-src="../images/check.svg"></md-icon>
                 </md-button>
-                <md-button aria-label="save" ng-click="uc.toggleEdit()" ng-show="uc.showName">
+                <md-button class="md-icon-button md-primary" aria-label="save" ng-click="uc.toggleEdit()" ng-show="uc.showName">
                     <md-icon md-svg-src="../images/ic_mode_edit_black_18px.svg"></md-icon>
                 </md-button>
             </div>
@@ -97,45 +102,4 @@
                 </md-button>
             </div>
         </div>
-
-
-        <!-- <div>
-        <md-button>
-            <md-icon md-svg-src="../images/ic_mode_edit_black_18px.svg"></md-icon>
-        </md-button>
-    </div>
-    <div>
-        <md-button ng-click="uc.joshEdit()">
-            <md-icon md-svg-src="../images/check.svg"></md-icon>
-        </md-button>
-    </div>
-
-    <md-button ng-click="uc.toggleEdit()" ng-hide="uc.showName">
-        <md-icon md-svg-src="../images/check.svg"></md-icon>
-    </md-button>
-    <md-button ng-click="uc.toggleEdit()" ng-show="uc.showName">
-        <md-icon md-svg-src="../images/ic_mode_edit_black_18px.svg"></md-icon>
-    </md-button> -->
-   
-    <!-- <br>
-    <div layout="row" layout-align="center center">
-        <table id="Notifications">
-            <th class="notificationTableHead">Date Posted</th>
-            <th class="notificationTableHead">Headline</th>
-            <th class="notificationTableHead">Message</th>
-            <th class="notificationTableHead">Posted By</th>
-            <th ng-show="uc.userObject.role === 'Supervisor'" class="notificationTableHead">Delete</th>
-
-            <tr class="notificationTableRows" ng-repeat="notification in uc.notifications.data track by $index">
-                <td class="notificationTableData">{{notification.date | amDateFormat:'dddd, MMMM Do YYYY, h:mm:ss a'}}</td>
-                <td class="notificationTableData">{{notification.headline}}</td>
-                <td class="notificationTableData">{{notification.message}}</td>
-                <td class="notificationTableData">{{notification.name}}</td>
-
-                <td class="notificationTableData" ng-show="uc.userObject.role === 'Supervisor'">
-                    <md-button class="md-raised md-warn" ng-click="uc.deleteNotification(notification.notification_id)">Delete</md-button>
-                </td>
-            </tr>
-        </table>
-    </div> -->
 </div>

@@ -13,6 +13,7 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
   vm.shifts = ['Day', 'Evening', 'ADL Evening', 'Night'];
   vm.shiftStatus = ['Open', 'Filled'];
   vm.shift = ShiftService.shift;
+  vm.myArrayOfSupervisors = [];
   
   vm.shiftsToDisplay = [];
   vm.currentSchedule = calendarService.currentSchedule.dates;
@@ -23,7 +24,7 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
   vm.floors = ['2', '3', '4', '5', 'flt', 'N/A'];
   vm.editFill = false;
 
-  vm.filledByName = ShiftService.filledByName
+  vm.filledByName = ShiftService.filledByName;
 
   vm.shiftsToDisplay = [];
   vm.currentSchedule = calendarService.currentSchedule.dates;
@@ -36,9 +37,11 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
     }
   }, true);
   
-  vm.getShifts = function () {
-    vm.getPayPeriodDates();
-    ShiftService.getShifts().then(function(response){
+  vm.getShifts = function (payPeriodStart, payPeriodEnd) {
+    // vm.getPayPeriodDates();
+    var firstDayofShifts = moment(payPeriodStart);
+    var lastDayofShifts = moment(payPeriodEnd)
+    ShiftService.getShifts(firstDayofShifts, lastDayofShifts).then(function(response){
       vm.shiftsToDisplay = response.data;
       console.log('shifts to display', vm.shiftsToDisplay)
       for (var i = 0; i < vm.shiftsToDisplay.length; i++) {
@@ -49,24 +52,29 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
           }
         }
       }
+    }).catch(function(error){
+      console.log('error in getting shifts')
     })
   }
 
   vm.getSupervisors = function () {
     UserService.getSupervisors().then(function (response) {
       vm.supervisors = response.data;
-      console.log('got supervisors', vm.supervisors);
+    }).catch(function(error){
+      console.log('error in getting supervisors')
     })
   };
 
-  vm.getSupervisors()
+  vm.getSupervisors();
 
   vm.getStaff = function () {
     vm.userService.getStaff().then(function (response) {
       vm.staff = response.data;
-      console.log('got staff', vm.staff);
-    });
+    }).catch(function(error){
+      console.log('error getting staff')
+    })
   };
+
   vm.getStaff();
 
   vm.getPayPeriodDates = function() {
@@ -75,18 +83,17 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
 
   // //start newShift function
   vm.addNewShift = function (staffId, selection, shiftDate, shiftStatus, urgent, shift, role, comments, notify, nurse, adl, mhw) {
-    console.log('add shift clicked')
     ShiftService.addNewShift(staffId, selection, shiftDate, shiftStatus, urgent, shift, role, comments, notify, nurse, adl, mhw).then(function (response) {
-      vm.getShifts()
       vm.getPayPeriodDates();
       $mdDialog.hide();
-      console.log('response', response);
       $mdToast.show(
         $mdToast.simple()
           .textContent('Shift(s) Created!')
           .hideDelay(2500)
       );
-    });
+    }).catch(function(error){
+      console.log('error in adding new shift')
+    })
   };
   //end add newShift
 
@@ -103,12 +110,14 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
   vm.updateShift = function (id, comments, shift, mhw, adl, nurse, date, floor) {
     ShiftService.updateShift(id, comments, shift, mhw, adl, nurse, date, floor).then(function (response) {
       $mdDialog.hide();
-      vm.getShifts();
+      vm.getPayPeriodDates();
       $mdToast.show(
         $mdToast.simple()
           .textContent('Shift Updated')
           .hideDelay(2500)
       )
+    }).catch(function(error){
+      console.log('error in updating the shift')
     })
   }
 
@@ -122,11 +131,10 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
       vm.showStaff = false;
       console.log('false')
     }
-  }
+  };
 
   //start delete shift
   vm.deleteShift = function (shiftId) {
-    console.log('delete', shiftId)
     var toast = $mdToast.simple()
       .textContent('Are you sure you want to delete?')
       .action('Cancel')
@@ -150,53 +158,38 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
       else {
         ShiftService.deleteShift(shiftId).then(function (response) {
           $mdDialog.hide();
-          vm.getShifts();
+          vm.getPayPeriodDates();
           $mdToast.show(
             $mdToast.simple()
               .textContent('Shift deleted!')
               .hideDelay(2500)
           );
-
         });
-
       }
-    } //   
-    ); // }
+    }).catch(function(error){
+      console.log('error in deleting the shift')
+    })
   }; //end delete shift  
 
   vm.fillShift = function (event) {
     vm.editFill = !vm.editFill;
-  }
+  };
 
   vm.shiftFilled = function (id, shiftId) {
-    console.log('clicked')
-    console.log('staff', id, shiftId)
     ShiftService.shiftFilled(id, shiftId).then(function (response) {
-      vm.getShifts();
+      vm.getPayPeriodDates();
       $mdDialog.hide();
-
+    }).catch(function(error){
+      console.log('error in shift filled')
     })
-  }
-//get shifts shows all shifts regardless of status
-  vm.getShifts = function () {
-    vm.getPayPeriodDates();
-    ShiftService.getShifts().then(function(response){
-      vm.shiftsToDisplay = response.data;
-      console.log('shifts to display', vm.shiftsToDisplay)
-      for (var i = 0; i < vm.shiftsToDisplay.length; i++) {
-        for (var j = 0; j < vm.currentSchedule.length; j++) {
-          // vm.currentSchedule[j].shifts = [];
-          if (moment(vm.shiftsToDisplay[i].date).format('YYYY-MM-DD') === moment(vm.currentSchedule[j].moment).format('YYYY-MM-DD')) {
-            vm.currentSchedule[j].shifts.push(vm.shiftsToDisplay[i]);
-          }
-        }
-      }
-    })
-  }
-
+  };
 
 vm.getPayPeriodDates = function() {
-    calendarService.getPayPeriodDates();
+    calendarService.getPayPeriodDates().then(function(response){
+      vm.getShifts(calendarService.payPeriodStart, calendarService.payPeriodEnd);
+    }).catch(function(error){
+      console.log('error in getting pay period dates')
+    })
   }
 });
 

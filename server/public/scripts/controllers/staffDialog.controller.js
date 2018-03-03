@@ -1,4 +1,4 @@
-myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserService, ShiftService, AvailabilityService, shift) {
+myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserService, ShiftService, AvailabilityService, shift, firstOfMonth, lastOfMonth) {
   console.log('StaffDialogController created');
   var vm = this;
   vm.userService = UserService;
@@ -14,8 +14,11 @@ myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserSer
     adl: shift.adl,
     mhw: shift.mhw,
     nurse: shift.nurse,
-    shift_status: shift.shift_status
+    shift_status: shift.shift_status,
+    floor: shift.floor
   };
+  vm.firstOfMonth = firstOfMonth;
+  vm.lastOfMonth = lastOfMonth;
   
   vm.titleDate = moment(vm.shift.date).format('MM/DD');
   vm.showShiftComment = function(shift) {
@@ -24,7 +27,7 @@ myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserSer
     }
     return false;
   }
-
+  vm.showPickUpButton = ShiftService.showPickUpButton;
   console.log('userObject', vm.userService.userObject);
   vm.adl = false;
   vm.mhw = false;
@@ -39,26 +42,13 @@ myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserSer
     if (shift.nurse) {
       vm.nurse = true;
     }
-
-    vm.showPickUpShift = function() {
-      if (vm.shift.shift_status === 'Filled' || vm.shift.shift_status === 'filled') {
-        return false;
-      }
-    
-      return true;
-    };
-
-      //closes dialog box
   };
+
   vm.role();
 
-  // vm.showPickUpShift = function() {
-  //   vm.showComments = true;
-  // }
-
-  vm.pickUpShift = function (shift) {
-    console.log('pick up shift', vm.shift);
+  vm.pickUpShift = function (shift, firstOfMonth, lastOfMonth) {
     vm.shiftService.pickUpShift(shift).then(function (response) {
+      // console.log('start and end dates', vm.firstOfMonth, vm.lastOfMonth)
       $mdDialog.hide();
       console.log('response', response);
       $mdToast.show(
@@ -66,8 +56,12 @@ myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserSer
           .textContent('You\'ve signed up for a shift. Shift is pending until confirmed.')
           .hideDelay(2500)
       );
-    });
+    }).catch(function(error){
+      console.log('error in pick up shift')
+    })
   };
+
+
   //closes dialog box
   vm.cancel = function () {
     $mdDialog.hide();

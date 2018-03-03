@@ -3,14 +3,14 @@
         <div class="md-toolbar-tools">
             <h3>Add Shift</h3>
             <span flex="auto"></span>
-            <md-button id="closeButton" ng-click="sd.cancel()">
+            <md-button class="md-icon-button md-primary" id="closeButton" ng-click="sd.cancel()">
                 <img id="closeIcon" src="/styles/closeIcon.png" alt="close window">
             </md-button>
         </div>
     </md-toolbar>
     <md-dialog-content flex="auto">
         <div layout="row" id="roleBoxes">
-            <span id="addRole"> Role(s): </span>
+            <span id="addRole"> Role(s):<span id="redAsterisk">* </span></span>
             <md-checkbox ng-model="sd.newShift.nurse" ng-true-value="'true'" ng-false-value="'false'">Nurse</md-checkbox>
             <md-checkbox ng-model="sd.newShift.adl" ng-true-value="'true'" ng-false-value="'false'">ADL</md-checkbox>
             <md-checkbox ng-model="sd.newShift.mhw" ng-true-value="'true'" ng-false-value="'false'">MHW</md-checkbox>
@@ -21,9 +21,12 @@
             <div id="shiftInput">
                 <md-input-container id="shiftDropInput" class="md-block">
                     <label>Shift:</label>
-                    <md-select id="shiftDrop" ng-model="sd.newShift.shift">
+                    <md-select ng-required="true" id="shiftDrop" ng-model="sd.newShift.shift">
                         <md-option id="shiftDrop" ng-value="shift" ng-repeat="shift in sd.shifts">{{shift}}</md-option>
                     </md-select>
+                    <div ng-messages="sd.newShift.shift.$error";>
+                        <div ng-message="required">Please enter a shift.</div>
+                    </div>
                 </md-input-container>
             </div>
             <div>
@@ -36,15 +39,15 @@
             </div>
             <div>
                 <md-input-container id="statusDrop" class="md-block" flex=50>
-                    <label>Status:</label>
+                    <label>Fill Shift</label>
                     <md-select id="statusDrop" ng-model="sd.newShift.shift_status" ng-change="sd.statusUpdate(sd.newShift.shift_status)">
-                        <md-option id="statusDrop" ng-value="status" ng-repeat="status in sd.shiftStatus">{{status}}</md-option>
+                        <md-option id="statusDrop" ng-value="status" ng-repeat="status in sd.shiftStatus">   {{status}}   </md-option>
                     </md-select>
                 </md-input-container>
             </div>
             <div ng-if="sd.showStaff">
                 <md-input-container id="staffDrop" class="md-block" flex=50>
-                    <label>Staff:</label>
+                    <label>Filled by:</label>
                     <md-select id="staffDrop" ng-model="sd.newShift.filled">
                         <md-option id="staffDrop" ng-value="staff.id" ng-repeat="staff in sd.staff">{{staff.name}}</md-option>
                     </md-select>
@@ -52,7 +55,7 @@
             </div>
         </div>
 
-        <p id="addFonts">Select shift date(s):</p>
+        <p id="addFonts">Select shift date(s):<span id="redAsterisk">* </span></p>
         <div style="width: 75%" layout="row" layout-align="space-around center">
             <multiple-date-picker id="addCalendar" right-click="rightClickCb" ng-model="myArrayOfDates"></multiple-date-picker>
         </div>
@@ -63,12 +66,12 @@
                 <textarea id="commentText" rows="3" name="shiftComments" ng-model="sd.newShift.comments" md-select-on-focus></textarea>
             </md-input-container>
         </div>
-        <span id="notifyFollowing"> Notify the following when a request to fill a shift is made: </span>
+        <span id="notifyFollowing"> Notify the following supervisors when someone bids on this shift:</span><span id="redAsterisk">* </span>
         <br>
         <br>
 
-        <div layout="row" id="notifyFollowing" ng-repeat="name in sd.supervisors track by $index">
-            <md-checkbox required id="notifyFollowing" checklist-value="name.id" checklist-model="sd.myArrayOfSupervisors">{{name.name}}</md-checkbox>
+        <div layout="row" id="notifyFollowing" ng-repeat="name in sd.supervisors track by $index" ng-required="true">
+            <md-checkbox ng-required="true" required id="notifyFollowing" checklist-value="name.id" checklist-model="sd.myArrayOfSupervisors">{{name.name}}</md-checkbox>
             <span flex></span>
         </div>
 
@@ -78,9 +81,8 @@
             Cancel
         </md-button>
         <span flex></span>
-        <md-button ng-click="sd.addNewShift(sd.newShift.filled, sd.myArrayOfSupervisors, myArrayOfDates, sd.shift_status, sd.newShift.urgent, sd.newShift.shift, sd.newShift.role, sd.newShift.comments, sd.newShift.notify, sd.newShift.nurse, sd.newShift.adl, sd.newShift.mhw)">
+        <md-button ng-disabled="sd.myArrayOfSupervisors.length == 0 || myArrayOfDates.length == 0" ng-click="sd.addNewShift(sd.newShift.filled, sd.myArrayOfSupervisors, myArrayOfDates, sd.shift_status, sd.newShift.urgent, sd.newShift.shift, sd.newShift.role, sd.newShift.comments, sd.newShift.notify, sd.newShift.nurse, sd.newShift.adl, sd.newShift.mhw)">
             Add Shift
         </md-button>
     </md-dialog-actions>
-
 </md-dialog>

@@ -122,7 +122,11 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   };
 
   self.confirmShift = function(staffMember, allShifts) {
+    console.log('confirmshift in service');
+    
     return $http.post('/shifts/confirm', staffMember, allShifts).then(function (response) {
+      console.log('response in confirmedShift', response);
+      
       return response;
     }).catch(function(error){
       console.log('error in confirming shifts')

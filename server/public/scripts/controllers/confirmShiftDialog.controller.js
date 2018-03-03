@@ -32,12 +32,14 @@ myApp.controller('ConfirmShiftController', function ($scope, $mdDialog, $mdToast
 
     //confirms users shift
     vm.confirmShift = function(staffMember, allShifts) {      
+      console.log('confirmedShift in dialog');
+      
       vm.shiftService.confirmShift(staffMember, allShifts).then(function(response) {
         ShiftService.getPendingShifts();
       }).then(function() {
         $mdDialog.hide();
       }).catch(function(error){
-        console.log('error in confirming shift')
+        console.log('error in confirming shift');
       })
     }
     

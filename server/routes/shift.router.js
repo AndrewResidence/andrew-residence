@@ -49,6 +49,7 @@ router.post('/', function (req, res) {
                     var theDate = newShift.shiftDate[i];
                     console.log('theDate', theDate);
                     var queryText = 'INSERT INTO "post_shifts" ("created_by", "date", "urgent", "shift", "adl", "mhw", "nurse", "shift_comments", "notify", "filled", "floor", "shift_status" ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING "shift_status", "shift_id", "filled", "created_by";';
+
                     db.query(queryText, [createdBy, theDate, newShift.urgent, newShift.shift, newShift.adl, newShift.mhw, newShift.nurse, newShift.comments, [notify], newShift.filled, newShift.floor, newShift.shift_status],
                         function (errorMakingQuery, result) {
                             done();
@@ -65,13 +66,13 @@ router.post('/', function (req, res) {
                                     var confirmedBy = result.rows[0].created_by;
                                     var queryText = 'INSERT INTO "confirmed" ("confirmed_by_id", "user_id", "shift_id") VALUES ($1, $2, $3);';
                                     db.query(queryText, [confirmedBy, filledId, shiftId], function (errorMakingQuery, result) {
-                                        // done(); // add + 1 to pool - we have received a result or error
+                                        done(); // add + 1 to pool - we have received a result or error
                                         if (errorMakingQuery) {
                                             console.log('Error making query', errorMakingQuery);
-                                            res.sendStatus(500)
+                                            res.sendStatus(500);
                                         }
                                         else {
-                                            console.log('success')
+                                            console.log('success');
                                         }
                                     }
                                     ); // END QUERY
@@ -118,7 +119,7 @@ router.put('/', function (req, res) {
                         res.sendStatus(500);
                     } else {
                         res.send(result.rows);
-                        console.log('result.rows in get shifts', result.rows);
+                        console.log('result.rows in shifts', result.rows);
                     }
                 }); // END QUERY
             }
@@ -311,7 +312,7 @@ router.get('/shiftBidToConfirm/:id', function (req, res) {
     }
 });//end post route for new shifts
 
-//POST confirmed shift
+// POST confirmed shift
 // When a supervisor confirms a staff person for a shift, post the shift in the 'confirmed' table and update the 'post_shifts' table so the shift status is 'filled'. 
 router.post('/confirm', function (req, res) {
     if (req.isAuthenticated()) {
@@ -325,11 +326,41 @@ router.post('/confirm', function (req, res) {
             else {
                 var queryText =
                     'INSERT INTO "confirmed" ("shift_id", "user_id", "shift_bid_id", "confirmed_by_id")' +
-                    'VALUES ($1, $2, $3, $4)';
+                    'VALUES ($1, $2, $3, $4) RETURNING "shift_id", "user_id"';
                 db.query(queryText, [staffMember.shift_id, staffMember.id, staffMember.bid_id, req.user.id],
                     function (errorMakingQuery, result) {
-                        console.log(result.rows[0]);
+                       
+                        confirmedShiftEmail(result.rows[0].user_id, result.rows[0].shift_id).then(function(emailDetails){
+                            console.log('emailDetails', emailDetails);
+                            
+                            var mailOptions = {
+                                from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
+                                to: 'joshnothum@gmail.com', // list of receivers
+                                subject: 'Shift Confirmation from Andrew Residence', // Subject line
+                                html: ' <body style ="background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);">' +
+                                    '<h1>Good Day!</h1><h3>Confirmed Shift:</h3><ul>' + emailDetails.shift + '</ul>' +
+                                    '<ul>' + emailDetails.date + '</ul>'+
+                                    '<p>Please contact your supervisors for additional information.</p>' +
+                                    '<button style="background-color: #4CAF50;background-color:rgb(255, 193, 7);;color: white;padding: 15px 32px;text-align: center;font-size: 16px;">Let\'s Pick-up Some Shifts!</button>' +
+                                    '<p> We appreciate yor support!</p></body>',
+                                auth: {
+                                    user: GMAIL_USER,
+                                    refreshToken: REFRESH_TOKEN,
+                                    accessToken: ACCESS_TOKEN,
+                                }
+                            };
+                            // send mail with defined transport object
+                            transporter.sendMail(mailOptions, function (error, info) {
+                                if (error) {
+                                    console.log(error);
+                                    res.send(error);
+                                }
+                                console.log('Message sent: %s', info.messageId);
+                                res.sendStatus(200);
+                            });
+                           
 
+                        });
                         if (errorMakingQuery) {
                             console.log('Error making query', errorMakingQuery);
                             res.sendStatus(500);
@@ -597,7 +628,7 @@ function notifyingSupers(supers) {
         });
     });
 }
-//post route to confirm table upon adding a shift
+// post route to confirm table upon adding a shift
 
 function insertPostShift() {
     return new Promise(function (resolve, reject) {
@@ -619,6 +650,49 @@ function insertPostShift() {
                             emailArray.push(userEmail.username);
                         });
                         resolve(emailArray);
+                    }
+                });
+            }
+
+        });
+    });
+};
+
+
+function confirmedShiftEmail(user_id, shift_id) {
+    let emailDetails ={};
+    return new Promise(function (resolve, reject) {   
+        pool.connect(function (errorConnectingToDb, db, done) {
+            if (errorConnectingToDb) {
+                console.log('Error connecting in confirmedShiftEmail', errorConnectingToDb);
+                reject();
+            } else { //end if error connection to db
+
+                var queryText = 'SELECT "username"' +
+                                'FROM "users"'+
+                                'WHERE "id" = $1';
+                db.query(queryText, [user_id], function (err, result) {
+         
+                    if (err) {
+                        console.log("Error getting email: ", err);
+                        reject();
+                    } else {
+                        emailDetails.username = result.rows[0].username;
+                        var queryText = 'SELECT "shift", "date"' +
+                            'FROM "post_shifts"' +
+                            'WHERE "shift_id" = $1';
+                        db.query(queryText,[shift_id], function(err, result) {
+                            if(err){
+                             
+                                reject();
+                            }
+                            else{
+                                emailDetails.date = result.rows[0].date;
+                                emailDetails.shift = result.rows[0].shift;
+                                resolve(emailDetails);
+                            }
+                        });
+                        
                     }
                 });
             }

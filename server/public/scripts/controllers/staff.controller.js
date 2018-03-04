@@ -13,7 +13,7 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
   vm.firstOfMonth = StaffCalendarService.firstOfMonth;
   vm.lastOfMonth = StaffCalendarService.lastOfMonth;
   // vm.numDaysInCurrentMonth = '';
-  vm.currentMonth = StaffCalendarService.currentMonth.dates;
+  vm.currentMonth = StaffCalendarService.currentMonth;
   vm.currentSchedule = calendarService.currentSchedule.dates;
   vm.payPeriodStart = '';
   vm.payPeriodEnd = '';
@@ -56,9 +56,9 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
       vm.getMyShifts(vm.firstOfMonth, vm.lastOfMonth);
       // console.log('current schedule dates', vm.currentSchedule.dates);
       for (var i = 0; i < vm.shiftsToDisplay.length; i++) {
-        for (var j = 0; j < vm.currentMonth.length; j++) {
-          if (moment(vm.shiftsToDisplay[i].date).format('YYYY-MM-DD') === moment(vm.currentMonth[j].day).format('YYYY-MM-DD')) {
-            vm.currentMonth[j].shifts.push(vm.shiftsToDisplay[i]);
+        for (var j = 0; j < vm.currentMonth.dates.length; j++) {
+          if (moment(vm.shiftsToDisplay[i].date).format('YYYY-MM-DD') === moment(vm.currentMonth.dates[j].day).format('YYYY-MM-DD')) {
+            vm.currentMonth.dates[j].shifts.push(vm.shiftsToDisplay[i]);
           }
         }
       }
@@ -167,6 +167,8 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
 
   //function to get previous month days and display for calendar
   vm.prevMonth = function (currentDisplayMonth, currentYear) {
+    // vm.currentMonth = [];
+
     console.log('controller month and year', currentDisplayMonth, currentYear)
     StaffCalendarService.prevMonth(currentDisplayMonth, currentYear);
     // vm.currentMonth.dates = [];
@@ -186,18 +188,19 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
 
   //function to get next month days and display for calendar
   vm.nextMonth = function (currentDisplayMonth, currentYear) {
-    vm.currentMonth.dates = [];
-    if (currentDisplayMonth === 11) {
-      vm.thisMonth = 0
-      vm.currentYear = currentYear + 1;
-    }
-    else {
-      vm.thisMonth = currentDisplayMonth + 1;
-    }
-      vm.firstOfMonth = moment().year(vm.currentYear).month(vm.thisMonth).date(1);
-      vm.lastOfMonth = moment().year(vm.currentYear).month(vm.thisMonth).date(vm.numDaysInCurrentMonth);
-      vm.numDaysInCurrentMonth = moment().year(vm.currentYear).month(vm.thisMonth).daysInMonth();
-      vm.putDaysinCurrentMonthArray(vm.currentYear, vm.thisMonth, vm.numDaysInCurrentMonth)
+    StaffCalendarService.nextMonth(currentDisplayMonth, currentYear)
+    // vm.currentMonth.dates = [];
+    // if (currentDisplayMonth === 11) {
+    //   vm.thisMonth = 0
+    //   vm.currentYear = currentYear + 1;
+    // }
+    // else {
+    //   vm.thisMonth = currentDisplayMonth + 1;
+    // }
+    //   vm.firstOfMonth = moment().year(vm.currentYear).month(vm.thisMonth).date(1);
+    //   vm.lastOfMonth = moment().year(vm.currentYear).month(vm.thisMonth).date(vm.numDaysInCurrentMonth);
+    //   vm.numDaysInCurrentMonth = moment().year(vm.currentYear).month(vm.thisMonth).daysInMonth();
+    //   vm.putDaysinCurrentMonthArray(vm.currentYear, vm.thisMonth, vm.numDaysInCurrentMonth)
       vm.getShifts(vm.firstOfMonth, vm.lastOfMonth);
   }
 
@@ -237,9 +240,9 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
       vm.userShiftsToDisplay = response;
       console.log('user shifts', vm.userShiftsToDisplay);
       for (var i = 0; i < vm.userShiftsToDisplay.length; i++) {
-        for (var j = 0; j < vm.currentMonth.length; j++) {
-          if (moment(vm.userShiftsToDisplay[i].date).format('YYYY-MM-DD') === moment(vm.currentMonth[j].day).format('YYYY-MM-DD')) {
-            vm.currentMonth[j].usershifts.push(vm.userShiftsToDisplay[i]);
+        for (var j = 0; j < vm.currentMonth.dates.length; j++) {
+          if (moment(vm.userShiftsToDisplay[i].date).format('YYYY-MM-DD') === moment(vm.currentMonth.dates[j].day).format('YYYY-MM-DD')) {
+            vm.currentMonth.dates[j].usershifts.push(vm.userShiftsToDisplay[i]);
           }
         }
       }

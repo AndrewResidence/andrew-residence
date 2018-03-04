@@ -1,4 +1,4 @@
-myApp.controller('StaffController', function (UserService, ShiftService, AvailabilityService, calendarService, $mdDialog) {
+myApp.controller('StaffController', function (UserService, ShiftService, AvailabilityService, calendarService, StaffCalendarService, $mdDialog) {
   console.log('StaffController created');
   var vm = this;
   vm.shiftService = ShiftService;
@@ -7,12 +7,12 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
   vm.displayMonth = '';
   vm.displayYear = '';
   vm.dayList = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY']
-  vm.today = moment();
-  vm.thisMonth = moment(vm.today).month();
-  vm.currentYear = moment(vm.today).year();
-  vm.firstOfMonth = '';
-  vm.lastOfMonth = '';
-  vm.numDaysInCurrentMonth = '';
+  // vm.today = moment();
+  // vm.thisMonth = moment(vm.today).month();
+  // vm.currentYear = moment(vm.today).year();
+  // vm.firstOfMonth = '';
+  // vm.lastOfMonth = '';
+  // vm.numDaysInCurrentMonth = '';
   vm.currentMonth = {
     dates: []
   };
@@ -26,9 +26,9 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
 
   vm.getPayPeriodDates();
   //puts each day of the month in array
-  vm.monthDays = {
-    dates: []
-  };
+  // vm.monthDays = {
+  //   dates: []
+  // };
 
   vm.userShiftsToDisplay = [];
   vm.shiftsToDisplay = [];
@@ -94,64 +94,65 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
   
   //gets number of days in month
   vm.getNumDaysInCurrentMonth = function () {
-    vm.numDaysInCurrentMonth = moment(vm.today).daysInMonth();
-    vm.firstOfMonth = moment().year(vm.currentYear).month(vm.thisMonth).date(1);
-    vm.lastOfMonth = moment().year(vm.currentYear).month(vm.thisMonth).date(vm.numDaysInCurrentMonth);
-    vm.putDaysinCurrentMonthArray(vm.currentYear, vm.thisMonth, vm.numDaysInCurrentMonth);
-    vm.getShifts(vm.firstOfMonth, vm.lastOfMonth);
+    StaffCalendarService.getNumDaysInCurrentMonth();
+    // vm.numDaysInCurrentMonth = moment(vm.today).daysInMonth();
+    // vm.firstOfMonth = moment().year(vm.currentYear).month(vm.thisMonth).date(1);
+    // vm.lastOfMonth = moment().year(vm.currentYear).month(vm.thisMonth).date(vm.numDaysInCurrentMonth);
+    // vm.putDaysinCurrentMonthArray(vm.currentYear, vm.thisMonth, vm.numDaysInCurrentMonth);
+    // vm.getShifts(vm.firstOfMonth, vm.lastOfMonth);
   };
 
   //puts each day in to an array for the total number of days
-  vm.putDaysinCurrentMonthArray = function (currentYear, currentMonth, numDaysInCurrentMonth) {
-    vm.monthDays.dates = [];
-    for (var i = 1; i <= numDaysInCurrentMonth; i++) {
-      vm.monthDays.dates.push(i);
-    }
-    vm.getMonthDays(currentYear, currentMonth, vm.monthDays.dates);
-  };
+  // vm.putDaysinCurrentMonthArray = function (currentYear, currentMonth, numDaysInCurrentMonth) {
+  //   vm.monthDays.dates = [];
+  //   for (var i = 1; i <= numDaysInCurrentMonth; i++) {
+  //     vm.monthDays.dates.push(i);
+  //   }
+  //   vm.getMonthDays(currentYear, currentMonth, vm.monthDays.dates);
+  // };
 
   //creates day object and pushes to array to get month days
-  vm.dayInWeek = '';
-  vm.getMonthDays = function (currentYear, currentMonth, monthDays) {
-    vm.dayInWeek = '';
-    for (var i = 1; i <= monthDays.length; i++) {
-      eachDay = {
-        day: moment().year(currentYear).month(currentMonth).date(i),
-        dayNum: moment().date(i).format('D'),
-        month: currentMonth,
-        monthText: moment().month(currentMonth),
-        year: currentYear,
-        shifts: [],
-        usershifts: []
-      }
-      vm.currentMonth.dates.push(eachDay);
-    }
-    var firstDayofMonth = moment(vm.currentMonth.dates[0].day._d).month();
-    var currentYear = currentYear;
-    vm.dayInWeek = moment(vm.currentMonth.dates[0].day._d).format('d')
-    vm.checkFirstDayOfMonth(vm.dayInWeek, firstDayofMonth, currentYear);
-    vm.displayMonth = moment().month(currentMonth).format('MMMM');
-    vm.displayYear = moment(vm.currentMonth.dates[0]);
-  };
+  // vm.dayInWeek = '';
+  // vm.getMonthDays = function (currentYear, currentMonth, monthDays) {
+  //   vm.dayInWeek = '';
+  //   for (var i = 1; i <= monthDays.length; i++) {
+  //     eachDay = {
+  //       day: moment().year(currentYear).month(currentMonth).date(i),
+  //       dayNum: moment().date(i).format('D'),
+  //       month: currentMonth,
+  //       monthText: moment().month(currentMonth),
+  //       year: currentYear,
+  //       shifts: [],
+  //       usershifts: []
+  //     }
+  //     vm.currentMonth.dates.push(eachDay);
+  //   }
+  //   var firstDayofMonth = moment(vm.currentMonth.dates[0].day._d).month();
+  //   var currentYear = currentYear;
+  //   vm.dayInWeek = moment(vm.currentMonth.dates[0].day._d).format('d')
+  //   vm.checkFirstDayOfMonth(vm.dayInWeek, firstDayofMonth, currentYear);
+  //   vm.displayMonth = moment().month(currentMonth).format('MMMM');
+  //   vm.displayYear = moment(vm.currentMonth.dates[0]);
+  // };
 
   //checks for the first day of the month and adds objects to push calendar start to align with day header
-  vm.checkFirstDayOfMonth = function (dayInWeek, currentMonth, currentYear) {
-    var dayInWeek = parseInt(dayInWeek);
-    if (dayInWeek != 0) {
-      for (var i = 1; i <= dayInWeek; i++) {
-        eachDay = {
-          day: '',
-          extra: i,
-          month: currentMonth,
-          year: currentYear,
-          dayNum: '.',
-          shifts: [],
-          usershifts: []
-        };
-        vm.currentMonth.dates.unshift(eachDay);
-      }
-    }
-  };
+  // vm.checkFirstDayOfMonth = function (dayInWeek, currentMonth, currentYear) {
+  //   var dayInWeek = parseInt(dayInWeek);
+  //   if (dayInWeek != 0) {
+  //     for (var i = 1; i <= dayInWeek; i++) {
+  //       eachDay = {
+  //         day: '',
+  //         extra: i,
+  //         month: currentMonth,
+  //         year: currentYear,
+  //         dayNum: '.',
+  //         shifts: [],
+  //         usershifts: []
+  //       };
+  //       vm.currentMonth.dates.unshift(eachDay);
+  //     }
+  //   }
+  // };
 
   //starts process to get days for month
   vm.getNumDaysInCurrentMonth();

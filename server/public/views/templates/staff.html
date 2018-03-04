@@ -23,9 +23,9 @@
           <div class="staffCalendarSpace">
 
             <div layout="row" layout-align="space-around center" class="staffCalHeader">
-              <md-button class="md-raised md-accent" id="calHeadBtnLeft" ng-click="sc.prevMonth(sc.currentMonth.dates[0].month, sc.currentMonth.dates[0].year)">Prev</md-button>
-              <div>{{sc.displayMonth}} {{sc.displayYear._i.year}}</div>
-              <md-button class="md-raised md-accent" id="calHeadBtnRight" ng-click="sc.nextMonth(sc.currentMonth.dates[0].month, sc.currentMonth.dates[0].year)">Next</md-button>
+              <md-button class="md-raised md-accent" id="calHeadBtnLeft" ng-click="sc.prevMonth(sc.currentMonth[0].month, sc.currentMonth[0].year)">Prev</md-button>
+              <div>{{sc.displayMonth | amDateFormat: 'MMMM'}} {{sc.displayYear | amDateFormat: 'YYYY'}}</div>
+              <md-button class="md-raised md-accent" id="calHeadBtnRight" ng-click="sc.nextMonth(sc.currentMonth[0].month, sc.currentMonth[0].year)">Next</md-button>
             </div>
 
             <div layout="row" hide-xs>
@@ -81,9 +81,9 @@
 
           <div class="staffCalendarSpace">
             <div layout="row" layout-align="space-around center" class="staffCalHeader">
-              <md-button class="md-raised md-primary" id="calHeadBtnLeft" ng-click="sc.prevMonth(sc.currentMonth.dates[0].month, sc.currentMonth.dates[0].year)">Prev</md-button>
+              <md-button class="md-raised md-primary" id="calHeadBtnLeft" ng-click="sc.prevMonth(sc.currentMonth[0].month, sc.currentMonth[0].year)">Prev</md-button>
               <div>{{sc.displayMonth}} {{sc.displayYear._i.year}}</div>
-              <md-button class="md-raised md-primary" id="calHeadBtnRight" ng-click="sc.nextMonth(sc.currentMonth.dates[0].month, sc.currentMonth.dates[0].year)">Next</md-button>
+              <md-button class="md-raised md-primary" id="calHeadBtnRight" ng-click="sc.nextMonth(sc.currentMonth[0].month, sc.currentMonth[0].year)">Next</md-button>
             </div>
 
             <div layout="row" hide-xs>
@@ -92,7 +92,7 @@
               </div>
             </div>
 
-            <div layout-xs="column" class="staffCalBox" ng-repeat="day in sc.currentMonth.dates">
+            <div layout-xs="column" class="staffCalBox" ng-repeat="day in sc.currentMonth">
               <div class="innerBox">
                 <span class="dayNum">{{day.dayNum}}</span>
                 <div layout="column" ng-repeat="shift in day.usershifts track by $index">
@@ -119,7 +119,7 @@
       <md-tab label="All">
         <md-content>
           <div layout="row" layout-align="center center"> <!-- calendar navigation header -->
-            <md-button class="md-icon-button md-primary" id="mobileNav" aria-label="back" ng-click="sc.prevMonth(sc.currentMonth.dates[0].month, sc.currentMonth.dates[0].year)">
+            <md-button class="md-icon-button md-primary" id="mobileNav" aria-label="back" ng-click="sc.prevMonth(sc.thisMonth, sc.currentYear)">
               <md-icon md-svg-icon="../images/back-arrow.svg"></md-icon>
             </md-button>
             <div>{{sc.displayMonth}} {{sc.displayYear._i.year}}</div>
@@ -128,7 +128,7 @@
             </md-button>
           </div> <!-- end calendar navigation header -->
           
-          <div ng-repeat="day in sc.currentMonth.dates">
+          <div ng-repeat="day in sc.currentMonth">
             <div ng-repeat="shift in day.shifts track by $index">
               <div layout="row" layout-align="center center">
                 <div class="mobileShiftButton" ng-click="sc.shiftDetails(event, shift)">

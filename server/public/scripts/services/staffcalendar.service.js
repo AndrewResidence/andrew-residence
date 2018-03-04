@@ -6,6 +6,8 @@ myApp.service('StaffCalendarService', function ($http, $location, $mdDialog) {
     self.numDaysInCurrentMonth = '';
     self.firstOfMonth = moment();
     self.lastOfMonth = moment();
+    self.displayMonth = moment();
+    self.displayYear = moment();
     self.thisMonth = moment(self.today).month();
     self.currentYear = moment(self.today).year();
     self.monthDays = {
@@ -25,7 +27,7 @@ myApp.service('StaffCalendarService', function ($http, $location, $mdDialog) {
     };
 
     self.putDaysinCurrentMonthArray = function (currentYear, currentMonth, numDaysInCurrentMonth) {
-        console.log('put days in current month array');
+        console.log('put days in current month array', self.monthDays.dates);
         self.monthDays.dates = [];
         for (var i = 1; i <= numDaysInCurrentMonth; i++) {
             self.monthDays.dates.push(i);
@@ -50,13 +52,13 @@ myApp.service('StaffCalendarService', function ($http, $location, $mdDialog) {
             }
             self.currentMonth.dates.push(eachDay);
         }
-        console.log('self.currentMonth.dates', self.currentMonth.dates);
+        // console.log('self.currentMonth.dates', self.currentMonth.dates);
         var firstDayofMonth = moment(self.currentMonth.dates[0].day._d).month();
         var currentYear = currentYear;
         self.dayInWeek = moment(self.currentMonth.dates[0].day._d).format('d')
         self.checkFirstDayOfMonth(self.dayInWeek, firstDayofMonth, currentYear);
-        self.displayMonth = moment().month(currentMonth).format('MMMM');
-        self.displayYear = moment(self.currentMonth.dates[0]);
+        self.displayMonth.month(currentMonth);
+        self.displayYear.year(currentYear);
     };
 
     self.checkFirstDayOfMonth = function (dayInWeek, currentMonth, currentYear) {
@@ -76,5 +78,26 @@ myApp.service('StaffCalendarService', function ($http, $location, $mdDialog) {
             }
         }
     };
+
+    //function to get previous month days and display for calendar
+    self.prevMonth = function (currentDisplayMonth, currentYear) {
+        console.log('month and year in previous', currentDisplayMonth, currentYear)
+        // self.currentMonth.dates = [];
+        // console.log('currentMont.dates', self.currentMonth.dates);
+        if (currentDisplayMonth === 0) {
+            self.thisMonth = 11;
+            self.currentYear = currentYear - 1;
+        }
+        else {
+            self.thisMonth = currentDisplayMonth - 1;
+        }
+        self.firstOfMonth.year(self.currentYear).month(self.thisMonth).date(1);
+        self.lastOfMonth.year(self.currentYear).month(self.thisMonth).date(self.numDaysInCurrentMonth);
+        console.log('prev function', self.firstOfMonth, self.lastOfMonth)
+        self.numDaysInCurrentMonth = moment().year(self.currentYear).month(self.thisMonth).daysInMonth();
+        console.log('prev function days', self.numDaysInCurrentMonth)
+        self.putDaysinCurrentMonthArray(self.currentYear, self.thisMonth, self.numDaysInCurrentMonth);
+        // vm.getShifts(vm.firstOfMonth, vm.lastOfMonth);
+    }
 
 });

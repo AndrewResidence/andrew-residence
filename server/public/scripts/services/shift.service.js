@@ -84,8 +84,8 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
 
   self.getShifts = function (firstDayofShifts, lastDayofShifts) {
     console.log('get shifts is running');
-    console.log('first of month', firstDayofShifts);
-    console.log('last Of Month', lastDayofShifts);
+    console.log('first of month - service', firstDayofShifts);
+    console.log('last Of Month - service', lastDayofShifts);
     var firstAndLastDays = {
       firstDayofShifts: firstDayofShifts, 
       lastDayofShifts: lastDayofShifts
@@ -131,7 +131,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
 
   self.pickUpShift = function (shift, firstOfMonth, lastOfMonth) {
     return $http.post('/shifts/shiftBid', shift)
-      return response;
+      // return response;
   };
 
   self.myShifts = {

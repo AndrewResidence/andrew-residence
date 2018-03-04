@@ -10,12 +10,10 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
   // vm.today = moment();
   // vm.thisMonth = moment(vm.today).month();
   // vm.currentYear = moment(vm.today).year();
-  // vm.firstOfMonth = '';
-  // vm.lastOfMonth = '';
+  vm.firstOfMonth = StaffCalendarService.firstOfMonth;
+  vm.lastOfMonth = StaffCalendarService.lastOfMonth;
   // vm.numDaysInCurrentMonth = '';
-  vm.currentMonth = {
-    dates: []
-  };
+  vm.currentMonth = StaffCalendarService.currentMonth.dates;
   vm.currentSchedule = calendarService.currentSchedule.dates;
   vm.payPeriodStart = '';
   vm.payPeriodEnd = '';
@@ -48,14 +46,19 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
 
   //gets all shifts from the server for display on the staff calendar
   vm.getShifts = function (firstOfMonth, lastOfMonth) {
+    console.log('get shifts firstofmonth', firstOfMonth);
+    console.log('get shifts lastofmonth', lastOfMonth)
+    console.log('controller - currentmonth', vm.currentMonth)
     ShiftService.getShifts(firstOfMonth, lastOfMonth).then(function (response) {
       vm.shiftsToDisplay = response.data;
-      vm.getMyShifts(vm.firstOfMonth, vm.lastOfMonth);
-      // console.log('dates', vm.currentSchedule.dates);
+      console.log('vm.shiftsToDisplay', vm.shiftsToDisplay)
+      console.log('vm.currentMonth', vm.currentMonth)
+      // vm.getMyShifts(vm.firstOfMonth, vm.lastOfMonth);
+      // console.log('current schedule dates', vm.currentSchedule.dates);
       for (var i = 0; i < vm.shiftsToDisplay.length; i++) {
-        for (var j = 0; j < vm.currentMonth.dates.length; j++) {
-          if (moment(vm.shiftsToDisplay[i].date).format('YYYY-MM-DD') === moment(vm.currentMonth.dates[j].day).format('YYYY-MM-DD')) {
-            vm.currentMonth.dates[j].shifts.push(vm.shiftsToDisplay[i]);
+        for (var j = 0; j < vm.currentMonth.length; j++) {
+          if (moment(vm.shiftsToDisplay[i].date).format('YYYY-MM-DD') === moment(vm.currentMonth[j].day).format('YYYY-MM-DD')) {
+            vm.currentMonth[j].shifts.push(vm.shiftsToDisplay[i]);
           }
         }
       }
@@ -94,22 +97,27 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
   
   //gets number of days in month
   vm.getNumDaysInCurrentMonth = function () {
-    StaffCalendarService.getNumDaysInCurrentMonth();
+    console.log('current days in month - controller')
+    StaffCalendarService.getNumDaysInCurrentMonth()//.then(function(response){
+    //   vm.getShifts(vm.firstOfMonth, vm.lastOfMonth);
+
+    // })
     // vm.numDaysInCurrentMonth = moment(vm.today).daysInMonth();
     // vm.firstOfMonth = moment().year(vm.currentYear).month(vm.thisMonth).date(1);
     // vm.lastOfMonth = moment().year(vm.currentYear).month(vm.thisMonth).date(vm.numDaysInCurrentMonth);
     // vm.putDaysinCurrentMonthArray(vm.currentYear, vm.thisMonth, vm.numDaysInCurrentMonth);
-    // vm.getShifts(vm.firstOfMonth, vm.lastOfMonth);
+    vm.getShifts(vm.firstOfMonth, vm.lastOfMonth);
   };
 
   //puts each day in to an array for the total number of days
   // vm.putDaysinCurrentMonthArray = function (currentYear, currentMonth, numDaysInCurrentMonth) {
-  //   vm.monthDays.dates = [];
+  //   StaffCalendarService.putDaysinCurrentMonthArray(currentYear, currentMonth, numDaysInCurrentMonth)
+  // //   vm.monthDays.dates = [];
   //   for (var i = 1; i <= numDaysInCurrentMonth; i++) {
   //     vm.monthDays.dates.push(i);
   //   }
   //   vm.getMonthDays(currentYear, currentMonth, vm.monthDays.dates);
-  // };
+  //};
 
   //creates day object and pushes to array to get month days
   // vm.dayInWeek = '';

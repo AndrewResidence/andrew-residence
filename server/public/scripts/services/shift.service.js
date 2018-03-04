@@ -91,9 +91,10 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
       lastDayofShifts: lastDayofShifts
     };
     self.shiftsToDisplay.data = [];
-    // console.log('shifts to display service', self.shiftsToDisplay.data)
+    console.log('shifts to display service', self.shiftsToDisplay.data)
     return $http.put('/shifts', firstAndLastDays).then(function (response) {
       self.shiftsToDisplay.data = response.data;
+      console.log('shifts to display after response', self.shiftsToDisplay.data)
       return response;
     });
   };
@@ -129,7 +130,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     })
   };
 
-  self.pickUpShift = function (shift, firstOfMonth, lastOfMonth) {
+  self.pickUpShift = function (shift) {
     return $http.post('/shifts/shiftBid', shift)
       // return response;
   };

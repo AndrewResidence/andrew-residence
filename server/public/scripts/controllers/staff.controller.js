@@ -43,7 +43,7 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
       fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
     })
   }
-
+  
   //gets all shifts from the server for display on the staff calendar
   vm.getShifts = function (firstOfMonth, lastOfMonth) {
     console.log('get shifts firstofmonth', firstOfMonth);
@@ -227,8 +227,8 @@ myApp.controller('StaffController', function (UserService, ShiftService, Availab
         clickOutsideToClose: true,
         locals: { 
         shift: shift,
-        firstOfMonth: vm.firstOfMonth, 
-        lastOfMonth: vm.lastOfMonth
+        // firstOfMonth: vm.firstOfMonth, 
+        // lastOfMonth: vm.lastOfMonth
       },
       fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
     });

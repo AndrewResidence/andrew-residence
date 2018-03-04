@@ -52,7 +52,7 @@ myApp.service('StaffCalendarService', function ($http, $location, $mdDialog) {
             }
             self.currentMonth.dates.push(eachDay);
         }
-        // console.log('self.currentMonth.dates', self.currentMonth.dates);
+        console.log('self.currentMonth.dates', self.currentMonth.dates);
         var firstDayofMonth = moment(self.currentMonth.dates[0].day._d).month();
         var currentYear = currentYear;
         self.dayInWeek = moment(self.currentMonth.dates[0].day._d).format('d')

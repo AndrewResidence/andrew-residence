@@ -103,7 +103,7 @@ var weeklyDigest = function (userEmails) {
 var getUsers = function () {
     var emailArray = [];
     return new Promise(function (resolve, reject) {
-        cron.schedule('42 13 * * WED', function (userEmails) {
+        cron.schedule('05 13 * * MON', function (userEmails) {
             pool.connect(function (errorConnectingToDb, db, done) {
                 if (errorConnectingToDb) {
                     console.log('Error connecting', errorConnectingToDb);
@@ -207,5 +207,6 @@ router.post('/text', function (req, res) {
 getUsers().then(function (result) {
 
     console.log('this logged', result.join(''));
+    weeklyDigest.start(result);
 });
 module.exports = router;

@@ -700,7 +700,39 @@ function confirmedShiftEmail(user_id, shift_id) {
         });
     });
 };
+function notSelectedForShiftEmail(shift_id, confirmed_id){
+    var emailArray = [];
+    return new Promise(function (resolve, reject) {
+        pool.connect(function (errorConnectingToDb, db, done) {
+            if (errorConnectingToDb) {
+                console.log('Error connecting in notSelectedForShiftEmail', errorConnectingToDb);
+                reject();
+            } else { //end if error connection to db
 
+                var queryText = 'SELECT "users"."username" FROM "users"'+
+                 'JOIN "shift_bids" ON "shift_bids"."user_id" = "users"."id"'+
+                  'WHERE "shift_bids"."shift_id" = $1 AND "users"."id" <> $2';
+                db.query(queryText, [shift_id, confirmed_id], function (err, result) {
+
+                    if (err) {
+                        console.log("notSelectedForShiftEmail error ", err);
+                        reject();
+                    } else {
+                        console.log('result.rows in Notselectedforshift email', result.rows[0]);
+                        result.rows.forEach(function (userEmail) {
+                            emailArray.push(userEmail.username);
+                        });
+                        resolve(emailArray);
+
+                    }
+                });
+            }
+
+        });
+    });
+
+}
+notSelectedForShiftEmail(300, 19);
 module.exports = router;
 
 

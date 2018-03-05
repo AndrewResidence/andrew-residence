@@ -674,7 +674,7 @@ function confirmedShiftEmail(user_id, shift_id) {
                 db.query(queryText, [user_id], function (err, result) {
          
                     if (err) {
-                        console.log("Error getting email: ", err);
+                        console.log("Error getting email in confirmedShiftEmail: ", err);
                         reject();
                     } else {
                         emailDetails.username = result.rows[0].username;

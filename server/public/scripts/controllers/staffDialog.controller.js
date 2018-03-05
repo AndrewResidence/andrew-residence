@@ -1,5 +1,5 @@
 //, firstOfMonth, lastOfMonth
-myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserService, ShiftService, AvailabilityService, StaffCalendarService, shift) {
+myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserService, ShiftService, AvailabilityService, StaffCalendarService, shift, refreshFN) {
   console.log('StaffDialogController created');
   var vm = this;
   vm.userService = UserService;
@@ -55,23 +55,15 @@ myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserSer
   vm.pickUpShift = function (shift) {
     console.log('shift being picked up', shift.date)
     var shiftDate = shift.date;
-    var currentYear = moment(shiftDate).year();
-    var currentMonth = moment(shiftDate).month();
-    var numDaysInCurrentMonth = moment(shift.date).daysInMonth();
-    var firstOfMonth = moment().year(currentYear).month(currentMonth).day(1);
-    var lastOfMonth = moment().year(currentYear).month(currentMonth).day(numDaysInCurrentMonth);
-    console.log('dates details', shiftDate, currentYear, currentMonth, numDaysInCurrentMonth)
+    // var currentYear = moment(shiftDate).year();
+    // var currentMonth = moment(shiftDate).month();
+    // var numDaysInCurrentMonth = moment(shift.date).daysInMonth();
+    // var firstOfMonth = moment().year(currentYear).month(currentMonth).day(1);
+    // var lastOfMonth = moment().year(currentYear).month(currentMonth).day(numDaysInCurrentMonth);
+    // console.log('dates details', shiftDate, currentYear, currentMonth, numDaysInCurrentMonth)
     vm.shiftService.pickUpShift(shift).then(function (response) {
-      StaffCalendarService.putDaysinCurrentMonthArray(currentYear, currentMonth, numDaysInCurrentMonth);
-      ShiftService.getShifts(firstOfMonth, lastOfMonth);
-      for (var i = 0; i < vm.shiftsToDisplay.length; i++) {
-        for (var j = 0; j < vm.currentMonth.dates.length; j++) {
-          if (moment(vm.shiftsToDisplay[i].date).format('YYYY-MM-DD') === moment(vm.currentMonth.dates[j].day).format('YYYY-MM-DD')) {
-            vm.currentMonth.dates[j].shifts.push(vm.shiftsToDisplay[i]);
-          }
-        }
-      }
-      console.log('current month dates in staff dialog', vm.currentMonth.dates)
+      refreshFN(shift.date);
+      // console.log('current month dates in staff dialog', vm.currentMonth.dates)
       $mdDialog.hide();
       console.log('response', response);
       $mdToast.show(
@@ -80,7 +72,7 @@ myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserSer
           .hideDelay(2500)
       );
     }).catch(function(error){
-      console.log('error in pick up shift')
+      console.log('error in pick up shift', error)
     })
   };
 

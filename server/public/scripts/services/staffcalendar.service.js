@@ -18,6 +18,7 @@ myApp.service('StaffCalendarService', function ($http, $location, $mdDialog) {
     };
 
     self.getNumDaysInCurrentMonth = function () {
+        self.currentMonth.dates = [];
         self.numDaysInCurrentMonth = moment(self.today).daysInMonth();
         // self.firstOfMonth = moment().year(self.currentYear).month(self.thisMonth).date(1);
         // self.lastOfMonth = moment().year(self.currentYear).month(self.thisMonth).date(self.numDaysInCurrentMonth);
@@ -29,6 +30,7 @@ myApp.service('StaffCalendarService', function ($http, $location, $mdDialog) {
     self.putDaysinCurrentMonthArray = function (currentYear, currentMonth, numDaysInCurrentMonth) {
         console.log('put days in current month array', self.monthDays.dates);
         self.monthDays.dates = [];
+        console.log('put days in month service after clear', self.monthDays.dates);
         for (var i = 1; i <= numDaysInCurrentMonth; i++) {
             self.monthDays.dates.push(i);
         }

@@ -1,4 +1,5 @@
-myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserService, ShiftService, AvailabilityService, shift, firstOfMonth, lastOfMonth) {
+//, firstOfMonth, lastOfMonth
+myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserService, ShiftService, AvailabilityService, StaffCalendarService, shift, refreshFN) {
   console.log('StaffDialogController created');
   var vm = this;
   vm.userService = UserService;
@@ -8,7 +9,7 @@ myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserSer
   vm.shift = {
     user: vm.userService.userObject.userId,
     id: shift.shift_id,
-    date: moment(shift.date).format('l'),
+    date: moment(shift.date),
     shift: shift.shift,
     shift_comments: shift.shift_comments,
     adl: shift.adl,
@@ -17,18 +18,17 @@ myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserSer
     shift_status: shift.shift_status,
     floor: shift.floor
   };
-  vm.firstOfMonth = firstOfMonth;
-  vm.lastOfMonth = lastOfMonth;
+  vm.shiftsToDisplay = ShiftService.shiftsToDisplay.data;
   
-  vm.titleDate = moment(vm.shift.date).format('MM/DD');
+  vm.titleDate = moment(vm.shift.date);//where's this going?
   vm.showShiftComment = function(shift) {
     if (shift.shift_comments) {
       return true;
     }
     return false;
   }
+
   vm.showPickUpButton = ShiftService.showPickUpButton;
-  console.log('userObject', vm.userService.userObject);
   vm.adl = false;
   vm.mhw = false;
   vm.nurse = false;
@@ -46,18 +46,19 @@ myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserSer
 
   vm.role();
 
-  vm.pickUpShift = function (shift, firstOfMonth, lastOfMonth) {
+  vm.pickUpShift = function (shift) {
+    console.log('shift being picked up', shift.date)
+    var shiftDate = shift.date;
     vm.shiftService.pickUpShift(shift).then(function (response) {
-      // console.log('start and end dates', vm.firstOfMonth, vm.lastOfMonth)
+      refreshFN(shift.date);
       $mdDialog.hide();
-      console.log('response', response);
       $mdToast.show(
         $mdToast.simple()
           .textContent('You\'ve signed up for a shift. Shift is pending until confirmed.')
           .hideDelay(2500)
       );
     }).catch(function(error){
-      console.log('error in pick up shift')
+      console.log('error in pick up shift', error)
     })
   };
 

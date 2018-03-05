@@ -1,7 +1,7 @@
 <md-dialog aria-label="Pick Up Shift" id="shiftDetailscialog">
     <md-toolbar>
         <div class="md-toolbar-tools">
-            <h3>{{sc.titleDate}} {{sc.shift.shift}}</h3>
+            <h3>{{sc.titleDate | amDateFormat: 'MM/DD'}} {{sc.shift.shift}}</h3>
             <span flex="auto"></span>
             <md-button aria-label="Close Dialog" class="md-icon-button md-primary" id="closeButton" ng-click="sc.cancel()">
                 <img id="closeIcon" src="/styles/closeIcon.png" alt="close window">

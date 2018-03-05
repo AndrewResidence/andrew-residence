@@ -335,7 +335,7 @@ router.post('/confirm', function (req, res) {
                             
                             var mailOptions = {
                                 from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
-                                to: 'joshnothum@gmail.com', // list of receivers
+                                to: emailDetails.username, // list of receivers
                                 subject: 'Shift Confirmation from Andrew Residence', // Subject line
                                 html: ' <body style ="background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);">' +
                                     '<h1>Good Day!</h1><h3>Confirmed Shift:</h3><ul>' + emailDetails.shift + '</ul>' +

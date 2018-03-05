@@ -46,9 +46,6 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
 
   //addNewShift function and route
   self.addNewShift = function (staffId, selection, shiftDate, shiftStatus, urgent, shift, role, comments, notify, nurse, adl, mhw, floor) {
-    console.log('filled by', staffId);
-    console.log('the Selection', selection);
-    console.log('shiftDate', shiftDate);
     staffId = self.newShift.filled;
     self.newShift.notify = selection;
     self.newShift.shiftDate = shiftDate;
@@ -61,7 +58,6 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     mhw = self.newShift.mhw;
     shiftStatus = self.newShift.shift_status;
     floor = self.newShift.floor;
-    console.log('newshift', self.newShift);
     if (urgent) {
       $http.post('/message/urgent', self.newShift).then(function (response) {
 
@@ -83,18 +79,13 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
 
 
   self.getShifts = function (firstDayofShifts, lastDayofShifts) {
-    console.log('get shifts is running');
-    console.log('first of month - service', firstDayofShifts);
-    console.log('last Of Month - service', lastDayofShifts);
     var firstAndLastDays = {
       firstDayofShifts: firstDayofShifts, 
       lastDayofShifts: lastDayofShifts
     };
     self.shiftsToDisplay.data = [];
-    console.log('shifts to display service', self.shiftsToDisplay.data)
     return $http.put('/shifts', firstAndLastDays).then(function (response) {
       self.shiftsToDisplay.data = response.data;
-      console.log('shifts to display after response', self.shiftsToDisplay.data)
       return response;
     });
   };
@@ -118,7 +109,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     return $http.get('/shifts/shiftbidToConfirm/' + shiftId).then(function (response) {
       return response;
     }).catch(function(error){
-      consoel.log('error in getting shifts to confirm')
+      console.log('error in getting shifts to confirm')
     })
   };
 
@@ -132,7 +123,6 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
 
   self.pickUpShift = function (shift) {
     return $http.post('/shifts/shiftBid', shift)
-      // return response;
   };
 
   self.myShifts = {
@@ -150,7 +140,6 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
       console.log('error in getting my shifts')
     })
   };
-
 
   /* for Message testing; see popUpTest Controller and message.html */
   self.sendTextMessage = function () {
@@ -241,5 +230,4 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
       }
     }
   };
-
 });

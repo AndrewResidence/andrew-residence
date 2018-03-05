@@ -20,27 +20,21 @@ myApp.service('StaffCalendarService', function ($http, $location, $mdDialog) {
     self.getNumDaysInCurrentMonth = function () {
         self.currentMonth.dates = [];
         self.numDaysInCurrentMonth = moment(self.today).daysInMonth();
-        // self.firstOfMonth = moment().year(self.currentYear).month(self.thisMonth).date(1);
-        // self.lastOfMonth = moment().year(self.currentYear).month(self.thisMonth).date(self.numDaysInCurrentMonth);
         self.firstOfMonth.year(self.currentYear).month(self.thisMonth).date(1);
         self.lastOfMonth.year(self.currentYear).month(self.thisMonth).date(self.numDaysInCurrentMonth);
         self.putDaysinCurrentMonthArray(self.currentYear, self.thisMonth, self.numDaysInCurrentMonth);
     };
 
     self.putDaysinCurrentMonthArray = function (currentYear, currentMonth, numDaysInCurrentMonth) {
-        console.log('put days in current month array', self.monthDays.dates);
         self.monthDays.dates = [];
-        console.log('put days in month service after clear', self.monthDays.dates);
         for (var i = 1; i <= numDaysInCurrentMonth; i++) {
             self.monthDays.dates.push(i);
         }
-        console.log('current month array', self.monthDays.dates);
         self.getMonthDays(currentYear, currentMonth, self.monthDays.dates);
     };
 
     self.dayInWeek = '';
     self.getMonthDays = function (currentYear, currentMonth, monthDays) {
-        console.log('in get month days')
         self.dayInWeek = '';
         for (var i = 1; i <= monthDays.length; i++) {
             eachDay = {
@@ -54,7 +48,6 @@ myApp.service('StaffCalendarService', function ($http, $location, $mdDialog) {
             }
             self.currentMonth.dates.push(eachDay);
         }
-        console.log('self.currentMonth.dates', self.currentMonth.dates);
         var firstDayofMonth = moment(self.currentMonth.dates[0].day._d).month();
         var currentYear = currentYear;
         self.dayInWeek = moment(self.currentMonth.dates[0].day._d).format('d')
@@ -84,9 +77,6 @@ myApp.service('StaffCalendarService', function ($http, $location, $mdDialog) {
     //function to get previous month days and display for calendar
     self.prevMonth = function (currentDisplayMonth, currentYear) {
         self.currentMonth.dates = [];
-        console.log('month and year in previous', currentDisplayMonth, currentYear)
-        // self.currentMonth.dates = [];
-        // console.log('currentMont.dates', self.currentMonth.dates);
         if (currentDisplayMonth === 0) {
             self.thisMonth = 11;
             self.currentYear = currentYear - 1;
@@ -96,9 +86,7 @@ myApp.service('StaffCalendarService', function ($http, $location, $mdDialog) {
         }
         self.firstOfMonth.year(self.currentYear).month(self.thisMonth).date(1);
         self.lastOfMonth.year(self.currentYear).month(self.thisMonth).date(self.numDaysInCurrentMonth);
-        console.log('prev function', self.firstOfMonth, self.lastOfMonth)
         self.numDaysInCurrentMonth = moment().year(self.currentYear).month(self.thisMonth).daysInMonth();
-        console.log('prev function days', self.numDaysInCurrentMonth)
         self.putDaysinCurrentMonthArray(self.currentYear, self.thisMonth, self.numDaysInCurrentMonth);
         // vm.getShifts(vm.firstOfMonth, vm.lastOfMonth);
     }

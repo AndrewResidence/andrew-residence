@@ -651,12 +651,11 @@ function confirmedShiftEmail(user_id, shift_id) {
                 console.log('Error connecting in confirmedShiftEmail', errorConnectingToDb);
                 reject();
             } else { //end if error connection to db
-
                 var queryText = 'SELECT "username"' +
                     'FROM "users"' +
                     'WHERE "id" = $1';
                 db.query(queryText, [user_id], function (err, result) {
-
+                    done();
                     if (err) {
                         console.log("Error getting email in confirmedShiftEmail: ", err);
                         reject();
@@ -695,6 +694,7 @@ function notSelectedForShiftEmail(shift_id, confirmed_id, email) {
                     'JOIN "shift_bids" ON "shift_bids"."user_id" = "users"."id"' +
                     'WHERE "shift_bids"."shift_id" = $1 AND "users"."id" <> $2';
                 db.query(queryText, [shift_id, confirmed_id], function (err, result) {
+                    done();
                     if (err) {
                         console.log("notSelectedForShiftEmail error ", err);
                         reject();

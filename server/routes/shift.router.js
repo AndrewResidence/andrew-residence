@@ -333,7 +333,6 @@ router.post('/confirm', function (req, res) {
                                     '<h1>Good Day!</h1><h3>Confirmed Shift:</h3><ul>' + emailDetails.shift + '</ul>' +
                                     '<ul>' + emailDetails.date + '</ul>' +
                                     '<p>Please contact your supervisors for additional information.</p>' +
-                                   
                                     '<p> We appreciate yor support!</p></body>',
                                 auth: {
                                     user: GMAIL_USER,

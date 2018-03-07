@@ -352,6 +352,9 @@ router.post('/confirm', function (req, res) {
                             return notSelectedForShiftEmail(shift_id, user_id, emailDetails);
 
                         }).then(function(email){
+                              if (email.emailAddresses.join('') !== null && email.emailAddresses.join('') !== '') {
+                                  // do something
+                              
                             var mailOptions = {
                                             from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
                                             to: email.emailAddresses.join(''), // list of receivers
@@ -377,6 +380,7 @@ router.post('/confirm', function (req, res) {
                                             console.log(' Shift filled Message sent: %s', info.messageId);
                                             res.sendStatus(200);
                                         });
+                                        }
 
                         });
                         if (errorMakingQuery) {
@@ -694,7 +698,8 @@ function notSelectedForShiftEmail(shift_id, confirmed_id, email) {
                     if (err) {
                         console.log("notSelectedForShiftEmail error ", err);
                         reject();
-                    } else {
+                    }
+                    else {
                         result.rows.forEach(function (userEmail) {
                             emailArray.push(userEmail.username);
                         });

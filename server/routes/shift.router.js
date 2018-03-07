@@ -321,9 +321,7 @@ router.post('/confirm', function (req, res) {
                     function (errorMakingQuery, result) {
                         let user_id = result.rows[0].user_id;
                         let shift_id = result.rows[0].shift_id;
-
                         confirmedShiftEmail(user_id, shift_id).then(function (emailDetails) {
-
                             var mailOptions = {
                                 from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
                                 to: emailDetails.username, // list of receivers
@@ -346,7 +344,7 @@ router.post('/confirm', function (req, res) {
                                     console.log(error);
                                     res.send(error);
                                 }
-                                console.log('this Message sent: %s', info.messageId);
+                                console.log('Confirmation Message sent: %s', info.messageId);
                                 res.sendStatus(200);
                             });
                             return notSelectedForShiftEmail(shift_id, user_id, emailDetails);
@@ -374,7 +372,7 @@ router.post('/confirm', function (req, res) {
                                                 console.log(error);
                                                 res.send(error);
                                             }
-                                            console.log('Message sent: %s', info.messageId);
+                                            console.log(' Shift filled Message sent: %s', info.messageId);
                                             res.sendStatus(200);
                                         });
 
@@ -610,36 +608,6 @@ router.get('/filled/who/:id', function (req, res) {
         res.sendStatus(401);
     }
 }); //end get the name of the person that has the shift
-function notifyingSupers(supers) {
-    var emailArray = [];
-    return new Promise(function (resolve, reject) {
-        pool.connect(function (errorConnectingToDb, db, done) {
-            if (errorConnectingToDb) {
-                console.log('Error connecting', errorConnectingToDb);
-                res.sendStatus(500);
-            } else { //end if error connection to db
-
-                var queryText = 'SELECT "username" FROM "users" WHERE "id" = ANY($1::integer[])';
-                db.query(queryText, [supers], function (err, result) {
-                    done();
-                    if (err) {
-                        console.log("Error getting phone: ", err);
-                        res.sendStatus(500);
-                    } else {
-
-                        console.log('username', _.uniq(result.rows[0].username));
-                        console.log('without lodash', result.rows);
-                        result.rows.forEach(function (userEmail) {
-                            emailArray.push(userEmail.username);
-                        });
-                        resolve(emailArray);
-                    }
-                });
-            }
-
-        });
-    });
-}
 // post route to confirm table upon adding a shift
 
 function insertPostShift() {
@@ -669,8 +637,6 @@ function insertPostShift() {
         });
     });
 };
-
-
 function confirmedShiftEmail(user_id, shift_id) {
     let emailDetails = {};
     return new Promise(function (resolve, reject) {
@@ -703,11 +669,9 @@ function confirmedShiftEmail(user_id, shift_id) {
                                 resolve(emailDetails);
                             }
                         });
-
                     }
                 });
             }
-
         });
     });
 };
@@ -725,18 +689,13 @@ function notSelectedForShiftEmail(shift_id, confirmed_id, email) {
                     'JOIN "shift_bids" ON "shift_bids"."user_id" = "users"."id"' +
                     'WHERE "shift_bids"."shift_id" = $1 AND "users"."id" <> $2';
                 db.query(queryText, [shift_id, confirmed_id], function (err, result) {
-
                     if (err) {
                         console.log("notSelectedForShiftEmail error ", err);
                         reject();
                     } else {
-                        console.log('result.rows in Notselectedforshift email', result.rows[0]);
                         result.rows.forEach(function (userEmail) {
                             emailArray.push(userEmail.username);
                         });
-                      
-                 
-           
                         email.emailAddresses = emailArray;
                         resolve(email);
 
@@ -748,34 +707,6 @@ function notSelectedForShiftEmail(shift_id, confirmed_id, email) {
     });
 
 }
-// notSelectedForShiftEmail(350, 19).then(function (emailArray) {
-
-//     var mailOptions = {
-//         from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
-//         to: emailArray.join(''), // list of receivers
-//         subject: 'Shift Confirmation from Andrew Residence', // Subject line
-//         html: ' <body style ="background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);">' +
-//             '<h1>Good Day!</h1><h3>Shift Filled:</h3><ul>' + 'emailDetails.shift' + '</ul>' +
-//             '<ul>' + 'emailDetails.date' + '</ul>' +
-//             '<p>Please contact your supervisors for additional information.</p>' +
-//             '<button style="background-color: #4CAF50;background-color:rgb(255, 193, 7);;color: white;padding: 15px 32px;text-align: center;font-size: 16px;">Let\'s Pick-up Some Shifts!</button>' +
-//             '<p> We appreciate yor support!</p></body>',
-//         auth: {
-//             user: GMAIL_USER,
-//             refreshToken: REFRESH_TOKEN,
-//             accessToken: ACCESS_TOKEN,
-//         }
-//     };
-//     // send mail with defined transport object
-//     transporter.sendMail(mailOptions, function (error, info) {
-//         if (error) {
-//             console.log(error);
-//             res.send(error);
-//         }
-//         console.log('Message sent: %s', info.messageId);
-//         res.sendStatus(200);
-//     });
-// });
 
 module.exports = router;
 

@@ -5,7 +5,7 @@ var passport = require('./strategies/sql.localstrategy');
 var sessionConfig = require('./modules/session.config');
 
 
-// Route includes
+// Route includesc
 var indexRouter = require('./routes/index.router');
 var userRouter = require('./routes/user.router');
 var registerRouter = require('./routes/register.router');

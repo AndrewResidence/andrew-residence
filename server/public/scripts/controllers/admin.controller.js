@@ -10,6 +10,8 @@ myApp.controller('AdminController', function ($mdDialog, $mdToast, UserService, 
   var show = false;
 
 
+
+  
   vm.noUsersMessage = function() {
     if(vm.unconfirmed.length == 0) {
       return true;

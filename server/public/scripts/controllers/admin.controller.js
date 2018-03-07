@@ -11,6 +11,7 @@ myApp.controller('AdminController', function ($mdDialog, $mdToast, UserService, 
 
     //comment
 
+  //comment to get this to work
   vm.noUsersMessage = function() {
     if(vm.unconfirmed.length == 0) {
       return true;

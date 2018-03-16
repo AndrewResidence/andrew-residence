@@ -68,7 +68,7 @@ var weeklyDigest = function (userEmails) {
                         from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
                         to: userEmails.join(''), // list of receivers
                         subject: 'Weekly Digest from Andrew Residence', // Subject line
-                        html: ' <body style ="background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);">' +
+                        html: ' <body>' +
                             '<h1>Good Day!</h1><h3>Available Shifts:</h3><ul>' + emailMessage + '</ul>' +
                             '<p>Please go to the scheduling app to sign-up for a shift.</p>' +
                             '<button style="background-color: #4CAF50;background-color:rgb(255, 193, 7);;color: white;padding: 15px 32px;text-align: center;font-size: 16px;">Let\'s Pick-up Some Shifts!</button>' +
@@ -191,22 +191,22 @@ router.post('/urgent', function (req, res) {
     }
 });
 //test route for texting, will be deleted once moved to production
-router.post('/text', function (req, res) {
-    var params = {
-        src: plivoNumber, // Sender's phone number with country code
-        dst: '17637448725',
-        text: "Be not afraid. You are never alone. The MonGod smiles upon you!",
-    };
-    // Prints the complete response
-    p.send_message(params, function (status, response) {
-        console.log('Status: ', status);
-        console.log('API Response:\n', response);
-    });
-    res.send(201);
-});
-getUsers().then(function (result) {
+// router.post('/text', function (req, res) {
+//     var params = {
+//         src: plivoNumber, // Sender's phone number with country code
+//         dst: '17637448725',
+//         text: "Be not afraid. You are never alone. The MonGod smiles upon you!",
+//     };
+//     // Prints the complete response
+//     p.send_message(params, function (status, response) {
+//         console.log('Status: ', status);
+//         console.log('API Response:\n', response);
+//     });
+//     res.send(201);
+// });
+// getUsers().then(function (result) {
 
-    console.log('this logged', result.join(''));
-    weeklyDigest.start(result);
-});
+//     console.log('this logged', result.join(''));
+//     weeklyDigest.start(result);
+// });
 module.exports = router;

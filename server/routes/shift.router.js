@@ -199,6 +199,18 @@ router.put('/payperiod/updatedates/:id', function (req, res) {
 router.post('/shiftBid', function (req, res) {
     if (req.isAuthenticated()) {
         var shiftBid = req.body;
+        var nurse = '';
+        var mhw = '';
+        var adl = '';
+        if(shiftBid.nurse === true) {
+            nurse = 'Nurse';
+        }
+        if(shiftBid.mhw === true) {
+            mhw = 'MHW';
+        }
+        if(shiftBid.adl === true) {
+            adl = 'ADL';
+        }
         console.log('****** new shift bid', shiftBid);
         // console.log('req.body.date', req.body.date);
         var createdBy = req.user.id;
@@ -237,7 +249,14 @@ router.post('/shiftBid', function (req, res) {
                                                     to: email.emailAddresses.join(','), // list of receivers
                                                     subject: 'Shift Pickup For ' + moment(shiftBid.date).format('MM/DD/YY'), // Subject line
                                                     html: ' <body>' +
-                                                        '<h1>Good Day!</h1><h3>Shift pick-up request has been received for:</h3><ul>' + moment(shiftBid.date).format('MM/DD/YY') + '</ul>' +
+                                                        '<h1>Hello!</h1>' +
+                                                        '<h3>Shift pick-up request has been received for:</h3>' +
+                                                        '<p>' + moment(shiftBid.date).format('MM/DD/YY') + ', ' + shiftBid.shift + '</p>' + 
+                                                        '<ul>' +
+                                                            '<li>'+ nurse + '</li>' + 
+                                                            '<li>' + mhw + '</li>' +
+                                                            '<li>' + adl + '</li>' +
+                                                        '</ul>' +
                                                         '<p>Please log in to review the requests.</p>' +
                                                         '</body>',
                                                     auth: {

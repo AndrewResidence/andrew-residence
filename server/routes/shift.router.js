@@ -252,10 +252,9 @@ router.post('/shiftBid', function (req, res) {
                                                         '<h1>Hello!</h1>' +
                                                         '<h3>Shift pick-up request has been received for:</h3>' +
                                                         '<p>' + moment(shiftBid.date).format('MM/DD/YY') + ', ' + shiftBid.shift + '</p>' + 
-                                                        '<ul>' +
-                                                            '<li>'+ nurse + '</li>' + 
-                                                            '<li>' + mhw + '</li>' +
-                                                            '<li>' + adl + '</li>' +
+                                                            '<p>'+ nurse + '</p>' + 
+                                                            '<p>' + mhw + '</p>' +
+                                                            '<p>' + adl + '</p>' +
                                                         '</ul>' +
                                                         '<p>Please log in to review the requests.</p>' +
                                                         '</body>',

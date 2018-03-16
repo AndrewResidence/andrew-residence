@@ -7,6 +7,7 @@ var path = require('path');
 var nodemailer = require('nodemailer');
 var plivo = require('plivo');
 var _ = require('lodash');
+var moment = require('moment');
 /* credentials for plivo*/
 var AUTH_ID = process.env.PLIVO_AUTH_ID;
 var AUTH_TOKEN = process.env.PLIVO_AUTH_TOKEN;
@@ -234,9 +235,9 @@ router.post('/shiftBid', function (req, res) {
                                                 var mailOptions = {
                                                     from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
                                                     to: email.emailAddresses.join(','), // list of receivers
-                                                    subject: 'Shift Pickup', // Subject line
+                                                    subject: 'Shift Pickup For ' + moment(shiftBid.date).format('MM/DD/YY'), // Subject line
                                                     html: ' <body>' +
-                                                        '<h1>Good Day!</h1><h3>Shift pick-up request has been received for:</h3><ul>' + shiftBid.date + '</ul>' +
+                                                        '<h1>Good Day!</h1><h3>Shift pick-up request has been received for:</h3><ul>' + moment(shiftBid.date).format('MM/DD/YY') + '</ul>' +
                                                         '<p>Please log in to review the requests.</p>' +
                                                         '</body>',
                                                     auth: {
@@ -365,10 +366,12 @@ router.post('/confirm', function (req, res) {
                                 from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
                                 to: emailDetails.username, // list of receivers
                                 subject: 'Shift Confirmation from Andrew Residence', // Subject line
-                                html: ' <body style ="background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);">' +
-                                    '<h1>Good Day!</h1><h3>Confirmed Shift:</h3><ul>' + emailDetails.shift + '</ul>' +
-                                    '<ul>' + emailDetails.date + '</ul>' +
-                                    '<p>Please contact your supervisors for additional information.</p>' +
+                                html: ' <body>' +
+                                    '<h1>Hello!</h1>' +
+                                    '<h3>You have been confirmed to work this shift:</h3>' + 
+                                    '<ul>' + emailDetails.shift + '</ul>' +
+                                    '<ul>' + moment(emailDetails.date).format('MM/DD/YY') + '</ul>' +
+                                    '<p>Please contact your supervisor(s) for additional information or if you can no longer work this shift.</p>' +
                                     '<p> We appreciate yor support!</p></body>',
                                 auth: {
                                     user: GMAIL_USER,
@@ -396,11 +399,11 @@ router.post('/confirm', function (req, res) {
                                     from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
                                     to: email.emailAddresses.join(','), // list of receivers
                                     subject: 'Shift Filled from Andrew Residence', // Subject line
-                                    html: ' <body style ="background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);">' +
-                                        '<h1>Good Day!</h1><h3>Shift Filled:</h3><ul>' + email.shift + '</ul>' +
-                                        '<ul>' + email.date + '</ul>' +
-                                        '<p>Please contact your supervisors for additional information.</p>' +
-                                        '<button style="background-color: #4CAF50;background-color:rgb(255, 193, 7);;color: white;padding: 15px 32px;text-align: center;font-size: 16px;">Let\'s Pick-up Some Shifts!</button>' +
+                                    html: ' <body>' +
+                                        '<h1>Good Day!</h1><h3>The below shift has been filled by another staff membeer.</h3><ul>' + email.shift + '</ul>' +
+                                        '<ul>' + moment(email.date).format('MM/DD/YY') + '</ul>' +
+                                        '<p>Please contact your supervisor(s) for additional information.</p>' +
+                                        // '<button style="background-color: #4CAF50;background-color:rgb(255, 193, 7);;color: white;padding: 15px 32px;text-align: center;font-size: 16px;">Let\'s Pick-up Some Shifts!</button>' +
                                         '<p> We appreciate yor support!</p></body>',
                                     auth: {
                                         user: GMAIL_USER,

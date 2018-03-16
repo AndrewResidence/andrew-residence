@@ -832,3 +832,8 @@ md-tabs:not(.md-no-tab-content):not(.md-dynamic-height) {
   margin-left: 10px;
 }
 
+.phoneInput {
+  color: lightslategray;
+  font-size: 14px;
+  margin: 0;
+}

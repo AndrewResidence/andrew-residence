@@ -383,12 +383,10 @@ router.post('/confirm', function (req, res) {
                             var mailOptions = {
                                 from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
                                 to: emailDetails.username, // list of receivers
-                                subject: 'Shift Confirmation from Andrew Residence', // Subject line
-                                html: ' <body>' +
-                                    '<h1>Hello!</h1>' +
-                                    '<h3>You have been confirmed to work this shift:</h3>' + 
-                                    '<ul>' + emailDetails.shift + '</ul>' +
-                                    '<ul>' + moment(emailDetails.date).format('MM/DD/YY') + '</ul>' +
+                                subject: 'Shift Confirmation for ' + moment(emailDetails.date).format('MM/DD/YY') + ' from Andrew Residence', // Subject line
+                                html: ' <body>' + 
+                                    '<h3>Hello, you have been confirmed to work the shift below:</h3>' + 
+                                    '<p>' + emailDetails.shift + ', ' + moment(emailDetails.date).format('MM/DD/YY') + '</p>' +
                                     '<p>Please contact your supervisor(s) for additional information or if you can no longer work this shift.</p>' +
                                     '<p> We appreciate yor support!</p></body>',
                                 auth: {
@@ -418,8 +416,8 @@ router.post('/confirm', function (req, res) {
                                     to: email.emailAddresses.join(','), // list of receivers
                                     subject: 'Shift Filled from Andrew Residence', // Subject line
                                     html: ' <body>' +
-                                        '<h1>Good Day!</h1><h3>The below shift has been filled by another staff membeer.</h3><ul>' + email.shift + '</ul>' +
-                                        '<ul>' + moment(email.date).format('MM/DD/YY') + '</ul>' +
+                                        '<h3>Hello, the below shift has been filled by another staff membeer.</h3>' +
+                                        '<p>' + email.shift + ', ' + moment(email.date).format('MM/DD/YY') + '</p>' +
                                         '<p>Please contact your supervisor(s) for additional information.</p>' +
                                         // '<button style="background-color: #4CAF50;background-color:rgb(255, 193, 7);;color: white;padding: 15px 32px;text-align: center;font-size: 16px;">Let\'s Pick-up Some Shifts!</button>' +
                                         '<p> We appreciate yor support!</p></body>',

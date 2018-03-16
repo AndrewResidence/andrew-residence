@@ -132,6 +132,7 @@ router.put('/', function (req, res) {
         res.sendStatus(401);
     }
 }); //end get shifts
+
 //gets the current pay period start and end dates
 router.get('/payperiod/getdates', function (req, res) {
     if (req.isAuthenticated()) {
@@ -159,6 +160,7 @@ router.get('/payperiod/getdates', function (req, res) {
         res.sendStatus(403);
     }
 }); //end get pay period dates
+
 //updates the pay period start and end date in the database
 router.put('/payperiod/updatedates/:id', function (req, res) {
     if (req.isAuthenticated()) {
@@ -226,13 +228,40 @@ router.post('/shiftBid', function (req, res) {
                                         return;
                                     } else {
                                         // res.sendStatus(201);
-                                        console.log('updated shift status in shift table');
-                                        getSupervisorsToNotify(req.body.id);
-                                    }
+                                        getSupervisorsNotify(shiftBid.id).then(function (email) {
+                                            console.log('email', email.emailAddresses)
+                                            if (email.emailAddresses.join('') !== null && email.emailAddresses.join('') !== '') {
+                                                var mailOptions = {
+                                                    from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
+                                                    to: email.emailAddresses.join(','), // list of receivers
+                                                    subject: 'Shift Pickup', // Subject line
+                                                    html: ' <body>' +
+                                                        '<h1>Good Day!</h1><h3>Shift pick-up request has been received for:</h3><ul>' + shiftBid.date + '</ul>' +
+                                                        '<p>Please log in to review the requests.</p>' +
+                                                        '</body>',
+                                                    auth: {
+                                                        user: GMAIL_USER,
+                                                        refreshToken: REFRESH_TOKEN,
+                                                        accessToken: ACCESS_TOKEN,
+                                                    }
+                                                };
+                                                // send mail with defined transport object
+                                                transporter.sendMail(mailOptions, function (error, info) {
+                                                    if (error) {
+                                                        console.log(error);
+                                                        res.send(error);
+                                                    }
+                                                    console.log('Confirmation Message sent: %s', info);
+                                                    res.sendStatus(200);
+                                                });
+                                        }
+                                    })
+                                }
                                 });
                         }
                     });
             }
+            
 
         }); // end req.isAuthenticated //end if statement
     } else {
@@ -241,47 +270,6 @@ router.post('/shiftBid', function (req, res) {
     }
 }); //end post route for new shifts
 
-function getSupervisorsToNotify(shiftId) {
-    pool.connect(function(errorConnectingToDb, db, done) {
-        if(errorConnectingToDb) {
-            console.log('Error Connection', errorConnectingToDb)
-            res.sendStatus(500);
-        }
-        else {
-            var queryText = 'SELECT "notify" FROM "post_shifts" WHERE "shift_id" = $1';
-            db.query(queryText, [shiftId],
-            function(errorMakingQuery, result){
-                if (errorMakingQuery) {
-                    console.log('error making querry', errorMakingQuery);
-                    res.sendStatus(500);
-                    return;
-                } else {
-                    console.log('result rows for notify', result.rows[0].notify[0])
-                    var notifyList = result.rows[0].notify[0];
-                    var supervisorEmailList = [];
-                    //enter another query here
-                    var queryText = 
-                        'SELECT "username" FROM "users" WHERE "id" = $1'
-                    for(var i = 0; i < notifyList.length; i++) {
-                        db.query(queryText, [notifyList[i]],
-                        function(errorMakingQuery, result){
-                            if (errorMakingQuery) {
-                                console.log('error making query', errorMakingQuery);
-                                res.sendStatus(500);
-                            }
-                            else {
-                                console.log('result.rows of notifyList', result.rows[0]);
-                                supervisorEmailList.push(result.rows[0]);
-                            }
-                        })
-                    }
-        }
-    })
-        }
-        
-    })
-    
-}
 
 //GET Shift bids
 router.get('/shiftBid/:today', function (req, res) {
@@ -400,12 +388,13 @@ router.post('/confirm', function (req, res) {
                             return notSelectedForShiftEmail(shift_id, user_id, emailDetails);
 
                         }).then(function (email) {
+                            console.log('shift confirmation reject email', email.emailAddresses);
                             if (email.emailAddresses.join('') !== null && email.emailAddresses.join('') !== '') {
                                 // do something
 
                                 var mailOptions = {
                                     from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
-                                    to: email.emailAddresses.join(''), // list of receivers
+                                    to: email.emailAddresses.join(','), // list of receivers
                                     subject: 'Shift Filled from Andrew Residence', // Subject line
                                     html: ' <body style ="background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);">' +
                                         '<h1>Good Day!</h1><h3>Shift Filled:</h3><ul>' + email.shift + '</ul>' +
@@ -451,10 +440,8 @@ router.post('/confirm', function (req, res) {
                                     }
                                 });
                         }
-
                     });
             }
-
         }); // end req.isAuthenticated //end if statement
     } else {
         console.log('User is not authenticated');
@@ -462,7 +449,7 @@ router.post('/confirm', function (req, res) {
     }
 }); //end post route for new shifts
 
-
+//gets logged in user shifts
 router.put('/getmyshifts', function (req, res) {
     if (req.isAuthenticated()) {
         var userId = req.user.id;
@@ -498,14 +485,6 @@ router.put('/getmyshifts', function (req, res) {
         res.sendStatus(401);
     }
 }); //end get shifts
-
-// 'SELECT "post_shifts".*, "users"."name", "shift_bids"."bid_id", "shift_bids"."staff_comments" FROM (("post_shifts"' +
-// 'JOIN "shift_bids" ON "post_shifts"."shift_id" = "shift_bids"."shift_id")' +
-// 'JOIN "users" ON "shift_bids"."user_id" = "users".id)' + 
-// 'WHERE "post_shifts"."shift_status" = $1' +  
-// 'ORDER BY "post_shifts"."date" ASC;'
-
-//GET confirmed shifts
 
 // delete shift from post_shifts
 router.delete('/delete:id/', function (req, res) {
@@ -759,6 +738,39 @@ function notSelectedForShiftEmail(shift_id, confirmed_id, email) {
         });
     });
 }
+
+function getSupervisorsNotify(shiftId){
+    var superEmails = [];
+    var email = {};
+    return new Promise(function(resolve, reject){
+        pool.connect(function(errorConnectingToDb, db, done){
+            if (errorConnectingToDb) {
+                console.log('Error connecting to DB to get supers to notify on shift pick up')
+                res.sendStatus(500);
+            } else {
+                var queryText = 
+                    'SELECT "username" FROM "super_notify" WHERE "shift_id" = $1';
+                db.query(queryText, [shiftId], 
+                function (errorMakingQuery, result){
+                    done();
+                    if (errorMakingQuery){
+                        console.log('Error making query', errorMakingQuery);
+                        res.sendStatus(500);
+                    } else {
+                        console.log('result.rows', result.rows)
+                        result.rows.forEach(function(userEmail){
+                            superEmails.push(userEmail.username)
+                        })
+                        email.emailAddresses = superEmails;
+                        console.log('super Emails', superEmails)
+                        resolve(email);
+                    }
+                })
+            }
+        })    
+    })
+}
+
 
 module.exports = router;
 

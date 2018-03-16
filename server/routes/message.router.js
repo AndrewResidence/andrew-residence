@@ -190,23 +190,5 @@ router.post('/urgent', function (req, res) {
         res.sendStatus(403);
     }
 });
-//test route for texting, will be deleted once moved to production
-// router.post('/text', function (req, res) {
-//     var params = {
-//         src: plivoNumber, // Sender's phone number with country code
-//         dst: '17637448725',
-//         text: "Be not afraid. You are never alone. The MonGod smiles upon you!",
-//     };
-//     // Prints the complete response
-//     p.send_message(params, function (status, response) {
-//         console.log('Status: ', status);
-//         console.log('API Response:\n', response);
-//     });
-//     res.send(201);
-// });
-// getUsers().then(function (result) {
 
-//     console.log('this logged', result.join(''));
-//     weeklyDigest.start(result);
-// });
 module.exports = router;

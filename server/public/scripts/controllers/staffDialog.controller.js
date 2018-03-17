@@ -48,10 +48,11 @@ myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserSer
 
   vm.pickUpShift = function (shift) {
     console.log('shift being picked up', shift.date)
+    $mdDialog.hide();
     var shiftDate = shift.date;
     vm.shiftService.pickUpShift(shift).then(function (response) {
       refreshFN(shift.date);
-      $mdDialog.hide();
+      // $mdDialog.hide();
       $mdToast.show(
         $mdToast.simple()
           .textContent('You\'ve signed up for a shift. Shift is pending until confirmed.')

@@ -45,16 +45,16 @@ myApp.controller('LoginController', function ($http, $location, $mdDialog, UserS
       });
     }
   };
-  vm.showPopup = function (event) {
-    console.log('button clicked');
-    $mdDialog.show({
-      controller: 'PopupTestController as pt',
-      templateUrl: '/views/templates/popupTest.html',
-      parent: angular.element(document.body),
-      targetEvent: event,
-      clickOutsideToClose: true,
-      fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
-    });
-  };
+  // vm.showPopup = function (event) {
+  //   console.log('button clicked');
+  //   $mdDialog.show({
+  //     controller: 'PopupTestController as pt',
+  //     templateUrl: '/views/templates/popupTest.html',
+  //     parent: angular.element(document.body),
+  //     targetEvent: event,
+  //     clickOutsideToClose: true,
+  //     fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
+  //   });
+  // };
 
 });

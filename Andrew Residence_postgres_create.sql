@@ -63,9 +63,9 @@ CREATE TABLE post_shifts (
     mhw boolean DEFAULT false,
     nurse boolean DEFAULT false,
     date date NOT NULL,
-    notify character varying[],
     floor character varying,
-    filled integer
+    filled integer,
+    notify integer[]
 );
 
 CREATE SEQUENCE shift_bids_bid_id_seq
@@ -81,6 +81,31 @@ CREATE TABLE shift_bids (
     user_id integer,
     staff_comments character varying
 );
+
+CREATE SEQUENCE users_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+CREATE TABLE users (
+    id integer DEFAULT nextval('users_id_seq'::regclass) NOT NULL,
+    name character varying NOT NULL,
+    password character varying NOT NULL,
+    username character varying NOT NULL,
+    role character varying,
+    confirmed boolean DEFAULT false NOT NULL,
+    phone character varying,
+    code character varying DEFAULT false
+);
+
+CREATE VIEW super_notify AS
+ SELECT post_shifts.shift_id,
+    users.id AS notify_id,
+    users.username
+   FROM (post_shifts
+     JOIN users ON ((((users.id)::character varying)::text = ANY ((post_shifts.notify)::text[]))));
 
 CREATE VIEW user_shifts AS
 (
@@ -100,29 +125,9 @@ CREATE VIEW user_shifts AS
    FROM confirmed;
 
 
-CREATE SEQUENCE users_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-CREATE TABLE users (
-    id integer DEFAULT nextval('users_id_seq'::regclass) NOT NULL,
-    name character varying NOT NULL,
-    password character varying NOT NULL,
-    username character varying NOT NULL,
-    role character varying,
-    confirmed boolean DEFAULT false NOT NULL,
-    phone character varying,
-    code character varying DEFAULT false
-);
-
-
-
 ALTER TABLE ONLY confirmed
     ADD CONSTRAINT confirmed_pkey PRIMARY KEY (confirmed_id);
+
 
 ALTER TABLE ONLY notifications
     ADD CONSTRAINT notifications_pkey PRIMARY KEY (notification_id);
@@ -168,5 +173,3 @@ ALTER TABLE ONLY shift_bids
 
 ALTER TABLE ONLY shift_bids
     ADD CONSTRAINT shift_bids_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(id);
-
-

@@ -179,6 +179,7 @@ router.post('/urgent', function (req, res) {
                             console.log('API Response:\n', response);
 
                         });
+                        res.sendStatus(200);
                     }
                 });
             }

@@ -26,6 +26,7 @@ myApp.service('calendarService', function ($http, $location, $mdDialog) {
             self.payPeriodStartAndEnd = response.data;
             self.payPeriodStart = moment(response.data[0].start);
             self.payPeriodEnd = moment(response.data[0].end);
+            console.log('pay period start in get pay period dates', self.payPeriodStart)
             self.checkPayPeriodCurrent(self.payPeriodStart, self.payPeriodEnd)
         })
             .catch(function (err) {
@@ -35,6 +36,7 @@ myApp.service('calendarService', function ($http, $location, $mdDialog) {
 
     //verifies if it is the current pay period today
     self.checkPayPeriodCurrent = function (payPeriodStart, payPeriodEnd) {
+        console.log('pay periods in the check current pay period dates', payPeriodStart, payPeriodEnd)
         if (moment(self.today).format('YYYY-MM-DD') >= moment(payPeriodStart).format('YYYY-MM-DD')
             && moment(self.today).format('YYYY-MM-DD') <= moment(payPeriodEnd).format('YYYY-MM-DD')) {
             self.currentPayPeriod(self.scheduleDays);
@@ -49,8 +51,9 @@ myApp.service('calendarService', function ($http, $location, $mdDialog) {
     //updates the pay period dates in the DB if needed
     self.updatePayPeriodDates = function () {
         var rowId = 1;
-        return $http.put('/shifts/payperiod/updatedates/' + rowId).then(function (response) {
+        return $http.put('/shifts/payperiod/updatedates/' + rowId + '?x=' + Date.now()).then(function (response) {
             return response.data;
+            console.log('response data in update pay period dates', response.data)
         }).catch(function(error){
             console.log('error in updating pay period service')
         })

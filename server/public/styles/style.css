@@ -75,11 +75,11 @@ body, html {
   /* font-size: 18px; */
 }
 
-#logOutButton {
+/* #logOutButton {
   background-color: #8774AA;
   font-weight: bold;
   color: white;
-}
+} */
 
 ul {
   list-style-type: none;
@@ -845,4 +845,10 @@ md-tabs:not(.md-no-tab-content):not(.md-dynamic-height) {
 
 .logOutPage div {
   padding: 20px;
+}
+
+#logOut {
+  color: white;
+  margin-right: 20px;
+  text-decoration: none;
 }

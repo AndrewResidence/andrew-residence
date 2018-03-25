@@ -837,3 +837,12 @@ md-tabs:not(.md-no-tab-content):not(.md-dynamic-height) {
   font-size: 14px;
   margin: 0;
 }
+
+.logOutPage {
+  margin-left: 20px;
+  width: 25%;
+}
+
+.logOutPage div {
+  padding: 20px;
+}

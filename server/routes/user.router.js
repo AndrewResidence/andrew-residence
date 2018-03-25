@@ -217,6 +217,7 @@ router.get('/logout', function (req, res) {
   // Use passport's built-in method to log out the user
   console.log('Logged out');
   req.logOut();
+  // res.redirect('/loggedout');
   res.sendStatus(200);
 });
 //post messages/staff notifications created by supervisors

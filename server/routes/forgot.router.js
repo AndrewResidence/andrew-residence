@@ -63,7 +63,7 @@ console.log(email);
                                 from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
                                 to: email, // list of receivers
                                 subject: 'Andrew Residence Forgot Password', // Subject line
-                                html: ' <body style ="background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);">' +
+                                html: ' <body>' +
                                     '<h1>Hello!!</h1><h3>Please use this code to reset your password:</h3><ul>'+ updateLink+'</ul>' +
                                     '<p>Thank you</p>',
                               

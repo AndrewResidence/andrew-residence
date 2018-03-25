@@ -215,9 +215,13 @@ router.delete('/:id', function (req, res) {
 // clear all server session information about this user
 router.get('/logout', function (req, res) {
   // Use passport's built-in method to log out the user
+  console.log('req is authenticated', req.isAuthenticated())
+  console.log('req.user in logout', req.user);
   console.log('Logged out');
   req.logOut();
-  res.sendStatus(200);
+  res.redirect('/');
+  console.log('req.user in logout', req.user);
+  // res.sendStatus(200);
 });
 //post messages/staff notifications created by supervisors
 router.post('/message/', function (req, res) {

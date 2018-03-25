@@ -30,11 +30,19 @@ myApp.controller('LoginController', function ($http, $location, $mdDialog, UserS
       });
     }
   };
+
+  vm.logBackIn = function(){
+    $location.path('/home');
+  };
+
   vm.registerUser = function () {
     console.log('LoginController -- registerUser');
     if (vm.user.username === '' || vm.user.password === '') {
       vm.message = "Please choose a username and password";
-    } else {
+    } else if (vm.user.phone !== '' && vm.user.phone.length !== 11){
+      vm.message = "Please ensure your phone number is 11 digits and meets the criteria listed"
+    } 
+    else {
       console.log('LoginController -- registerUser -- sending to server...', vm.user);
       $http.post('/register', vm.user).then(function (response) {
         console.log('LoginController -- registerUser -- success');
@@ -45,16 +53,5 @@ myApp.controller('LoginController', function ($http, $location, $mdDialog, UserS
       });
     }
   };
-  // vm.showPopup = function (event) {
-  //   console.log('button clicked');
-  //   $mdDialog.show({
-  //     controller: 'PopupTestController as pt',
-  //     templateUrl: '/views/templates/popupTest.html',
-  //     parent: angular.element(document.body),
-  //     targetEvent: event,
-  //     clickOutsideToClose: true,
-  //     fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
-  //   });
-  // };
-
+    
 });

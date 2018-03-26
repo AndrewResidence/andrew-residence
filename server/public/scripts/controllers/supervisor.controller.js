@@ -9,7 +9,6 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   vm.pendingShifts = ShiftService.pendingShifts;
   vm.filledByName = ShiftService.filledByName.data;
 
-
   vm.updatePayPeriodDates = function () {
     calendarService.updatePayPeriodDates().then(function (response) {
       console.log(response)

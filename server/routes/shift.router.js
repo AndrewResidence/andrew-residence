@@ -183,6 +183,7 @@ router.put('/payperiod/updatedates/:id', function (req, res) {
                         console.log('Error making query', errorMakingQuery);
                         res.sendStatus(500);
                     } else {
+                        console.log('result.rows for pay period dates', result.rows)
                         res.send(result.rows);
                     }
                 }); //end db.query

@@ -22,7 +22,7 @@ myApp.service('calendarService', function ($http, $location, $mdDialog) {
     //gets pay period dates for supervisor view
     self.getPayPeriodDates = function () {
         self.currentSchedule.dates.length = 0;
-        return $http.get('/shifts/payperiod/getdates').then(function (response) {
+        return $http.get('/shifts/payperiod/getdates' + '?x=' + Date.now()).then(function (response) {
             self.payPeriodStartAndEnd = response.data;
             self.payPeriodStart = moment(response.data[0].start);
             self.payPeriodEnd = moment(response.data[0].end);

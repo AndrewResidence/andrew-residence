@@ -54,7 +54,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   //function to pull prior two weeks of dates
   vm.prevTwoWeeks = function (date) {
     vm.currentSchedule = [];
-    console.log('date in prev two weeks', date)
+    // console.log('date in prev two weeks', date)
     var prevTwoWeeks = moment(date).subtract(14, 'days');
     vm.payPeriodStart = prevTwoWeeks;
     vm.payPeriodEnd = moment(date).subtract(1, 'days');
@@ -132,7 +132,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
   //get pending shifts for supervisor page
   vm.getPendingShifts = function () {
     ShiftService.getPendingShifts().then(function (response) {
-      console.log('pending shifts', vm.pendingShifts.data.length)
+      // console.log('pending shifts', vm.pendingShifts.data.length)
       for (var i = 0; i < vm.pendingShifts.data.length; i++) {
         vm.pendingShifts.data[i].date = moment(vm.pendingShifts.data[i].date).format('M/D');
       };
@@ -160,8 +160,8 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
 
 
   vm.click = function (shift) {
-    console.log('clicked');
-    console.log(shift);
+    // console.log('clicked');
+    // console.log(shift);
 
   };
   //This is a pick-up shift dialog that WILL BE MOVED to the staff controller once the staff calendar is up and running.

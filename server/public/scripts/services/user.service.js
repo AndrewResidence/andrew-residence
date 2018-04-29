@@ -14,9 +14,9 @@ myApp.service('UserService', function ($http, $location) {
         self.userObject.name = response.data.name;
         self.userObject.phone = response.data.phone;
         self.userObject.role = response.data.role;
-        console.log('user id', self.userObject.userId);
-        console.log('user', response.data);
-        console.log('UserService -- getuser -- User Data: ', self.userObject.userName);
+        // console.log('user id', self.userObject.userId);
+        // console.log('user', response.data);
+        // console.log('UserService -- getuser -- User Data: ', self.userObject.userName);
       } else {
         console.log('UserService -- getuser -- failure');
         // user has no session, bounce them back to the login page
@@ -37,7 +37,7 @@ myApp.service('UserService', function ($http, $location) {
 
   //Users PUT route to confirm users and define their role (supervisor, nurse, MHW or ADL) 
   self.confirmUser = function (user) {
-    console.log('user in service', user.id, user.role);
+    // console.log('user in service', user.id, user.role);
     var userToSend = {
       role: user.role
     };
@@ -62,7 +62,7 @@ myApp.service('UserService', function ($http, $location) {
 
   //Users PUT route to edit individual user
   self.editUser = function (user) {
-    console.log('user in service', user.id, user.role, user.userName, user.phone);
+    // console.log('user in service', user.id, user.role, user.userName, user.phone);
     var userToSend = user;
     return $http.put('/user/edit/' + user.id, userToSend).then(function (response) {
       return response;
@@ -71,7 +71,7 @@ myApp.service('UserService', function ($http, $location) {
 
   //Users PUT route to edit individual user
   self.deleteUser = function (user) {
-    console.log('user in service', user.id, user.role);
+    // console.log('user in service', user.id, user.role);
     return $http.delete('/user/' + user.id).then(function (response) {
       return response;
     });

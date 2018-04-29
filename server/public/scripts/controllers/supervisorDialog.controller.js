@@ -43,7 +43,7 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
     var lastDayofShifts = moment(payPeriodEnd)
     ShiftService.getShifts(firstDayofShifts, lastDayofShifts).then(function(response){
       vm.shiftsToDisplay = response.data;
-      console.log('shifts to display', vm.shiftsToDisplay)
+      // console.log('shifts to display', vm.shiftsToDisplay)
       for (var i = 0; i < vm.shiftsToDisplay.length; i++) {
         for (var j = 0; j < vm.currentSchedule.length; j++) {
           // vm.currentSchedule[j].shifts = [];

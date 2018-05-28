@@ -146,7 +146,6 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, Av
     })
   }
 
-
   function checkShiftIds(array, id) {
     var result = false;
     for (var i = 0; i < array.length; i++) {

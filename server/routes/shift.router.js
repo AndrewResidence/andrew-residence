@@ -417,7 +417,7 @@ router.post('/confirm', function (req, res) {
                                     to: email.emailAddresses.join(','), // list of receivers
                                     subject: 'Shift Filled from Andrew Residence', // Subject line
                                     html: ' <body>' +
-                                        '<h3>Hello, the below shift has been filled by another staff membeer.</h3>' +
+                                        '<h3>Hello, the below shift has been filled by another staff member.</h3>' +
                                         '<p>' + email.shift + ', ' + moment(email.date).format('MM/DD/YY') + '</p>' +
                                         '<p>Please contact your supervisor(s) for additional information.</p>' +
                                         // '<button style="background-color: #4CAF50;background-color:rgb(255, 193, 7);;color: white;padding: 15px 32px;text-align: center;font-size: 16px;">Let\'s Pick-up Some Shifts!</button>' +

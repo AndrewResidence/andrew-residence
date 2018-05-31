@@ -64,7 +64,7 @@ console.log(email);
                                 to: email, // list of receivers
                                 subject: 'Andrew Residence Forgot Password', // Subject line
                                 html: ' <body>' +
-                                    '<h1>Hello!!</h1><h3>Please use this code to reset your password:</h3><ul>'+ updateLink+'</ul>' +
+                                    '<h1>Hello!!</h1><h3>Please use this code to reset your password:</h3><ul>'+ updateLink +'</ul>' +
                                     '<p>Thank you</p>',
                             
                                 auth: {

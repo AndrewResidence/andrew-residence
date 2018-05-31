@@ -58,7 +58,7 @@ console.log(email);
                             res.sendStatus(500);
                         } else {
                             // Send out an e-mail via node mailer
-                            let updateLink = '<a href="http://localhost:5000/#/update?code=' + code + '">Click Here</a>';
+                            let updateLink = '<a href="https://andrew-residence.herokuapp.com/#/update?code=' + code + '">Click Here</a>';
                             var mailOptions = {
                                 from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
                                 to: email, // list of receivers
@@ -66,7 +66,7 @@ console.log(email);
                                 html: ' <body>' +
                                     '<h1>Hello!!</h1><h3>Please use this code to reset your password:</h3><ul>'+ updateLink+'</ul>' +
                                     '<p>Thank you</p>',
-                              
+                            
                                 auth: {
                                     user: GMAIL_USER,
                                     refreshToken: REFRESH_TOKEN,

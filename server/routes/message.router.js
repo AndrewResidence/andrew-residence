@@ -50,8 +50,8 @@ var weeklyDigest = function (userEmails) {
             res.sendStatus(500);
         } //end if error connection to db
         else {
-            // var today = moment().format('YYYY-MM-DD');
-            // console.log('today', today);
+            var today = new Date();
+            console.log('today', today);
             var queryText = "SELECT * FROM post_shifts WHERE shift_status = 'Open' OR shift_status = 'Pending';";
             db.query(queryText, function (errorMakingQuery, result) {
                 done(); // add + 1 to pool
@@ -60,9 +60,11 @@ var weeklyDigest = function (userEmails) {
                     res.sendStatus(500);
                 } else {
                     result.rows.forEach(function (shift) {
-                        dateArray.push('<li>' + moment(shift.date).format('MMMM Do YYYY') + '<span>' + '------' + shift.shift + '</span></li>');
+                        if (shift.date > today) {
+                            console.log(shift.date);
+                            dateArray.push('<p>Shift: ' + moment(shift.date).format('MMMM DD, YYYY') + '<span>' + '<span>&nbsp; &nbsp;</span>'+ shift.shift + '</span></p>');
+                        }
                     });
-
                     // setup email data 
                     let emailMessage = dateArray.join('');
                     var mailOptions = {
@@ -70,9 +72,9 @@ var weeklyDigest = function (userEmails) {
                         to: userEmails.join(''), // list of receivers
                         subject: 'Weekly Digest from Andrew Residence', // Subject line
                         html: ' <body>' +
-                            '<h1>Good Day!</h1><h3>Available Shifts:</h3><ul>' + emailMessage + '</ul>' +
+                            '<h1>Andrew Residence</h1><h3>Currently available on-call shifts:</h3><ul>' + emailMessage + '</ul>' +
                             '<p>Please go to the scheduling app to sign-up for a shift.</p>' +
-                            '<button style="background-color: #4CAF50;background-color:rgb(255, 193, 7);;color: white;padding: 15px 32px;text-align: center;font-size: 16px;">Let\'s Pick-up Some Shifts!</button>' +
+                            '<button style="background-color: #4CAF50;background-color:rgb(255, 193, 7);color: white;padding: 15px 32px;text-align: center;font-size: 16px;border-radius: 5px;border: none;" ><a href="https://andrew-residence.herokuapp.com/" style="text-decoration: none; color: white"/>Let\'s Pick-up Some Shifts!</button>' +
                             '<p> We appreciate yor support!</p></body>',
                         // attachments:[{
                         //     filename:'andrew_residence.png',
@@ -101,8 +103,8 @@ var weeklyDigest = function (userEmails) {
     }); // end pool connect
 };
 
-
-var weeklyEmail = cron.schedule('0 40 23 * * *', function() {
+//node-cron function to send weekly recap email
+var weeklyEmail = cron.schedule('0 53 10 * * *', function() {
     console.log('cron job running');
     getUsers();
 })
@@ -117,7 +119,7 @@ var getUsers = function () {
                     res.sendStatus(500);
                 } //end if error connection to db
                 else {
-                    var queryText = 'SELECT "username" FROM "users"';
+                    var queryText = "SELECT username FROM users WHERE role = 'Nurse' OR role = 'MHW' OR role = 'ADL';";
                     db.query(queryText, function (errorMakingQuery, result) {
                         done(); // add + 1 to pool
                         if (errorMakingQuery) {

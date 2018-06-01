@@ -105,7 +105,7 @@ var weeklyDigest = function (userEmails) {
 };
 
 //node-cron function to send weekly recap email
-var weeklyEmail = cron.schedule('0 30 11 * * 5', function() {
+var weeklyEmail = cron.schedule('0 55 11 * * FRI', function() {
     console.log('cron job running');
     getUsers();
 })

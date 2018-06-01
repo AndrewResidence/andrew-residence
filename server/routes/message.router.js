@@ -96,9 +96,9 @@ var weeklyDigest = function (userEmails) {
                             res.send(error);
                         }
                         console.log('Message sent: %s', info.messageId);
-                        res.sendStatus(200);
+                        // res.sendStatus(200);
                     });
-                    // res.sendStatus(201);
+                    res.sendStatus(201);
                 }
             }); // END QUERY
         }

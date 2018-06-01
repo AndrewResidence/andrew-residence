@@ -43,15 +43,16 @@ console.log('I can make logs!!');
 // weekly digest email that contains all newly availble unfilled shift
 var dateArray = [];
 var weeklyDigest = function (userEmails) {
+    console.log("email time yo!")
     pool.connect(function (errorConnectingToDb, db, done) {
         if (errorConnectingToDb) {
             console.log('Error connecting', errorConnectingToDb);
             res.sendStatus(500);
         } //end if error connection to db
         else {
-            var queryText = 'SELECT * FROM "post_shifts"' +
-                'WHERE "post_shifts"."shift_status" = "Open"' +
-                'OR "post_shifts"."shift_status" = "Pending";';
+            // var today = moment().format('YYYY-MM-DD');
+            // console.log('today', today);
+            var queryText = "SELECT * FROM post_shifts WHERE shift_status = 'Open' OR shift_status = 'Pending';";
             db.query(queryText, function (errorMakingQuery, result) {
                 done(); // add + 1 to pool
                 if (errorMakingQuery) {
@@ -99,11 +100,17 @@ var weeklyDigest = function (userEmails) {
         }
     }); // end pool connect
 };
+
+
+var weeklyEmail = cron.schedule('0 40 23 * * *', function() {
+    console.log('cron job running');
+    getUsers();
+})
 // get users is a function that uses node-cron to retrieve all the users email in the DB.  It returns a promise and chains to weeklyDigest
 var getUsers = function () {
     var emailArray = [];
     return new Promise(function (resolve, reject) {
-        cron.schedule('05 13 * * MON', function (userEmails) {
+        // cron.schedule('* * * * *', function (userEmails) {
             pool.connect(function (errorConnectingToDb, db, done) {
                 if (errorConnectingToDb) {
                     console.log('Error connecting', errorConnectingToDb);
@@ -120,11 +127,13 @@ var getUsers = function () {
                             result.rows.forEach(function (emails) {
                                 emailArray.push(emails.username + ',');
                             });
+                            console.log('getting the emails', emailArray)
                             resolve(emailArray);
+                            weeklyDigest(emailArray);
                         }
                     });
                 }
-            });
+            // });
         });
     });
 };

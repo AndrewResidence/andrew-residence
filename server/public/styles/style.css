@@ -237,7 +237,7 @@ li a:hover {
 
 .staffCalBox {
   width: 13.4%;
-  min-height: 150px;
+  min-height: 250px;
   background-color: #E7E7E7;
   display: inline-flex;
   padding: 2px;

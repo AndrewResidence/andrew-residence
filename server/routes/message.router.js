@@ -66,6 +66,7 @@ var weeklyDigest = function (userEmails) {
                         }
                     });
                     // setup email data 
+                    console.log('email array', emailArray);
                     let emailMessage = dateArray.join('');
                     var mailOptions = {
                         from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
@@ -105,7 +106,7 @@ var weeklyDigest = function (userEmails) {
 };
 
 //node-cron function to send weekly recap email
-var weeklyEmail = cron.schedule('0 55 11 * * FRI', function() {
+var weeklyEmail = cron.schedule('0 53 15 * * FRI', function() {
     console.log('cron job running');
     getUsers();
 })

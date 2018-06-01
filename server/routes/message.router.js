@@ -52,7 +52,7 @@ var weeklyDigest = function (userEmails) {
         else {
             var today = new Date();
             console.log('today', today);
-            var queryText = "SELECT * FROM post_shifts WHERE shift_status = 'Open' OR shift_status = 'Pending';";
+            var queryText = "SELECT * FROM post_shifts WHERE (shift_status = 'Open' OR shift_status = 'Pending') AND date > now();";
             db.query(queryText, function (errorMakingQuery, result) {
                 done(); // add + 1 to pool
                 if (errorMakingQuery) {
@@ -60,10 +60,10 @@ var weeklyDigest = function (userEmails) {
                     res.sendStatus(500);
                 } else {
                     result.rows.forEach(function (shift) {
-                        if (shift.date > today) {
-                            console.log(shift.date);
+                        // if (shift.date > today) {
+                            // console.log(shift.date);
                             dateArray.push('<p>Shift: ' + moment(shift.date).format('MMMM DD, YYYY') + '<span>' + '<span>&nbsp; &nbsp;</span>'+ shift.shift + '</span></p>');
-                        }
+                        // }
                     });
                     // setup email data 
                     console.log('email array', userEmails);
@@ -96,7 +96,7 @@ var weeklyDigest = function (userEmails) {
                             console.log(error);
                             res.send(error);
                         }
-                        console.log('Message sent: %s', info.messageId);
+                        console.log('Message sent: %s', error, info);
                         res.sendStatus(200);
                     });
                     // res.sendStatus(200);
@@ -107,7 +107,7 @@ var weeklyDigest = function (userEmails) {
 };
 
 //node-cron function to send weekly recap email
-var weeklyEmail = cron.schedule('0 42 16 * * FRI', function() {
+var weeklyEmail = cron.schedule('0 48 16 * * FRI', function() {
     console.log('cron job running');
     getUsers();
 })

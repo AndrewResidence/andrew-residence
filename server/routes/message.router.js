@@ -72,6 +72,7 @@ var weeklyDigest = function (userEmails) {
                         to: userEmails.join(''), // list of receivers
                         subject: 'Weekly Digest from Andrew Residence', // Subject line
                         html: ' <body>' +
+                            '<h1>THIS EMAIL IS A TEST</h1>' +
                             '<h1>Andrew Residence</h1><h3>Currently available on-call shifts:</h3><ul>' + emailMessage + '</ul>' +
                             '<p>Please go to the scheduling app to sign-up for a shift.</p>' +
                             '<button style="background-color: #4CAF50;background-color:rgb(255, 193, 7);color: white;padding: 15px 32px;text-align: center;font-size: 16px;border-radius: 5px;border: none;" ><a href="https://andrew-residence.herokuapp.com/" style="text-decoration: none; color: white"/>Let\'s Pick-up Some Shifts!</button>' +
@@ -104,7 +105,7 @@ var weeklyDigest = function (userEmails) {
 };
 
 //node-cron function to send weekly recap email
-var weeklyEmail = cron.schedule('0 53 10 * * *', function() {
+var weeklyEmail = cron.schedule('0 30 11 * * 5', function() {
     console.log('cron job running');
     getUsers();
 })

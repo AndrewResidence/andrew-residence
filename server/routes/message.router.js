@@ -48,6 +48,7 @@ let weeklyDigestEmailArray = [];
 let weeklyDigestShiftsArray = [];
 // weekly digest email that contains all newly availble unfilled shift
 function weeklyDigestEmailSend(emails, shifts) {
+    let availableShifts = shifts.join('');
     console.log('in the weekly send function');
     var request = sg.emptyRequest({
         method: 'POST',
@@ -64,7 +65,7 @@ function weeklyDigestEmailSend(emails, shifts) {
                 },
             ],
             from: {
-                email: 'andrewresidence2017@gmail.com',
+                email: '"Andrew Residence" <andrewresidence2017@gmail.com>',
             },
             content: [
                 {
@@ -73,7 +74,12 @@ function weeklyDigestEmailSend(emails, shifts) {
                 },
                 {
                     type: 'text/html',
-                    value: 'Hello, Email!',
+                    html: ' <body>' +
+                            '<h1>THIS EMAIL IS A TEST</h1>' +
+                            '<h1>Andrew Residence</h1><h3>Currently available on-call shifts:</h3>' + availableShifts +
+                            '<p>Please go to the scheduling app to sign-up for a shift.</p>' +
+                            '<button style="background-color: #4CAF50;background-color:rgb(255, 193, 7);color: white;padding: 15px 32px;text-align: center;font-size: 16px;border-radius: 5px;border: none;" ><a href="https://andrew-residence.herokuapp.com/" style="text-decoration: none; color: white"/>Let\'s Pick-up Some Shifts!</button>' +
+                            '<p> We appreciate yor support!</p></body>',
                 }
             ],
         },
@@ -128,7 +134,7 @@ function weeklyDigestEmailSend(emails, shifts) {
 
 
 //node-cron function to send weekly recap email
-var weeklyEmailTimer = cron.schedule('0 1 22 * * SAT', function () {
+var weeklyEmailTimer = cron.schedule('0 9 22 * * SAT', function () {
     console.log('cron job running');
     // getEmailRecAndShifts();
     weeklyDigestEmailSend(null, null);

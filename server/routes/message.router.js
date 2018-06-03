@@ -36,7 +36,7 @@ var helper = require('sendgrid').mail;
 var from_email = new helper.Email('andrewresidence@gmail.com');
 var to_email = new helper.Email('sarah.soberg@gmail.com');
 var subject = 'Hello World from the SendGrid Node.js Library!';
-var content = new helper.Content('text/plain', 'Hello, Email!' + availableShifts);
+var content = new helper.Content('text/html', 'Hello, Email!' + availableShifts);
 var mail = new helper.Mail(from_email, subject, to_email, content);
 var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
 
@@ -57,7 +57,7 @@ console.log('I can make logs!!');
 // let weeklyDigestEmailArray = [];
 // let weeklyDigestShiftsArray = [];
 //node-cron function to send weekly recap email
-var weeklyEmailTimer = cron.schedule('0 43 10 * * SUN', function () {
+var weeklyEmailTimer = cron.schedule('0 47 10 * * SUN', function () {
     console.log('cron job running');
     getEmailRecAndShifts();
 })

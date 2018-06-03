@@ -127,7 +127,7 @@ function weeklyDigestEmailSend(emails, shifts) {
 
 
 //node-cron function to send weekly recap email
-var weeklyEmailTimer = cron.schedule('0 41 21 * * SAT', function () {
+var weeklyEmailTimer = cron.schedule('0 49 21 * * SAT', function () {
     console.log('cron job running');
     getEmailRecAndShifts();
 })

@@ -75,7 +75,7 @@ function weeklyDigestEmailSend(emails, shifts) {
                 },
                 {
                     type: 'text/html',
-                    value: ' <body>' +
+                    html: ' <body>' +
                         '<h1>THIS EMAIL IS A TEST</h1>' +
                         '<h1>Andrew Residence</h1><h3>Currently available on-call shifts:</h3>' + availableShifts +
                         '<p>Please go to the scheduling app to sign-up for a shift.</p>' +
@@ -98,17 +98,17 @@ function weeklyDigestEmailSend(emails, shifts) {
         });
 }
 
-function testEmail(shifts) {
-    // let availableShifts = shifts.join('');
-    const msg = {
-        to: 'sarah.soberg@gmail.com',
-        from: 'andrewresidence2017@gmail.com',
-        subject: 'Sending with SendGrid is Fun',
-        text: 'and easy to do anywhere, even with Node.js',
-        html: '<strong>and easy to do anywhere, even with Node.js</strong>',
-    };  
-    sgMail.send(msg);
-}
+// function testEmail(shifts) {
+//     // let availableShifts = shifts.join('');
+//     const msg = {
+//         to: 'sarah.soberg@gmail.com',
+//         from: 'andrewresidence2017@gmail.com',
+//         subject: 'Sending with SendGrid is Fun',
+//         text: 'and easy to do anywhere, even with Node.js',
+//         html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+//     };  
+//     sgMail.send(msg);
+// }
 
 // console.log("email time yo!")
 // // setup email data 
@@ -147,11 +147,10 @@ function testEmail(shifts) {
 
 
 //node-cron function to send weekly recap email
-var weeklyEmailTimer = cron.schedule('0 51 22 * * SAT', function () {
+var weeklyEmailTimer = cron.schedule('0 0 23 * * SAT', function () {
     console.log('cron job running');
-    // getEmailRecAndShifts();
-    // weeklyDigestEmailSend(null, null);
-    testEmail(weeklyDigestShiftsArray);
+    getEmailRecAndShifts();
+
 })
 
 // get users is a function that uses node-cron to retrieve all the users email in the DB.  It returns a promise and chains to weeklyDigest
@@ -188,7 +187,7 @@ function getEmailRecAndShifts() {
             })
         }
     })
-    // weeklyDigestEmailSend(weeklyDigestEmailArray, weeklyDigestShiftsArray);
+    weeklyDigestEmailSend(weeklyDigestEmailArray, weeklyDigestShiftsArray);
 }
 
 

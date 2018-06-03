@@ -99,7 +99,6 @@ function getEmailRecAndShifts() {
 function weeklyDigestEmailSend(emails, shifts) {
     let newEmails = [{ email: 'sarah.soberg@gmail.com' }, { email: 'hire.sarah.harrington@gmail.com' }];
     let emailContent = ' <body>' +
-        '<h1>THIS EMAIL IS A TEST</h1>' +
         '<h1>Andrew Residence</h1>' +
         '<h3>Currently available on-call shifts:</h3>' +
         shifts.join('') +

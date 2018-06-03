@@ -37,7 +37,7 @@ let weeklyDigestEmailArray = [];
 let weeklyDigestShiftsArray = [];
 
 //node-cron function to send weekly recap email
-var weeklyEmailTimer = cron.schedule('0 56 13 * * SUN', function () {
+var weeklyEmailTimer = cron.schedule('0 59 13 * * SUN', function () {
     console.log('cron job running');
     getEmailRecAndShifts();
 })
@@ -61,10 +61,7 @@ function getEmailRecAndShifts() {
                     }
                 });
                 queryText = 
-                    "SELECT * FROM post_shifts" +
-                    "WHERE (shift_status = 'Open' OR shift_status = 'Pending')" +
-                    "AND (date > now() AND date < (now() + interval '1 month'))" +
-                    "ORDER BY date::DATE;";
+                    "SELECT * FROM post_shifts WHERE (shift_status = 'Open' OR shift_status = 'Pending') AND (date > now() AND date < (now() + interval '1 month')) ORDER BY date::DATE;";
                 db.query(queryText, function (errorMakingQuery, result) {
                     done(); // add + 1 to pool
                     if (errorMakingQuery) {

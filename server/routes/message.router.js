@@ -30,22 +30,22 @@ var CLIENT_SECRET = process.env.CLIENT_SECRET;
 let weeklyDigestEmailArray = [];
 let weeklyDigestShiftsArray = [];
 
-let availableShifts = weeklyDigestShiftsArray.join('');
 // SendGrid 
-var helper = require('sendgrid').mail;
-var from_email = new helper.Email('andrewresidence@gmail.com');
-var to_email = new helper.Email('sarah.soberg@gmail.com');
-var subject = 'Hello World from the SendGrid Node.js Library!';
-var content = new helper.Content('text/html', 'Hello, Email!' + availableShifts);
-var mail = new helper.Mail(from_email, subject, to_email, content);
-var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
+// var helper = require('sendgrid').mail;
+// var from_email = new helper.Email('andrewresidence@gmail.com');
+// var to_email = new helper.Email('sarah.soberg@gmail.com');
+// var subject = 'Hello World from the SendGrid Node.js Library!';
+// var content = new helper.Content('text/html', 'Hello, Email!' + weeklyDigestShiftsArray.join(''));
+// var mail = new helper.Mail(from_email, subject, to_email, content);
+// var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
 
-var request = sg.emptyRequest({
-    method: 'POST',
-    path: '/v3/mail/send',
-    body: mail.toJSON(),
-});
+// var request = sg.emptyRequest({
+//     method: 'POST',
+//     path: '/v3/mail/send',
+//     body: mail.toJSON(),
+// });
 
+// console.log(mail.toJSON())
 // sg.API(request, function (error, response) {
 //     console.log(response.statusCode);
 //     console.log(response.body);
@@ -57,7 +57,7 @@ console.log('I can make logs!!');
 // let weeklyDigestEmailArray = [];
 // let weeklyDigestShiftsArray = [];
 //node-cron function to send weekly recap email
-var weeklyEmailTimer = cron.schedule('0 47 10 * * SUN', function () {
+var weeklyEmailTimer = cron.schedule('0 3 11 * * SUN', function () {
     console.log('cron job running');
     getEmailRecAndShifts();
 })
@@ -98,7 +98,7 @@ function getEmailRecAndShifts() {
 }
 
 function weeklyDigestEmailSend(emails, shifts) {
-    let availableShifts = shifts.join('');
+    // let availableShifts = shifts.join('');
     let newEmails = [{ email: 'sarah.soberg@gmail.com' }, { email: 'hire.sarah.harrington@gmail.com' }];
     // let emailContent = ' <body>' +
     //     '<h1>THIS EMAIL IS A TEST</h1>' +
@@ -109,6 +109,21 @@ function weeklyDigestEmailSend(emails, shifts) {
     //     '<p> We appreciate yor support!</p></body>'
     // // console.log(availableShifts);
     console.log('in the weekly send function');
+
+    var helper = require('sendgrid').mail;
+    var from_email = new helper.Email('andrewresidence@gmail.com');
+    var to_email = new helper.Email('sarah.soberg@gmail.com');
+    var subject = 'Hello World from the SendGrid Node.js Library!';
+    var content = new helper.Content('text/html', 'Hello, Email!' + shifts.join(''));
+    var mail = new helper.Mail(from_email, subject, to_email, content);
+
+    var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
+
+    var request = sg.emptyRequest({
+        method: 'POST',
+        path: '/v3/mail/send',
+        body: mail.toJSON(),
+    });
     // var request = sg.emptyRequest({
     //     method: 'POST',
     //     path: '/v3/mail/send',

@@ -112,7 +112,7 @@ function weeklyDigestEmailSend(emails, shifts) {
                 }
             ],
             section: {
-                [availableShifts]: availableShifts,
+                availableShifts: availableShifts,
             }
         },
     });
@@ -123,9 +123,7 @@ function weeklyDigestEmailSend(emails, shifts) {
             console.log(response.headers);
         })
         .catch(error => {
-            //error is an instance of SendGridError
-            //The full response is attached to error.response
-            console.log(error);
+            console.log(error.response);
         });
 }
 

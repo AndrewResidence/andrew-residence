@@ -35,7 +35,7 @@ console.log('I can make logs!!');
 let weeklyDigestEmailArray = [];
 let weeklyDigestShiftsArray = [];
 //node-cron function to send weekly recap email
-var weeklyEmailTimer = cron.schedule('0 18 23 * * SAT', function () {
+var weeklyEmailTimer = cron.schedule('0 27 23 * * SAT', function () {
     console.log('cron job running');
     getEmailRecAndShifts();
 })
@@ -53,7 +53,7 @@ function getEmailRecAndShifts() {
                     console.log('Error making query', errorMakingQuery);
                     return;
                 } else {
-                    console.log(result.rows);
+                    // console.log(result.rows);
                     weeklyDigestEmailArray = result.rows;
                 }
             });
@@ -67,7 +67,7 @@ function getEmailRecAndShifts() {
                     result.rows.forEach(function (shift) {
                         weeklyDigestShiftsArray.push('<p>Shift: ' + moment(shift.date).format('MMMM DD, YYYY') + '<span>' + '<span>&nbsp; &nbsp;</span>' + shift.shift + '</span></p>');
                     });
-                    console.log(weeklyDigestShiftsArray);
+                    // console.log(weeklyDigestShiftsArray);
                 }
             })
         }
@@ -76,8 +76,8 @@ function getEmailRecAndShifts() {
 }
 
 function weeklyDigestEmailSend(emails, shifts) {
-    console.log(shifts);
     let availableShifts = shifts.join('');
+    console.log(availableShifts);
     console.log('in the weekly send function');
     var request = sg.emptyRequest({
         method: 'POST',

@@ -37,7 +37,7 @@ let weeklyDigestEmailArray = [];
 let weeklyDigestShiftsArray = [];
 
 //node-cron function to send weekly recap email
-var weeklyEmailTimer = cron.schedule('0 32 14 * * SUN', function () {
+var weeklyEmailTimer = cron.schedule('0 39 14 * * SUN', function () {
     console.log('cron job running');
     getEmailRecAndShifts();
 })
@@ -72,13 +72,13 @@ function getEmailRecAndShifts() {
                         let mhw = '';
                         let adl = '';
                         result.rows.forEach(function (shift) {
-                            if (shift.nurse = true) {
+                            if (shift.nurse === true) {
                                 nurse = 'Nurse';
                             }
-                            if (shift.mhw = true) {
+                            if (shift.mhw === true) {
                                 mhw = 'MHW';
                             }
-                            if (shift.adl = true) {
+                            if (shift.adl === true) {
                                 adl = 'ADL';
                             }
                             weeklyDigestShiftsArray.push('<p>Shift: ' + moment(shift.date).format('MMMM DD, YYYY') + 

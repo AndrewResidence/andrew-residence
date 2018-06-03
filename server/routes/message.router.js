@@ -36,7 +36,7 @@ let weeklyDigestEmailArray = [];
 let weeklyDigestShiftsArray = [];
 
 //node-cron function to send weekly recap email
-var weeklyEmailTimer = cron.schedule('0 46 14 * * SUN', function () {
+var weeklyEmailTimer = cron.schedule('0 52 14 * * SUN', function () {
     console.log('cron job running');
     getEmailRecAndShifts();
 })
@@ -103,7 +103,7 @@ function weeklyDigestEmailSend(emails, shifts) {
         '<h1>THIS EMAIL IS A TEST</h1>' +
         '<h1>Andrew Residence</h1>' +
         '<h3>Currently available on-call shifts:</h3>' +
-        shifts.join('') + '<span>,</span>'
+        shifts.join('') + '<span>,</span>' +
         '<p>Please go to the scheduling app to sign-up for a shift.</p>' +
         '<button style="background-color: #4CAF50;background-color:rgb(255, 193, 7);color: white;padding: 15px 32px;text-align: center;font-size: 16px;border-radius: 5px;border: none;" >' +
         '<a href="https://andrew-residence.herokuapp.com/" style="text-decoration: none; color: white"/>Let\'s Pick-up Some Shifts!</button>' +
@@ -117,7 +117,7 @@ function weeklyDigestEmailSend(emails, shifts) {
             personalizations: [
                 {
                     to: [{ email: 'andrewresidence2017@gmail.com' }],
-                    bcc: emails,
+                    bcc: newEmails,
                     subject: 'Weekly Digest from Andrew Residence',
                 },
             ],
@@ -183,7 +183,6 @@ router.post('/urgent', function (req, res) {
                         var textDates = [];
                         console.log(datesForText);
                         for (var i = 0; i < datesForText.length; i++) {
-
                             textDates.push(moment(datesForText[i]).format('MMM Do YYYY') + ' ' + 'Shift:' + '' + req.body.shift);
                         }
 
@@ -202,7 +201,6 @@ router.post('/urgent', function (req, res) {
                 });
             }
         });
-        //res.sendStatus(201);
     } // end req.isAuthenticated //end if statement
     else {
         console.log('User is not authenticated');

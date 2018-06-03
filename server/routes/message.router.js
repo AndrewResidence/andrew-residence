@@ -29,8 +29,6 @@ var CLIENT_SECRET = process.env.CLIENT_SECRET;
 
 // SendGrid 
 var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
-var sgMail = require('@sendgrid/mail');
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 //object for googleOauth
 var transporter = nodemailer.createTransport({
@@ -75,7 +73,8 @@ function weeklyDigestEmailSend(emails, shifts) {
                 },
                 {
                     type: 'text/html',
-                    html: ' <body>' +
+                    value: '<html><head></head>' +
+                        ' <body>' +
                         '<h1>THIS EMAIL IS A TEST</h1>' +
                         '<h1>Andrew Residence</h1><h3>Currently available on-call shifts:</h3>' + availableShifts +
                         '<p>Please go to the scheduling app to sign-up for a shift.</p>' +
@@ -147,7 +146,7 @@ function weeklyDigestEmailSend(emails, shifts) {
 
 
 //node-cron function to send weekly recap email
-var weeklyEmailTimer = cron.schedule('0 0 23 * * SAT', function () {
+var weeklyEmailTimer = cron.schedule('0 5 23 * * SAT', function () {
     console.log('cron job running');
     getEmailRecAndShifts();
 

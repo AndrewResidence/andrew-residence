@@ -27,136 +27,115 @@ var ACCESS_TOKEN = process.env.ACCESS_TOKEN;
 var CLIENT_ID = process.env.CLIENT_ID;
 var CLIENT_SECRET = process.env.CLIENT_SECRET;
 
-let weeklyDigestEmailArray = [];
-let weeklyDigestShiftsArray = [];
-
-// SendGrid 
-// var helper = require('sendgrid').mail;
-// var from_email = new helper.Email('andrewresidence@gmail.com');
-// var to_email = new helper.Email('sarah.soberg@gmail.com');
-// var subject = 'Hello World from the SendGrid Node.js Library!';
-// var content = new helper.Content('text/html', 'Hello, Email!' + weeklyDigestShiftsArray.join(''));
-// var mail = new helper.Mail(from_email, subject, to_email, content);
-// var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
-
-// var request = sg.emptyRequest({
-//     method: 'POST',
-//     path: '/v3/mail/send',
-//     body: mail.toJSON(),
-// });
-
-// console.log(mail.toJSON())
-// sg.API(request, function (error, response) {
-//     console.log(response.statusCode);
-//     console.log(response.body);
-//     console.log(response.headers);
-// });
+//send grid
+var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
 
 console.log('I can make logs!!');
 
-// let weeklyDigestEmailArray = [];
-// let weeklyDigestShiftsArray = [];
+
+let weeklyDigestEmailArray = [];
+let weeklyDigestShiftsArray = [];
+
 //node-cron function to send weekly recap email
-var weeklyEmailTimer = cron.schedule('0 16 11 * * SUN', function () {
+var weeklyEmailTimer = cron.schedule('0 5 12 * * SUN', function () {
     console.log('cron job running');
     getEmailRecAndShifts();
 })
 
 function getEmailRecAndShifts() {
-    pool.connect(function (errorConnectingToDb, db, done) {
-        if (errorConnectingToDb) {
-            console.log('Error connecting', errorConnectingToDb);
-            return;
-        } //end if error connection to db
-        else {
-            var queryText = "SELECT username AS email FROM users WHERE role = 'Nurse' OR role = 'MHW' OR role = 'ADL';";
-            db.query(queryText, function (errorMakingQuery, result) {
-                if (errorMakingQuery) {
-                    console.log('Error making query', errorMakingQuery);
-                    return;
-                } else {
-                    // console.log(result.rows);
-                    weeklyDigestEmailArray = result.rows;
-                }
-            });
-            queryText = "SELECT * FROM post_shifts WHERE (shift_status = 'Open' OR shift_status = 'Pending') AND date > now();";
-            db.query(queryText, function (errorMakingQuery, result) {
-                done(); // add + 1 to pool
-                if (errorMakingQuery) {
-                    console.log('Error making query', errorMakingQuery);
-                    return;
-                } else {
-                    result.rows.forEach(function (shift) {
-                        weeklyDigestShiftsArray.push('<p>Shift: ' + moment(shift.date).format('MMMM DD, YYYY') + '<span>' + '<span>&nbsp; &nbsp;</span>' + shift.shift + '</span></p>');
-                    });
-                    console.log('result.rows', result.rows);
-                    console.log('weeklydigtstshiftsarray', weeklyDigestShiftsArray);
-                }
-            })
-        }
+    return new Promise (function(resolve, reject) {
+        pool.connect(function (errorConnectingToDb, db, done) {
+            if (errorConnectingToDb) {
+                console.log('Error connecting', errorConnectingToDb);
+                return;
+            } //end if error connection to db
+            else {
+                var queryText = "SELECT username AS email FROM users WHERE role = 'Nurse' OR role = 'MHW' OR role = 'ADL';";
+                db.query(queryText, function (errorMakingQuery, result) {
+                    if (errorMakingQuery) {
+                        console.log('Error making query', errorMakingQuery);
+                        return;
+                    } else {
+                        weeklyDigestEmailArray = result.rows;
+                    }
+                });
+                queryText = "SELECT * FROM post_shifts WHERE (shift_status = 'Open' OR shift_status = 'Pending') AND date > now();";
+                db.query(queryText, function (errorMakingQuery, result) {
+                    done(); // add + 1 to pool
+                    if (errorMakingQuery) {
+                        console.log('Error making query', errorMakingQuery);
+                        return;
+                    } else {
+                        result.rows.forEach(function (shift) {
+                            weeklyDigestShiftsArray.push('<p>Shift: ' + moment(shift.date).format('MMMM DD, YYYY') + '<span>' + '<span>&nbsp; &nbsp;</span>' + shift.shift + '</span></p>');
+                        });
+                        console.log('result.rows', result.rows);
+                        console.log('weeklydigtstshiftsarray', weeklyDigestShiftsArray);
+                        resolve(weeklyDigestEmailArray, weeklyDigestShiftsArray);
+                        weeklyDigestEmailSend(weeklyDigestEmailArray, weeklyDigestShiftsArray);
+                    }
+                })
+            }
+        })
     })
-    weeklyDigestEmailSend(weeklyDigestEmailArray, weeklyDigestShiftsArray);
+    // weeklyDigestEmailSend(weeklyDigestEmailArray, weeklyDigestShiftsArray);
 }
 
 function weeklyDigestEmailSend(emails, shifts) {
+    console.log('emails', emails);
+    console.log('shifts', shifts);
     // let availableShifts = shifts.join('');
-    let newEmails = [{ email: 'sarah.soberg@gmail.com' }, { email: 'hire.sarah.harrington@gmail.com' }];
-    // let emailContent = ' <body>' +
-    //     '<h1>THIS EMAIL IS A TEST</h1>' +
-    //     '<h1>Andrew Residence</h1><h3>Currently available on-call shifts:</h3>' +
-    //     availableShifts +
-    //     '<p>Please go to the scheduling app to sign-up for a shift.</p>' +
-    //     '<button style="background-color: #4CAF50;background-color:rgb(255, 193, 7);color: white;padding: 15px 32px;text-align: center;font-size: 16px;border-radius: 5px;border: none;" ><a href="https://andrew-residence.herokuapp.com/" style="text-decoration: none; color: white"/>Let\'s Pick-up Some Shifts!</button>' +
-    //     '<p> We appreciate yor support!</p></body>'
+    // let newEmails = [{ email: 'sarah.soberg@gmail.com' }, { email: 'hire.sarah.harrington@gmail.com' }];
+    let emailContent = ' <body>' +
+        '<h1>THIS EMAIL IS A TEST</h1>' +
+        '<h1>Andrew Residence</h1><h3>Currently available on-call shifts:</h3>' +
+        shifts.join('') +
+        '<p>Please go to the scheduling app to sign-up for a shift.</p>' +
+        '<button style="background-color: #4CAF50;background-color:rgb(255, 193, 7);color: white;padding: 15px 32px;text-align: center;font-size: 16px;border-radius: 5px;border: none;" ><a href="https://andrew-residence.herokuapp.com/" style="text-decoration: none; color: white"/>Let\'s Pick-up Some Shifts!</button>' +
+        '<p> We appreciate yor support!</p></body>'
     // // console.log(availableShifts);
     console.log('in the weekly send function');
 
-    var helper = require('sendgrid').mail;
-    var from_email = new helper.Email('andrewresidence@gmail.com');
-    var to_email = new helper.Email('sarah.soberg@gmail.com');
-    var subject = 'Hello World from the SendGrid Node.js Library!';
-    var content = new helper.Content('text/html', 'Hello, Email!' + shifts.join(''));
-    var mail = new helper.Mail(from_email, subject, to_email, content);
-    console.log(shifts);
-    var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
+    // var helper = require('sendgrid').mail;
+    // var from_email = new helper.Email('andrewresidence@gmail.com');
+    // var to_email = new helper.Email(emails);
+    // var subject = 'Hello World from the SendGrid Node.js Library!';
+    // var content = new helper.Content('text/html', 'Hello, Email!' + shifts.join(''));
+    // var mail = new helper.Mail(from_email, subject, to_email, content);
+    // console.log(shifts);
+    // var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
 
-    var request = sg.emptyRequest({
-        method: 'POST',
-        path: '/v3/mail/send',
-        body: mail.toJSON(),
-    });
     // var request = sg.emptyRequest({
     //     method: 'POST',
     //     path: '/v3/mail/send',
-    //     body: {
-    //         personalizations: [
-    //             {
-    //                 to: [{ email: 'andrewresidence2017@gmail.com' }],
-    //                 bcc: newEmails,
-    //                 subject: 'Weekly Digest from Andrew Residence',
-    //                 substitutions: {
-    //                     "{{shifts}}": availableShifts,
-    //                 }
-    //             },
-    //         ],
-    //         from: {
-    //             email: '"Andrew Residence" <andrewresidence2017@gmail.com>',
-    //         },
-    //         content: [
-    //             {
-    //                 type: 'text/plain',
-    //                 value: 'On-call shifts are available at Andrew Residence',
-    //             },
-    //             {
-    //                 type: 'text/html',
-    //                 value: emailContent,
-    //             }
-    //         ],
-    //         section: {
-    //             availableShifts: availableShifts,
-    //         }
-    //     },
+    //     body: mail.toJSON(),
     // });
+    var request = sg.emptyRequest({
+        method: 'POST',
+        path: '/v3/mail/send',
+        body: {
+            personalizations: [
+                {
+                    to: [{ email: 'andrewresidence2017@gmail.com' }],
+                    bcc: emails,
+                    subject: 'Weekly Digest from Andrew Residence',
+                },
+            ],
+            from: {
+                email: '"Andrew Residence" <andrewresidence2017@gmail.com>',
+            },
+            content: [
+                {
+                    type: 'text/plain',
+                    value: 'On-call shifts are available at Andrew Residence',
+                },
+                {
+                    type: 'text/html',
+                    value: emailContent,
+                }
+            ],
+        },
+    });
     sg.API(request)
         .then(response => {
             console.log(response.statusCode);
@@ -167,7 +146,6 @@ function weeklyDigestEmailSend(emails, shifts) {
             console.log(error.response);
         });
 }
-
 
 //get route used to fetch staff phone numbers. Phone numbers are used to send text message indicating the urgent need for that staff member's role.
 var phoneNumberArray = [];

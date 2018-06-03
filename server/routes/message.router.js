@@ -99,13 +99,13 @@ function weeklyDigestEmailSend(emails, shifts) {
 }
 
 function testEmail(shifts) {
-    let availableShifts = shifts.join('');
+    // let availableShifts = shifts.join('');
     const msg = {
         to: 'sarah.soberg@gmail.com',
         from: 'andrewresidence2017@gmail.com',
         subject: 'Sending with SendGrid is Fun',
         text: 'and easy to do anywhere, even with Node.js',
-        html: '<strong>and easy to do anywhere,' + availableShifts + 'even with Node.js</strong>',
+        html: '<strong>and easy to do anywhere, even with Node.js</strong>',
     };  
     sgMail.send(msg);
 }
@@ -147,9 +147,9 @@ function testEmail(shifts) {
 
 
 //node-cron function to send weekly recap email
-var weeklyEmailTimer = cron.schedule('0 48 22 * * SAT', function () {
+var weeklyEmailTimer = cron.schedule('0 51 22 * * SAT', function () {
     console.log('cron job running');
-    getEmailRecAndShifts();
+    // getEmailRecAndShifts();
     // weeklyDigestEmailSend(null, null);
     testEmail(weeklyDigestShiftsArray);
 })

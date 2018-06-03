@@ -29,7 +29,8 @@ var CLIENT_SECRET = process.env.CLIENT_SECRET;
 
 // SendGrid 
 var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
-// var SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
+var sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 //object for googleOauth
 var transporter = nodemailer.createTransport({
@@ -75,11 +76,11 @@ function weeklyDigestEmailSend(emails, shifts) {
                 {
                     type: 'text/html',
                     value: ' <body>' +
-                            '<h1>THIS EMAIL IS A TEST</h1>' +
-                            '<h1>Andrew Residence</h1><h3>Currently available on-call shifts:</h3>' + availableShifts +
-                            '<p>Please go to the scheduling app to sign-up for a shift.</p>' +
-                            '<button style="background-color: #4CAF50;background-color:rgb(255, 193, 7);color: white;padding: 15px 32px;text-align: center;font-size: 16px;border-radius: 5px;border: none;" ><a href="https://andrew-residence.herokuapp.com/" style="text-decoration: none; color: white"/>Let\'s Pick-up Some Shifts!</button>' +
-                            '<p> We appreciate yor support!</p></body>',
+                        '<h1>THIS EMAIL IS A TEST</h1>' +
+                        '<h1>Andrew Residence</h1><h3>Currently available on-call shifts:</h3>' + availableShifts +
+                        '<p>Please go to the scheduling app to sign-up for a shift.</p>' +
+                        '<button style="background-color: #4CAF50;background-color:rgb(255, 193, 7);color: white;padding: 15px 32px;text-align: center;font-size: 16px;border-radius: 5px;border: none;" ><a href="https://andrew-residence.herokuapp.com/" style="text-decoration: none; color: white"/>Let\'s Pick-up Some Shifts!</button>' +
+                        '<p> We appreciate yor support!</p></body>',
                 }
             ],
         },
@@ -95,6 +96,18 @@ function weeklyDigestEmailSend(emails, shifts) {
             //The full response is attached to error.response
             console.log(error);
         });
+}
+
+function testEmail(shifts) {
+    let availableShifts = shifts.join('');
+    const msg = {
+        to: 'sarah.soberg@gmail.com',
+        from: 'andrewresidence2017@gmail.com',
+        subject: 'Sending with SendGrid is Fun',
+        text: 'and easy to do anywhere, even with Node.js',
+        html: '<strong>and easy to do anywhere,' + availableShifts + 'even with Node.js</strong>',
+    };  
+    sgMail.send(msg);
 }
 
 // console.log("email time yo!")
@@ -134,10 +147,11 @@ function weeklyDigestEmailSend(emails, shifts) {
 
 
 //node-cron function to send weekly recap email
-var weeklyEmailTimer = cron.schedule('0 13 22 * * SAT', function () {
+var weeklyEmailTimer = cron.schedule('0 48 22 * * SAT', function () {
     console.log('cron job running');
-    // getEmailRecAndShifts();
-    weeklyDigestEmailSend(null, null);
+    getEmailRecAndShifts();
+    // weeklyDigestEmailSend(null, null);
+    testEmail(weeklyDigestShiftsArray);
 })
 
 // get users is a function that uses node-cron to retrieve all the users email in the DB.  It returns a promise and chains to weeklyDigest

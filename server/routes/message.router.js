@@ -73,7 +73,7 @@ function weeklyDigestEmailSend(emails, shifts) {
                 },
                 {
                     type: 'text/html',
-                    value: '<html><head></head>' +
+                    value: 
                         ' <body>' +
                         '<h1>THIS EMAIL IS A TEST</h1>' +
                         '<h1>Andrew Residence</h1><h3>Currently available on-call shifts:</h3>' + availableShifts +
@@ -146,7 +146,7 @@ function weeklyDigestEmailSend(emails, shifts) {
 
 
 //node-cron function to send weekly recap email
-var weeklyEmailTimer = cron.schedule('0 5 23 * * SAT', function () {
+var weeklyEmailTimer = cron.schedule('0 12 23 * * SAT', function () {
     console.log('cron job running');
     getEmailRecAndShifts();
 

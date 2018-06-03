@@ -57,7 +57,7 @@ console.log('I can make logs!!');
 // let weeklyDigestEmailArray = [];
 // let weeklyDigestShiftsArray = [];
 //node-cron function to send weekly recap email
-var weeklyEmailTimer = cron.schedule('0 3 11 * * SUN', function () {
+var weeklyEmailTimer = cron.schedule('0 12 11 * * SUN', function () {
     console.log('cron job running');
     getEmailRecAndShifts();
 })
@@ -116,7 +116,7 @@ function weeklyDigestEmailSend(emails, shifts) {
     var subject = 'Hello World from the SendGrid Node.js Library!';
     var content = new helper.Content('text/html', 'Hello, Email!' + shifts.join(''));
     var mail = new helper.Mail(from_email, subject, to_email, content);
-
+    console.log(shifts);
     var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
 
     var request = sg.emptyRequest({

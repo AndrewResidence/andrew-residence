@@ -57,7 +57,7 @@ console.log('I can make logs!!');
 // let weeklyDigestEmailArray = [];
 // let weeklyDigestShiftsArray = [];
 //node-cron function to send weekly recap email
-var weeklyEmailTimer = cron.schedule('0 12 11 * * SUN', function () {
+var weeklyEmailTimer = cron.schedule('0 16 11 * * SUN', function () {
     console.log('cron job running');
     getEmailRecAndShifts();
 })
@@ -89,7 +89,8 @@ function getEmailRecAndShifts() {
                     result.rows.forEach(function (shift) {
                         weeklyDigestShiftsArray.push('<p>Shift: ' + moment(shift.date).format('MMMM DD, YYYY') + '<span>' + '<span>&nbsp; &nbsp;</span>' + shift.shift + '</span></p>');
                     });
-                    // console.log(weeklyDigestShiftsArray);
+                    console.log('result.rows', result.rows);
+                    console.log('weeklydigtstshiftsarray', weeklyDigestShiftsArray);
                 }
             })
         }

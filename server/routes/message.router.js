@@ -37,8 +37,8 @@ let weeklyDigestEmailArray = [];
 let weeklyDigestShiftsArray = [];
 
 //node-cron function to send weekly recap email
-var weeklyEmailTimer = cron.schedule('0 59 13 * * SUN', function () {
-    console.log('cron job running');
+var weeklyEmailTimer = cron.schedule('0 30 14 * * SUN', function () {
+    console.log('cron job running');y
     getEmailRecAndShifts();
 })
 
@@ -68,8 +68,26 @@ function getEmailRecAndShifts() {
                         console.log('Error making query', errorMakingQuery);
                         return;
                     } else {
+                        let nurse = '';
+                        let mhw = '';
+                        let adl = '';
                         result.rows.forEach(function (shift) {
-                            weeklyDigestShiftsArray.push('<p>Shift: ' + moment(shift.date).format('MMMM DD, YYYY') + '<span>' + '<span>&nbsp; &nbsp;</span>' + shift.shift + '</span></p>');
+                            if (shift.nurse = true) {
+                                nurse = 'Nurse';
+                            }
+                            if (shift.mhw = true) {
+                                mhw = 'MHW';
+                            }
+                            if (shift.adl = true) {
+                                adl = 'ADL';
+                            }
+                            weeklyDigestShiftsArray.push('<p>Shift: ' + moment(shift.date).format('MMMM DD, YYYY') + 
+                                '<span>' + '<span>&nbsp; &nbsp;</span>' + shift.shift + 
+                                '<span>&nbsp; &nbsp;</span>' + nurse + 
+                                '<span>&nbsp; &nbsp;</span>' + mhw + 
+                                '<span>&nbsp; &nbsp;</span>' + adl + 
+                                '</span></p>');
+                            [nurse, mhw, adl] = ['', '', ''];
                         });
                         console.log('result.rows', result.rows);
                         console.log('weeklydigtstshiftsarray', weeklyDigestShiftsArray);
@@ -87,9 +105,9 @@ function weeklyDigestEmailSend(emails, shifts) {
     console.log('shifts', shifts);
     let newEmails = [{ email: 'sarah.soberg@gmail.com' }, { email: 'hire.sarah.harrington@gmail.com' }];
     let emailContent = ' <body>' +
-        '<h1>THIS EMAIL IS A TEST</h1>' +
-        '<h1>Andrew Residence</h1><h3>Currently available on-call shifts:</h3>' +
-        shifts.join('') +
+        '<h1>Andrew Residence</h1>' +
+        '<h3>Currently available on-call shifts:</h3>' +
+        shifts.join('') + '<span>,</span>'
         '<p>Please go to the scheduling app to sign-up for a shift.</p>' +
         '<button style="background-color: #4CAF50;background-color:rgb(255, 193, 7);color: white;padding: 15px 32px;text-align: center;font-size: 16px;border-radius: 5px;border: none;" >' +
         '<a href="https://andrew-residence.herokuapp.com/" style="text-decoration: none; color: white"/>Let\'s Pick-up Some Shifts!</button>' +

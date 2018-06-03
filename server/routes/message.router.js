@@ -37,7 +37,7 @@ let weeklyDigestEmailArray = [];
 let weeklyDigestShiftsArray = [];
 
 //node-cron function to send weekly recap email
-var weeklyEmailTimer = cron.schedule('0 5 12 * * SUN', function () {
+var weeklyEmailTimer = cron.schedule('0 56 13 * * SUN', function () {
     console.log('cron job running');
     getEmailRecAndShifts();
 })
@@ -50,7 +50,8 @@ function getEmailRecAndShifts() {
                 return;
             } //end if error connection to db
             else {
-                var queryText = "SELECT username AS email FROM users WHERE role = 'Nurse' OR role = 'MHW' OR role = 'ADL';";
+                var queryText = 
+                    "SELECT username AS email FROM users WHERE role = 'Nurse' OR role = 'MHW' OR role = 'ADL';";
                 db.query(queryText, function (errorMakingQuery, result) {
                     if (errorMakingQuery) {
                         console.log('Error making query', errorMakingQuery);
@@ -59,7 +60,11 @@ function getEmailRecAndShifts() {
                         weeklyDigestEmailArray = result.rows;
                     }
                 });
-                queryText = "SELECT * FROM post_shifts WHERE (shift_status = 'Open' OR shift_status = 'Pending') AND date > now();";
+                queryText = 
+                    "SELECT * FROM post_shifts" +
+                    "WHERE (shift_status = 'Open' OR shift_status = 'Pending')" +
+                    "AND (date > now() AND date < (now() + interval '1 month'))" +
+                    "ORDER BY date::DATE;";
                 db.query(queryText, function (errorMakingQuery, result) {
                     done(); // add + 1 to pool
                     if (errorMakingQuery) {
@@ -78,38 +83,23 @@ function getEmailRecAndShifts() {
             }
         })
     })
-    // weeklyDigestEmailSend(weeklyDigestEmailArray, weeklyDigestShiftsArray);
 }
 
 function weeklyDigestEmailSend(emails, shifts) {
     console.log('emails', emails);
     console.log('shifts', shifts);
-    // let availableShifts = shifts.join('');
-    // let newEmails = [{ email: 'sarah.soberg@gmail.com' }, { email: 'hire.sarah.harrington@gmail.com' }];
+    let newEmails = [{ email: 'sarah.soberg@gmail.com' }, { email: 'hire.sarah.harrington@gmail.com' }];
     let emailContent = ' <body>' +
         '<h1>THIS EMAIL IS A TEST</h1>' +
         '<h1>Andrew Residence</h1><h3>Currently available on-call shifts:</h3>' +
         shifts.join('') +
         '<p>Please go to the scheduling app to sign-up for a shift.</p>' +
-        '<button style="background-color: #4CAF50;background-color:rgb(255, 193, 7);color: white;padding: 15px 32px;text-align: center;font-size: 16px;border-radius: 5px;border: none;" ><a href="https://andrew-residence.herokuapp.com/" style="text-decoration: none; color: white"/>Let\'s Pick-up Some Shifts!</button>' +
-        '<p> We appreciate yor support!</p></body>'
-    // // console.log(availableShifts);
+        '<button style="background-color: #4CAF50;background-color:rgb(255, 193, 7);color: white;padding: 15px 32px;text-align: center;font-size: 16px;border-radius: 5px;border: none;" >' +
+        '<a href="https://andrew-residence.herokuapp.com/" style="text-decoration: none; color: white"/>Let\'s Pick-up Some Shifts!</button>' +
+        '<p> We appreciate yor support!</p>' +
+        '</body>'
     console.log('in the weekly send function');
 
-    // var helper = require('sendgrid').mail;
-    // var from_email = new helper.Email('andrewresidence@gmail.com');
-    // var to_email = new helper.Email(emails);
-    // var subject = 'Hello World from the SendGrid Node.js Library!';
-    // var content = new helper.Content('text/html', 'Hello, Email!' + shifts.join(''));
-    // var mail = new helper.Mail(from_email, subject, to_email, content);
-    // console.log(shifts);
-    // var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
-
-    // var request = sg.emptyRequest({
-    //     method: 'POST',
-    //     path: '/v3/mail/send',
-    //     body: mail.toJSON(),
-    // });
     var request = sg.emptyRequest({
         method: 'POST',
         path: '/v3/mail/send',
@@ -117,7 +107,7 @@ function weeklyDigestEmailSend(emails, shifts) {
             personalizations: [
                 {
                     to: [{ email: 'andrewresidence2017@gmail.com' }],
-                    bcc: emails,
+                    bcc: newEmails,
                     subject: 'Weekly Digest from Andrew Residence',
                 },
             ],

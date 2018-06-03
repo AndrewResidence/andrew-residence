@@ -35,7 +35,7 @@ console.log('I can make logs!!');
 let weeklyDigestEmailArray = [];
 let weeklyDigestShiftsArray = [];
 //node-cron function to send weekly recap email
-var weeklyEmailTimer = cron.schedule('0 10 0 * * SUN', function () {
+var weeklyEmailTimer = cron.schedule('0 20 0 * * SUN', function () {
     console.log('cron job running');
     getEmailRecAndShifts();
 })
@@ -89,8 +89,8 @@ function weeklyDigestEmailSend(emails, shifts) {
                     to: [{email: 'andrewresidence2017@gmail.com'}],
                     bcc: newEmails,
                     subject: 'Weekly Digest from Andrew Residence',
-                    substitutions: {
-                        shifts: availableShifts,
+                    section: {
+                        availableShifts: availableShifts,
                     }
                 },
             ],
@@ -98,19 +98,20 @@ function weeklyDigestEmailSend(emails, shifts) {
                 email: '"Andrew Residence" <andrewresidence2017@gmail.com>',
             },
             content: [
-                // {
-                //     type: 'text/plain',
-                //     value: 'Hello, Email!',
-                // },
+                {
+                    type: 'text/plain',
+                    value: 'On-call shifts are available at Andrew Residence',
+                },
                 {
                     type: 'text/html',
-                    value: availableShifts,
-                        // ' <body>' +
-                        // '<h1>THIS EMAIL IS A TEST</h1>' +
-                        // '<h1>Andrew Residence</h1><h3>Currently available on-call shifts:</h3>' + availableShifts +
-                        // '<p>Please go to the scheduling app to sign-up for a shift.</p>' +
-                        // '<button style="background-color: #4CAF50;background-color:rgb(255, 193, 7);color: white;padding: 15px 32px;text-align: center;font-size: 16px;border-radius: 5px;border: none;" ><a href="https://andrew-residence.herokuapp.com/" style="text-decoration: none; color: white"/>Let\'s Pick-up Some Shifts!</button>' +
-                        // '<p> We appreciate yor support!</p></body>',
+                    value:
+                        ' <body>' +
+                        '<h1>THIS EMAIL IS A TEST</h1>' +
+                        '<h1>Andrew Residence</h1><h3>Currently available on-call shifts:</h3>' + 
+                        ':availableShifts' +
+                        '<p>Please go to the scheduling app to sign-up for a shift.</p>' +
+                        '<button style="background-color: #4CAF50;background-color:rgb(255, 193, 7);color: white;padding: 15px 32px;text-align: center;font-size: 16px;border-radius: 5px;border: none;" ><a href="https://andrew-residence.herokuapp.com/" style="text-decoration: none; color: white"/>Let\'s Pick-up Some Shifts!</button>' +
+                        '<p> We appreciate yor support!</p></body>',
                 }
             ],
         },

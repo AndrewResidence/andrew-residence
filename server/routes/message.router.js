@@ -35,7 +35,7 @@ console.log('I can make logs!!');
 let weeklyDigestEmailArray = [];
 let weeklyDigestShiftsArray = [];
 //node-cron function to send weekly recap email
-var weeklyEmailTimer = cron.schedule('0 20 10 * * SUN', function () {
+var weeklyEmailTimer = cron.schedule('0 24 10 * * SUN', function () {
     console.log('cron job running');
     getEmailRecAndShifts();
 })
@@ -90,7 +90,7 @@ function weeklyDigestEmailSend(emails, shifts) {
                     bcc: newEmails,
                     subject: 'Weekly Digest from Andrew Residence',
                     substitutions: {
-                        "shifts": availableShifts,
+                        "{{shifts}}": availableShifts,
                     }
                 },
             ],

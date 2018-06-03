@@ -48,6 +48,7 @@ let weeklyDigestEmailArray = [];
 let weeklyDigestShiftsArray = [];
 // weekly digest email that contains all newly availble unfilled shift
 function weeklyDigestEmailSend(emails, shifts) {
+    console.log('in the weekly send function');
     var request = sg.emptyRequest({
         method: 'POST',
         path: '/v3/mail/send',
@@ -127,9 +128,10 @@ function weeklyDigestEmailSend(emails, shifts) {
 
 
 //node-cron function to send weekly recap email
-var weeklyEmailTimer = cron.schedule('0 49 21 * * SAT', function () {
+var weeklyEmailTimer = cron.schedule('0 0 22 * * SAT', function () {
     console.log('cron job running');
-    getEmailRecAndShifts();
+    // getEmailRecAndShifts();
+    weeklyDigestEmailSend(null, null);
 })
 
 // get users is a function that uses node-cron to retrieve all the users email in the DB.  It returns a promise and chains to weeklyDigest
@@ -166,7 +168,7 @@ function getEmailRecAndShifts() {
             })
         }
     })
-    weeklyDigestEmailSend(weeklyDigestEmailArray, weeklyDigestShiftsArray);
+    // weeklyDigestEmailSend(weeklyDigestEmailArray, weeklyDigestShiftsArray);
 }
 
 

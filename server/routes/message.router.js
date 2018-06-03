@@ -27,13 +27,35 @@ var ACCESS_TOKEN = process.env.ACCESS_TOKEN;
 var CLIENT_ID = process.env.CLIENT_ID;
 var CLIENT_SECRET = process.env.CLIENT_SECRET;
 
+let weeklyDigestEmailArray = [];
+let weeklyDigestShiftsArray = [];
+
+let availableShifts = weeklyDigestShiftsArray.join('');
 // SendGrid 
+var helper = require('sendgrid').mail;
+var from_email = new helper.Email('andrewresidence@gmail.com');
+var to_email = new helper.Email('sarah.soberg@gmail.com');
+var subject = 'Hello World from the SendGrid Node.js Library!';
+var content = new helper.Content('text/plain', 'Hello, Email!' + availableShifts);
+var mail = new helper.Mail(from_email, subject, to_email, content);
 var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
+
+var request = sg.emptyRequest({
+    method: 'POST',
+    path: '/v3/mail/send',
+    body: mail.toJSON(),
+});
+
+// sg.API(request, function (error, response) {
+//     console.log(response.statusCode);
+//     console.log(response.body);
+//     console.log(response.headers);
+// });
 
 console.log('I can make logs!!');
 
-let weeklyDigestEmailArray = [];
-let weeklyDigestShiftsArray = [];
+// let weeklyDigestEmailArray = [];
+// let weeklyDigestShiftsArray = [];
 //node-cron function to send weekly recap email
 var weeklyEmailTimer = cron.schedule('0 34 10 * * SUN', function () {
     console.log('cron job running');
@@ -77,48 +99,48 @@ function getEmailRecAndShifts() {
 
 function weeklyDigestEmailSend(emails, shifts) {
     let availableShifts = shifts.join('');
-    let newEmails = [{email: 'sarah.soberg@gmail.com'}, {email: 'hire.sarah.harrington@gmail.com'}];
-    let emailContent = ' <body>' +
-    '<h1>THIS EMAIL IS A TEST</h1>' +
-    '<h1>Andrew Residence</h1><h3>Currently available on-call shifts:</h3>' + 
-    availableShifts +
-    '<p>Please go to the scheduling app to sign-up for a shift.</p>' +
-    '<button style="background-color: #4CAF50;background-color:rgb(255, 193, 7);color: white;padding: 15px 32px;text-align: center;font-size: 16px;border-radius: 5px;border: none;" ><a href="https://andrew-residence.herokuapp.com/" style="text-decoration: none; color: white"/>Let\'s Pick-up Some Shifts!</button>' +
-    '<p> We appreciate yor support!</p></body>'
-    // console.log(availableShifts);
+    let newEmails = [{ email: 'sarah.soberg@gmail.com' }, { email: 'hire.sarah.harrington@gmail.com' }];
+    // let emailContent = ' <body>' +
+    //     '<h1>THIS EMAIL IS A TEST</h1>' +
+    //     '<h1>Andrew Residence</h1><h3>Currently available on-call shifts:</h3>' +
+    //     availableShifts +
+    //     '<p>Please go to the scheduling app to sign-up for a shift.</p>' +
+    //     '<button style="background-color: #4CAF50;background-color:rgb(255, 193, 7);color: white;padding: 15px 32px;text-align: center;font-size: 16px;border-radius: 5px;border: none;" ><a href="https://andrew-residence.herokuapp.com/" style="text-decoration: none; color: white"/>Let\'s Pick-up Some Shifts!</button>' +
+    //     '<p> We appreciate yor support!</p></body>'
+    // // console.log(availableShifts);
     console.log('in the weekly send function');
-    var request = sg.emptyRequest({
-        method: 'POST',
-        path: '/v3/mail/send',
-        body: {
-            personalizations: [
-                {
-                    to: [{email: 'andrewresidence2017@gmail.com'}],
-                    bcc: newEmails,
-                    subject: 'Weekly Digest from Andrew Residence',
-                    substitutions: {
-                        "{{shifts}}": availableShifts,
-                    }
-                },
-            ],
-            from: {
-                email: '"Andrew Residence" <andrewresidence2017@gmail.com>',
-            },
-            content: [
-                {
-                    type: 'text/plain',
-                    value: 'On-call shifts are available at Andrew Residence',
-                },
-                {
-                    type: 'text/html',
-                    value: emailContent,
-                }
-            ],
-            section: {
-                availableShifts: availableShifts,
-            }
-        },
-    });
+    // var request = sg.emptyRequest({
+    //     method: 'POST',
+    //     path: '/v3/mail/send',
+    //     body: {
+    //         personalizations: [
+    //             {
+    //                 to: [{ email: 'andrewresidence2017@gmail.com' }],
+    //                 bcc: newEmails,
+    //                 subject: 'Weekly Digest from Andrew Residence',
+    //                 substitutions: {
+    //                     "{{shifts}}": availableShifts,
+    //                 }
+    //             },
+    //         ],
+    //         from: {
+    //             email: '"Andrew Residence" <andrewresidence2017@gmail.com>',
+    //         },
+    //         content: [
+    //             {
+    //                 type: 'text/plain',
+    //                 value: 'On-call shifts are available at Andrew Residence',
+    //             },
+    //             {
+    //                 type: 'text/html',
+    //                 value: emailContent,
+    //             }
+    //         ],
+    //         section: {
+    //             availableShifts: availableShifts,
+    //         }
+    //     },
+    // });
     sg.API(request)
         .then(response => {
             console.log(response.statusCode);

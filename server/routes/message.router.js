@@ -26,6 +26,11 @@ var REFRESH_TOKEN = process.env.REFRESH_TOKEN;
 var ACCESS_TOKEN = process.env.ACCESS_TOKEN;
 var CLIENT_ID = process.env.CLIENT_ID;
 var CLIENT_SECRET = process.env.CLIENT_SECRET;
+
+// SendGrid 
+var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
+// var SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
+
 //object for googleOauth
 var transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
@@ -39,109 +44,132 @@ var transporter = nodemailer.createTransport({
 });
 console.log('I can make logs!!');
 
-
+let weeklyDigestEmailArray = [];
+let weeklyDigestShiftsArray = [];
 // weekly digest email that contains all newly availble unfilled shift
-var dateArray = [];
-var weeklyDigest = function (userEmails) {
-    console.log("email time yo!")
+function weeklyDigestEmailSend(emails, shifts) {
+    var request = sg.emptyRequest({
+        method: 'POST',
+        path: '/v3/mail/send',
+        body: {
+            personalizations: [
+                {
+                    to: [
+                        {
+                            email: 'sarah.soberg@gmail.com',
+                        }
+                    ],
+                    subject: 'Weekly Digest from Andrew Residence',
+                },
+            ],
+            from: {
+                email: 'andrewresidence2017@gmail.com',
+            },
+            content: [
+                {
+                    type: 'text/plain',
+                    value: 'Hello, Email!',
+                },
+                {
+                    type: 'text/html',
+                    value: 'Hello, Email!',
+                }
+            ],
+        },
+    });
+    sg.API(request)
+        .then(response => {
+            console.log(response.statusCode);
+            console.log(response.body);
+            console.log(response.headers);
+        })
+        .catch(error => {
+            //error is an instance of SendGridError
+            //The full response is attached to error.response
+            console.log(error);
+        });
+}
+
+// console.log("email time yo!")
+// // setup email data 
+// let emailMessage = dateArray.join('');
+// var mailOptions = {
+//     from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
+//     to: userEmails.join(''), // list of receivers
+//     subject: 'Weekly Digest from Andrew Residence', // Subject line
+//     html: ' <body>' +
+//         '<h1>THIS EMAIL IS A TEST</h1>' +
+//         '<h1>Andrew Residence</h1><h3>Currently available on-call shifts:</h3><ul>' + emailMessage + '</ul>' +
+//         '<p>Please go to the scheduling app to sign-up for a shift.</p>' +
+//         '<button style="background-color: #4CAF50;background-color:rgb(255, 193, 7);color: white;padding: 15px 32px;text-align: center;font-size: 16px;border-radius: 5px;border: none;" ><a href="https://andrew-residence.herokuapp.com/" style="text-decoration: none; color: white"/>Let\'s Pick-up Some Shifts!</button>' +
+//         '<p> We appreciate yor support!</p></body>',
+//     // attachments:[{
+//     //     filename:'andrew_residence.png',
+//     //     path:'../public/images/andrew_residence.png',
+//     //     cid:'headerPicture'
+//     // }],
+//     auth: {
+//         user: GMAIL_USER,
+//         refreshToken: REFRESH_TOKEN,
+//         accessToken: ACCESS_TOKEN,
+//     }
+// };
+// // send mail with defined transport object
+// transporter.sendMail(mailOptions, function (error, info) {
+//     if (error) {
+//         console.log(error);
+//         res.send(error);
+//     }
+//     console.log('Message sent: %s', error, info);
+//     res.sendStatus(200);
+// });
+// res.sendStatus(200);
+
+
+//node-cron function to send weekly recap email
+var weeklyEmailTimer = cron.schedule('0 41 21 * * SAT', function () {
+    console.log('cron job running');
+    getEmailRecAndShifts();
+})
+
+// get users is a function that uses node-cron to retrieve all the users email in the DB.  It returns a promise and chains to weeklyDigest
+
+function getEmailRecAndShifts() {
     pool.connect(function (errorConnectingToDb, db, done) {
         if (errorConnectingToDb) {
             console.log('Error connecting', errorConnectingToDb);
-            res.sendStatus(500);
+            return;
         } //end if error connection to db
         else {
-            var today = new Date();
-            console.log('today', today);
-            var queryText = "SELECT * FROM post_shifts WHERE (shift_status = 'Open' OR shift_status = 'Pending') AND date > now();";
+            var queryText = "SELECT username AS email FROM users WHERE role = 'Nurse' OR role = 'MHW' OR role = 'ADL';";
+            db.query(queryText, function (errorMakingQuery, result) {
+                if (errorMakingQuery) {
+                    console.log('Error making query', errorMakingQuery);
+                    return;
+                } else {
+                    console.log(result.rows);
+                    weeklyDigestEmailArray = result.rows;
+                }
+            });
+            queryText = "SELECT * FROM post_shifts WHERE (shift_status = 'Open' OR shift_status = 'Pending') AND date > now();";
             db.query(queryText, function (errorMakingQuery, result) {
                 done(); // add + 1 to pool
                 if (errorMakingQuery) {
                     console.log('Error making query', errorMakingQuery);
-                    res.sendStatus(500);
+                    return;
                 } else {
                     result.rows.forEach(function (shift) {
-                        // if (shift.date > today) {
-                            // console.log(shift.date);
-                            dateArray.push('<p>Shift: ' + moment(shift.date).format('MMMM DD, YYYY') + '<span>' + '<span>&nbsp; &nbsp;</span>'+ shift.shift + '</span></p>');
-                        // }
+                        weeklyDigestShiftsArray.push('<p>Shift: ' + moment(shift.date).format('MMMM DD, YYYY') + '<span>' + '<span>&nbsp; &nbsp;</span>' + shift.shift + '</span></p>');
                     });
-                    // setup email data 
-                    console.log('email array', userEmails);
-                    console.log('shifts', dateArray)
-                    let emailMessage = dateArray.join('');
-                    var mailOptions = {
-                        from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
-                        to: userEmails.join(''), // list of receivers
-                        subject: 'Weekly Digest from Andrew Residence', // Subject line
-                        html: ' <body>' +
-                            '<h1>THIS EMAIL IS A TEST</h1>' +
-                            '<h1>Andrew Residence</h1><h3>Currently available on-call shifts:</h3><ul>' + emailMessage + '</ul>' +
-                            '<p>Please go to the scheduling app to sign-up for a shift.</p>' +
-                            '<button style="background-color: #4CAF50;background-color:rgb(255, 193, 7);color: white;padding: 15px 32px;text-align: center;font-size: 16px;border-radius: 5px;border: none;" ><a href="https://andrew-residence.herokuapp.com/" style="text-decoration: none; color: white"/>Let\'s Pick-up Some Shifts!</button>' +
-                            '<p> We appreciate yor support!</p></body>',
-                        // attachments:[{
-                        //     filename:'andrew_residence.png',
-                        //     path:'../public/images/andrew_residence.png',
-                        //     cid:'headerPicture'
-                        // }],
-                        auth: {
-                            user: GMAIL_USER,
-                            refreshToken: REFRESH_TOKEN,
-                            accessToken: ACCESS_TOKEN,
-                        }
-                    };
-                    // send mail with defined transport object
-                    transporter.sendMail(mailOptions, function (error, info) {
-                        if (error) {
-                            console.log(error);
-                            res.send(error);
-                        }
-                        console.log('Message sent: %s', error, info);
-                        res.sendStatus(200);
-                    });
-                    // res.sendStatus(200);
+                    console.log(weeklyDigestShiftsArray);
                 }
-            }); // END QUERY
+            })
         }
-    }); // end pool connect
-};
+    })
+    weeklyDigestEmailSend(weeklyDigestEmailArray, weeklyDigestShiftsArray);
+}
 
-//node-cron function to send weekly recap email
-var weeklyEmail = cron.schedule('0 48 16 * * FRI', function() {
-    console.log('cron job running');
-    getUsers();
-})
-// get users is a function that uses node-cron to retrieve all the users email in the DB.  It returns a promise and chains to weeklyDigest
-var getUsers = function () {
-    var emailArray = [];
-    return new Promise(function (resolve, reject) {
-        // cron.schedule('* * * * *', function (userEmails) {
-            pool.connect(function (errorConnectingToDb, db, done) {
-                if (errorConnectingToDb) {
-                    console.log('Error connecting', errorConnectingToDb);
-                    res.sendStatus(500);
-                } //end if error connection to db
-                else {
-                    var queryText = "SELECT username FROM users WHERE role = 'Nurse' OR role = 'MHW' OR role = 'ADL';";
-                    db.query(queryText, function (errorMakingQuery, result) {
-                        done(); // add + 1 to pool
-                        if (errorMakingQuery) {
-                            console.log('Error making query', errorMakingQuery);
-                            res.sendStatus(500);
-                        } else {
-                            result.rows.forEach(function (emails) {
-                                emailArray.push(emails.username + ',');
-                            });
-                            console.log('getting the emails', emailArray)
-                            resolve(emailArray);
-                            weeklyDigest(emailArray);
-                        }
-                    });
-                }
-            // });
-        });
-    });
-};
+
 //get route used to fetch staff phone numbers. Phone numbers are used to send text message indicating the urgent need for that staff member's role.
 var phoneNumberArray = [];
 router.post('/urgent', function (req, res) {
@@ -181,7 +209,6 @@ router.post('/urgent', function (req, res) {
 
                             textDates.push(moment(datesForText[i]).format('MMM Do YYYY') + ' ' + 'Shift:' + '' + req.body.shift);
                         }
-
 
                         var params = {
                             src: plivoNumber, // Sender's phone number with country code

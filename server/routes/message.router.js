@@ -32,12 +32,11 @@ var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
 
 console.log('I can make logs!!');
 
-
 let weeklyDigestEmailArray = [];
 let weeklyDigestShiftsArray = [];
 
 //node-cron function to send weekly recap email
-var weeklyEmailTimer = cron.schedule('0 39 14 * * SUN', function () {
+var weeklyEmailTimer = cron.schedule('0 46 14 * * SUN', function () {
     console.log('cron job running');
     getEmailRecAndShifts();
 })
@@ -89,8 +88,6 @@ function getEmailRecAndShifts() {
                                 '</span></p>');
                             [nurse, mhw, adl] = ['', '', ''];
                         });
-                        console.log('result.rows', result.rows);
-                        console.log('weeklydigtstshiftsarray', weeklyDigestShiftsArray);
                         resolve(weeklyDigestEmailArray, weeklyDigestShiftsArray);
                         weeklyDigestEmailSend(weeklyDigestEmailArray, weeklyDigestShiftsArray);
                     }
@@ -101,10 +98,9 @@ function getEmailRecAndShifts() {
 }
 
 function weeklyDigestEmailSend(emails, shifts) {
-    console.log('emails', emails);
-    console.log('shifts', shifts);
     let newEmails = [{ email: 'sarah.soberg@gmail.com' }, { email: 'hire.sarah.harrington@gmail.com' }];
     let emailContent = ' <body>' +
+        '<h1>THIS EMAIL IS A TEST</h1>' +
         '<h1>Andrew Residence</h1>' +
         '<h3>Currently available on-call shifts:</h3>' +
         shifts.join('') + '<span>,</span>'
@@ -113,7 +109,6 @@ function weeklyDigestEmailSend(emails, shifts) {
         '<a href="https://andrew-residence.herokuapp.com/" style="text-decoration: none; color: white"/>Let\'s Pick-up Some Shifts!</button>' +
         '<p> We appreciate yor support!</p>' +
         '</body>'
-    console.log('in the weekly send function');
 
     var request = sg.emptyRequest({
         method: 'POST',
@@ -122,7 +117,7 @@ function weeklyDigestEmailSend(emails, shifts) {
             personalizations: [
                 {
                     to: [{ email: 'andrewresidence2017@gmail.com' }],
-                    bcc: newEmails,
+                    bcc: emails,
                     subject: 'Weekly Digest from Andrew Residence',
                 },
             ],

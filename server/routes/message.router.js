@@ -79,7 +79,8 @@ function getEmailRecAndShifts() {
                             if (shift.adl === true) {
                                 adl = 'ADL';
                             }
-                            weeklyDigestShiftsArray.push('<p>Shift: ' + moment(shift.date).format('MMMM DD, YYYY') + 
+                            weeklyDigestShiftsArray.push('<p>Shift: ' + moment(shift.date).format('MMMM DD, YYYY') + ' ' + 
+                                '<span>Floor: ' + shift.floor + '</span>' +
                                 '<span>' + '<span>&nbsp; &nbsp;</span>' + shift.shift + 
                                 '<span>&nbsp; &nbsp;</span>' + nurse + 
                                 '<span>&nbsp; &nbsp;</span>' + mhw + 

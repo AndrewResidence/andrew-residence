@@ -559,7 +559,7 @@ md-tabs:not(.md-no-tab-content):not(.md-dynamic-height) {
 
 .shiftButtonLeft {
   float:left;
-  display: flex;
+  display: block;
   align-self: center;
   height: 100%;
   margin-left: 10px;

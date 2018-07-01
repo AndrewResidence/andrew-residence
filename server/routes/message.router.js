@@ -35,7 +35,7 @@ let weeklyDigestEmailArray = [];
 let weeklyDigestShiftsArray = [];
 
 //node-cron function to send weekly recap email
-var weeklyEmailTimer = cron.schedule('0 1 12 * * WED', function () {
+var weeklyEmailTimer = cron.schedule('0 21 21 * * SAT', function () {
     console.log('cron job running');
     getEmailRecAndShifts();
 })
@@ -98,7 +98,6 @@ function getEmailRecAndShifts() {
 }
 
 function weeklyDigestEmailSend(emails, shifts) {
-    let newEmails = [{ email: 'sarah.soberg@gmail.com' }, { email: 'hire.sarah.harrington@gmail.com' }];
     let emailContent = ' <body>' +
         '<h1>Andrew Residence</h1>' +
         '<h3>Currently available on-call shifts:</h3>' +
@@ -116,7 +115,7 @@ function weeklyDigestEmailSend(emails, shifts) {
             personalizations: [
                 {
                     to: [{ email: 'andrewresidence2017@gmail.com' }],
-                    bcc: newEmails,
+                    bcc: emails,
                     subject: 'Weekly Digest from Andrew Residence',
                 },
             ],

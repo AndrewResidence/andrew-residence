@@ -23,19 +23,11 @@ var p = plivo.RestAPI({
 //send grid
 var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
 
-/* credentials for google oauth w/nodemailer*/
-// var nodemailer = require('nodemailer');
-// var GMAIL_USER = process.env.GMAIL_USER;
-// var REFRESH_TOKEN = process.env.REFRESH_TOKEN;
-// var ACCESS_TOKEN = process.env.ACCESS_TOKEN;
-// var CLIENT_ID = process.env.CLIENT_ID;
-// var CLIENT_SECRET = process.env.CLIENT_SECRET;
-
 let weeklyDigestEmailArray = [];
 let weeklyDigestShiftsArray = [];
 
 //node-cron function to send weekly recap email
-var weeklyEmailTimer = cron.schedule('0 1 12 * * WED', function () {
+var weeklyEmailTimer = cron.schedule('0 25 16 * * THU', function () {
     console.log('cron job running');
     getEmailRecAndShifts();
 })

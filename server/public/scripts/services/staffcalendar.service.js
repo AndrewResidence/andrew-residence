@@ -39,7 +39,7 @@ myApp.service('StaffCalendarService', function ($http, $location, $mdDialog) {
         for (var i = 1; i <= monthDays.length; i++) {
             eachDay = {
                 day: moment().year(currentYear).month(currentMonth).date(i),
-                dayNum: moment().date(i).format('D'),
+                dayNum: moment().year(currentYear).month(currentMonth).date(i).format('D'),
                 month: currentMonth,
                 monthText: moment().month(currentMonth),
                 year: currentYear,

@@ -243,6 +243,27 @@ router.post('/shiftBid', function (req, res) {
                                     } else {
                                         // res.sendStatus(201);
                                         getSupervisorsNotify(shiftBid.id).then(function (email) {
+
+                                            let emailContent = '<body>' +
+                                                '<h3>Andrew Residence</h3' +
+                                                '<p>A request to pick up a shift for:</p>'
+                                                `<p> A request to pick up the shift for: '+
+                                                ${moment.shiftBid.date.format('MM/DD/YY')}, ${shiftBid.shift}</p>` +
+                                                + '</body>'
+
+                                            
+                                            var request = sg.emptyRequest({
+                                                method: 'POST',
+                                                path: '/v3/mail/send',
+                                                body: {
+                                                    personalizations: [
+                                                        {
+                                                            to: [{email: 'andrewresidence2018@gmail.com'}]
+                                                        }
+                                                    ]
+                                                }
+                                            })
+
                                             console.log('email', email.emailAddresses)
                                             if (email.emailAddresses.join('') !== null && email.emailAddresses.join('') !== '') {
                                                 var mailOptions = {

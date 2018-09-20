@@ -12,6 +12,7 @@ var REFRESH_TOKEN = process.env.REFRESH_TOKEN;
 var ACCESS_TOKEN = process.env.ACCESS_TOKEN;
 var CLIENT_ID = process.env.CLIENT_ID;
 var CLIENT_SECRET = process.env.CLIENT_SECRET;
+var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
 
 var transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
@@ -26,7 +27,7 @@ var transporter = nodemailer.createTransport({
 
 router.put('/check', function (req, res) {
     var email = req.body.email;
-console.log(email);
+    console.log(email);
 
     pool.connect(function (err, client, done) {
         if (err) {
@@ -38,16 +39,13 @@ console.log(email);
                     console.log('query err ', err);
                     done();
                 }
-
                 user = result.rows[0];
-
                 if (!user) {
                     done();
                     res.sendStatus(404);
                 } else {
                     // If yes, then generate a random code and store for that user
                     var code = chance.string({ length: 16, pool: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789' });
-
                     // user found
                     var queryText = 'UPDATE users SET "code" = $1 WHERE "username" = $2;';
                     client.query(queryText, [code, email], function (err, result) {
@@ -57,31 +55,51 @@ console.log(email);
                             console.log('query err ', err);
                             res.sendStatus(500);
                         } else {
-                            // Send out an e-mail via node mailer
                             let updateLink = '<a href="https://andrew-residence.herokuapp.com/#/update?code=' + code + '">Click Here</a>';
-                            var mailOptions = {
-                                from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
-                                to: email, // list of receivers
-                                subject: 'Andrew Residence Forgot Password', // Subject line
-                                html: ' <body>' +
-                                    '<h1>Hello!!</h1><h3>Please use this code to reset your password:</h3><ul>'+ updateLink +'</ul>' +
-                                    '<p>Thank you</p>',
-                            
-                                auth: {
-                                    user: GMAIL_USER,
-                                    refreshToken: REFRESH_TOKEN,
-                                    accessToken: ACCESS_TOKEN,
-                                }
-                            };
-                            // send mail with defined transport object
-                            transporter.sendMail(mailOptions, function (error, info) {
-                                if (error) {
-                                    console.log(error);
-                                    res.send(error);
-                                }
-                                console.log('Message sent: %s', info.messageId);
-                                res.sendStatus(200);
+                            let emailContent =
+                                '<body>' +
+                                '<p>Hello,</p>' +
+                                '<p>Please use the button below to reset your password:</p>' +
+                                '<button style="background-color: #4CAF50;background-color:rgb(255, 193, 7);color: white;padding: 15px 32px;text-align: center;font-size: 16px;border-radius: 5px;border: none;">' + updateLink + '</button>' +
+                                '<p>If you are unable to click the button, please copy and paste this link in to your browser: </p>' +
+                                '<p>https://andrew-residence.herokuapp.com/#/update?code=' + code + '</p>' +
+                                '<p>Thank you, <br> Andrew Residence</p>' +
+                                '</body>'
+
+                            var request = sg.emptyRequest({
+                                method: 'POST',
+                                path: '/v3/mail/send',
+                                body: {
+                                    personalizations: [
+                                        {
+                                            to: [{ email: email }],
+                                            subject: 'Andrew Residence: Forgot Password'
+                                        },
+                                    ],
+                                    from: {
+                                        email: '"Andrew Residence" <andrewresidence2017@gmail.com>'
+                                    },
+                                    content: [
+                                        {
+                                            type: 'text/plain',
+                                            value: 'Shift Bid',
+                                        },
+                                        {
+                                            type: 'text/html',
+                                            value: emailContent,
+                                        }
+                                    ],
+                                },
                             });
+                            sg.API(request)
+                                .then(response => {
+                                    console.log(response.statusCode);
+                                    console.log(response.body);
+                                    console.log(response.headers);
+                                })
+                                .catch(error => {
+                                    console.log(error.response);
+                                });
                             res.sendStatus(200);
                         }
                     }); // END Update query
@@ -95,8 +113,8 @@ router.put('/reset', function (req, res) {
     var email = req.body.email;
     var code = req.body.code;
     var password = encryptLib.encryptPassword(req.body.password);
-    console.log(email,'password:', password);
-    
+    console.log(email, 'password:', password);
+
     pool.connect(function (err, client, done) {
         if (err) {
             console.log('connection err ', err);

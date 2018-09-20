@@ -2,35 +2,7 @@ var pool = require('../modules/pool.js');
 require('dotenv').config();
 var express = require('express');
 var router = express.Router();
-var passport = require('passport');
-var path = require('path');
-var nodemailer = require('nodemailer');
-var plivo = require('plivo');
-var _ = require('lodash');
 var moment = require('moment');
-/* credentials for plivo*/
-var AUTH_ID = process.env.PLIVO_AUTH_ID;
-var AUTH_TOKEN = process.env.PLIVO_AUTH_TOKEN;
-var plivoNumber = '16128519117'; //rented plivo number
-/* credentials for google oauth w/nodemailer*/
-var GMAIL_USER = process.env.GMAIL_USER;
-var REFRESH_TOKEN = process.env.REFRESH_TOKEN;
-var ACCESS_TOKEN = process.env.ACCESS_TOKEN;
-var CLIENT_ID = process.env.CLIENT_ID;
-var CLIENT_SECRET = process.env.CLIENT_SECRET;
-//post route for new shifts
-
-// var transporter = nodemailer.createTransport({
-//     host: 'smtp.gmail.com',
-//     port: 465,
-//     secure: true,
-//     auth: {
-//         type: 'OAuth2',
-//         clientId: CLIENT_ID,
-//         clientSecret: CLIENT_SECRET,
-//     }
-// });
-
 var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
 
 router.post('/', function (req, res) {
@@ -85,9 +57,7 @@ router.post('/', function (req, res) {
                             // res.sendStatus(201)
                         });
                 }//end for loop
-                console.log('Success');
                 res.sendStatus(201);
-                // done();
             }
         });
     } // end req.isAuthenticated //end if statement
@@ -100,7 +70,6 @@ router.post('/', function (req, res) {
 //get route for post_shifts 
 router.put('/', function (req, res) {
     if (req.isAuthenticated()) {
-        console.log('router month details', req.body)
         var firstDayofShifts = req.body.firstDayofShifts;
         var lastDayofShifts = req.body.lastDayofShifts;
         pool.connect(function (errorConnectingToDb, db, done) {
@@ -109,8 +78,6 @@ router.put('/', function (req, res) {
                 res.sendStatus(500);
             } //end if error connection to db
             else {
-                console.log('hitting the query');
-                //equal to the date or between
                 var queryText =
                     'SELECT * FROM "post_shifts"' +
                     'WHERE "date" >= $1 AND "date" <= $2;';
@@ -182,7 +149,6 @@ router.put('/payperiod/updatedates/:id', function (req, res) {
                         console.log('Error making query', errorMakingQuery);
                         res.sendStatus(500);
                     } else {
-                        console.log('result.rows for pay period dates', result.rows)
                         res.send(result.rows);
                     }
                 }); //end db.query
@@ -199,15 +165,12 @@ router.put('/payperiod/updatedates/:id', function (req, res) {
 router.post('/shiftBid', function (req, res) {
     if (req.isAuthenticated()) {
         var shiftBid = req.body;
-        console.log('****** new shift bid', shiftBid);
-        // var createdBy = req.user.id;
         pool.connect(function (errorConnectingToDb, db, done) {
             if (errorConnectingToDb) {
                 console.log('Error connecting', errorConnectingToDb);
                 res.sendStatus(500);
             } //end if error connection to db
             else {
-                console.log('in the first query');
                 var queryText =
                     'INSERT INTO "shift_bids" ("shift_id", "user_id", "staff_comments")' +
                     'VALUES ($1, $2, $3);';
@@ -218,21 +181,16 @@ router.post('/shiftBid', function (req, res) {
                             res.sendStatus(500);
                             return;
                         } else {
-                            console.log('in the second query');
                             var queryText = 'UPDATE "post_shifts" SET "shift_status" = $1 WHERE "shift_id" = $2;';
                             db.query(queryText, ["Pending", req.body.id],
                                 function (errorMakingQuery, result) {
                                     done();
                                     if (errorMakingQuery) {
-                                        console.log('Error making query', errorMakingQuery);
                                         res.sendStatus(500);
                                         return;
                                     } else {
-                                        console.log('the else for email send');
-                                        // res.sendStatus(201);
+                                        res.sendStatus(201);
                                         getSupervisorsNotify(shiftBid.id).then(function (email) {
-                                            console.log('shiftbid', shiftBid)
-                                            console.log('emails returned', email);
                                             let date = moment(shiftBid.date).format('MM/DD/YY');
                                             let shift = shiftBid.shift;
                                             let role;
@@ -304,7 +262,6 @@ router.post('/shiftBid', function (req, res) {
 router.get('/shiftBid/:today', function (req, res) {
     if (req.isAuthenticated()) {
         var today = req.params.today;
-        console.log('today', today);
         pool.connect(function (errorConnectingToDb, db, done) {
             if (errorConnectingToDb) {
                 console.log('Error connecting', errorConnectingToDb);
@@ -340,7 +297,6 @@ router.get('/shiftBid/:today', function (req, res) {
 router.get('/shiftBidToConfirm/:id', function (req, res) {
     if (req.isAuthenticated()) {
         var shiftId = req.params.id;
-        console.log('shiftId', shiftId);
         pool.connect(function (errorConnectingToDb, db, done) {
             if (errorConnectingToDb) {
                 console.log('Error connecting', errorConnectingToDb);
@@ -358,7 +314,6 @@ router.get('/shiftBidToConfirm/:id', function (req, res) {
                         res.sendStatus(500);
                         return;
                     } else {
-                        console.log('got shift bids');
                         res.send(result.rows);
                     }
                 });
@@ -385,7 +340,6 @@ router.post('/confirm', function (req, res) {
         if (staffMember.adl === true) {
             role = 'ADL';
         }
-        console.log('confirming staff', staffMember);
         pool.connect(function (errorConnectingToDb, db, done) {
             if (errorConnectingToDb) {
                 console.log('Error connecting', errorConnectingToDb);
@@ -401,13 +355,12 @@ router.post('/confirm', function (req, res) {
                         let shift_id = result.rows[0].shift_id;
                         let date = moment(staffMember.date).format('MM/DD/YY');
                         confirmedShiftEmail(user_id, shift_id).then(function (emailDetails) {
-                            console.log('email details in the confirm', emailDetails)
                             let emailContent =
                                 '<body>' +
-                                '<p>Hello, you have been confirmed to work the shift below: <br>' + 
-                                date + ' ' + role + ' ' + staffMember.floor +
+                                '<p>Hello, you have been <strong>confirmed</strong> to work the shift below: <br>' +
+                                date + ', ' + role + ' Floor: ' + staffMember.floor +
                                 '<p>If you are no longer able to work this shift, please reach out to your supervisor.</p>'
-                                '</body>'
+                            '</body>'
 
                             var request = sg.emptyRequest({
                                 method: 'POST',
@@ -416,7 +369,7 @@ router.post('/confirm', function (req, res) {
                                     personalizations: [
                                         {
                                             to: [{ email: `${emailDetails.username}` }],
-                                            subject: 'Shift confrmation for ' + date + ' ' + role + ' ' + staffMember.floor 
+                                            subject: 'Shift confrmation for ' + date + ' ' + role + ' floor: ' + staffMember.floor
                                         },
                                     ],
                                     from: {
@@ -443,62 +396,55 @@ router.post('/confirm', function (req, res) {
                                 .catch(error => {
                                     console.log(error.response);
                                 });
-                            // var mailOptions = {
-                            //     from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
-                            //     to: emailDetails.username, // list of receivers
-                            //     subject: 'Shift Confirmation for ' + moment(emailDetails.date).format('MM/DD/YY') + ' from Andrew Residence', // Subject line
-                            //     html: ' <body>' +
-                            //         '<h3>Hello, you have been confirmed to work the shift below:</h3>' +
-                            //         '<p>' + emailDetails.shift + ', ' + moment(emailDetails.date).format('MM/DD/YY') + '</p>' +
-                            //         '<p>Please contact your supervisor(s) for additional information or if you can no longer work this shift.</p>' +
-                            //         '<p> We appreciate yor support!</p></body>',
-                            //     auth: {
-                            //         user: GMAIL_USER,
-                            //         refreshToken: REFRESH_TOKEN,
-                            //         accessToken: ACCESS_TOKEN,
-                            //     }
-                            // };
-                            // // send mail with defined transport object
-                            // transporter.sendMail(mailOptions, function (error, info) {
-                            //     if (error) {
-                            //         console.log(error);
-                            //         res.send(error);
-                            //     }
-                            //     console.log('Confirmation Message sent: %s', info.messageId);
-                            //     res.sendStatus(200);
-                            // });
                             return notSelectedForShiftEmail(shift_id, user_id, emailDetails);
-
                         }).then(function (email) {
-                            console.log('shift confirmation reject email', email.emailAddresses);
+                            let emails = [];
+                            email.emailAddresses.forEach(em => {
+                                emails.push({ email: em });
+                            })
                             if (email.emailAddresses.join('') !== null && email.emailAddresses.join('') !== '') {
-                                // do something
+                                let emailContent =
+                                    '<body>' +
+                                    '<p>Hello, the shift you bid on has been filled by another staff memember. <br>' +
+                                    date + ', ' + role + ' Floor: ' + staffMember.floor +
+                                    '<p>If you have any questions, please reach out to your supervsior.</p>'
+                                '</body>'
 
-                                var mailOptions = {
-                                    from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
-                                    to: email.emailAddresses.join(','), // list of receivers
-                                    subject: 'Shift Filled from Andrew Residence', // Subject line
-                                    html: ' <body>' +
-                                        '<h3>Hello, the below shift has been filled by another staff member.</h3>' +
-                                        '<p>' + email.shift + ', ' + moment(email.date).format('MM/DD/YY') + '</p>' +
-                                        '<p>Please contact your supervisor(s) for additional information.</p>' +
-                                        // '<button style="background-color: #4CAF50;background-color:rgb(255, 193, 7);;color: white;padding: 15px 32px;text-align: center;font-size: 16px;">Let\'s Pick-up Some Shifts!</button>' +
-                                        '<p> We appreciate yor support!</p></body>',
-                                    auth: {
-                                        user: GMAIL_USER,
-                                        refreshToken: REFRESH_TOKEN,
-                                        accessToken: ACCESS_TOKEN,
-                                    }
-                                };
-                                // send mail with defined transport object
-                                transporter.sendMail(mailOptions, function (error, info) {
-                                    if (error) {
-                                        console.log(error);
-                                        res.send(error);
-                                    }
-                                    console.log(' Shift filled Message sent: %s', info.messageId);
-                                    res.sendStatus(200);
+                                var request = sg.emptyRequest({
+                                    method: 'POST',
+                                    path: '/v3/mail/send',
+                                    body: {
+                                        personalizations: [
+                                            {
+                                                to: [{ email: 'andrewresidence2017@gmail.com' }],
+                                                bcc: emails,
+                                                subject: 'Andrew Residence shift filled by another staff member' + date + ' ' + role + ' floor: ' + staffMember.floor
+                                            },
+                                        ],
+                                        from: {
+                                            email: '"Andrew Residence" <andrewresidence2017@gmail.com>'
+                                        },
+                                        content: [
+                                            {
+                                                type: 'text/plain',
+                                                value: 'Shift Bid',
+                                            },
+                                            {
+                                                type: 'text/html',
+                                                value: emailContent,
+                                            }
+                                        ],
+                                    },
                                 });
+                                sg.API(request)
+                                    .then(response => {
+                                        console.log(response.statusCode);
+                                        console.log(response.body);
+                                        console.log(response.headers);
+                                    })
+                                    .catch(error => {
+                                        console.log(error.response);
+                                    });
                             }
 
                         });
@@ -506,7 +452,6 @@ router.post('/confirm', function (req, res) {
                             console.log('Error making query', errorMakingQuery);
                             res.sendStatus(500);
                         } else {
-                            console.log('staff added to confirmed table');
                             var queryText = 'UPDATE "post_shifts" SET "shift_status" = $1 WHERE "shift_id" = $2;';
                             db.query(queryText, ["Filled", req.body.shift_id],
                                 function (errorMakingQuery, result) {
@@ -516,9 +461,7 @@ router.post('/confirm', function (req, res) {
                                         res.sendStatus(500);
                                         return;
                                     } else {
-
                                         res.sendStatus(201);
-                                        console.log('updated shift status in shift table');
                                     }
                                 });
                         }
@@ -537,7 +480,6 @@ router.put('/getmyshifts', function (req, res) {
         var userId = req.user.id;
         var firstDayofShifts = req.body.firstDayofShifts;
         var lastDayofShifts = req.body.lastDayofShifts;
-        console.log('get my shifts dates', req.body);
         pool.connect(function (errorConnectingToDb, db, done) {
             if (errorConnectingToDb) {
                 console.log('Error connecting', errorConnectingToDb);
@@ -572,7 +514,6 @@ router.put('/getmyshifts', function (req, res) {
 router.delete('/delete:id/', function (req, res) {
     if (req.isAuthenticated()) {
         var deleteShift = req.params.id;
-        console.log('delete:', deleteShift);
         pool.connect(function (err, client, done) {
             if (err) {
                 console.log("Error connecting: ", err);
@@ -725,33 +666,6 @@ router.get('/filled/who/:id', function (req, res) {
 }); //end get the name of the person that has the shift
 // post route to confirm table upon adding a shift
 
-// function insertPostShift() {
-//     return new Promise(function (resolve, reject) {
-//         pool.connect(function (errorConnectingToDb, db, done) {
-//             if (errorConnectingToDb) {
-//                 console.log('Error connecting', errorConnectingToDb);
-//                 reject();
-//             } else { //end if error connection to db
-
-//                 var queryText = 'INSERT INTO "confirmed" ("confirmed_by_id", "user_id", "shift_id") VALUES ($1, $2, $3);';
-//                 db.query(queryText, result.rows, function (err, result) {
-//                     done();
-//                     if (err) {
-//                         console.log("Error getting email: ", err);
-//                         reject();
-//                     } else {
-
-//                         result.rows.forEach(function (userEmail) {
-//                             emailArray.push(userEmail.username);
-//                         });
-//                         resolve(emailArray);
-//                     }
-//                 });
-//             }
-
-//         });
-//     });
-// };
 function confirmedShiftEmail(user_id, shift_id) {
     let emailDetails = {};
     return new Promise(function (resolve, reject) {
@@ -780,7 +694,6 @@ function confirmedShiftEmail(user_id, shift_id) {
                             } else {
                                 emailDetails.date = result.rows[0].date;
                                 emailDetails.shift = result.rows[0].shift;
-                                console.log(emailDetails);
                                 resolve(emailDetails);
                             }
                         });
@@ -838,7 +751,6 @@ function getSupervisorsNotify(shiftId) {
                         console.log('Error making query', errorMakingQuery);
                         res.sendStatus(500);
                     } else {
-                        console.log('result.rows', result.rows)
                         result.rows.forEach(function (userEmail) {
                             superEmails.push({ email: userEmail.username })
                         })
@@ -850,8 +762,4 @@ function getSupervisorsNotify(shiftId) {
     })
 }
 
-
 module.exports = router;
-
-
-// SELECT "users"."username" FROM "users" JOIN "shift_bids" ON "shift_bids"."user_id" = "users"."id" WHERE "users"."id" = $1;

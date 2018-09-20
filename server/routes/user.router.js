@@ -2,14 +2,8 @@ require('dotenv').config();
 var express = require('express');
 var router = express.Router();
 var pool = require('../modules/pool.js');
-var nodemailer = require('nodemailer');
+var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
 
-/* credentials for google oauth w/nodemailer*/
-var GMAIL_USER = process.env.GMAIL_USER;
-var REFRESH_TOKEN = process.env.REFRESH_TOKEN;
-var ACCESS_TOKEN = process.env.ACCESS_TOKEN;
-var CLIENT_ID = process.env.CLIENT_ID;
-var CLIENT_SECRET = process.env.CLIENT_SECRET;
 // Handles Ajax request for user information if user is authenticated
 router.get('/', function (req, res) {
   console.log('get /user route');
@@ -118,48 +112,56 @@ router.put('/confirm/:id', function (req, res) {
           console.log("Error inserting data: ", err);
           res.sendStatus(500);
         } else {
-          var transporter = nodemailer.createTransport({
-            host: 'smtp.gmail.com',
-            port: 465,
-            secure: true,
-            auth: {
-              type: 'OAuth2',
-              clientId: CLIENT_ID,
-              clientSecret: CLIENT_SECRET,
-            }
-          });
-          console.log('username:', result.rows[0].username);
-
           let emailConfirmAddress = result.rows[0].username;
+          let emailContent =
+            '<body>' +
+            '<p>Hello,</p>' +
+            '<p>Your account has been confirmed with Andrew Residence. You can now start bidding on shifts!</p>' +
+            '<button style="background-color: #4CAF50;background-color:rgb(255, 193, 7);color: white;padding: 15px 32px;text-align: center;font-size: 16px;border-radius: 5px;border: none;" >' +
+            '<a href="https://andrew-residence.herokuapp.com/" style="text-decoration: none; color: white"/>Let\'s Pick-up Some Shifts!</button>' +
+            '</body>'
 
-          // setup email data 
-          var mailOptions = {
-            from: '"Andrew Residence" <andrewresidence2017@gmail.com>', // sender address
-            to: emailConfirmAddress, // list of receivers
-            subject: 'Andrew Residence Account Confirmation ✔', // Subject line
-            text: 'You\'re Confirmed!, // plain text body',
-            html: '<p>Hello from Andrew Residence!!!  Thank you very much for signing up for the scheduling application. You are OFFICIAL!  We have created your profile and you may now begin picking up shifts. <button style="background-color: #4CAF50; /* Green */"+" See Shifts!</button>  See you soon!</p>', // html body
-            auth: {
-              user: GMAIL_USER,
-              refreshToken: REFRESH_TOKEN,
-              accessToken: ACCESS_TOKEN,
-            }
-          };
-          // send mail with defined transport object
-          transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-              console.log(error);
-              res.send(error);
-            }
-            console.log('Message sent: %s', info.messageId);
-            res.sendStatus(200);
+          var request = sg.emptyRequest({
+            method: 'POST',
+            path: '/v3/mail/send',
+            body: {
+              personalizations: [
+                {
+                  to: [{ email: emailConfirmAddress }],
+                  subject: 'Andrew Residence Account Confirmed'
+                },
+              ],
+              from: {
+                email: '"Andrew Residence" <andrewresidence2017@gmail.com>'
+              },
+              content: [
+                {
+                  type: 'text/plain',
+                  value: 'Shift Bid',
+                },
+                {
+                  type: 'text/html',
+                  value: emailContent,
+                }
+              ],
+            },
           });
-          res.send(result.rows);
+          sg.API(request)
+            .then(response => {
+              console.log(response.statusCode);
+              console.log(response.body);
+              console.log(response.headers);
+            })
+            .catch(error => {
+              console.log(error.response);
+            });
+          res.sendStatus(201);
         }
       });//end of dbQuery
     });//end of pool connect
   }
 });//end of confirm id
+
 //Users PUT route to edit a specific user
 router.put('/edit/:id', function (req, res) {
   if (req.isAuthenticated()) {
@@ -212,6 +214,7 @@ router.delete('/:id', function (req, res) {
     });
   }
 });
+
 // clear all server session information about this user
 router.get('/logout', function (req, res) {
   // Use passport's built-in method to log out the user
@@ -223,6 +226,7 @@ router.get('/logout', function (req, res) {
   console.log('req.user in logout', req.user);
   // res.sendStatus(200);
 });
+
 //post messages/staff notifications created by supervisors
 router.post('/message/', function (req, res) {
   if (req.isAuthenticated()) {
@@ -288,40 +292,35 @@ router.get('/messages', function (req, res) {
 router.delete('/messages/delete/:id', function (req, res) {
   if (req.isAuthenticated()) {
     deleteId = req.params.id;
-    console.log('delete', deleteId)
-      pool.connect(function (err, db, done) {
+    pool.connect(function (err, db, done) {
+      if (err) {
+        console.log('error connecting', err);
+        res.sendStatus(500);
+      }
+      var queryText = 'DELETE FROM "notifications" WHERE "notification_id" = $1;';
+      db.query(queryText, [deleteId], function (err, result) {
+        done();
         if (err) {
-          console.log('error connecting', err);
+          console.log("Error inserting data: ", err);
           res.sendStatus(500);
+        } else {
+          res.sendStatus(201);
         }
-        var queryText = 'DELETE FROM "notifications" WHERE "notification_id" = $1;';
-        db.query(queryText, [deleteId], function (err, result) {
-          done();
-          if (err) {
-            console.log("Error inserting data: ", err);
-            res.sendStatus(500);
-          } else {
-            res.sendStatus(201);
-          }
-        });
       });
-    }
-    else {
-      console.log('User is not authenticated.');
-    }
-  })
+    });
+  }
+  else {
+    console.log('User is not authenticated.');
+  }
+})
 
 router.put('/profile', function (req, res) {
   if (req.isAuthenticated()) {
-  console.log('profile id', req.user.id);
-  console.log('profileEdit', req.body);
-  var profileEdit = {
-    id: req.user.id,
-    phone: req.body.phone,
-    username: req.body.username,
-  };
-  console.log(profileEdit.username);
-  console.log('Profile', profileEdit)
+    var profileEdit = {
+      id: req.user.id,
+      phone: req.body.phone,
+      username: req.body.username,
+    };
     pool.connect(function (err, db, done) {
       if (err) {
         console.log('error connecting', err);

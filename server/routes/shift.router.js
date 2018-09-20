@@ -252,6 +252,9 @@ router.post('/shiftBid', function (req, res) {
                                             let emailContent = '<body>' +
                                                 '<h3>Andrew Residence</h3' +
                                                 '<p> A request to pick up the shift for: ' + date + ' ' + shift +
+                                                    '<p>' + mhw + '</p>'
+                                                    '<p>' + nurse + '</p>'
+                                                    '<p>' + adl + '</p>'
                                                 '</body>'
 
 

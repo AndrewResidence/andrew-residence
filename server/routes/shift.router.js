@@ -202,18 +202,6 @@ router.put('/payperiod/updatedates/:id', function (req, res) {
 router.post('/shiftBid', function (req, res) {
     if (req.isAuthenticated()) {
         var shiftBid = req.body;
-        var nurse = '';
-        var mhw = '';
-        var adl = '';
-        if (shiftBid.nurse === true) {
-            nurse = 'Nurse';
-        }
-        if (shiftBid.mhw === true) {
-            mhw = 'MHW';
-        }
-        if (shiftBid.adl === true) {
-            adl = 'ADL';
-        }
         console.log('****** new shift bid', shiftBid);
         // console.log('req.body.date', req.body.date);
         var createdBy = req.user.id;
@@ -249,14 +237,20 @@ router.post('/shiftBid', function (req, res) {
                                             console.log('emails returned', email);
                                             let date = moment(shiftBid.date).format('MM/DD/YY');
                                             let shift = shiftBid.shift;
+                                            let role;
+                                            if (shiftBid.mhw === true) {
+                                                role = 'MHW';
+                                            }
+                                            if (shiftBid.nurse === true) {
+                                                role = 'Nurse';
+                                            }
+                                            if (shiftBid.adl === true) {
+                                                role = 'ADL';
+                                            }
                                             let emailContent = '<body>' +
-                                                '<h3>Andrew Residence</h3' +
-                                                '<p> A request to pick up the shift for: ' + date + ' ' + shift +
-                                                    '<p>' + mhw + '</p>'
-                                                    '<p>' + nurse + '</p>'
-                                                    '<p>' + adl + '</p>'
+                                                '<p> A request to pick up the shift for: ' + date + ' ' + shift + ' ' + role + '</p>' +
+                                                '<p> Please log in to review the pending request.</p>'
                                                 '</body>'
-
 
                                             var request = sg.emptyRequest({
                                                 method: 'POST',
@@ -264,7 +258,7 @@ router.post('/shiftBid', function (req, res) {
                                                 body: {
                                                     personalizations: [
                                                         {
-                                                            to: [{ email: 'andrewresidence2018@gmail.com' }],
+                                                            to: [{ email: 'andrewresidence2017@gmail.com' }],
                                                             bcc: email,
                                                             subject: 'Shift Pickup for: ' + date + ' ' + shift
                                                         },

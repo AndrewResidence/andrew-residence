@@ -1,4 +1,4 @@
-myApp.controller('StaffController', function (UserService, ShiftService, AvailabilityService, calendarService, StaffCalendarService, $mdDialog) {
+myApp.controller('StaffController', function (UserService, ShiftService, calendarService, StaffCalendarService, $mdDialog) {
   console.log('StaffController created');
   var vm = this;
   vm.shiftService = ShiftService;

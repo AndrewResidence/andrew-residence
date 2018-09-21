@@ -1,5 +1,5 @@
 //, firstOfMonth, lastOfMonth
-myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserService, ShiftService, AvailabilityService, StaffCalendarService, shift, refreshFN) {
+myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserService, ShiftService, StaffCalendarService, shift, refreshFN) {
   console.log('StaffDialogController created');
   var vm = this;
   vm.userService = UserService;

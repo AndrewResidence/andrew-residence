@@ -1,4 +1,4 @@
-myApp.controller('SupervisorController', function (UserService, ShiftService, AvailabilityService, $mdDialog, calendarService) {
+myApp.controller('SupervisorController', function (UserService, ShiftService, $mdDialog, calendarService) {
   console.log('SupervisorController created');
   var vm = this;
   vm.userService = UserService;

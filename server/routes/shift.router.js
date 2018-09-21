@@ -204,8 +204,8 @@ router.post('/shiftBid', function (req, res) {
                                                 role = 'ADL';
                                             }
                                             let emailContent = '<body>' +
-                                                '<p> A request to pick up the shift for: <br>' + date + ' ' + shift + ' ' + role + shiftBid.floor + ' ' + '</p>' +
-                                                '<p> has been received.</p>' +
+                                                '<p> A request to pick up the shift for: <strong>' + date + ', ' + shift + ', ' + role + ', ' + shiftBid.floor + '</strong>' +
+                                                'has been received.</p>' +
                                                 '<p> Please log in to review the pending request.</p>'
                                             '</body>'
 

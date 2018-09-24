@@ -6,24 +6,24 @@ var Chance = require('chance'),
     chance = new Chance();
 var pool = require('../modules/pool.js');
 var encryptLib = require('../modules/encryption');
-var nodemailer = require('nodemailer');
-var GMAIL_USER = process.env.GMAIL_USER;
-var REFRESH_TOKEN = process.env.REFRESH_TOKEN;
-var ACCESS_TOKEN = process.env.ACCESS_TOKEN;
-var CLIENT_ID = process.env.CLIENT_ID;
-var CLIENT_SECRET = process.env.CLIENT_SECRET;
+// var nodemailer = require('nodemailer');
+// var GMAIL_USER = process.env.GMAIL_USER;
+// var REFRESH_TOKEN = process.env.REFRESH_TOKEN;
+// var ACCESS_TOKEN = process.env.ACCESS_TOKEN;
+// var CLIENT_ID = process.env.CLIENT_ID;
+// var CLIENT_SECRET = process.env.CLIENT_SECRET;
 var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
 
-var transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
-    auth: {
-        type: 'OAuth2',
-        clientId: CLIENT_ID,
-        clientSecret: CLIENT_SECRET,
-    }
-});
+// var transporter = nodemailer.createTransport({
+//     host: 'smtp.gmail.com',
+//     port: 465,
+//     secure: true,
+//     auth: {
+//         type: 'OAuth2',
+//         clientId: CLIENT_ID,
+//         clientSecret: CLIENT_SECRET,
+//     }
+// });
 
 router.put('/check', function (req, res) {
     var email = req.body.email;

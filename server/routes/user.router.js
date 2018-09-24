@@ -39,8 +39,8 @@ router.get('/unconfirmed', function (req, res) {
         console.log('error connecting', err);
         res.sendStatus(500);
       }
-      var queryText = 'SELECT * FROM "users" WHERE "confirmed" = $1;';
-      db.query(queryText, ['0'], function (err, result) {
+      var queryText = 'SELECT * FROM "users" WHERE "confirmed" = $1 AND ("username" != $2);';
+      db.query(queryText, ['0', 'null'], function (err, result) {
         done();
         if (err) {
           console.log("Error getting data: ", err);
@@ -60,8 +60,8 @@ router.get('/supervisors', function (req, res) {
         console.log('error connecting', err);
         res.sendStatus(500);
       }
-      var queryText = 'SELECT * FROM "users" WHERE "confirmed" = $1 AND "role" = $2;';
-      db.query(queryText, ['1', 'Supervisor'], function (err, result) {
+      var queryText = 'SELECT * FROM "users" WHERE "confirmed" = $1 AND "role" = $2 AND ("username" != $3);';
+      db.query(queryText, ['1', 'Supervisor', 'null'], function (err, result) {
         done();
         if (err) {
           console.log("Error inserting data: ", err);
@@ -73,6 +73,7 @@ router.get('/supervisors', function (req, res) {
     });
   }
 });
+
 //GET request for staff
 router.get('/staff', function (req, res) {
   if (req.isAuthenticated()) {
@@ -81,8 +82,8 @@ router.get('/staff', function (req, res) {
         console.log('error connecting', err);
         res.sendStatus(500);
       }
-      var queryText = 'SELECT * FROM "users" WHERE "confirmed" = $1 AND ("role" = $2 OR "role" = $3 OR "role" = $4);';
-      db.query(queryText, ['1', 'Nurse', 'MHW', 'ADL'], function (err, result) {
+      var queryText = 'SELECT * FROM "users" WHERE "confirmed" = $1 AND ("role" = $2 OR "role" = $3 OR "role" = $4) AND ("username" != $5);';
+      db.query(queryText, ['1', 'Nurse', 'MHW', 'ADL', 'null'], function (err, result) {
         done();
         if (err) {
           console.log("Error inserting data: ", err);
@@ -191,18 +192,20 @@ router.put('/edit/:id', function (req, res) {
     });
   }
 });
+
 //Users DELETE route
-router.delete('/:id', function (req, res) {
+router.put('/delete/:id', function (req, res) {
+  console.log(req.params.id);
   if (req.isAuthenticated()) {
     var id = req.params.id;
+    console.log(req.params.id, req.body);
     pool.connect(function (err, db, done) {
       if (err) {
         console.log('error connecting', err);
         res.sendStatus(500);
       }
-      var queryText = 'DELETE FROM "users" WHERE "id" = $1;'
-      //insert into users new role and change confirmed to true;
-      db.query(queryText, [id], function (err, result) {
+      var queryText = 'UPDATE "users" SET "username" =$2  WHERE "id" = $1;'
+      db.query(queryText, [id, null], function (err, result) {
         done();
         if (err) {
           console.log("Error inserting data: ", err);
@@ -247,22 +250,18 @@ router.post('/message/', function (req, res) {
             res.sendStatus(500);
           }
           else {
-
             res.sendStatus(201);
           }
         }
         ); // END QUERY
-
       }
-
     }); // end pool connect
-
-
   } // end req.isAuthenticated
   else {
     console.log('User is not authenticated');
   }
 })//end posting messages
+
 //gets all messages to display for staff and supervisors
 router.get('/messages', function (req, res) {
   if (req.isAuthenticated()) {

@@ -71,10 +71,11 @@ myApp.service('UserService', function ($http, $location) {
 
   //Users PUT route to edit individual user
   self.deleteUser = function (user) {
-    // console.log('user in service', user.id, user.role);
-    return $http.delete('/user/' + user.id).then(function (response) {
+    console.log('user in service', user.id, user.role);
+    return $http.put('/user/delete/' + user.id).then(function (response) {
       return response;
     });
+
   };
 
   self.logout = function () {

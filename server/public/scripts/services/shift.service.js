@@ -199,7 +199,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
 
   //start deleteShift function
   self.deleteShift = function (shiftId) {
-    return $http.delete('/shifts/delete' + shiftId).then(function (response) {
+    return $http.put('/shifts/delete' + shiftId).then(function (response) {
       return response;
     }).catch(function (response) {
       console.log('Error deleting shift');

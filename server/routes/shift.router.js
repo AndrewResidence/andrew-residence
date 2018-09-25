@@ -490,8 +490,8 @@ router.put('/getmyshifts', function (req, res) {
                     'SELECT "post_shifts"."date", "post_shifts"."shift", "post_shifts"."shift_comments", "post_shifts"."shift_status", "post_shifts"."mhw", "post_shifts"."nurse", "post_shifts"."adl", "user_shifts"."shift_id", "post_shifts"."floor", "user_shifts"."user_id", "user_shifts"."shift_state"' +
                     'FROM  "user_shifts" JOIN "post_shifts"' +
                     'ON "user_shifts"."shift_id" = "post_shifts"."shift_id"' +
-                    'WHERE "post_shifts"."date" > $1 AND "post_shifts"."date" < $2 AND "user_shifts"."user_id" = $3';
-                db.query(queryText, [firstDayofShifts, lastDayofShifts, userId], function (errorMakingQuery, result) {
+                    'WHERE "post_shifts"."date" > $1 AND "post_shifts"."date" < $2 AND "user_shifts"."user_id" = $3 AND "post_shifts"."shift_status" != $4';
+                db.query(queryText, [firstDayofShifts, lastDayofShifts, userId, 'Deleted'], function (errorMakingQuery, result) {
                     done(); // add + 1 to pool
 
                     if (errorMakingQuery) {

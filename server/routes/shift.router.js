@@ -203,12 +203,12 @@ router.post('/shiftBid', function (req, res) {
                                             if (shiftBid.adl === true) {
                                                 role = 'ADL';
                                             }
-                                            let emailContent = '<body>' +
-                                                '<p> A request to pick up the shift for: <strong>' + date + ', ' + shift + ', ' + role + ', ' + shiftBid.floor + '</strong>' +
-                                                'has been received.</p>' +
-                                                '<p> Please log in to review the pending request.</p>'
-                                            '</body>'
-
+                                            //email text to supervsior
+                                            let emailContent = `<body>
+                                            <p>A request to pick up the shift for <strong>${date}, ${shift}, ${role}, ${shiftBid.floor}</strong> has been received.</p>
+                                            <p>Please log in to Andrew Residence Staffing to view the request.</p>
+                                            </body>`
+                                            //email 
                                             var request = sg.emptyRequest({
                                                 method: 'POST',
                                                 path: '/v3/mail/send',
@@ -235,6 +235,7 @@ router.post('/shiftBid', function (req, res) {
                                                     ],
                                                 },
                                             });
+                                            //sendgrid api request
                                             sg.API(request)
                                                 .then(response => {
                                                     console.log(response.statusCode);
@@ -356,11 +357,11 @@ router.post('/confirm', function (req, res) {
                         let date = moment(staffMember.date).format('MM/DD/YY');
                         confirmedShiftEmail(user_id, shift_id).then(function (emailDetails) {
                             let emailContent =
-                                '<body>' +
-                                '<p>Hello, you have been <strong>confirmed</strong> to work the shift below: <br>' +
-                                date + ', ' + role + ' Floor: ' + staffMember.floor +
-                                '<p>If you are no longer able to work this shift, please reach out to your supervisor.</p>'
-                            '</body>'
+                                `<body><p>Hello!</p>
+                                <p>You have been <strong>confirmed</strong> to work the shift below:</p> 
+                                <p>${date}, ${role}, Floor: ${staffMember.floor}</p>
+                                <p>If you are no longer able to work, please reach out to your supervisor at Andrew Residence.</p>
+                                </body>`;
 
                             var request = sg.emptyRequest({
                                 method: 'POST',
@@ -369,7 +370,7 @@ router.post('/confirm', function (req, res) {
                                     personalizations: [
                                         {
                                             to: [{ email: `${emailDetails.username}` }],
-                                            subject: 'Shift confrmation for ' + date + ' ' + role + ' floor: ' + staffMember.floor
+                                            subject: `Shift confrmation for ${date} ${role} floor: ${staffMember.floor}`
                                         },
                                     ],
                                     from: {
@@ -404,11 +405,11 @@ router.post('/confirm', function (req, res) {
                             })
                             if (email.emailAddresses.join('') !== null && email.emailAddresses.join('') !== '') {
                                 let emailContent =
-                                    '<body>' +
-                                    '<p>Hello, the shift you bid on has been filled by another staff memember. <br>' +
-                                    date + ', ' + role + ' Floor: ' + staffMember.floor +
-                                    '<p>If you have any questions, please reach out to your supervsior.</p>'
-                                '</body>'
+                                    `<body>
+                                    <p>Hello,</p>
+                                    <p>The shift you bid on for ${date}, ${role}, floor: ${staffMember.foor} has been filled by another staff member.</p>
+                                    <p>If you have any questions, please reach out to your supervisor at Andrew Residence.</p>
+                                    </body>`
 
                                 var request = sg.emptyRequest({
                                     method: 'POST',
@@ -418,7 +419,7 @@ router.post('/confirm', function (req, res) {
                                             {
                                                 to: [{ email: 'andrewresidence2017@gmail.com' }],
                                                 bcc: emails,
-                                                subject: 'Andrew Residence shift filled by another staff member' + date + ' ' + role + ' floor: ' + staffMember.floor
+                                                subject: `Andrew Residence shift filled by another staff member ${date} ${role} floor: ${staffMember.floor}`
                                             },
                                         ],
                                         from: {

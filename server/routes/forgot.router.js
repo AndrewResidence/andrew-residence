@@ -1,29 +1,11 @@
 var express = require('express');
 var router = express.Router();
-
-
 var Chance = require('chance'),
     chance = new Chance();
 var pool = require('../modules/pool.js');
 var encryptLib = require('../modules/encryption');
-// var nodemailer = require('nodemailer');
-// var GMAIL_USER = process.env.GMAIL_USER;
-// var REFRESH_TOKEN = process.env.REFRESH_TOKEN;
-// var ACCESS_TOKEN = process.env.ACCESS_TOKEN;
-// var CLIENT_ID = process.env.CLIENT_ID;
-// var CLIENT_SECRET = process.env.CLIENT_SECRET;
-var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
 
-// var transporter = nodemailer.createTransport({
-//     host: 'smtp.gmail.com',
-//     port: 465,
-//     secure: true,
-//     auth: {
-//         type: 'OAuth2',
-//         clientId: CLIENT_ID,
-//         clientSecret: CLIENT_SECRET,
-//     }
-// });
+var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
 
 router.put('/check', function (req, res) {
     var email = req.body.email;
@@ -55,16 +37,16 @@ router.put('/check', function (req, res) {
                             console.log('query err ', err);
                             res.sendStatus(500);
                         } else {
-                            let updateLink = '<a href="https://andrew-residence.herokuapp.com/#/update?code=' + code + '">Click Here</a>';
+                            let updateLink = `<a href="https://andrew-residence.herokuapp.com/#/update?code=${code}">Click Here</a>`;
                             let emailContent =
-                                '<body>' +
-                                '<p>Hello,</p>' +
-                                '<p>Please use the button below to reset your password:</p>' +
-                                '<button style="background-color: #4CAF50;background-color:rgb(255, 193, 7);color: white;padding: 15px 32px;text-align: center;font-size: 16px;border-radius: 5px;border: none;">' + updateLink + '</button>' +
-                                '<p>If you are unable to click the button, please copy and paste this link in to your browser: </p>' +
-                                '<p>https://andrew-residence.herokuapp.com/#/update?code=' + code + '</p>' +
-                                '<p>Thank you, <br> Andrew Residence</p>' +
-                                '</body>'
+                                `<body>
+                                <p>Hello,</p>
+                                <p>Please use the button below to reset your password:</p>
+                                <button style="background-color: #4CAF50;background-color:rgb(255, 193, 7);color: white;padding: 15px 32px;text-align: center;font-size: 16px;border-radius: 5px;border: none;">${updateLink}</button>
+                                <p>If you are unable to click the button, please copy and paste this link in to your browser: </p>
+                                <p>https://andrew-residence.herokuapp.com/#/update?code=${code}</p>
+                                <p>Thank you, <br> Andrew Residence</p>
+                                </body>`
 
                             var request = sg.emptyRequest({
                                 method: 'POST',

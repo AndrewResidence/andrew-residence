@@ -90,15 +90,16 @@ function getEmailRecAndShifts() {
 }
 
 function weeklyDigestEmailSend(emails, shifts) {
-    let emailContent = ' <body>' +
-        '<h1>Andrew Residence</h1>' +
-        '<h3>Currently available on-call shifts:</h3>' +
-        shifts.join('') +
-        '<p>Please go to the scheduling app to sign-up for a shift.</p>' +
-        '<button style="background-color: #4CAF50;background-color:rgb(255, 193, 7);color: white;padding: 15px 32px;text-align: center;font-size: 16px;border-radius: 5px;border: none;" >' +
-        '<a href="https://andrew-residence.herokuapp.com/" style="text-decoration: none; color: white"/>Let\'s Pick-up Some Shifts!</button>' +
-        '<p> We appreciate yor support!</p>' +
-        '</body>'
+    let emailContent = 
+        `<body>'
+        <h1>Andrew Residence</h1>'
+        <h3>Currently available on-call shifts:</h3>
+        ${shifts.join('')}
+        <p>Please go to the scheduling app to sign-up for a shift.</p>
+        <button style="background-color: #4CAF50;background-color:rgb(255, 193, 7);color: white;padding: 15px 32px;text-align: center;font-size: 16px;border-radius: 5px;border: none;" >
+        <a href="https://andrew-residence.herokuapp.com/" style="text-decoration: none; color: white"/>Let\'s Pick-up Some Shifts!</button>'
+        <p> We appreciate yor support!</p>
+        </body>`
 
     var request = sg.emptyRequest({
         method: 'POST',

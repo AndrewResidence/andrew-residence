@@ -115,12 +115,12 @@ router.put('/confirm/:id', function (req, res) {
         } else {
           let emailConfirmAddress = result.rows[0].username;
           let emailContent =
-            '<body>' +
-            '<p>Hello,</p>' +
-            '<p>Your account has been confirmed with Andrew Residence. You can now start bidding on shifts!</p>' +
-            '<button style="background-color: #4CAF50;background-color:rgb(255, 193, 7);color: white;padding: 15px 32px;text-align: center;font-size: 16px;border-radius: 5px;border: none;" >' +
-            '<a href="https://andrew-residence.herokuapp.com/" style="text-decoration: none; color: white"/>Let\'s Pick-up Some Shifts!</button>' +
-            '</body>'
+            `<body>
+            <p>Hello,</p>
+            <p>Your account has been confirmed with Andrew Residence. You can now start bidding on shifts!</p>
+            <button style="background-color: #4CAF50;background-color:rgb(255, 193, 7);color: white;padding: 15px 32px;text-align: center;font-size: 16px;border-radius: 5px;border: none;" >
+            <a href="https://andrew-residence.herokuapp.com/" style="text-decoration: none; color: white"/>Let\'s Pick-up Some Shifts!</button>
+            </body>`
 
           var request = sg.emptyRequest({
             method: 'POST',

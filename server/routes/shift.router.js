@@ -4,6 +4,7 @@ var express = require('express');
 var router = express.Router();
 var moment = require('moment');
 var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
+var cron = require('node-cron');
 
 router.post('/', function (req, res) {
     if (req.isAuthenticated()) {
@@ -762,6 +763,30 @@ function getSupervisorsNotify(shiftId) {
             }
         })
     })
+}
+
+var deleteShiftHistory = cron.schedule('0 21 13 * * *', function () {
+    console.log('Running history delete');
+    pool.connect((function(errorConnectingToDb, db, done) {
+        if (errorConnectingToDb) {
+            console.log('Error connecting to DB for Delete History');
+            res.sendStatus(500);
+        } else {
+            var queryText = "DELETE FROM 'post_shifts' WHERE 'date' <= (now() - interval '4 month');";
+            db.query(queryText, function(errorMakingQuery, res) {
+                done();
+                if (errorMakingQuery) {
+                    console.log('Error Making query');
+                } else {
+                    console.log('stuff deleted');
+                }
+            })
+        }
+    }))
+})
+
+function deleteHistory() {
+    
 }
 
 module.exports = router;

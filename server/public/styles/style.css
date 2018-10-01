@@ -476,7 +476,15 @@ div.Filled {
   background-color: #959595;
 }
 
+div.confirmed {
+  background-color: #959595;
+}
+
 div.Pending {
+  background-color: #FCF1C6;
+}
+
+div.pending {
   background-color: #FCF1C6;
 }
 

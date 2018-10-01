@@ -80,8 +80,8 @@ router.put('/', function (req, res) {
             else {
                 var queryText =
                     'SELECT * FROM "post_shifts"' +
-                    'WHERE "date" >= $1 AND "date" <= $2;';
-                db.query(queryText, [firstDayofShifts, lastDayofShifts], function (errorMakingQuery, result) {
+                    'WHERE "date" >= $1 AND "date" <= $2 AND "shift_status" != $3;';
+                db.query(queryText, [firstDayofShifts, lastDayofShifts, 'Deleted'], function (errorMakingQuery, result) {
                     done(); // add + 1 to pool
                     if (errorMakingQuery) {
                         console.log('Error making query', errorMakingQuery);
@@ -487,11 +487,11 @@ router.put('/getmyshifts', function (req, res) {
             } //end if error connection to db
             else {
                 var queryText =
-                    'SELECT "post_shifts"."date", "post_shifts"."shift", "post_shifts"."shift_comments", "post_shifts"."shift_status", "post_shifts"."mhw", "post_shifts"."nurse", "post_shifts"."adl", "user_shifts"."shift_id", "post_shifts"."floor"' +
+                    'SELECT "post_shifts"."date", "post_shifts"."shift", "post_shifts"."shift_comments", "post_shifts"."shift_status", "post_shifts"."mhw", "post_shifts"."nurse", "post_shifts"."adl", "user_shifts"."shift_id", "post_shifts"."floor", "user_shifts"."user_id", "user_shifts"."shift_state"' +
                     'FROM  "user_shifts" JOIN "post_shifts"' +
                     'ON "user_shifts"."shift_id" = "post_shifts"."shift_id"' +
-                    'WHERE "post_shifts"."date" > $1 AND "post_shifts"."date" < $2 AND "user_shifts"."user_id" = $3;';
-                db.query(queryText, [firstDayofShifts, lastDayofShifts, userId], function (errorMakingQuery, result) {
+                    'WHERE "post_shifts"."date" > $1 AND "post_shifts"."date" < $2 AND "user_shifts"."user_id" = $3 AND "post_shifts"."shift_status" != $4';
+                db.query(queryText, [firstDayofShifts, lastDayofShifts, userId, 'Deleted'], function (errorMakingQuery, result) {
                     done(); // add + 1 to pool
 
                     if (errorMakingQuery) {
@@ -511,7 +511,8 @@ router.put('/getmyshifts', function (req, res) {
 }); //end get shifts
 
 // delete shift from post_shifts
-router.delete('/delete:id/', function (req, res) {
+router.put('/delete:id/', function (req, res) {
+    console.log('shift delete id', req.params.id)
     if (req.isAuthenticated()) {
         var deleteShift = req.params.id;
         pool.connect(function (err, client, done) {
@@ -519,7 +520,7 @@ router.delete('/delete:id/', function (req, res) {
                 console.log("Error connecting: ", err);
                 res.sendStatus(500);
             }
-            var queryText = 'DELETE FROM "post_shifts" WHERE "shift_id" = $1;';
+            var queryText = 'UPDATE "post_shifts" SET "shift_status" = \'Deleted\' WHERE "shift_id" = $1;';
             client.query(queryText, [deleteShift], function (errorMakingQuery, result) {
                 done();
                 if (errorMakingQuery) {

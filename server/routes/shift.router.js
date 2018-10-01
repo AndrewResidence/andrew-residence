@@ -765,18 +765,18 @@ function getSupervisorsNotify(shiftId) {
     })
 }
 
-var deleteShiftHistory = cron.schedule('0 21 13 * * *', function () {
+var deleteShiftHistory = cron.schedule('0 0 14 1 * *', function () {
     console.log('Running history delete');
     pool.connect((function(errorConnectingToDb, db, done) {
         if (errorConnectingToDb) {
             console.log('Error connecting to DB for Delete History');
             res.sendStatus(500);
         } else {
-            var queryText = "DELETE FROM 'post_shifts' WHERE 'date' <= (now() - interval '4 month');";
-            db.query(queryText, function(errorMakingQuery, res) {
+            // var queryText = "DELETE FROM 'post_shifts' WHERE 'date' <= (now() - interval '4 month');";
+            db.query("DELETE FROM post_shifts WHERE date <= (now() - interval '2 month');", function(errorMakingQuery, res) {
                 done();
                 if (errorMakingQuery) {
-                    console.log('Error Making query');
+                    console.log('Error Making query', errorMakingQuery);
                 } else {
                     console.log('stuff deleted');
                 }

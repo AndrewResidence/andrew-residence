@@ -4,6 +4,7 @@ var express = require('express');
 var router = express.Router();
 var moment = require('moment');
 var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
+var cron = require('node-cron');
 
 router.post('/', function (req, res) {
     if (req.isAuthenticated()) {
@@ -763,5 +764,66 @@ function getSupervisorsNotify(shiftId) {
         })
     })
 }
+
+var deleteShiftHistory = cron.schedule('0 1 20 1 * *', function () {
+    console.log('Running history delete');
+    pool.connect((function(errorConnectingToDb, db, done) {
+        if (errorConnectingToDb) {
+            console.log('Error connecting to DB for Delete History');
+            res.sendStatus(500);
+        } else {
+            db.query("DELETE FROM post_shifts WHERE date <= (now() - interval '3 month') RETURNING *;", function(errorMakingQuery, result) {
+                done();
+                if (errorMakingQuery) {
+                    console.log('Error Making query', errorMakingQuery);
+                } else {
+                    console.log('stuff deleted', result.rows);
+                    let data = JSON.stringify(result.rows);
+                    let emailContent =
+                        `<body>
+                        <p>Data dump for delted shifts</p>
+                        ${data}
+                        </body>`
+
+                    var request = sg.emptyRequest({
+                    method: 'POST',
+                        path: '/v3/mail/send',
+                        body: {
+                            personalizations: [
+                                {
+                                    to: [{ email: 'andrewresidence2017@gmail.com' }],
+                                    bcc: [{email: 'sarah@sarahdoes.tech'}],
+                                    subject: `Deleted Shift Dump`
+                                },
+                            ],
+                            from: {
+                                email: '"Andrew Residence" <andrewresidence2017@gmail.com>'
+                            },
+                            content: [
+                                {
+                                    type: 'text/plain',
+                                    value: 'Shift Bid',
+                                },
+                                {
+                                    type: 'text/html',
+                                    value: emailContent,
+                                }
+                            ],
+                        },
+                    });
+                    sg.API(request)
+                        .then(response => {
+                            console.log(response.statusCode);
+                            console.log(response.body);
+                            console.log(response.headers);
+                        })
+                        .catch(error => {
+                            console.log(error.response);
+                        });
+                }
+            })
+        }
+    }))
+})
 
 module.exports = router;

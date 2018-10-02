@@ -765,7 +765,7 @@ function getSupervisorsNotify(shiftId) {
     })
 }
 
-var deleteShiftHistory = cron.schedule('0 1 20 1 * *', function () {
+var deleteShiftHistory = cron.schedule('0 0 21 1 * *', function () {
     console.log('Running history delete');
     pool.connect((function(errorConnectingToDb, db, done) {
         if (errorConnectingToDb) {

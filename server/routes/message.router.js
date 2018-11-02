@@ -22,12 +22,11 @@ var p = plivo.RestAPI({
 
 //send grid
 var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
-
 let weeklyDigestEmailArray = [];
 let weeklyDigestShiftsArray = [];
 
 //node-cron function to send weekly recap email
-var weeklyEmailTimer = cron.schedule('0 1 12 * * Wed', function () {
+var weeklyEmailTimer = cron.schedule('0 0 12 * * WED', function () {
     console.log('cron job running');
     getEmailRecAndShifts();
 })
@@ -41,7 +40,7 @@ function getEmailRecAndShifts() {
             } //end if error connection to db
             else {
                 var queryText = 
-                    "SELECT username AS email FROM users WHERE role = 'Nurse' OR role = 'MHW' OR role = 'ADL';";
+                    "SELECT username AS email FROM users WHERE (role = 'Nurse' OR role = 'MHW' OR role = 'ADL') AND (username != 'null') ;";
                 db.query(queryText, function (errorMakingQuery, result) {
                     if (errorMakingQuery) {
                         console.log('Error making query', errorMakingQuery);
@@ -90,6 +89,7 @@ function getEmailRecAndShifts() {
 }
 
 function weeklyDigestEmailSend(emails, shifts) {
+    console.log(emails);
     let emailContent = 
         `<body>'
         <h1>Andrew Residence</h1>'

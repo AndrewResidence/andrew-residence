@@ -96,8 +96,7 @@ function weeklyDigestEmailSend(emails, shifts) {
         <h3>Currently available on-call shifts:</h3>
         ${shifts.join('')}
         <p>Please go to the scheduling app to sign-up for a shift.</p>
-        <button style="background-color: #4CAF50;background-color:rgb(255, 193, 7);color: white;padding: 15px 32px;text-align: center;font-size: 16px;border-radius: 5px;border: none;" >
-        <a href="https://andrew-residence.herokuapp.com/" style="text-decoration: none; color: white"/>Let\'s Pick-up Some Shifts!</button>
+        <a href="https://andrew-residence.herokuapp.com/">Let\'s Pick-up Some Shifts!</a>
         <p> We appreciate yor support!</p>
         </body>`
 

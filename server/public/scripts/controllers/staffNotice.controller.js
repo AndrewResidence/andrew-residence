@@ -36,7 +36,5 @@ myApp.controller('NotificationController', function ($scope, $mdDialog, $mdToast
         })
     };
 
-
-
-
+    
 })

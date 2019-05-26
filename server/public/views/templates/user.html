@@ -6,7 +6,9 @@
     <div class="addMessageButton">
         <!-- SUPERVISOR BUTTON TO ADD MESSAGES -->
         <md-button ng-show="uc.userObject.role === 'Supervisor'" class="md-raised md-primary" ng-click="uc.createNotification()">Create Message</md-button>
+        <md-button ng-show="uc.userObject.role === 'Supervisor'" class="md-raised md-primary" ng-click="uc.createUrgentText()">Create Urgent Text</md-button>
     </div>
+
     <!-- ********** USER MESSAGES ********* -->
     <!-- Standard View -->
     <div class="userMessages">

@@ -198,4 +198,60 @@ router.post('/urgent', function (req, res) {
     }
 });
 
+router.post('/textmessage', function (req, res) {
+    if (req.isAuthenticated()) {
+        pool.connect(function (errorConnectingToDb, db, done) {
+            if (errorConnectingToDb) {
+                console.log('Error connecting', errorConnectingToDb);
+                res.sendStatus(500);
+            } //end if error connection to db
+            else {
+                //! req.body here to get at the passed through stuff
+
+                console.log('text message thing', req.body)
+                var textMessage = req.body.messageBody;
+                var roles = [];
+                if (req.body.textSupervisors) {
+                    roles.push('Supervisors')
+                }
+                if (req.body.textStaff) {
+                    roles.push('ADL', 'MHW', 'Nurse')
+                }
+                
+                console.log('the roles', roles)
+
+                var queryText = 'SELECT "phone" FROM "users" WHERE "role" = ANY($1::varchar[])';
+                db.query(queryText, [roles], function (err, result) {
+                    done();
+                    if (err) {
+                        console.log("Error getting phone: ", err);
+                        res.sendStatus(500);
+                    } else {
+                        result.rows.forEach(function (urgent) {
+                            console.log('urgent', urgent.phone);
+                            phoneNumberArray.push(urgent.phone);
+                        });
+
+                        var params = {
+                            src: plivoNumber, // Sender's phone number with country code
+                            dst: phoneNumberArray.join('<'),
+                            text: textMessage,
+                        };
+                        p.send_message(params, function (status, response) {
+                            console.log('Status: ', status);
+                            console.log('API Response:\n', response);
+
+                        });
+                        res.sendStatus(200);
+                    }
+                });
+            }
+        });
+    } // end req.isAuthenticated //end if statement
+    else {
+        console.log('User is not authenticated');
+        res.sendStatus(403);
+    }
+});
+
 module.exports = router;

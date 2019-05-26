@@ -91,10 +91,25 @@ myApp.service('UserService', function ($http, $location) {
     headline: ''
   };
 
+  self.textMessage = {
+    messageBody: '',
+    textSupervisors: '',
+    textStaff: ''
+  }
+
   self.createMessage = function (messageBody, headline) {
     self.message.messageBody = messageBody;
     self.message.headline = headline;
       return $http.post('/user/message/', self.message).then(function (response){
+      return response
+    })
+  }
+
+  self.createAllStaffText = function (textMessage, textSupervisors, textStaff) {
+    self.textMessage.messageBody = textMessage;
+    self.textMessage.textSupervisors = textSupervisors;
+    self.textMessage.textStaff = textStaff;
+      return $http.post('/message/textmessage/', self.textMessage).then(function (response){
       return response
     })
   }

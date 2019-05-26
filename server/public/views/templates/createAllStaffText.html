@@ -9,16 +9,16 @@
      </div>
  </md-toolbar>
  <md-dialog-content flex="auto">
-     <div layout-gt-xl="row"></div>
-     <md-input-container id="headline">
-         <label for="messageTitle">Headline</label>
-         <input type="text" ng-model="nc.message.headline" />
-     </md-input-container>
      <div layout-gt-xl="row">
          <md-input-container id="message" class="md-block">
              <label>Message</label>
-             <textarea id="commentText" rows="10" name="message" ng-model="nc.message.messageBody" md-select-on-focus></textarea>
+             <textarea id="commentText" rows="10" name="message" ng-model="nc.textMessage" md-select-on-focus></textarea>
          </md-input-container>
+         <div>Total Characters: {{nc.textMessage.length}}</div>
+     </div>
+     <div layout-gt-xl="row">
+      <md-checkbox ng-model="nc.textSupervisors" ng-true-value="'true'" ng-false-value="'false'">Supervsiors</md-checkbox>
+      <md-checkbox ng-model="nc.textStaff" ng-true-value="'true'" ng-false-value="'false'">Staff</md-checkbox>
      </div>
  </md-dialog-content>
  <md-dialog-actions layout="row">
@@ -26,8 +26,8 @@
          Cancel
      </md-button>
      <span flex></span>
-     <md-button class="md-raised md-primary" ng-click="nc.createMessage(nc.message.messageBody, nc.message.headline)">
-         Create Message
+     <md-button class="md-raised md-primary" ng-click="nc.createAllStaffText(nc.textMessage, nc.textSupervisors, nc.textStaff)">
+         Send Text Message
      </md-button>
  </md-dialog-actions>
 </md-dialog>

@@ -1,33 +1,39 @@
 <md-dialog aria-label="Create Staff Update" class="calendarPop">
- <md-toolbar>
-     <div class="md-toolbar-tools">
-         <h3>Urgent Text For All Staff</h3>
-         <span flex="auto"></span>
-         <md-button class="md-icon-button md-primary" id="closeButton" ng-click="nc.cancel()">
-             <img id="closeIcon" src="/styles/closeIcon.png" alt="close window">
-         </md-button>
-     </div>
- </md-toolbar>
- <md-dialog-content flex="auto">
-     <div layout-gt-xl="row">
-         <md-input-container id="message" class="md-block">
-             <label>Message</label>
-             <textarea id="commentText" rows="10" name="message" ng-model="nc.textMessage" md-select-on-focus></textarea>
-         </md-input-container>
-         <div>Total Characters: {{nc.textMessage.length}}</div>
-     </div>
-     <div layout-gt-xl="row">
-      <md-checkbox ng-model="nc.textSupervisors" ng-true-value="'true'" ng-false-value="'false'">Supervsiors</md-checkbox>
-      <md-checkbox ng-model="nc.textStaff" ng-true-value="'true'" ng-false-value="'false'">Staff</md-checkbox>
-     </div>
- </md-dialog-content>
- <md-dialog-actions layout="row">
-     <md-button aria-label="Cancel Message" ng-click="nc.cancel()">
-         Cancel
-     </md-button>
-     <span flex></span>
-     <md-button class="md-raised md-primary" ng-click="nc.createAllStaffText(nc.textMessage, nc.textSupervisors, nc.textStaff)">
-         Send Text Message
-     </md-button>
- </md-dialog-actions>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h3>Urgent Text For All Staff</h3>
+            <span flex="auto"></span>
+            <md-button class="md-icon-button md-primary" id="closeButton" ng-click="nc.cancel()">
+                <img id="closeIcon" src="/styles/closeIcon.png" alt="close window">
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content flex="auto">
+        <div layout-gt-xl="row">
+            <md-input-container id="message" class="md-block">
+                <label>Message</label>
+                <textarea id="commentText" rows="10" name="message" ng-model="nc.urgentText.textMessage"
+                    md-select-on-focus></textarea>
+            </md-input-container>
+            <div>Total Characters: {{nc.urgentText.textMessage.length}}</div>
+        </div>
+        <div layout-gt-xl="row">
+            <md-checkbox ng-model="nc.urgentText.supervisors" ng-true-value="'true'" ng-false-value="'false'">Supervsiors</md-checkbox><br>
+            <md-checkbox ng-model="nc.urgentText.allStaff" ng-true-value="'true'" ng-false-value="'false'">All Staff</md-checkbox><br>
+            <md-checkbox ng-model="nc.urgentText.mhw" ng-true-value="'true'" ng-false-value="'false'">MHWs</md-checkbox><br>
+            <md-checkbox ng-model="nc.urgentText.rn" ng-true-value="'true'" ng-false-value="'false'">RNs</md-checkbox><br>
+            <md-checkbox ng-model="nc.urgentText.tr" ng-true-value="'true'" ng-false-value="'false'">Therapeutic Rec</md-checkbox><br>
+            <md-checkbox ng-model="nc.urgentText.lsi" ng-true-value="'true'" ng-false-value="'false'">Living Skills Instructors</md-checkbox>
+        </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+        <md-button aria-label="Cancel Message" ng-click="nc.cancel()">
+            Cancel
+        </md-button>
+        <span flex></span>
+        <md-button class="md-raised md-primary"
+            ng-click="nc.createAllStaffText(nc.urgentText)">
+            Send Text Message
+        </md-button>
+    </md-dialog-actions>
 </md-dialog>

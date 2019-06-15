@@ -6,6 +6,16 @@ myApp.controller('NotificationController', function ($scope, $mdDialog, $mdToast
     vm.textMessage = '';    
     vm.UserService = UserService;
     vm.notifications = UserService.notifications;
+    vm.urgentText = {
+        textMessage: '',
+        supervisors: false,
+        allStaff: false,
+        mhw: false,
+        rn: false,
+        tr: false,
+        lsi: false
+    }
+
     //closes dialog box
     vm.cancel = function () {
         $mdDialog.hide();
@@ -38,8 +48,9 @@ myApp.controller('NotificationController', function ($scope, $mdDialog, $mdToast
         })
     };
 
-    vm.createAllStaffText = function(textMessage, textSupervisors, textStaff) {
-        UserService.createAllStaffText(textMessage, textSupervisors, textStaff).then(function (response) {
+    vm.createAllStaffText = function(urgentTextToSend) {
+        console.log('urgent text to send in controller', urgentTextToSend)
+        UserService.createAllStaffText(urgentTextToSend).then(function (response) {
             //! Should i make it so the toast only shows if successful?
             vm.cancel()
             UserService.getNotifications();

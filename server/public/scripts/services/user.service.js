@@ -105,11 +105,9 @@ myApp.service('UserService', function ($http, $location) {
     })
   }
 
-  self.createAllStaffText = function (textMessage, textSupervisors, textStaff) {
-    self.textMessage.messageBody = textMessage;
-    self.textMessage.textSupervisors = textSupervisors;
-    self.textMessage.textStaff = textStaff;
-      return $http.post('/message/textmessage/', self.textMessage).then(function (response){
+  self.createAllStaffText = function (urgentTextToSend) {
+    self.urgentTextToSend = urgentTextToSend;
+      return $http.post('/message/textmessage/', self.urgentTextToSend).then(function (response){
       return response
     })
   }

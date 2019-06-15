@@ -11,6 +11,7 @@ myApp.controller('NotificationController', function ($scope, $mdDialog, $mdToast
         supervisors: false,
         allStaff: false,
         mhw: false,
+        adl: false,
         rn: false,
         tr: false,
         lsi: false

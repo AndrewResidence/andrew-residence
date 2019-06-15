@@ -3,7 +3,7 @@
         <div class="md-toolbar-tools">
             <h3>Urgent Text For All Staff</h3>
             <span flex="auto"></span>
-            <md-button class="md-icon-button md-primary" id="closeButton" ng-click="nc.cancel()">
+            <md-button aria-label="Close" class="md-icon-button md-primary" id="closeButton" ng-click="nc.cancel()">
                 <img id="closeIcon" src="/styles/closeIcon.png" alt="close window">
             </md-button>
         </div>
@@ -21,7 +21,9 @@
             <md-checkbox ng-model="nc.urgentText.supervisors" ng-true-value="'true'" ng-false-value="'false'">Supervsiors</md-checkbox><br>
             <md-checkbox ng-model="nc.urgentText.allStaff" ng-true-value="'true'" ng-false-value="'false'">All Staff</md-checkbox><br>
             <md-checkbox ng-model="nc.urgentText.mhw" ng-true-value="'true'" ng-false-value="'false'">MHWs</md-checkbox><br>
+            <md-checkbox ng-model="nc.urgentText.adl" ng-true-value="'true'" ng-false-value="'false'">ADLs</md-checkbox><br>
             <md-checkbox ng-model="nc.urgentText.rn" ng-true-value="'true'" ng-false-value="'false'">RNs</md-checkbox><br>
+            <md-checkbox ng-model="nc.urgentText.sw" ng-true-value="'true'" ng-false-value="'false'">Social Workers</md-checkbox><br>
             <md-checkbox ng-model="nc.urgentText.tr" ng-true-value="'true'" ng-false-value="'false'">Therapeutic Rec</md-checkbox><br>
             <md-checkbox ng-model="nc.urgentText.lsi" ng-true-value="'true'" ng-false-value="'false'">Living Skills Instructors</md-checkbox>
         </div>
@@ -31,7 +33,7 @@
             Cancel
         </md-button>
         <span flex></span>
-        <md-button class="md-raised md-primary"
+        <md-button aria-label="Send Text Message" class="md-raised md-primary"
             ng-click="nc.createAllStaffText(nc.urgentText)">
             Send Text Message
         </md-button>

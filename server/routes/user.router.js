@@ -82,8 +82,8 @@ router.get('/staff', function (req, res) {
         console.log('error connecting', err);
         res.sendStatus(500);
       }
-      var queryText = 'SELECT * FROM "users" WHERE "confirmed" = $1 AND ("role" = $2 OR "role" = $3 OR "role" = $4) AND ("username" != $5);';
-      db.query(queryText, ['1', 'Nurse', 'MHW', 'ADL', 'null'], function (err, result) {
+      var queryText = 'SELECT * FROM "users" WHERE "confirmed" = $1 AND ("role" != $2 AND "role" != $3) AND ("username" != $4);';
+      db.query(queryText, ['1', 'Supervisor', 'Administrator', 'null'], function (err, result) {
         done();
         if (err) {
           console.log("Error inserting data: ", err);

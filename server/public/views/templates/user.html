@@ -70,6 +70,7 @@
                 <label for="phone">Phone Number</label>
                 <input type="text" ng-required="true" aria-label="Phone Number" placeholder="{{uc.userObject.phone}}" ng-model="uc.editProfile.phone">
             </md-input-container>
+            <div ng-if="uc.phoneMessage != ''" ng-hide="uc.showName" class="lead alert alert-danger" role="alert">{{uc.phoneMessage}}</div>
             <div class="userInfoEdit">
                 <md-button class="md-icon-button md-primary" aria-label="edit" type="submit" name="submit" ng-hide="uc.showName">
                     <md-icon md-svg-src="../images/check.svg"></md-icon>
@@ -86,7 +87,7 @@
     </div>
 
     <!-- ********** MOBILE USER PROFILE EDIT ********* -->
-    <div class="mobileUserEdit" show-xs show-sm hide-md hide-lg hide-xl>
+    <!-- <div class="mobileUserEdit" show-xs show-sm hide-md hide-lg hide-xl>
         <span>My Information</span>
         <div show-xs show-sm hide-md hide-lg hide-xl>
             <div layout="row">
@@ -111,4 +112,4 @@
                 </md-button>
             </div>
         </div>
-</div>
+</div> -->

@@ -1,6 +1,6 @@
 myApp.controller('AdminDialogController', function ($mdDialog, UserService, user) {
     var vm = this;
-    vm.roles = ['Supervisor', 'Nurse', 'MHW', 'ADL'];
+    vm.roles = ['Supervisor', 'MHW', 'ADL', 'Nurse', 'Social Worker', 'Therapeutic Recreation', 'Living Skills'];
     vm.userService = UserService;
     vm.user = user;
 

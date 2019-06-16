@@ -44,17 +44,17 @@ myApp.controller('UserController', function ($mdToast, UserService, $mdDialog) {
 
   vm.editProfile = {};
 
-  vm.updateUserInfo = function (name, phone) {
+  vm.updateUserInfo = function (userName, phone) {
 
     console.log('here');
 
     // console.log(vm.userService);
-    console.log(`the name ${name}, ${phone}`)
+    console.log(`the name ${userName}, ${phone}`)
     //!THIS NEEDS TO BE EDITED FOR THIS CONTROLLER
     let tempPhoneNum = []
-    for (let i = 0; i < vm.user.phone.length; i++) {
-      if (Number(vm.user.phone[i])) {
-        tempPhoneNum.push(vm.user.phone[i]);
+    for (let i = 0; i < phone.length; i++) {
+      if (Number(phone[i])) {
+        tempPhoneNum.push(phone[i]);
       }
       
     }
@@ -75,7 +75,7 @@ myApp.controller('UserController', function ($mdToast, UserService, $mdDialog) {
         return
       }
       else {
-        vm.user.phone = tempPhoneNum.join('');
+        phone = tempPhoneNum.join('');
       }
     }
     if (tempPhoneNum.length === 10) {
@@ -86,23 +86,21 @@ myApp.controller('UserController', function ($mdToast, UserService, $mdDialog) {
       }
       else {
         tempPhoneNum.unshift('1');
-        vm.user.phone = tempPhoneNum.join('');
+        phone = tempPhoneNum.join('');
       }
     }
 
-    // vm.userService.sendProfile(name, phone).then(function () {
-    //   $mdToast.show(
-    //     $mdToast.simple()
-    //       .textContent('User has been edited!')
-    //       .position('bottom left')
-    //       .hideDelay(2500)
-    //   );
-    // }).then(function () {
-    //   vm.toggleEdit();
-      
-    // });
-
-
+    vm.userService.sendProfile(userName, phone).then(function () {
+      $mdToast.show(
+        $mdToast.simple()
+          .textContent('User has been edited!')
+          .position('bottom left')
+          .hideDelay(2500)
+      );
+    }).then(function () {
+      vm.toggleEdit();
+      vm.userService.getuser();
+    });
   };
 
   vm.createNotification = function (event) {

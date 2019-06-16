@@ -214,7 +214,7 @@ router.post('/textmessage', function (req, res) {
                     roles.push('Supervisors')
                 }
                 if (req.body.allStaff) {
-                    roles.push('MHW', 'ADL', 'Nurse', 'Social Worker', 'Therapeutic Recreation, Living Skills')
+                    roles.push('MHW', 'ADL', 'Nurse', 'Social Worker', 'Therapeutic Recreation', 'Living Skills')
                 }
                 if (req.body.allStaff === false && req.body.mhw) {
                     roles.push('MHW')
@@ -232,7 +232,7 @@ router.post('/textmessage', function (req, res) {
                     roles.push('Therapeutic Recreation')
                 }
                 if (req.body.allStaff === false && req.body.lsi) {
-                    roles.push('Living Skills Instructor')
+                    roles.push('Living Skills')
                 }
                 console.log('the roles', roles)
 

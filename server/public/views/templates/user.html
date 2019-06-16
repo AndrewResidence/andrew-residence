@@ -44,6 +44,7 @@
     <!-- ********** END USER MESSAGES ********* -->
     <!-- ********** USER PROFILE EDIT ********* -->
     <div class="userInfo">
+        <form ng-submit="uc.updateUserInfo(uc.editProfile.userName, uc.editProfile.phone)">
         <div class="userMyInformation" layout="row" layout-align="center center">My Information</div>
         <div class="userInfoHeader" layout="row" layout-align="start center" hide-xs hide-sm show-md show-lg show-xl>
             <div class="userInfoNameHeader">Name</div>
@@ -58,24 +59,30 @@
             <div class="userInfoEmail" ng-show="uc.showName">
                 {{uc.userObject.userName}}
             </div>
-            <div class="userInfoEmail" ng-hide="uc.showName">
-                <input aria-label="username" placeholder="{{uc.userObject.userName}}" ng-model="uc.editProfile.userName">
-            </div>
+            <md-input-container class="userInfoEmail" ng-hide="uc.showName">
+                <label for="userName">Email Address</label>
+                <input ng-required="true" type="email" aria-label="Email Address" placeholder="{{uc.userObject.userName}}" ng-model="uc.editProfile.userName" required>
+            </md-input-container>
             <div class="userInfoPhone" ng-show="uc.showName">
                 {{uc.userObject.phone}}
             </div>
-            <div class="userInfoPhone" ng-hide="uc.showName">
-                <input aria-label="phone" placeholder="{{uc.userObject.phone}}" ng-model="uc.editProfile.phone">
-            </div>
+            <md-input-container class="userInfoEmail" ng-hide="uc.showName">
+                <label for="phone">Phone Number</label>
+                <input type="text" ng-required="true" aria-label="Phone Number" placeholder="{{uc.userObject.phone}}" ng-model="uc.editProfile.phone">
+            </md-input-container>
             <div class="userInfoEdit">
-                <md-button class="md-icon-button md-primary" aria-label="edit" ng-click="uc.joshEdit(uc.editProfile.userName, uc.editProfile.phone)" ng-hide="uc.showName">
+                <md-button class="md-icon-button md-primary" aria-label="edit" type="submit" name="submit" ng-hide="uc.showName">
                     <md-icon md-svg-src="../images/check.svg"></md-icon>
+                </md-button>
+                <md-button aria-label="Cancel Message" ng-hide="uc.showName" ng-click="uc.toggleEdit()">
+                    <img id="closeIcon" src="/styles/closeIcon.png" alt="close window">
                 </md-button>
                 <md-button class="md-icon-button md-primary" aria-label="save" ng-click="uc.toggleEdit()" ng-show="uc.showName">
                     <md-icon md-svg-src="../images/ic_mode_edit_black_18px.svg"></md-icon>
                 </md-button>
             </div>
         </div>
+        </form>
     </div>
 
     <!-- ********** MOBILE USER PROFILE EDIT ********* -->
@@ -96,7 +103,7 @@
                     <input placeholder="{{uc.userObject.phone}}" ng-model="uc.editUser.phone">
                 </div>
 
-                <md-button aria-label="edit" class="md-icon-button md-primary" ng-click="uc.toggleEdit()" ng-hide="uc.showName">
+                <md-button aria-label="edit" class="md-icon-button md-primary" ng-click="uc.updateUserInfo()" ng-hide="uc.showName">
                     <md-icon md-svg-src="../images/check.svg"></md-icon>
                 </md-button>
                 <md-button aria-label="save" class="md-icon-button md-primary" ng-click="uc.toggleEdit()" ng-show="uc.showName">

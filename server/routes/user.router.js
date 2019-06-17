@@ -6,7 +6,7 @@ var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
 
 // Handles Ajax request for user information if user is authenticated
 router.get('/', function (req, res) {
-  console.log('get /user route');
+  // console.log('get /user route');
   // check if logged in
   if (req.isAuthenticated()) {
     // send back user object from database
@@ -19,10 +19,7 @@ router.get('/', function (req, res) {
       role: req.user.role,
       confirmed: req.user.confirmed
     };
-
-    console.log(userInfo.name);
-
-
+    
     res.send(userInfo);
   } else {
     // failure best handled on the server. do redirect here.
@@ -31,6 +28,7 @@ router.get('/', function (req, res) {
     res.send(false);
   }
 });
+
 //GET request for unconfirmed users
 router.get('/unconfirmed', function (req, res) {
   if (req.isAuthenticated()) {
@@ -39,7 +37,7 @@ router.get('/unconfirmed', function (req, res) {
         console.log('error connecting', err);
         res.sendStatus(500);
       }
-      var queryText = 'SELECT * FROM "users" WHERE "confirmed" = $1 AND ("username" != $2);';
+      var queryText = 'SELECT "id", "name", "username", "role", "phone" FROM "users" WHERE "confirmed" = $1 AND ("username" != $2);';
       db.query(queryText, ['0', 'null'], function (err, result) {
         done();
         if (err) {
@@ -60,8 +58,8 @@ router.get('/supervisors', function (req, res) {
         console.log('error connecting', err);
         res.sendStatus(500);
       }
-      var queryText = 'SELECT * FROM "users" WHERE "confirmed" = $1 AND "role" = $2 AND ("username" != $3);';
-      db.query(queryText, ['1', 'Supervisor', 'null'], function (err, result) {
+      var queryText = 'SELECT "id", "name", "username", "role", "phone"  FROM "users" WHERE "confirmed" = $1 AND "role" = $2';
+      db.query(queryText, ['1', 'Supervisor'], function (err, result) {
         done();
         if (err) {
           console.log("Error inserting data: ", err);
@@ -82,8 +80,8 @@ router.get('/staff', function (req, res) {
         console.log('error connecting', err);
         res.sendStatus(500);
       }
-      var queryText = 'SELECT * FROM "users" WHERE "confirmed" = $1 AND ("role" != $2 AND "role" != $3) AND ("username" != $4);';
-      db.query(queryText, ['1', 'Supervisor', 'Administrator', 'null'], function (err, result) {
+      var queryText = 'SELECT "id", "name", "username", "role", "phone"  FROM "users" WHERE "confirmed" = $1 AND ("role" != $2 AND "role" != $3 AND role != $4)';
+      db.query(queryText, ['1', 'Supervisor', 'Administrator', 'Deactivated'], function (err, result) {
         done();
         if (err) {
           console.log("Error inserting data: ", err);

@@ -1,5 +1,5 @@
 myApp.controller('AdminController', function ($mdDialog, $mdToast, UserService, ShiftService) {
-  console.log('AdminController created');
+  // console.log('AdminController created');
 
   var vm = this;
   vm.userService = UserService;

@@ -14,7 +14,7 @@ myApp.controller('LoginController', function ($http, $location, $mdDialog, UserS
     if (vm.user.username === '' || vm.user.password === '') {
       vm.message = "Please enter your username and password.";
     } else {
-      console.log('LoginController -- login -- sending to server...', vm.user);
+      // console.log('LoginController -- login -- sending to server...', vm.user);
       vm.user.username = vm.user.username.toLowerCase();
       $http.post('/', vm.user).then(function (response) {
         if (response.data.username) {

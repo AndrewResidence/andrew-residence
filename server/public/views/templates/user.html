@@ -5,8 +5,8 @@
 
     <div class="addMessageButton">
         <!-- SUPERVISOR BUTTON TO ADD MESSAGES -->
-        <md-button ng-show="uc.userObject.role === 'Supervisor'" class="md-raised md-primary" ng-click="uc.createNotification()">Create Message</md-button>
-        <md-button ng-show="uc.userObject.role === 'Supervisor'" class="md-raised md-primary" ng-click="uc.createUrgentText()">Create Urgent Text</md-button>
+        <md-button ng-show="uc.userObject.role === 'Supervisor' || uc.userObject.role === 'Administrator'" class="md-raised md-primary" ng-click="uc.createNotification()">Create Message</md-button>
+        <md-button ng-show="uc.userObject.role === 'Supervisor' || uc.userObject.role === 'Administrator'" class="md-raised md-primary" ng-click="uc.createUrgentText()">Create Urgent Text</md-button>
     </div>
 
     <!-- ********** USER MESSAGES ********* -->
@@ -45,7 +45,7 @@
     <!-- ********** USER PROFILE EDIT ********* -->
     <div class="userInfo">
         <form ng-submit="uc.updateUserInfo(uc.editProfile.userName, uc.editProfile.phone)">
-        <div class="userMyInformation" layout="row" layout-align="center center">My Information</div>
+        <div class="userMyInformation messagesHeader" layout="row" layout-align="center center">My Information</div>
         <div class="userInfoHeader" layout="row" layout-align="start center" hide-xs hide-sm show-md show-lg show-xl>
             <div class="userInfoNameHeader">Name</div>
             <div class="userInfoEmailHeader">Email</div>
@@ -72,13 +72,14 @@
             </md-input-container>
             <div ng-if="uc.phoneMessage != ''" ng-hide="uc.showName" class="lead alert alert-danger" role="alert">{{uc.phoneMessage}}</div>
             <div class="userInfoEdit">
-                <md-button class="md-icon-button md-primary" aria-label="edit" type="submit" name="submit" ng-hide="uc.showName">
+                <md-button class="md-icon-button md-primary" aria-label="Edit" type="submit" name="submit" ng-hide="uc.showName">
                     <md-icon md-svg-src="../images/check.svg"></md-icon>
                 </md-button>
-                <md-button aria-label="Cancel Message" ng-hide="uc.showName" ng-click="uc.toggleEdit()">
-                    <img id="closeIcon" src="/styles/closeIcon.png" alt="close window">
+                <md-button class="md-icon-button" aria-label="Cancel" ng-hide="uc.showName" ng-click="uc.toggleEdit()">
+                    <!-- <img id="closeIcon" src="/styles/closeIcon.png" alt="close window"> -->
+                    <md-icon md-svg-src="../images/baseline-close-24px.svg"></md-icon>
                 </md-button>
-                <md-button class="md-icon-button md-primary" aria-label="save" ng-click="uc.toggleEdit()" ng-show="uc.showName">
+                <md-button class="md-icon-button md-primary" aria-label="Save" ng-click="uc.toggleEdit()" ng-show="uc.showName">
                     <md-icon md-svg-src="../images/ic_mode_edit_black_18px.svg"></md-icon>
                 </md-button>
             </div>

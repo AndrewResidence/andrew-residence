@@ -15,9 +15,9 @@
                 <textarea id="commentText" rows="10" name="message" ng-model="nc.urgentText.textMessage"
                     md-select-on-focus></textarea>
             </md-input-container>
-            <div>Total Characters: {{nc.urgentText.textMessage.length}}</div>
+            <div class="all-text-message-options" >Total Characters: {{nc.urgentText.textMessage.length}}</div>
         </div>
-        <div layout-gt-xl="row">
+        <div class="all-text-message-options" layout-gt-xl="row">
             <md-checkbox ng-model="nc.urgentText.supervisors" ng-true-value="'true'" ng-false-value="'false'">Supervsiors</md-checkbox><br>
             <md-checkbox ng-model="nc.urgentText.allStaff" ng-true-value="'true'" ng-false-value="'false'">All Staff</md-checkbox><br>
             <md-checkbox ng-model="nc.urgentText.mhw" ng-true-value="'true'" ng-false-value="'false'">MHWs</md-checkbox><br>

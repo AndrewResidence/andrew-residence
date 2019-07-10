@@ -19,12 +19,12 @@ router.get('/', function (req, res) {
       role: req.user.role,
       confirmed: req.user.confirmed
     };
-    
     res.send(userInfo);
   } else {
     // failure best handled on the server. do redirect here.
-    console.log('not logged in');
+    console.log('not logged in', error);
     // should probably be res.sendStatus(403) and handled client-side, esp if this is an AJAX request (which is likely with AngularJS)
+    //!Add status codes to send back so I can differentiate on the client side the message that should show.
     res.send(false);
   }
 });
@@ -50,6 +50,7 @@ router.get('/unconfirmed', function (req, res) {
     });
   }
 });
+
 //GET request for supervisors
 router.get('/supervisors', function (req, res) {
   if (req.isAuthenticated()) {
@@ -93,6 +94,7 @@ router.get('/staff', function (req, res) {
     });
   }
 });
+
 //Users PUT route to confirm users and define their role (supervisor, nurse, MHW or ADL) 
 router.put('/confirm/:id', function (req, res) {
   if (req.isAuthenticated()) {
@@ -202,8 +204,8 @@ router.put('/delete/:id', function (req, res) {
         console.log('error connecting', err);
         res.sendStatus(500);
       }
-      var queryText = 'UPDATE "users" SET "username" =$2  WHERE "id" = $1;'
-      db.query(queryText, [id, null], function (err, result) {
+      var queryText = 'UPDATE "users" SET "role" =$2  WHERE "id" = $1;'
+      db.query(queryText, [id, 'Deactivated'], function (err, result) {
         done();
         if (err) {
           console.log("Error inserting data: ", err);
@@ -219,9 +221,9 @@ router.put('/delete/:id', function (req, res) {
 // clear all server session information about this user
 router.get('/logout', function (req, res) {
   // Use passport's built-in method to log out the user
-  console.log('req is authenticated', req.isAuthenticated())
-  console.log('req.user in logout', req.user);
-  console.log('Logged out');
+  // console.log('req is authenticated', req.isAuthenticated())
+  // console.log('req.user in logout', req.user);
+  // console.log('Logged out');
   req.logOut();
   res.redirect('/');
   console.log('req.user in logout', req.user);

@@ -71,8 +71,8 @@ passport.use('local', new localStrategy({
           // console.log('User obj', user);
           // Hash and compare
           if (user.role === 'Deactivated') {
-            done(null, false, { message: 'Incorrect credentials.' });
-            return;
+            done(null, false, { message: 'Account Deactivated.' });
+            
           }
           if (encryptLib.comparePassword(password, user.password)) {
             // all good!

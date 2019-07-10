@@ -257,7 +257,7 @@ router.post('/textmessage', function (req, res) {
                             console.log('Status: ', status);
                             console.log('API Response:\n', response);
 
-                            if (response.status === 200) {
+                            if (response.status === 200 || response.status === 202) {
                                 res.sendStatus(200);
                             } else {
                                 res.sendStatus(418)

@@ -211,7 +211,7 @@ router.post('/textmessage', function (req, res) {
                 var textMessage = req.body.textMessage;
                 var roles = [];
                 if (req.body.textSupervisors) {
-                    roles.push('Supervisors')
+                    roles.push('Supervisor')
                 }
                 if (req.body.allStaff) {
                     roles.push('MHW', 'ADL', 'Nurse', 'Social Worker', 'Therapeutic Recreation', 'Living Skills')

@@ -210,7 +210,7 @@ router.post('/textmessage', function (req, res) {
                 console.log('text message thing', req.body)
                 var textMessage = req.body.textMessage;
                 var roles = [];
-                if (req.body.textSupervisors) {
+                if (req.body.supervisors) {
                     roles.push('Supervisor')
                 }
                 if (req.body.allStaff) {
@@ -244,7 +244,7 @@ router.post('/textmessage', function (req, res) {
                         res.sendStatus(500);
                     } else {
                         result.rows.forEach(function (urgent) {
-                            console.log('urgent', urgent.phone);
+                            // console.log('urgent', urgent.phone);
                             phoneNumberArray.push(urgent.phone);
                         });
 
@@ -257,8 +257,14 @@ router.post('/textmessage', function (req, res) {
                             console.log('Status: ', status);
                             console.log('API Response:\n', response);
 
+                            if (response.status === 200) {
+                                res.sendStatus(200);
+                            } else {
+                                res.sendStatus(418)
+                            }
+
                         });
-                        res.sendStatus(200);
+                        // res.sendStatus(200);
                     }
                 });
             }

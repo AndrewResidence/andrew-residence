@@ -53,6 +53,7 @@ myApp.controller('NotificationController', function ($scope, $mdDialog, $mdToast
         console.log('urgent text to send in controller', urgentTextToSend)
         UserService.createAllStaffText(urgentTextToSend).then(function (response) {
             //! Should i make it so the toast only shows if successful?
+            console.log('response from text', response)
             vm.cancel()
             UserService.getNotifications();
             $mdToast.show(
@@ -62,6 +63,13 @@ myApp.controller('NotificationController', function ($scope, $mdDialog, $mdToast
             );
         }).catch(function(error){
             console.log('error in creating a message')
+            vm.cancel()
+            UserService.getNotifications();
+            $mdToast.show(
+                $mdToast.simple()
+                    .textContent('Something Went Wrong, please try again.')
+                    .hideDelay(2500)
+            );
         })
     }
 })

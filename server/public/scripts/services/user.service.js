@@ -115,7 +115,7 @@ myApp.service('UserService', function ($http, $location) {
   self.getNotifications = function (){
     $http.get('/user/messages/').then(function (response){
       console.log('here in service')
-      console.log('response', response.data)
+      console.log('response in the service', response.status)
       self.notifications.data = response.data
     })
   }

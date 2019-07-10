@@ -1,5 +1,5 @@
 myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdToast, UserService, ShiftService, calendarService) {
-  console.log('SupervisorDialogController created');
+  // console.log('SupervisorDialogController created');
   var vm = this;
   vm.userService = UserService;
   vm.shiftService = ShiftService;
@@ -32,8 +32,8 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
 
   $scope.$watch('myArrayOfDates', function (newValue, oldValue) {
     if (newValue) {
-      console.log('my array changed, new size : ' + newValue.length);
-      console.log('myArrayOfDates', newValue);
+      // console.log('my array changed, new size : ' + newValue.length);
+      // console.log('myArrayOfDates', newValue);
     }
   }, true);
   
@@ -125,11 +125,11 @@ myApp.controller('SupervisorDialogController', function ($scope, $mdDialog, $mdT
   vm.statusUpdate = function (value) {
     if (value === 'Filled') {
       vm.showStaff = true;
-      console.log('true')
+      // console.log('true')
     }
     else {
       vm.showStaff = false;
-      console.log('false')
+      // console.log('false')
     }
   };
 

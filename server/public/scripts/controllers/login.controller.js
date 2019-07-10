@@ -1,5 +1,5 @@
 myApp.controller('LoginController', function ($http, $location, $mdDialog, UserService) {
-  console.log('LoginController created');
+  // console.log('LoginController created');
   var vm = this;
   vm.user = {
     name: '',
@@ -10,15 +10,14 @@ myApp.controller('LoginController', function ($http, $location, $mdDialog, UserS
   vm.message = '';
   vm.phoneMessage = '';
   vm.login = function () {
-    //!I think this is where I can add an account deactivated type message, in the else or catch?
-    console.log('LoginController -- login');
+    // console.log('LoginController -- login');
     if (vm.user.username === '' || vm.user.password === '') {
       vm.message = "Please enter your username and password.";
     } else {
       // console.log('LoginController -- login -- sending to server...', vm.user);
       vm.user.username = vm.user.username.toLowerCase();
       $http.post('/', vm.user).then(function (response) {
-        console.log(response)
+        // console.log(response)
         if (response.data.username) {
           // location works with SPA (ng-route)
           $location.path('/user');
@@ -26,7 +25,7 @@ myApp.controller('LoginController', function ($http, $location, $mdDialog, UserS
           vm.message = "The username or password you entered is incorrect, please try again.";
         }
       }).catch(function (response) {
-        console.log(response)
+        // console.log(response)
         vm.message = "The username or password you entered is incorrect, please try again";
       });
     }
@@ -37,7 +36,7 @@ myApp.controller('LoginController', function ($http, $location, $mdDialog, UserS
   };
 
   vm.registerUser = function () {
-    console.log('LoginController -- registerUser', vm.user.phone);
+    // console.log('LoginController -- registerUser', vm.user.phone);
     let tempPhoneNum = []
     for (let i = 0; i < vm.user.phone.length; i++) {
       if (Number(vm.user.phone[i])) {

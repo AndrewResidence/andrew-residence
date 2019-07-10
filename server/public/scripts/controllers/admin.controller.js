@@ -66,7 +66,7 @@ myApp.controller('AdminController', function ($mdDialog, $mdToast, UserService, 
   // GET staff route (GET users where role = nurse, MHW or ADL)
   vm.getStaff = function () {
     vm.userService.getStaff().then(function (response) {
-      console.log('the staff', response.data)
+      // console.log('the staff', response.data)
       vm.staff = response.data;
     }).catch(function(error){
       console.log('error in getting staff')
@@ -88,7 +88,7 @@ myApp.controller('AdminController', function ($mdDialog, $mdToast, UserService, 
 
     $mdDialog.show(confirm).then(function() {
       vm.userService.deleteUser(user).then(function (response) {
-        console.log('user deleted', response);
+        // console.log('user deleted', response);
         vm.getStaff();
         vm.getSupervisors();
         vm.getUnconfirmed();

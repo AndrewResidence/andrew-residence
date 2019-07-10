@@ -1,5 +1,5 @@
 myApp.controller('SupervisorController', function (UserService, ShiftService, $mdDialog, calendarService) {
-  console.log('SupervisorController created');
+  // console.log('SupervisorController created');
   var vm = this;
   vm.userService = UserService;
   vm.shiftService = ShiftService;
@@ -11,7 +11,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, $m
 
   vm.updatePayPeriodDates = function () {
     calendarService.updatePayPeriodDates().then(function (response) {
-      console.log(response)
+      // console.log(response)
     }).catch(function(error){
       console.log('error in update pay periods')
     })
@@ -77,7 +77,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, $m
     }
     vm.month = moment(nextTwoWeeks._d).format('MMMM');
     vm.year = moment(nextTwoWeeks._d).format('YYYY');
-    console.log(vm.payPeriodStart, vm.payPeriodEnd)
+    // console.log(vm.payPeriodStart, vm.payPeriodEnd)
     vm.getShifts(vm.payPeriodStart, vm.payPeriodEnd);
   };
 
@@ -150,7 +150,7 @@ myApp.controller('SupervisorController', function (UserService, ShiftService, $m
     var result = false;
     for (var i = 0; i < array.length; i++) {
       if (array[i].shift_id == id) {
-        console.log('true', array[i].shift_id)
+        // console.log('true', array[i].shift_id)
         result = true;
       }
       return result;

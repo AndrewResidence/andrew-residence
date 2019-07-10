@@ -1,5 +1,5 @@
 myApp.service('calendarService', function ($http, $location, $mdDialog) {
-    console.log('calendarService Loaded');
+    // console.log('calendarService Loaded');
     var self = this;
 
     //**********      supervisor calendar      ****************//

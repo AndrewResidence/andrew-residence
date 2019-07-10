@@ -3,7 +3,7 @@ var myApp = angular.module('myApp', ['ngRoute', 'ngMaterial', 'multipleDatePicke
 /// Routes ///
 myApp.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {
   $locationProvider.hashPrefix('');
-  console.log('myApp -- config');
+  // console.log('myApp -- config');
   $routeProvider
     .when('/home', {
       templateUrl: '/views/templates/login.html',

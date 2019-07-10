@@ -27,7 +27,7 @@ let weeklyDigestShiftsArray = [];
 
 //node-cron function to send weekly recap email
 var weeklyEmailTimer = cron.schedule('0 0 12 * * WED', function () {
-    console.log('cron job running');
+    // console.log('cron job running');
     getEmailRecAndShifts();
 })
 
@@ -89,7 +89,7 @@ function getEmailRecAndShifts() {
 }
 
 function weeklyDigestEmailSend(emails, shifts) {
-    console.log(emails);
+    // console.log(emails);
     let emailContent = 
         `<body>
         <h1>Andrew Residence</h1>
@@ -128,7 +128,7 @@ function weeklyDigestEmailSend(emails, shifts) {
     });
     sg.API(request)
         .then(response => {
-            console.log(response.statusCode);
+            console.log('SG API', response.statusCode);
             console.log(response.body);
             console.log(response.headers);
         })
@@ -166,12 +166,12 @@ router.post('/urgent', function (req, res) {
                         res.sendStatus(500);
                     } else {
                         result.rows.forEach(function (urgent) {
-                            console.log('urgent', urgent.phone);
+                            // console.log('urgent', urgent.phone);
                             phoneNumberArray.push(urgent.phone);
                         });
                         var datesForText = req.body.shiftDate;
                         var textDates = [];
-                        console.log(datesForText);
+                        // console.log(datesForText);
                         for (var i = 0; i < datesForText.length; i++) {
                             textDates.push(moment(datesForText[i]).format('MMM Do YYYY') + ' ' + 'Shift:' + '' + req.body.shift);
                         }
@@ -207,7 +207,7 @@ router.post('/textmessage', function (req, res) {
             } //end if error connection to db
             else {
 
-                console.log('text message thing', req.body)
+                // console.log('text message thing', req.body)
                 var textMessage = req.body.textMessage;
                 var roles = [];
                 if (req.body.supervisors) {
@@ -234,7 +234,7 @@ router.post('/textmessage', function (req, res) {
                 if (req.body.allStaff === false && req.body.lsi) {
                     roles.push('Living Skills')
                 }
-                console.log('the roles', roles)
+                // console.log('the roles', roles)
 
                 var queryText = 'SELECT "phone" FROM "users" WHERE "role" = ANY($1::varchar[])';
                 db.query(queryText, [roles], function (err, result) {
@@ -256,15 +256,22 @@ router.post('/textmessage', function (req, res) {
                         p.send_message(params, function (status, response) {
                             console.log('Status: ', status);
                             console.log('API Response:\n', response);
+
+                            if (status === 200 || status === 202) {
+                                res.sendStatus(200);
+                            } else {
+                                res.sendStatus(403)
+                            }
+
                         });
-                        res.sendStatus(200);
+                        // res.sendStatus(200);
                     }
                 });
             }
         });
     } // end req.isAuthenticated //end if statement
     else {
-        console.log('User is not authenticated');
+        // console.log('User is not authenticated');
         res.sendStatus(403);
     }
 });

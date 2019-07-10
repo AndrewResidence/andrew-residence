@@ -1,5 +1,5 @@
 myApp.controller('UserController', function ($mdToast, UserService, $mdDialog) {
-  console.log('UserController created');
+  // console.log('UserController created');
   var vm = this;
   vm.userService = UserService;
   vm.userObject = UserService.userObject;
@@ -8,7 +8,6 @@ myApp.controller('UserController', function ($mdToast, UserService, $mdDialog) {
   vm.notifications = UserService.notifications
 
   vm.showEditDialogStaff = function (event, user) {
-    console.log('button clicked');
     $mdDialog.show({
       controller: 'UserPageDialogController as upc',
       templateUrl: '/views/dialogs/editUserPageInfo.html',
@@ -31,10 +30,10 @@ myApp.controller('UserController', function ($mdToast, UserService, $mdDialog) {
     );
   };
   vm.editUser = function (user) {
-    console.log(vm.service);
+    // console.log(vm.service);
 
     vm.userService.editUser(user).then(function (response) {
-      console.log('edited user', response);
+      // console.log('edited user', response);
       $mdDialog.hide();
     });
   };
@@ -46,11 +45,7 @@ myApp.controller('UserController', function ($mdToast, UserService, $mdDialog) {
 
   vm.updateUserInfo = function (userName, phone) {
 
-    console.log('here');
-
     // console.log(vm.userService);
-    console.log(`the name ${userName}, ${phone}`)
-    //!THIS NEEDS TO BE EDITED FOR THIS CONTROLLER
     let tempPhoneNum = []
     for (let i = 0; i < phone.length; i++) {
       if (Number(phone[i])) {
@@ -58,18 +53,12 @@ myApp.controller('UserController', function ($mdToast, UserService, $mdDialog) {
       }
       
     }
-    console.log('tempPhoneNum', tempPhoneNum);
-    // tempPhoneNum = parseInt(tempPhoneNum.join(''));
-    console.log('tempPhoneNum', tempPhoneNum);
-    console.log(typeof tempPhoneNum)
 
     if (tempPhoneNum.length > 11 || tempPhoneNum.length < 10) {
-      console.log('in the less than/greater than')
       vm.phoneMessage = "Please enter your phone number including area code";
       return
     }
     if (tempPhoneNum.length === 11) {
-      console.log('the phone number has 11 digits')
       if (parseInt(tempPhoneNum[0]) !== 1) {
         vm.phoneMessage = "Please enter your 10 digit phone number including area code";
         return
@@ -79,7 +68,6 @@ myApp.controller('UserController', function ($mdToast, UserService, $mdDialog) {
       }
     }
     if (tempPhoneNum.length === 10) {
-      console.log('the phone number has 10 digits')
       if (parseInt(tempPhoneNum[0]) === 1 || parseInt(tempPhoneNum[0]) === 0) {
         vm.phoneMessage = "Please enter your phone number including area code";
         return

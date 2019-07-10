@@ -1,5 +1,5 @@
 myApp.controller('NotificationController', function ($scope, $mdDialog, $mdToast, UserService, ShiftService, calendarService) {
-    console.log('NotificationController created');
+    // console.log('NotificationController created');
     var vm = this;
     // vm.notifications = UserService.notifications;
 
@@ -27,7 +27,7 @@ myApp.controller('NotificationController', function ($scope, $mdDialog, $mdToast
         vm.notifications = [];
         UserService.getNotifications().then(function (response) {
             vm.notifications = response.data;
-            console.log('here it is', vm.notifications)
+            // console.log('here it is', vm.notifications)
         }).catch(function(error){
             console.log('error in getting notifications')
         })
@@ -52,8 +52,7 @@ myApp.controller('NotificationController', function ($scope, $mdDialog, $mdToast
     vm.createAllStaffText = function(urgentTextToSend) {
         console.log('urgent text to send in controller', urgentTextToSend)
         UserService.createAllStaffText(urgentTextToSend).then(function (response) {
-            //! Should i make it so the toast only shows if successful?
-            console.log('response from text', response)
+            // console.log('response from text', response)
             vm.cancel()
             UserService.getNotifications();
             $mdToast.show(
@@ -62,7 +61,7 @@ myApp.controller('NotificationController', function ($scope, $mdDialog, $mdToast
                     .hideDelay(2500)
             );
         }).catch(function(error){
-            console.log('error in creating a message')
+            console.log('error in creating a text message')
             vm.cancel()
             UserService.getNotifications();
             $mdToast.show(

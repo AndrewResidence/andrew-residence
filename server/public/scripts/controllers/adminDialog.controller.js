@@ -8,7 +8,7 @@ myApp.controller('AdminDialogController', function ($mdDialog, UserService, user
     vm.confirmUser = function (user) {
         console.log('user', user.id, user.role);
         vm.userService.confirmUser(user).then(function (response) {
-            console.log('confirmed user', response);
+            // console.log('confirmed user', response);
             $mdDialog.hide();
         }).catch(function (error) {
             console.log('error in confirming user')
@@ -49,7 +49,7 @@ myApp.controller('AdminDialogController', function ($mdDialog, UserService, user
         }
 
         vm.userService.editUser(user).then(function (response) {
-            console.log('edited user', response);
+            // console.log('edited user', response);
             $mdDialog.hide();
         }).catch(function (error) {
             console.log('error in editing the user')

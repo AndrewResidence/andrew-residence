@@ -21,11 +21,7 @@ router.get('/', function (req, res) {
     };
     res.send(userInfo);
   } else {
-    // failure best handled on the server. do redirect here.
-    console.log('not logged in', error);
-    // should probably be res.sendStatus(403) and handled client-side, esp if this is an AJAX request (which is likely with AngularJS)
-    //!Add status codes to send back so I can differentiate on the client side the message that should show.
-    res.send(false);
+    res.Status(403).send(false);
   }
 });
 

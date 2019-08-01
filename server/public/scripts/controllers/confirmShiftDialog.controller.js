@@ -15,6 +15,7 @@ myApp.controller('ConfirmShiftController', function ($scope, $mdDialog, $mdToast
     //gets shifts
     vm.getShiftsToConfirm = function(shiftId) {
       vm.shiftService.getShiftsToConfirm(shiftId).then(function(response) {
+        console.log(response.data);
         vm.theShifts = response.data;
       }).catch(function(error){
         console.log('error in get shifts to confirm')

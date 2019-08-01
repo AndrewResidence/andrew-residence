@@ -74,6 +74,17 @@ myApp.controller('UserController', function ($mdToast, UserService, $mdDialog) {
     })
   } //end shiftDetails popup function    
 
+  vm.createUrgentText = function (event) {
+    $mdDialog.show({
+      controller: 'NotificationController as nc',
+      templateUrl: '/views/templates/createAllStaffText.html',
+      parent: angular.element(document.body),
+      targetEvent: event,
+      clickOutsideToClose: true,
+      fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
+    })
+  }
+
   vm.getNotifications = function () {
     UserService.getNotifications()
   //   .then(function (response) {

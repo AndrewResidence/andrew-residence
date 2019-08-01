@@ -1,6 +1,6 @@
 //, firstOfMonth, lastOfMonth
 myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserService, ShiftService, StaffCalendarService, shift, refreshFN) {
-  console.log('StaffDialogController created');
+  // console.log('StaffDialogController created');
   var vm = this;
   vm.userService = UserService;
   vm.userObject = UserService.userObject;
@@ -47,7 +47,7 @@ myApp.controller('StaffDialogController', function ($mdToast, $mdDialog, UserSer
   vm.role();
 
   vm.pickUpShift = function (shift) {
-    console.log('shift being picked up', shift.date)
+    // console.log('shift being picked up', shift.date)
     $mdDialog.hide();
     var shiftDate = shift.date;
     vm.shiftService.pickUpShift(shift).then(function (response) {

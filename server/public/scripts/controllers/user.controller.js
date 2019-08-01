@@ -1,5 +1,5 @@
 myApp.controller('UserController', function ($mdToast, UserService, $mdDialog) {
-  console.log('UserController created');
+  // console.log('UserController created');
   var vm = this;
   vm.userService = UserService;
   vm.userObject = UserService.userObject;
@@ -8,7 +8,6 @@ myApp.controller('UserController', function ($mdToast, UserService, $mdDialog) {
   vm.notifications = UserService.notifications
 
   vm.showEditDialogStaff = function (event, user) {
-    console.log('button clicked');
     $mdDialog.show({
       controller: 'UserPageDialogController as upc',
       templateUrl: '/views/dialogs/editUserPageInfo.html',
@@ -20,6 +19,8 @@ myApp.controller('UserController', function ($mdToast, UserService, $mdDialog) {
       vm.showEditToast();
     });
   };
+
+  
   vm.showEditToast = function () {
     $mdToast.show(
       $mdToast.simple()
@@ -29,10 +30,10 @@ myApp.controller('UserController', function ($mdToast, UserService, $mdDialog) {
     );
   };
   vm.editUser = function (user) {
-    console.log(vm.service);
+    // console.log(vm.service);
 
     vm.userService.editUser(user).then(function (response) {
-      console.log('edited user', response);
+      // console.log('edited user', response);
       $mdDialog.hide();
     });
   };
@@ -42,13 +43,42 @@ myApp.controller('UserController', function ($mdToast, UserService, $mdDialog) {
 
   vm.editProfile = {};
 
-  vm.joshEdit = function (name, phone) {
+  vm.updateUserInfo = function (userName, phone) {
 
-    console.log('here');
+    // console.log(vm.userService);
+    let tempPhoneNum = []
+    for (let i = 0; i < phone.length; i++) {
+      if (Number(phone[i])) {
+        tempPhoneNum.push(phone[i]);
+      }
+      
+    }
 
-    console.log(vm.userService);
+    if (tempPhoneNum.length > 11 || tempPhoneNum.length < 10) {
+      vm.phoneMessage = "Please enter your phone number including area code";
+      return
+    }
+    if (tempPhoneNum.length === 11) {
+      if (parseInt(tempPhoneNum[0]) !== 1) {
+        vm.phoneMessage = "Please enter your 10 digit phone number including area code";
+        return
+      }
+      else {
+        phone = tempPhoneNum.join('');
+      }
+    }
+    if (tempPhoneNum.length === 10) {
+      if (parseInt(tempPhoneNum[0]) === 1 || parseInt(tempPhoneNum[0]) === 0) {
+        vm.phoneMessage = "Please enter your phone number including area code";
+        return
+      }
+      else {
+        tempPhoneNum.unshift('1');
+        phone = tempPhoneNum.join('');
+      }
+    }
 
-    vm.userService.sendProfile(name, phone).then(function () {
+    vm.userService.sendProfile(userName, phone).then(function () {
       $mdToast.show(
         $mdToast.simple()
           .textContent('User has been edited!')
@@ -57,10 +87,8 @@ myApp.controller('UserController', function ($mdToast, UserService, $mdDialog) {
       );
     }).then(function () {
       vm.toggleEdit();
-      
+      vm.userService.getuser();
     });
-
-
   };
 
   vm.createNotification = function (event) {

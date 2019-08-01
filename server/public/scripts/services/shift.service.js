@@ -1,5 +1,5 @@
 myApp.service('ShiftService', function ($http, $location, $mdDialog) {
-  console.log('ShiftService Loaded');
+  // console.log('ShiftService Loaded');
   var self = this;
   self.shift = {};
   self.filledByName = { data: [] }
@@ -61,7 +61,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     if (urgent) {
       $http.post('/message/urgent', self.newShift).then(function (response) {
 
-        console.log(response);
+        // console.log(response);
 
       }).catch(function (response) {
         console.log('send urgent textMessage did not work:', response);
@@ -69,7 +69,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     }
 
     return $http.post('/shifts/', self.newShift).then(function (response) {
-      console.log('the response', response)
+      // console.log('the response', response)
       self.newShift = {}
       return response;
     }).catch(function (err) {
@@ -114,10 +114,10 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
   };
 
   self.confirmShift = function(staffMember, allShifts) {
-    console.log('confirmshift in service');
+    // console.log('confirmshift in service');
     
     return $http.post('/shifts/confirm', staffMember, allShifts).then(function (response) {
-      console.log('response in confirmedShift', response);
+      // console.log('response in confirmedShift', response);
       
       return response;
     }).catch(function(error){
@@ -156,7 +156,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
     };
     $http.post('/message/text').then(function (response) {
 
-      console.log(response);
+      // console.log(response);
 
     }).catch(function (response) {
       console.log('send textMessage did not work:', response);
@@ -172,7 +172,7 @@ myApp.service('ShiftService', function ($http, $location, $mdDialog) {
         text: '', // plain text body;
         html: '', // html body
       };
-      console.log(response);
+      // console.log(response);
 
     }).catch(function (response) {
       console.log('send emailMessage did not work: ', response);

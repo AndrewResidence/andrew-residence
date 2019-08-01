@@ -9,7 +9,7 @@ var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
 
 router.put('/check', function (req, res) {
     var email = req.body.email;
-    console.log(email);
+    // console.log(email);
 
     pool.connect(function (err, client, done) {
         if (err) {
@@ -95,7 +95,7 @@ router.put('/reset', function (req, res) {
     var email = req.body.email;
     var code = req.body.code;
     var password = encryptLib.encryptPassword(req.body.password);
-    console.log(email, 'password:', password);
+    // console.log(email, 'password:', password);
 
     pool.connect(function (err, client, done) {
         if (err) {
@@ -106,7 +106,7 @@ router.put('/reset', function (req, res) {
                 [password, email, code],
                 function (err, result) {
                     done();
-                    console.log(result);
+                    // console.log(result);
                     if (err) {
                         console.log("Error inserting data: ", err);
                         res.sendStatus(500);

@@ -1,5 +1,5 @@
 myApp.service('StaffCalendarService', function ($http, $location, $mdDialog) {
-    console.log('staff calendar service Loaded');
+    // console.log('staff calendar service Loaded');
     var self = this;
 
     self.today = moment();

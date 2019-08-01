@@ -24,7 +24,7 @@ mongoose.connection.on('error', function (err) {
 });
 
 mongoose.connection.on('open', function () {
-    console.log("Connected to Mongo!");
+    // console.log("Connected to Mongo!");
 });
 
 module.exports = mongoose;

@@ -1,5 +1,5 @@
 myApp.controller('ConfirmShiftController', function ($scope, $mdDialog, $mdToast, UserService, ShiftService, pendingShift) {
-    console.log('ConfirmShiftController created');
+    // console.log('ConfirmShiftController created');
     var vm = this;
     vm.userService = UserService;
     vm.shiftService = ShiftService;
@@ -15,6 +15,7 @@ myApp.controller('ConfirmShiftController', function ($scope, $mdDialog, $mdToast
     //gets shifts
     vm.getShiftsToConfirm = function(shiftId) {
       vm.shiftService.getShiftsToConfirm(shiftId).then(function(response) {
+        // console.log(response.data);
         vm.theShifts = response.data;
       }).catch(function(error){
         console.log('error in get shifts to confirm')
@@ -32,7 +33,7 @@ myApp.controller('ConfirmShiftController', function ($scope, $mdDialog, $mdToast
 
     //confirms users shift
     vm.confirmShift = function(staffMember, allShifts) {      
-      console.log('confirmedShift in dialog');
+      // console.log('confirmedShift in dialog');
       
       vm.shiftService.confirmShift(staffMember, allShifts).then(function(response) {
         ShiftService.getPendingShifts();

@@ -27,7 +27,7 @@ let weeklyDigestShiftsArray = [];
 
 //node-cron function to send weekly recap email
 var weeklyEmailTimer = cron.schedule('0 0 12 * * WED', function () {
-    console.log('cron job running');
+    // console.log('cron job running');
     getEmailRecAndShifts();
 })
 
@@ -89,15 +89,14 @@ function getEmailRecAndShifts() {
 }
 
 function weeklyDigestEmailSend(emails, shifts) {
-    console.log(emails);
+    // console.log(emails);
     let emailContent = 
-        `<body>'
-        <h1>Andrew Residence</h1>'
+        `<body>
+        <h1>Andrew Residence</h1>
         <h3>Currently available on-call shifts:</h3>
         ${shifts.join('')}
         <p>Please go to the scheduling app to sign-up for a shift.</p>
-        <button style="background-color: #4CAF50;background-color:rgb(255, 193, 7);color: white;padding: 15px 32px;text-align: center;font-size: 16px;border-radius: 5px;border: none;" >
-        <a href="https://andrew-residence.herokuapp.com/" style="text-decoration: none; color: white"/>Let\'s Pick-up Some Shifts!</button>'
+        <a href="https://andrew-residence.herokuapp.com/">Let\'s Pick-up Some Shifts!</a>
         <p> We appreciate yor support!</p>
         </body>`
 
@@ -129,7 +128,7 @@ function weeklyDigestEmailSend(emails, shifts) {
     });
     sg.API(request)
         .then(response => {
-            console.log(response.statusCode);
+            console.log('SG API', response.statusCode);
             console.log(response.body);
             console.log(response.headers);
         })
@@ -167,12 +166,12 @@ router.post('/urgent', function (req, res) {
                         res.sendStatus(500);
                     } else {
                         result.rows.forEach(function (urgent) {
-                            console.log('urgent', urgent.phone);
+                            // console.log('urgent', urgent.phone);
                             phoneNumberArray.push(urgent.phone);
                         });
                         var datesForText = req.body.shiftDate;
                         var textDates = [];
-                        console.log(datesForText);
+                        // console.log(datesForText);
                         for (var i = 0; i < datesForText.length; i++) {
                             textDates.push(moment(datesForText[i]).format('MMM Do YYYY') + ' ' + 'Shift:' + '' + req.body.shift);
                         }
@@ -195,6 +194,84 @@ router.post('/urgent', function (req, res) {
     } // end req.isAuthenticated //end if statement
     else {
         console.log('User is not authenticated');
+        res.sendStatus(403);
+    }
+});
+
+router.post('/textmessage', function (req, res) {
+    if (req.isAuthenticated()) {
+        pool.connect(function (errorConnectingToDb, db, done) {
+            if (errorConnectingToDb) {
+                console.log('Error connecting', errorConnectingToDb);
+                res.sendStatus(500);
+            } //end if error connection to db
+            else {
+
+                // console.log('text message thing', req.body)
+                var textMessage = req.body.textMessage;
+                var roles = [];
+                if (req.body.supervisors) {
+                    roles.push('Supervisor')
+                }
+                if (req.body.allStaff) {
+                    roles.push('MHW', 'ADL', 'Nurse', 'Social Worker', 'Therapeutic Recreation', 'Living Skills')
+                }
+                if (req.body.allStaff === false && req.body.mhw) {
+                    roles.push('MHW')
+                }
+                if (req.body.allStaff === false && req.body.adl) {
+                    roles.push('ADL')
+                }
+                if (req.body.allStaff === false && req.body.rn) {
+                    roles.push('Nurse')
+                }
+                if (req.body.allStaff === false && req.body.sw) {
+                    roles.push('Social Worker')
+                }
+                if (req.body.allStaff === false && req.body.tr) {
+                    roles.push('Therapeutic Recreation')
+                }
+                if (req.body.allStaff === false && req.body.lsi) {
+                    roles.push('Living Skills')
+                }
+                // console.log('the roles', roles)
+
+                var queryText = 'SELECT "phone" FROM "users" WHERE "role" = ANY($1::varchar[])';
+                db.query(queryText, [roles], function (err, result) {
+                    done();
+                    if (err) {
+                        console.log("Error getting phone: ", err);
+                        res.sendStatus(500);
+                    } else {
+                        result.rows.forEach(function (urgent) {
+                            // console.log('urgent', urgent.phone);
+                            phoneNumberArray.push(urgent.phone);
+                        });
+
+                        var params = {
+                            src: plivoNumber, // Sender's phone number with country code
+                            dst: phoneNumberArray.join('<'),
+                            text: textMessage,
+                        };
+                        p.send_message(params, function (status, response) {
+                            console.log('Status: ', status);
+                            console.log('API Response:\n', response);
+
+                            if (status === 200 || status === 202) {
+                                res.sendStatus(200);
+                            } else {
+                                res.sendStatus(403)
+                            }
+
+                        });
+                        // res.sendStatus(200);
+                    }
+                });
+            }
+        });
+    } // end req.isAuthenticated //end if statement
+    else {
+        // console.log('User is not authenticated');
         res.sendStatus(403);
     }
 });

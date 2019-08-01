@@ -1,5 +1,5 @@
 myApp.controller('StaffController', function (UserService, ShiftService, calendarService, StaffCalendarService, $mdDialog) {
-  console.log('StaffController created');
+  // console.log('StaffController created');
   var vm = this;
   vm.shiftService = ShiftService;
   vm.userService = UserService;
@@ -102,7 +102,7 @@ myApp.controller('StaffController', function (UserService, ShiftService, calenda
   vm.prevMonth = function (currentDisplayMonth, currentYear) {
     // vm.currentMonth = [];
 
-    console.log('controller month and year', currentDisplayMonth, currentYear)
+    // console.log('controller month and year', currentDisplayMonth, currentYear)
     StaffCalendarService.prevMonth(currentDisplayMonth, currentYear);
     vm.getShifts(vm.firstOfMonth, vm.lastOfMonth);
   }
@@ -117,7 +117,7 @@ myApp.controller('StaffController', function (UserService, ShiftService, calenda
   vm.getMyShifts = function(firstOfMonth, lastOfMonth) {
     ShiftService.getMyShifts(firstOfMonth, lastOfMonth).then(function(response){
       vm.userShiftsToDisplay = response;
-      console.log('user shifts', vm.userShiftsToDisplay);
+      // console.log('user shifts', vm.userShiftsToDisplay);
       for (var i = 0; i < vm.userShiftsToDisplay.length; i++) {
         for (var j = 0; j < vm.currentMonth.dates.length; j++) {
           if (moment(vm.userShiftsToDisplay[i].date).format('YYYY-MM-DD') === moment(vm.currentMonth.dates[j].day).format('YYYY-MM-DD')) {

@@ -1,11 +1,11 @@
 myApp.service('UserService', function ($http, $location) {
-  console.log('UserService Loaded');
+  // console.log('UserService Loaded');
   var self = this;
   self.userObject = {};
   self.notifications = {data: []}
   //GET user upon logging in
   self.getuser = function () {
-    console.log('UserService -- getuser');
+    // console.log('UserService -- getuser');
     $http.get('/user?x=' + Date.now()).then(function (response) {
       if (response.data.username) {
         // user has a curret session on the server
@@ -18,12 +18,12 @@ myApp.service('UserService', function ($http, $location) {
         // console.log('user', response.data);
         // console.log('UserService -- getuser -- User Data: ', self.userObject.userName);
       } else {
-        console.log('UserService -- getuser -- failure');
+        // console.log('UserService -- getuser -- failure');
         // user has no session, bounce them back to the login page
         $location.path("/home");
       }
     }, function (response) {
-      console.log('UserService -- getuser -- failure: ', response);
+      // console.log('UserService -- getuser -- failure: ', response);
       $location.path("/home");
     });
   };
@@ -71,7 +71,7 @@ myApp.service('UserService', function ($http, $location) {
 
   //Users PUT route to edit individual user
   self.deleteUser = function (user) {
-    console.log('user in service', user.id, user.role);
+    // console.log('user in service', user.id, user.role);
     return $http.put('/user/delete/' + user.id).then(function (response) {
       return response;
     });
@@ -91,6 +91,12 @@ myApp.service('UserService', function ($http, $location) {
     headline: ''
   };
 
+  self.textMessage = {
+    messageBody: '',
+    textSupervisors: '',
+    textStaff: ''
+  }
+
   self.createMessage = function (messageBody, headline) {
     self.message.messageBody = messageBody;
     self.message.headline = headline;
@@ -99,10 +105,17 @@ myApp.service('UserService', function ($http, $location) {
     })
   }
 
+  self.createAllStaffText = function (urgentTextToSend) {
+    self.urgentTextToSend = urgentTextToSend;
+      return $http.post('/message/textmessage/', self.urgentTextToSend).then(function (response){
+      return response
+    })
+  }
+
   self.getNotifications = function (){
     $http.get('/user/messages/').then(function (response){
-      console.log('here in service')
-      console.log('response', response.data)
+      // console.log('here in service')
+      // console.log('response in the service', response.status)
       self.notifications.data = response.data
     })
   }
@@ -122,7 +135,7 @@ myApp.service('UserService', function ($http, $location) {
       phone: newPhone,
     };
 
-    console.log(editProfile);
+    // console.log(editProfile);
 
     return $http.put('/user/profile/', editProfile)
       .then(function (response) {

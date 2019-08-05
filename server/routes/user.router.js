@@ -264,13 +264,13 @@ router.get('/messages', function (req, res) {
     pool.connect(function (err, db, done) {
       if (err) {
         console.log('error connecting', err);
-        res.sendStatus(500);
+        return res.sendStatus(500);
       }
-      var queryText = 'SELECT * FROM "notifications" JOIN "users" on "users"."id" = "notifications"."posted_by" order by "notifications"."date" DESC;';
+      var queryText = 'SELECT "notifications"."notification_id", "notifications"."headline", "notifications"."message", "notifications"."date", "users"."name" FROM "notifications" JOIN "users" on "users"."id" = "notifications"."posted_by" order by "notifications"."date" DESC;';
       db.query(queryText, function (err, result) {
         done();
         if (err) {
-          console.log("Error inserting data: ", err);
+          console.log("Error getting messages", err);
           res.sendStatus(500);
         } else {
           res.send(result.rows);

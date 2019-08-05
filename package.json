@@ -35,6 +35,7 @@
     "lodash": "^4.17.4",
     "moment": "^2.19.4",
     "multiple-date-picker": "^2.1.6",
+    "newrelic": "^5.11.0",
     "node-cron": "^1.2.1",
     "nodemailer": "^4.4.1",
     "passport": "^0.2.2",

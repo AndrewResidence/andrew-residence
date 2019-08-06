@@ -104,19 +104,24 @@ myApp.controller('StaffController', function (UserService, ShiftService, calenda
 
     // console.log('controller month and year', currentDisplayMonth, currentYear)
     StaffCalendarService.prevMonth(currentDisplayMonth, currentYear);
+    console.log('staff controller', currentDisplayMonth, currentYear)
     vm.getShifts(vm.firstOfMonth, vm.lastOfMonth);
   }
 
   //function to get next month days and display for calendar
   vm.nextMonth = function (currentDisplayMonth, currentYear) {
     StaffCalendarService.nextMonth(currentDisplayMonth, currentYear)
+      console.log('staff controller', currentDisplayMonth, currentYear)
       vm.getShifts(vm.firstOfMonth, vm.lastOfMonth);
+      console.log(`vm.getShifts: firstofMonth ${vm.firstofMonth}, lastofMonth: ${vm.lastOfMonth}`)
   }
 
   //gets logged in user shifts for on-call staff
   vm.getMyShifts = function(firstOfMonth, lastOfMonth) {
+    console.log(`getMyShifts function, ${firstOfMonth}, ${lastOfMonth}`)
     ShiftService.getMyShifts(firstOfMonth, lastOfMonth).then(function(response){
       vm.userShiftsToDisplay = response;
+      console.log('the shifts from the server', vm.userShiftsToDisplay)
       // console.log('user shifts', vm.userShiftsToDisplay);
       for (var i = 0; i < vm.userShiftsToDisplay.length; i++) {
         for (var j = 0; j < vm.currentMonth.dates.length; j++) {

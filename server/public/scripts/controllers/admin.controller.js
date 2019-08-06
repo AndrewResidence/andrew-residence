@@ -100,7 +100,6 @@ myApp.controller('AdminController', function ($mdDialog, $mdToast, UserService, 
 
   //Show dialog for edit individual user
   vm.showEditDialog = function (event, user) {
-    console.log('button clicked');
     $mdDialog.show({
       controller: 'AdminDialogController as ac',
       templateUrl: '/views/dialogs/editUser.html',

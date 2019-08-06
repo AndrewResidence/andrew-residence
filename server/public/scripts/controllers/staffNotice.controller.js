@@ -50,7 +50,7 @@ myApp.controller('NotificationController', function ($scope, $mdDialog, $mdToast
     };
 
     vm.createAllStaffText = function(urgentTextToSend) {
-        console.log('urgent text to send in controller', urgentTextToSend)
+        // console.log('urgent text to send in controller', urgentTextToSend)
         UserService.createAllStaffText(urgentTextToSend).then(function (response) {
             // console.log('response from text', response)
             vm.cancel()

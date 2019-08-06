@@ -10,7 +10,6 @@ router.get('/', function (req, res) {
   // check if logged in
   if (req.isAuthenticated()) {
     // send back user object from database
-    console.log('logged in', req.user);
     var userInfo = {
       username: req.user.username.toLowerCase(),
       userId: req.user.id,
@@ -191,10 +190,10 @@ router.put('/edit/:id', function (req, res) {
 
 //Users DELETE route
 router.put('/delete/:id', function (req, res) {
-  console.log(req.params.id);
+  // console.log(req.params.id);
   if (req.isAuthenticated()) {
     var id = req.params.id;
-    console.log(req.params.id, req.body);
+    // console.log(req.params.id, req.body);
     pool.connect(function (err, db, done) {
       if (err) {
         console.log('error connecting', err);
@@ -222,7 +221,7 @@ router.get('/logout', function (req, res) {
   // console.log('Logged out');
   req.logOut();
   res.redirect('/');
-  console.log('req.user in logout', req.user);
+  // console.log('req.user in logout', req.user);
   // res.sendStatus(200);
 });
 

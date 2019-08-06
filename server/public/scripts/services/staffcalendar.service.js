@@ -84,11 +84,10 @@ myApp.service('StaffCalendarService', function ($http, $location, $mdDialog) {
         else {
             self.thisMonth = currentDisplayMonth - 1;
         }
+        self.numDaysInCurrentMonth = moment().month(self.thisMonth).year(self.currentYear).daysInMonth()
         self.firstOfMonth.year(self.currentYear).month(self.thisMonth).date(1);
         self.lastOfMonth.year(self.currentYear).month(self.thisMonth).date(self.numDaysInCurrentMonth);
-        self.numDaysInCurrentMonth = moment().year(self.currentYear).month(self.thisMonth).daysInMonth();
         self.putDaysinCurrentMonthArray(self.currentYear, self.thisMonth, self.numDaysInCurrentMonth);
-        // vm.getShifts(vm.firstOfMonth, vm.lastOfMonth);
     }
 
     //function to get next month days and display for calendar
@@ -101,11 +100,10 @@ myApp.service('StaffCalendarService', function ($http, $location, $mdDialog) {
         else {
             self.thisMonth = currentDisplayMonth + 1;
         }
+        self.numDaysInCurrentMonth = moment().month(self.thisMonth).year(self.currentYear).daysInMonth()
         self.firstOfMonth.year(self.currentYear).month(self.thisMonth).date(1);
         self.lastOfMonth.year(self.currentYear).month(self.thisMonth).date(self.numDaysInCurrentMonth);
-        self.numDaysInCurrentMonth = moment().year(self.currentYear).month(self.thisMonth).daysInMonth();
         self.putDaysinCurrentMonthArray(self.currentYear, self.thisMonth, self.numDaysInCurrentMonth)
-        // self.getShifts(self.firstOfMonth, self.lastOfMonth);
     }
 
 });

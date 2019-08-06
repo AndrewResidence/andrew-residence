@@ -9,8 +9,8 @@ var cron = require('node-cron');
 router.post('/', function (req, res) {
     if (req.isAuthenticated()) {
         var newShift = req.body;
-        console.log('new shift', newShift);
-        console.log('req.body.shiftDate', req.body.shiftDate);
+        // console.log('new shift', newShift);
+        // console.log('req.body.shiftDate', req.body.shiftDate);
 
         var createdBy = req.user.id;
 
@@ -23,14 +23,14 @@ router.post('/', function (req, res) {
                 var notify = req.body.notify;
                 for (var i = 0; i < newShift.shiftDate.length; i++) {
                     var theDate = newShift.shiftDate[i];
-                    console.log('theDate', theDate);
+                    // console.log('theDate', theDate);
                     var queryText =
                         'INSERT INTO "post_shifts" ("created_by", "date", "urgent", "shift", "adl", "mhw", "nurse", "shift_comments", "notify", "filled", "floor", "shift_status" )' +
                         'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING "shift_status", "shift_id", "filled", "created_by";';
                     db.query(queryText, [createdBy, theDate, newShift.urgent, newShift.shift, newShift.adl, newShift.mhw, newShift.nurse, newShift.comments, [notify], newShift.filled, newShift.floor, newShift.shift_status],
                         function (errorMakingQuery, result) {
                             done();
-                            console.log('hey', result.rows[0].shift_status);
+                            // console.log('hey', result.rows[0].shift_status);
                             if (errorMakingQuery) {
                                 console.log('Error making query', errorMakingQuery);
                                 res.sendStatus(500);
@@ -282,7 +282,7 @@ router.get('/shiftBid/:today', function (req, res) {
                             res.sendStatus(500);
                             return;
                         } else {
-                            console.log('got shift bids');
+                            // console.log('got shift bids');
                             res.send(result.rows);
                         }
                     });
@@ -482,6 +482,7 @@ router.put('/getmyshifts', function (req, res) {
         var userId = req.user.id;
         var firstDayofShifts = req.body.firstDayofShifts;
         var lastDayofShifts = req.body.lastDayofShifts;
+
         pool.connect(function (errorConnectingToDb, db, done) {
             if (errorConnectingToDb) {
                 console.log('Error connecting', errorConnectingToDb);
@@ -492,7 +493,7 @@ router.put('/getmyshifts', function (req, res) {
                     'SELECT "post_shifts"."date", "post_shifts"."shift", "post_shifts"."shift_comments", "post_shifts"."shift_status", "post_shifts"."mhw", "post_shifts"."nurse", "post_shifts"."adl", "user_shifts"."shift_id", "post_shifts"."floor", "user_shifts"."user_id", "user_shifts"."shift_state"' +
                     'FROM  "user_shifts" JOIN "post_shifts"' +
                     'ON "user_shifts"."shift_id" = "post_shifts"."shift_id"' +
-                    'WHERE "post_shifts"."date" > $1 AND "post_shifts"."date" < $2 AND "user_shifts"."user_id" = $3 AND "post_shifts"."shift_status" != $4';
+                    'WHERE "post_shifts"."date" >= $1 AND "post_shifts"."date" <= $2 AND "user_shifts"."user_id" = $3 AND "post_shifts"."shift_status" != $4';
                 db.query(queryText, [firstDayofShifts, lastDayofShifts, userId, 'Deleted'], function (errorMakingQuery, result) {
                     done(); // add + 1 to pool
 
@@ -514,7 +515,7 @@ router.put('/getmyshifts', function (req, res) {
 
 // delete shift from post_shifts
 router.put('/delete:id/', function (req, res) {
-    console.log('shift delete id', req.params.id)
+    // console.log('shift delete id', req.params.id)
     if (req.isAuthenticated()) {
         var deleteShift = req.params.id;
         pool.connect(function (err, client, done) {
@@ -546,7 +547,6 @@ router.put('/delete:id/', function (req, res) {
 router.put('/update/:id', function (req, res) {
     if (req.isAuthenticated()) {
         var shiftId = req.params.id;
-        console.log('req.body', req.body);
         var updatedShift = req.body;
         pool.connect(function (errorConnectingToDb, db, done) {
             if (errorConnectingToDb) {
@@ -581,12 +581,12 @@ router.put('/update/:id', function (req, res) {
 //fill shift route - shows shift filled
 router.put('/filledBy/:id', function (req, res) {
     if (req.isAuthenticated()) {
-        console.log('thebody', req.body);
+        // console.log('thebody', req.body);
         var confirmedBy = req.user.id;
         var filledBy = req.body.filledBy;
         var shift_status = req.body.shift_status;
         var shiftId = req.params.id;
-        console.log('shiftId', shiftId);
+        // console.log('shiftId', shiftId);
         pool.connect(function (errorConnectingToDb, db, done) {
             if (errorConnectingToDb) {
                 console.log('Error connecting', errorConnectingToDb);
@@ -615,7 +615,7 @@ router.put('/filledBy/:id', function (req, res) {
                                     'VALUES ($1, $2, $3)';
                                 db.query(queryText, [confirmedBy, filledBy, shiftId], function (errorMakingQuery, result) {
                                     done();
-                                    console.log('result.rows', result);
+                                    // console.log('result.rows', result);
                                     if (errorMakingQuery) {
                                         console.log('Error making query', errorMakingQuery);
                                         res.sendStatus(500);
@@ -651,7 +651,7 @@ router.get('/filled/who/:id', function (req, res) {
                 var queryText = 'SELECT * FROM "confirmed" JOIN "users" on "users"."id" = "confirmed"."user_id" WHERE "confirmed"."shift_id" = $1;';
                 db.query(queryText, [filledBy], function (errorMakingQuery, result) {
                     done(); // add + 1 to pool
-                    console.log('result.rows', result);
+                    // console.log('result.rows', result);
                     if (errorMakingQuery) {
                         console.log('Error making query', errorMakingQuery);
                         res.sendStatus(500);

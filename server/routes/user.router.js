@@ -5,7 +5,7 @@ var pool = require('../modules/pool.js');
 var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
 
 // Handles Ajax request for user information if user is authenticated
-router.get('/', function (req, res) {
+router.get('/', function (err, req, res, next) {
   // console.log('get /user route');
   // check if logged in
   if (req.isAuthenticated()) {

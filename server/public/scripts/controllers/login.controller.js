@@ -43,23 +43,24 @@ myApp.controller('LoginController', function ($http, $location, $mdDialog, UserS
     console.log(`phoneValidation ${tempPhoneNum.match(phoneValidation)}`)
 
     console.log(`${phoneArray[1]}, ${phoneArray[2]}, ${phoneArray[3]}`)
-    // if (tempPhoneNum.match(phoneValidation)) {
-    //   vm.user.phone = "1" + tempPhoneNum
-    // } else {
-    //   vm.phoneMessage = "Please enter your phone number in the format (xxx)xxx-xxxx"
-    //   return
-    // }
-    // if (vm.user.username === '' || vm.user.password === '') {
-    //   vm.phoneMessage = "Please choose a username and password";
-    //   return
-    // }
-    // else {
-    //   $http.post('/register', vm.user).then(function (response) {
-    //     $location.path('/home');
-    //   }).catch(function (response) {
-    //     vm.message = "Please try again."
-    //   });
-    // }
+    if (phoneArray === null) {
+      vm.phoneMessage = "Please enter your phone number in the format (xxx)xxx-xxxx"
+      return
+    }
+    if (vm.user.username === '' || vm.user.password === '') {
+      vm.phoneMessage = "Please choose a username and password";
+      return
+    }
+    else {
+      phoneArray.shift()
+      vm.user.phone = phoneArray.join().toString()
+      console.log('updated phone number', vm.user.phone)
+      $http.post('/register', vm.user).then(function (response) {
+        $location.path('/home');
+      }).catch(function (response) {
+        vm.message = "Please try again."
+      });
+    }
   };
     
 });

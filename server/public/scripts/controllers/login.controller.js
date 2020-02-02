@@ -53,7 +53,7 @@ myApp.controller('LoginController', function ($http, $location, $mdDialog, UserS
     }
     else {
       phoneArray.shift()
-      vm.user.phone = "1" + phoneArray.join(',').toString()
+      vm.user.phone = "1" + phoneArray[1].toString() + phoneArray[2].toString() + phoneArray[3].toString()
       console.log('updated phone number', vm.user.phone)
       $http.post('/register', vm.user).then(function (response) {
         $location.path('/home');

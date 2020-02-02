@@ -39,9 +39,10 @@ myApp.controller('LoginController', function ($http, $location, $mdDialog, UserS
     // console.log('LoginController -- registerUser', vm.user.phone);
     let tempPhoneNum = vm.user.phone
     let phoneValidation = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/
+    let phoneArray = tempPhoneNum.match(phoneValidation)
     console.log(`phoneValidation ${tempPhoneNum.match(phoneValidation)}`)
 
-
+    console.log(`${phoneArray[1]}, ${phoneArray[2]}, ${phoneArray[3]}`)
     // if (tempPhoneNum.match(phoneValidation)) {
     //   vm.user.phone = "1" + tempPhoneNum
     // } else {

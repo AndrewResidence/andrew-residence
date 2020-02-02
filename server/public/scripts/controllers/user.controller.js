@@ -46,45 +46,37 @@ myApp.controller('UserController', function ($mdToast, UserService, $mdDialog) {
   vm.updateUserInfo = function (userName, phone) {
 
     // console.log(vm.userService);
-    let tempPhoneNum = phone
-    var phoneVal = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/
-    // for (let i = 0; i < phone.length; i++) {
-    if (phone.match(tempPhoneNum)) {
-      return
-    } else {
-      vm.phoneMessage = "Please enter your phone number including area code as (xxx)xxx-xxxx";
+    let tempPhoneNum = []
+    for (let i = 0; i < phone.length; i++) {
+      if (Number(phone[i])) {
+        tempPhoneNum.push(phone[i]);
+      }
+      
+    }
+
+    if (tempPhoneNum.length > 11 || tempPhoneNum.length < 10) {
+      vm.phoneMessage = "Please enter your phone number including area code";
       return
     }
-    
-    //   if (Number(phone[i]) || Number(phone[i]) === 0) {
-    //     tempPhoneNum.push(phone[i]);
-    //   }
-      
-    // }
-
-    // if (tempPhoneNum.length > 11 || tempPhoneNum.length < 10) {
-    //   vm.phoneMessage = "Please enter your phone number including area code";
-    //   return
-    // }
-    // if (tempPhoneNum.length === 11) {
-    //   if (parseInt(tempPhoneNum[0]) !== 1) {
-    //     vm.phoneMessage = "Please enter your 10 digit phone number including area code";
-    //     return
-    //   }
-    //   else {
-    //     phone = tempPhoneNum.join('');
-    //   }
-    // }
-    // if (tempPhoneNum.length === 10) {
-    //   if (parseInt(tempPhoneNum[0]) === 1 || parseInt(tempPhoneNum[0]) === 0) {
-    //     vm.phoneMessage = "Please enter your phone number including area code";
-    //     return
-    //   }
-    //   else {
-    //     tempPhoneNum.unshift('1');
-    //     phone = tempPhoneNum.join('');
-    //   }  
-    // }
+    if (tempPhoneNum.length === 11) {
+      if (parseInt(tempPhoneNum[0]) !== 1) {
+        vm.phoneMessage = "Please enter your 10 digit phone number including area code";
+        return
+      }
+      else {
+        phone = tempPhoneNum.join('');
+      }
+    }
+    if (tempPhoneNum.length === 10) {
+      if (parseInt(tempPhoneNum[0]) === 1 || parseInt(tempPhoneNum[0]) === 0) {
+        vm.phoneMessage = "Please enter your phone number including area code";
+        return
+      }
+      else {
+        tempPhoneNum.unshift('1');
+        phone = tempPhoneNum.join('');
+      }
+    }
 
     vm.userService.sendProfile(userName, phone).then(function () {
       $mdToast.show(

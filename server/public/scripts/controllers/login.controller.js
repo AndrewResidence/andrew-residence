@@ -39,13 +39,9 @@ myApp.controller('LoginController', function ($http, $location, $mdDialog, UserS
     // console.log('LoginController -- registerUser', vm.user.phone);
     let tempPhoneNum = vm.user.phone
     let phoneValidation = /^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/
-    if (tempPhoneNum.match(phoneValidation)) {
-      vm.user.phone = "1" + tempPhoneNum
-    } else {
-      vm.phoneMessage = "Please enter your phone number in the format (xxx)xxx-xxxx"
-      return
+    if (!tempPhoneNum.match(phoneValidation)) {
+      vm.phoneMessage = "Please enter youe phone number in the format (XXX)XXX-XXXX"
     }
-    
     // for (let i = 0; i < vm.user.phone.length; i++) {
       
     //   if (Number(vm.user.phone[i]) || Number(vm.user.phone[i]) === 0) {
@@ -79,9 +75,9 @@ myApp.controller('LoginController', function ($http, $location, $mdDialog, UserS
     // }
     if (vm.user.username === '' || vm.user.password === '') {
       vm.phoneMessage = "Please choose a username and password";
-      return
     }
     else {
+      vm.user.phone = "1" + vm.user.phone
       $http.post('/register', vm.user).then(function (response) {
         $location.path('/home');
       }).catch(function (response) {

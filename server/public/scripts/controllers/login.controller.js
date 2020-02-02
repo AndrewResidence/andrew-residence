@@ -39,45 +39,18 @@ myApp.controller('LoginController', function ($http, $location, $mdDialog, UserS
     // console.log('LoginController -- registerUser', vm.user.phone);
     let tempPhoneNum = vm.user.phone
     let phoneValidation = /^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/
-    if (!tempPhoneNum.match(phoneValidation)) {
-      vm.phoneMessage = "Please enter youe phone number in the format (XXX)XXX-XXXX"
+    console.log(`phoneValidation ${phoneValidation}`)
+    if (tempPhoneNum.match(phoneValidation)) {
+      vm.user.phone = "1" + tempPhoneNum
+    } else {
+      vm.phoneMessage = "Please enter your phone number in the format (xxx)xxx-xxxx"
+      return
     }
-    // for (let i = 0; i < vm.user.phone.length; i++) {
-      
-    //   if (Number(vm.user.phone[i]) || Number(vm.user.phone[i]) === 0) {
-    //     tempPhoneNum.push(vm.user.phone[i]);
-    //   }
-      
-    // }
-
-    // if (tempPhoneNum.length > 11 || tempPhoneNum.length < 10) {
-    //   vm.phoneMessage = "Please enter your phone number including area code";
-    //   return
-    // }
-    // if (tempPhoneNum.length === 11) {
-    //   if (parseInt(tempPhoneNum[0]) !== 1) {
-    //     vm.phoneMessage = "Please enter your 10 digit phone number including area code";
-    //     return
-    //   }
-    //   else {
-    //     vm.user.phone = tempPhoneNum.join('');
-    //   }
-    // }
-    // if (tempPhoneNum.length === 10) {
-    //   if (parseInt(tempPhoneNum[0]) === 1 || parseInt(tempPhoneNum[0]) === 0) {
-    //     vm.phoneMessage = "Please enter your phone number including area code";
-    //     return
-    //   }
-    //   else {
-    //     tempPhoneNum.unshift('1');
-    //     vm.user.phone = tempPhoneNum.join('');
-    //   }
-    // }
     if (vm.user.username === '' || vm.user.password === '') {
       vm.phoneMessage = "Please choose a username and password";
+      return
     }
     else {
-      vm.user.phone = "1" + vm.user.phone
       $http.post('/register', vm.user).then(function (response) {
         $location.path('/home');
       }).catch(function (response) {

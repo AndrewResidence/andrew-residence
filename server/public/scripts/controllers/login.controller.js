@@ -37,33 +37,28 @@ myApp.controller('LoginController', function ($http, $location, $mdDialog, UserS
 
   vm.registerUser = function () {
     // console.log('LoginController -- registerUser', vm.user.phone);
-    // let tempPhoneNum = vm.user.phone
-    
-    // console.log(`phoneValidation ${tempPhoneNum.match(phoneValidation)}`)
-    let tempPhoneNumber = phoneNumberValidator(vm.user.phone)
-    console.log(`tempPhoneNumber: ${tempPhoneNumber}`)
+    let tempPhoneNum = vm.user.phone
+    let phoneValidation = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/
+    console.log(`phoneValidation ${tempPhoneNum.match(phoneValidation)}`)
 
-    // if (phoneNumberValidator(vm.user.phone)) {
-    //   vm.user.phone = "1" + vm.user.phone
+
+    // if (tempPhoneNum.match(phoneValidation)) {
+    //   vm.user.phone = "1" + tempPhoneNum
     // } else {
     //   vm.phoneMessage = "Please enter your phone number in the format (xxx)xxx-xxxx"
     //   return
     // }
-    if (vm.user.username === '' || vm.user.password === '') {
-      vm.phoneMessage = "Please choose a username and password";
-      return
-    }
-    else {
-      $http.post('/register', vm.user).then(function (response) {
-        $location.path('/home');
-      }).catch(function (response) {
-        vm.message = "Please try again."
-      });
-    }
+    // if (vm.user.username === '' || vm.user.password === '') {
+    //   vm.phoneMessage = "Please choose a username and password";
+    //   return
+    // }
+    // else {
+    //   $http.post('/register', vm.user).then(function (response) {
+    //     $location.path('/home');
+    //   }).catch(function (response) {
+    //     vm.message = "Please try again."
+    //   });
+    // }
   };
     
-  function phoneNumberValidator(phoneNumber) {
-    let phoneValidation = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/
-    return phoneValidation.test(phoneNumber)
-  }
 });

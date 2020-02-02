@@ -40,7 +40,7 @@ myApp.controller('LoginController', function ($http, $location, $mdDialog, UserS
     // let tempPhoneNum = vm.user.phone
     let phoneValidation = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/
     let phoneArray = vm.user.phone.match(phoneValidation)
-    console.log('shorter array?', phoneArray.shift())
+    console.log('shorter array?', phoneArray.join())
 
     console.log(`${phoneArray[1]}, ${phoneArray[2]}, ${phoneArray[3]}`)
     if (phoneArray === null) {

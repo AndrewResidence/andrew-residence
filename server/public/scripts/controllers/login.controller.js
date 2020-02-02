@@ -39,7 +39,8 @@ myApp.controller('LoginController', function ($http, $location, $mdDialog, UserS
     // console.log('LoginController -- registerUser', vm.user.phone);
     let tempPhoneNum = []
     for (let i = 0; i < vm.user.phone.length; i++) {
-      if (Number(vm.user.phone[i])) {
+      
+      if (Number(vm.user.phone[i]) || Number(vm.user.phone[i]) === 0) {
         tempPhoneNum.push(vm.user.phone[i]);
       }
       

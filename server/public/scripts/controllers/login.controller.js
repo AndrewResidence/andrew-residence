@@ -37,10 +37,10 @@ myApp.controller('LoginController', function ($http, $location, $mdDialog, UserS
 
   vm.registerUser = function () {
     // console.log('LoginController -- registerUser', vm.user.phone);
-    let tempPhoneNum = vm.user.phone
+    // let tempPhoneNum = vm.user.phone
     let phoneValidation = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/
-    let phoneArray = tempPhoneNum.match(phoneValidation)
-    console.log(typeof phoneArray)
+    let phoneArray = vm.user.phone.match(phoneValidation)
+    console.log('shorter array?', phoneArray.shift())
 
     console.log(`${phoneArray[1]}, ${phoneArray[2]}, ${phoneArray[3]}`)
     if (phoneArray === null) {
@@ -52,7 +52,7 @@ myApp.controller('LoginController', function ($http, $location, $mdDialog, UserS
       return
     }
     else {
-      vm.user.phone = "1" + phoneArray[1] + phoneArray[2]+ phoneArray[3]
+      vm.user.phone = "1" + phoneArray[1] + phoneArray[2] + phoneArray[3]
       console.log('updated phone number', vm.user.phone)
       $http.post('/register', vm.user).then(function (response) {
         $location.path('/home');

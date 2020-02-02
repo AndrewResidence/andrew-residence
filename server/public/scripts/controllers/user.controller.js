@@ -46,13 +46,13 @@ myApp.controller('UserController', function ($mdToast, UserService, $mdDialog) {
   vm.updateUserInfo = function (userName, phone) {
 
     // console.log(vm.userService);
-    let tempPhoneNum = []
-    var phoneVal = /^(\([0-9]{3}\)\s*|[0-9]{3}\-)[0-9]{3}-[0-9]{4}$/
+    let tempPhoneNum = phone
+    var phoneVal = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/
     // for (let i = 0; i < phone.length; i++) {
-    if (phone.match(phoneVal)) {
+    if (phone.match(tempPhoneNum)) {
       return
     } else {
-      vm.phoneMessage = "Please enter your phone number including area code";
+      vm.phoneMessage = "Please enter your phone number including area code as (xxx)xxx-xxxx";
       return
     }
     
@@ -83,7 +83,7 @@ myApp.controller('UserController', function ($mdToast, UserService, $mdDialog) {
     //   else {
     //     tempPhoneNum.unshift('1');
     //     phone = tempPhoneNum.join('');
-    //   }
+    //   }  
     // }
 
     vm.userService.sendProfile(userName, phone).then(function () {

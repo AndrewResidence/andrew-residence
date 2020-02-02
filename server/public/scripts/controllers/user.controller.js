@@ -47,7 +47,7 @@ myApp.controller('UserController', function ($mdToast, UserService, $mdDialog) {
 
     // console.log(vm.userService);
     let tempPhoneNum = []
-    var phoneVal = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/
+    var phoneVal = /^(\([0-9]{3}\)\s*|[0-9]{3}\-)[0-9]{3}-[0-9]{4}$/
     // for (let i = 0; i < phone.length; i++) {
     if (phone.match(phoneVal)) {
       return

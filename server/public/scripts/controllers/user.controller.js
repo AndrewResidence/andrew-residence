@@ -46,37 +46,15 @@ myApp.controller('UserController', function ($mdToast, UserService, $mdDialog) {
   vm.updateUserInfo = function (userName, phone) {
 
     // console.log(vm.userService);
-    let tempPhoneNum = []
-    for (let i = 0; i < phone.length; i++) {
-      if (Number(phone[i])) {
-        tempPhoneNum.push(phone[i]);
-      }
-      
-    }
+    let phoneValidation = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/
+    let phoneArray = phone.match(phoneValidation)
 
-    if (tempPhoneNum.length > 11 || tempPhoneNum.length < 10) {
-      vm.phoneMessage = "Please enter your phone number including area code";
+    if (phoneArray === null) {
+      vm.phoneMessage = "Please enter your phone number in the format (xxx)xxx-xxxx"
       return
     }
-    if (tempPhoneNum.length === 11) {
-      if (parseInt(tempPhoneNum[0]) !== 1) {
-        vm.phoneMessage = "Please enter your 10 digit phone number including area code";
-        return
-      }
-      else {
-        phone = tempPhoneNum.join('');
-      }
-    }
-    if (tempPhoneNum.length === 10) {
-      if (parseInt(tempPhoneNum[0]) === 1 || parseInt(tempPhoneNum[0]) === 0) {
-        vm.phoneMessage = "Please enter your phone number including area code";
-        return
-      }
-      else {
-        tempPhoneNum.unshift('1');
-        phone = tempPhoneNum.join('');
-      }
-    }
+
+    phone = "1" + phoneArray[1] + phoneArray[2] + phoneArray[3]
 
     vm.userService.sendProfile(userName, phone).then(function () {
       $mdToast.show(

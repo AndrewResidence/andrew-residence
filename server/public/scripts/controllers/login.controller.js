@@ -37,41 +37,21 @@ myApp.controller('LoginController', function ($http, $location, $mdDialog, UserS
 
   vm.registerUser = function () {
     // console.log('LoginController -- registerUser', vm.user.phone);
-    let tempPhoneNum = []
-    for (let i = 0; i < vm.user.phone.length; i++) {
-      if (Number(vm.user.phone[i])) {
-        tempPhoneNum.push(vm.user.phone[i]);
-      }
-      
-    }
+    // let tempPhoneNum = vm.user.phone
+    let phoneValidation = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/
+    let phoneArray = vm.user.phone.match(phoneValidation)
 
-    if (tempPhoneNum.length > 11 || tempPhoneNum.length < 10) {
-      vm.phoneMessage = "Please enter your phone number including area code";
+    if (phoneArray === null) {
+      vm.phoneMessage = "Please enter your phone number in the format (xxx)xxx-xxxx"
       return
-    }
-    if (tempPhoneNum.length === 11) {
-      if (parseInt(tempPhoneNum[0]) !== 1) {
-        vm.phoneMessage = "Please enter your 10 digit phone number including area code";
-        return
-      }
-      else {
-        vm.user.phone = tempPhoneNum.join('');
-      }
-    }
-    if (tempPhoneNum.length === 10) {
-      if (parseInt(tempPhoneNum[0]) === 1 || parseInt(tempPhoneNum[0]) === 0) {
-        vm.phoneMessage = "Please enter your phone number including area code";
-        return
-      }
-      else {
-        tempPhoneNum.unshift('1');
-        vm.user.phone = tempPhoneNum.join('');
-      }
     }
     if (vm.user.username === '' || vm.user.password === '') {
       vm.phoneMessage = "Please choose a username and password";
+      return
     }
     else {
+      vm.user.phone = "1" + phoneArray[1] + phoneArray[2] + phoneArray[3]
+      console.log('updated phone number', vm.user.phone)
       $http.post('/register', vm.user).then(function (response) {
         $location.path('/home');
       }).catch(function (response) {

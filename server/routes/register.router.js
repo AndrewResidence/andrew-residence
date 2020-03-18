@@ -21,16 +21,16 @@ router.post('/', function (req, res, next) {
   };
   // console.log('new user:', saveUser);
 
-  pool.connect(function (err, client, done) {
+  pool.connect(function (err, db, done) {
     if (err) {
       console.log("Error connecting: ", err);
       res.sendStatus(500);
     }
-    client.query("INSERT INTO users (name, username, password, phone) VALUES ($1, $2, $3, $4) RETURNING id",
+    db.query("INSERT INTO users (name, username, password, phone) VALUES ($1, $2, $3, $4) RETURNING id",
       [saveUser.name, saveUser.username, saveUser.password, saveUser.phone],
       function (err, result) {
-        client.end();
-
+        // client.end();
+        done();
         if (err) {
           console.log("Error inserting data: ", err);
           res.sendStatus(500);

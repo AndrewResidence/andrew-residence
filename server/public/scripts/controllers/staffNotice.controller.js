@@ -14,7 +14,8 @@ myApp.controller('NotificationController', function ($scope, $mdDialog, $mdToast
         adl: false,
         rn: false,
         tr: false,
-        lsi: false
+        lsi: false,
+        ss: false
     }
 
     //closes dialog box

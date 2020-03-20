@@ -234,6 +234,9 @@ router.post('/textmessage', function (req, res) {
                 if (req.body.allStaff === false && req.body.lsi) {
                     roles.push('Living Skills')
                 }
+                if (req.body.allStaff === false && req.body.ss) {
+                    roles.push('Support Staff')
+                }
                 // console.log('the roles', roles)
 
                 var queryText = 'SELECT "phone" FROM "users" WHERE "role" = ANY($1::varchar[])';

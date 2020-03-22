@@ -26,7 +26,7 @@ myApp.controller('AdminDialogController', function ($mdDialog, UserService, user
         }
         vm.user.phone = "1" + phoneArray[1] + phoneArray[2] + phoneArray[3]
         vm.userService.editUser(user).then(function (response) {
-            // console.log('edited user', response);
+            console.log('edited user - in controller', response);
             $mdDialog.hide();
         }).catch(function (error) {
             console.log('error in editing the user')

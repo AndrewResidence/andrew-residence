@@ -16,10 +16,11 @@ myApp.controller('AdminDialogController', function ($mdDialog, UserService, user
 
     //edit the user information
     vm.editUser = function (user) {
+        let tempPhone = user.phone
         console.log('the save button was clicked', user.phone)
         console.log('the phone from the vm.useer', vm.user.phone)
         let phoneValidation = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/
-        let phoneArray = user.phone.match(phoneValidation)
+        let phoneArray = tempPhone.match(phoneValidation)
         console.log('phoneArray', phoneArray)
         if (phoneArray === null) {
             vm.phoneMessage = "Please enter your phone number in the format (xxx)xxx-xxxx"

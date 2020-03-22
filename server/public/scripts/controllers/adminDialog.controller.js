@@ -16,10 +16,11 @@ myApp.controller('AdminDialogController', function ($mdDialog, UserService, user
 
     //edit the user information
     vm.editUser = function (user) {
-        let tempPhone = user.phone
-        console.log('the save button was clicked', user.phone)
-        console.log('the phone from the vm.useer', vm.user.phone)
         let phoneValidation = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/
+
+        if (user.phone.charAt(0) === '1') {
+            console.log('the first number is one')
+        }
         let phoneArray = tempPhone.match(phoneValidation)
         console.log('phoneArray', phoneArray)
         if (phoneArray === null) {

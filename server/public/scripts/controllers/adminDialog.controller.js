@@ -19,21 +19,17 @@ myApp.controller('AdminDialogController', function ($mdDialog, UserService, user
         let phoneValidation = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/
         let tempPhone
         if (user.phone.charAt(0) === '1') {
-            console.log('the first number is one')
             tempPhone = user.phone.slice(1)
         } else {
             tempPhone = user.phone
         }
         let phoneArray = tempPhone.match(phoneValidation)
-        console.log('phoneArray', phoneArray)
         if (phoneArray === null) {
             vm.phoneMessage = "Please enter your phone number in the format (xxx)xxx-xxxx"
             return
         }
         user.phone = "1" + phoneArray[1] + phoneArray[2] + phoneArray[3]
-        console.log('the user phone before service', user.phone)
         vm.userService.editUser(user).then(function (response) {
-            console.log('edited user - in controller', response);
             $mdDialog.hide();
         }).catch(function (error) {
             console.log('error in editing the user', error)

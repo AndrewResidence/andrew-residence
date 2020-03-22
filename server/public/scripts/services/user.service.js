@@ -62,7 +62,7 @@ myApp.service('UserService', function ($http, $location) {
 
   //Users PUT route to edit individual user
   self.editUser = function (user) {
-    console.log('user in service', user.id, user.role, user.userName, user.phone);
+    // console.log('user in service', user.id, user.role, user.userName, user.phone);
     var userToSend = user;
     return $http.put('/user/edit/' + user.id, userToSend).then(function (response) {
       return response;

@@ -30,7 +30,7 @@ myApp.controller('AdminDialogController', function ($mdDialog, UserService, user
             console.log('edited user - in controller', response);
             $mdDialog.hide();
         }).catch(function (error) {
-            console.log('error in editing the user')
+            console.log('error in editing the user', error)
         })
     };
 

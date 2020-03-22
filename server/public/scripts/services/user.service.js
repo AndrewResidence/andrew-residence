@@ -37,7 +37,7 @@ myApp.service('UserService', function ($http, $location) {
 
   //Users PUT route to confirm users and define their role (supervisor, nurse, MHW or ADL) 
   self.confirmUser = function (user) {
-    // console.log('user in service', user.id, user.role);
+    console.log('user in service', user.id, user.role);
     var userToSend = {
       role: user.role
     };

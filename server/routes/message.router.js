@@ -211,31 +211,33 @@ router.post('/textmessage', function (req, res) {
                 console.log('text message thing', req.body)
                 var textMessage = req.body.textMessage;
                 var roles = [];
+                var allStaff = false
                 if (req.body.allStaff) {
                     roles.push('Supervisor', 'MHW', 'ADL', 'Nurse', 'Social Worker', 'Therapeutic Recreation', 'Living Skills', 'Support Staff')
+                    allStaff = true
                 } else {
-                    if (req.body.supervisors) {
+                    if (req.body.supervisors && allStaff === false) {
                         roles.push('Supervisor')
                     }
-                    if (req.body.mhw) {
+                    if (req.body.mhw && allStaff === false) {
                         roles.push('MHW')
                     }
-                    if (req.body.adl) {
+                    if (req.body.adl && allStaff === false) {
                         roles.push('ADL')   
                     }
-                    if (req.body.rn) {
+                    if (req.body.rn && allStaff === false) {
                         roles.push('Nurse')
                     }
-                    if (req.body.sw) {
+                    if (req.body.sw && allStaff === false) {
                         roles.push('Social Worker') 
                     }
-                    if (req.body.tr) {
+                    if (req.body.tr && allStaff === false) {
                         roles.push('Therapeutic Recreation')
                     }
-                    if (req.body.lsi) {
+                    if (req.body.lsi && allStaff === false) {
                         roles.push('Living Skills')
                     }
-                    if (req.body.ss) {
+                    if (req.body.ss && allStaff === false) {
                         roles.push('Support Staff')
                     }
                 }

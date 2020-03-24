@@ -213,31 +213,33 @@ router.post('/textmessage', function (req, res) {
                 var roles = [];
                 if (req.body.allStaff) {
                     roles.push('Supervisor', 'MHW', 'ADL', 'Nurse', 'Social Worker', 'Therapeutic Recreation', 'Living Skills', 'Support Staff')
+                } else {
+                    if (req.body.supervisors) {
+                        roles.push('Supervisor')
+                    }
+                    if (req.body.mhw) {
+                        roles.push('MHW')
+                    }
+                    if (req.body.adl) {
+                        roles.push('ADL')   
+                    }
+                    if (req.body.rn) {
+                        roles.push('Nurse')
+                    }
+                    if (req.body.sw) {
+                        roles.push('Social Worker') 
+                    }
+                    if (req.body.tr) {
+                        roles.push('Therapeutic Recreation')
+                    }
+                    if (req.body.lsi) {
+                        roles.push('Living Skills')
+                    }
+                    if (req.body.ss) {
+                        roles.push('Support Staff')
+                    }
                 }
-                if (req.body.allStaff === false && req.body.supervisors === true) {
-                    roles.push('Supervisor')
-                }
-                if (req.body.allStaff === false && req.body.mhw === true) {
-                    roles.push('MHW')
-                }
-                if (req.body.allStaff === false && req.body.adl === true) {
-                    roles.push('ADL')   
-                }
-                if (req.body.allStaff === false && req.body.rn === true) {
-                    roles.push('Nurse')
-                }
-                if (req.body.allStaff === false && req.body.sw === true) {
-                    roles.push('Social Worker') 
-                }
-                if (req.body.allStaff === false && req.body.tr === true) {
-                    roles.push('Therapeutic Recreation')
-                }
-                if (req.body.allStaff === false && req.body.lsi === true) {
-                    roles.push('Living Skills')
-                }
-                if (req.body.allStaff === false && req.body.ss === true) {
-                    roles.push('Support Staff')
-                }
+                
                 console.log('the roles', roles)
 
                 var queryText = 'SELECT "phone" FROM "users" WHERE "role" = ANY($1::varchar[])';

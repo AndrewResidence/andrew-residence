@@ -18,7 +18,7 @@
             <div class="all-text-message-options" >Total Characters: {{nc.urgentText.textMessage.length}}</div>
         </div>
         <div class="all-text-message-options" layout-gt-xl="row">
-            <md-checkbox ng-model="nc.urgentText.allStaff" ng-true-value="'true'" ng-false-value="'false'">All Staff</md-checkbox><br>
+            <md-checkbox ng-model="nc.urgentText.allStaff">All Staff</md-checkbox><br>
             <md-checkbox ng-model="nc.urgentText.supervisors" ng-true-value="'true'" ng-false-value="'false'" ng-disabled="nc.urgentText.allStaff">Supervsiors</md-checkbox><br>
             <md-checkbox ng-model="nc.urgentText.mhw" ng-true-value="'true'" ng-false-value="'false'" ng-disabled="nc.urgentText.allStaff">MHWs</md-checkbox><br>
             <md-checkbox ng-model="nc.urgentText.adl" ng-true-value="'true'" ng-false-value="'false'" ng-disabled="nc.urgentText.allStaff">ADLs</md-checkbox><br>

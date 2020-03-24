@@ -30,12 +30,13 @@ body, html {
 .bold-error {
   color: red;
   font-weight: bold;
-  width: 80%;
+  padding-left: 10px;
 }
 
 .char-limit {
-  width: 80%;
+  padding-left: 10px;
 }
+
 
 #entryForm {
   margin-top: 14px;

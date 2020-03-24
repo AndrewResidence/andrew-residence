@@ -212,34 +212,33 @@ router.post('/textmessage', function (req, res) {
                 var textMessage = req.body.textMessage;
                 var roles = [];
                 var allStaff = false
-                if (req.body.allStaff) {
+                if (req.body.allStaff === 'true') {
                     roles.push('Supervisor', 'MHW', 'ADL', 'Nurse', 'Social Worker', 'Therapeutic Recreation', 'Living Skills', 'Support Staff')
                     allStaff = true
-                } else {
-                    if (req.body.supervisors && allStaff === false) {
-                        roles.push('Supervisor')
-                    }
-                    if (req.body.mhw && allStaff === false) {
-                        roles.push('MHW')
-                    }
-                    if (req.body.adl && allStaff === false) {
-                        roles.push('ADL')   
-                    }
-                    if (req.body.rn && allStaff === false) {
-                        roles.push('Nurse')
-                    }
-                    if (req.body.sw && allStaff === false) {
-                        roles.push('Social Worker') 
-                    }
-                    if (req.body.tr && allStaff === false) {
-                        roles.push('Therapeutic Recreation')
-                    }
-                    if (req.body.lsi && allStaff === false) {
-                        roles.push('Living Skills')
-                    }
-                    if (req.body.ss && allStaff === false) {
-                        roles.push('Support Staff')
-                    }
+                }
+                if (req.body.supervisors === 'true' && allStaff === false) {
+                    roles.push('Supervisor')
+                }
+                if (req.body.mhw === 'true' && allStaff === false) {
+                    roles.push('MHW')
+                }
+                if (req.body.adl === 'true' && allStaff === false) {
+                    roles.push('ADL')   
+                }
+                if (req.body.rn === 'true' && allStaff === false) {
+                    roles.push('Nurse')
+                }
+                if (req.body.sw === 'true' && allStaff === false) {
+                    roles.push('Social Worker') 
+                }
+                if (req.body.tr === 'true' && allStaff === false) {
+                    roles.push('Therapeutic Recreation')
+                }
+                if (req.body.lsi === 'true' && allStaff === false) {
+                    roles.push('Living Skills')
+                }
+                if (req.body.ss === 'true' && allStaff === false) {
+                    roles.push('Support Staff')
                 }
                 
                 console.log('the roles', roles)

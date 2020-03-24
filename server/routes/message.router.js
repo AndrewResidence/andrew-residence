@@ -251,24 +251,23 @@ router.post('/textmessage', function (req, res) {
                             // console.log('urgent', urgent.phone);
                             phoneNumberArray.push(urgent.phone);
                         });
-
+                        console.log('number of selected phone numbers', phoneNumberArray.length)
                         var params = {
                             src: plivoNumber, // Sender's phone number with country code
                             dst: phoneNumberArray.join('<'),
                             text: textMessage,
                         };
-                        // p.send_message(params, function (status, response) {
-                        //     console.log('Status: ', status);
-                        //     console.log('API Response:\n', response);
+                        p.send_message(params, function (status, response) {
+                            console.log('Status: ', status);
+                            console.log('API Response:\n', response);
+                            if (status === 200 || status === 202) {
+                                res.sendStatus(200);
+                            } else {
+                                res.sendStatus(403)
+                            }
 
-                        //     if (status === 200 || status === 202) {
-                        //         res.sendStatus(200);
-                        //     } else {
-                        //         res.sendStatus(403)
-                        //     }
-
-                        // });
-                        // res.sendStatus(200);
+                        });
+                        res.sendStatus(200);
                     }
                 });
             }

@@ -211,31 +211,31 @@ router.post('/textmessage', function (req, res) {
                 console.log('text message thing', req.body)
                 var textMessage = req.body.textMessage;
                 var roles = [];
-                if (req.body.allStaff) {
+                if (req.body.allStaff === 'true') {
                     roles.push('Supervisor', 'MHW', 'ADL', 'Nurse', 'Social Worker', 'Therapeutic Recreation', 'Living Skills', 'Support Staff')
                 }
-                if (req.body.allStaff === false && req.body.supervisors) {
+                if (req.body.allStaff === 'false' && req.body.supervisors === 'true') {
                     roles.push('Supervisor')
                 }
-                if (req.body.allStaff === false && req.body.mhw) {
+                if (req.body.allStaff === 'false' && req.body.mhw === 'true') {
                     roles.push('MHW')
                 }
-                if (req.body.allStaff === false && req.body.adl) {
+                if (req.body.allStaff === 'false' && req.body.adl === 'true') {
                     roles.push('ADL')   
                 }
-                if (req.body.allStaff === false && req.body.rn) {
+                if (req.body.allStaff === 'false' && req.body.rn === 'true') {
                     roles.push('Nurse')
                 }
-                if (req.body.allStaff === false && req.body.sw) {
+                if (req.body.allStaff === 'false' && req.body.sw === 'true') {
                     roles.push('Social Worker') 
                 }
-                if (req.body.allStaff === false && req.body.tr) {
+                if (req.body.allStaff === 'false' && req.body.tr === 'true') {
                     roles.push('Therapeutic Recreation')
                 }
-                if (req.body.allStaff === false && req.body.lsi) {
+                if (req.body.allStaff === 'false' && req.body.lsi === 'true') {
                     roles.push('Living Skills')
                 }
-                if (req.body.allStaff === false && req.body.ss) {
+                if (req.body.allStaff === 'false' && req.body.ss === 'true') {
                     roles.push('Support Staff')
                 }
                 console.log('the roles', roles)

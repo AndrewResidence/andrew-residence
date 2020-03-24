@@ -27,6 +27,11 @@ body, html {
   size: 50%;
 }
 
+.bold-error {
+  color: red;
+  font-weight: bold;
+}
+
 #entryForm {
   margin-top: 14px;
 }

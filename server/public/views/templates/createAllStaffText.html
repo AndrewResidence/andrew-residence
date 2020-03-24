@@ -16,7 +16,7 @@
                     md-select-on-focus></textarea>
             </md-input-container>
             <div class="all-text-message-options" >Total Characters: {{nc.urgentText.textMessage.length}}</div>
-            <p ng-show="nc.urgentText.textMessage.length > 760" class="ng-hide">Messages can not be over 760 characters.</p>
+            <p ng-show="nc.urgentText.textMessage.length > 760" class="ng-hide bold-error">Messages can not be over 760 characters.</p>
         </div>
         <div class="all-text-message-options" layout-gt-xl="row">
             <md-checkbox ng-model="nc.urgentText.allStaff">All Staff</md-checkbox><br>
@@ -36,6 +36,7 @@
         </md-button>
         <span flex></span>
         <md-button aria-label="Send Text Message" class="md-raised md-primary"
+            ng-disabled="nc.urgentText.textMessage.length > 760"
             ng-click="nc.createAllStaffText(nc.urgentText)">
             Send Text Message
         </md-button>

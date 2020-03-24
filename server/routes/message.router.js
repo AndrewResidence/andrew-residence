@@ -138,8 +138,8 @@ function weeklyDigestEmailSend(emails, shifts) {
 }
 
 //get route used to fetch staff phone numbers. Phone numbers are used to send text message indicating the urgent need for that staff member's role.
-var phoneNumberArray = [];
 router.post('/urgent', function (req, res) {
+    var phoneNumberArray = [];
     if (req.isAuthenticated()) {
         pool.connect(function (errorConnectingToDb, db, done) {
             if (errorConnectingToDb) {
@@ -199,6 +199,7 @@ router.post('/urgent', function (req, res) {
 });
 
 router.post('/textmessage', function (req, res) {
+    var phoneNumberArray = [];
     if (req.isAuthenticated()) {
         pool.connect(function (errorConnectingToDb, db, done) {
             if (errorConnectingToDb) {

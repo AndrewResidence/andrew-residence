@@ -18,15 +18,15 @@
             <div class="all-text-message-options" >Total Characters: {{nc.urgentText.textMessage.length}}</div>
         </div>
         <div class="all-text-message-options" layout-gt-xl="row">
-            <md-checkbox ng-model="nc.urgentText.supervisors" ng-true-value="'true'" ng-false-value="'false'">Supervsiors</md-checkbox><br>
             <md-checkbox ng-model="nc.urgentText.allStaff" ng-true-value="'true'" ng-false-value="'false'">All Staff</md-checkbox><br>
-            <md-checkbox ng-model="nc.urgentText.mhw" ng-true-value="'true'" ng-false-value="'false'">MHWs</md-checkbox><br>
-            <md-checkbox ng-model="nc.urgentText.adl" ng-true-value="'true'" ng-false-value="'false'">ADLs</md-checkbox><br>
-            <md-checkbox ng-model="nc.urgentText.rn" ng-true-value="'true'" ng-false-value="'false'">RNs</md-checkbox><br>
-            <md-checkbox ng-model="nc.urgentText.sw" ng-true-value="'true'" ng-false-value="'false'">Social Workers</md-checkbox><br>
-            <md-checkbox ng-model="nc.urgentText.tr" ng-true-value="'true'" ng-false-value="'false'">Therapeutic Rec</md-checkbox><br>
-            <md-checkbox ng-model="nc.urgentText.lsi" ng-true-value="'true'" ng-false-value="'false'">Living Skills Instructors</md-checkbox><br>
-            <md-checkbox ng-model="nc.urgentText.ss" ng-true-value="'true'" ng-false-value="'false'">Support Staff</md-checkbox>
+            <md-checkbox ng-model="nc.urgentText.supervisors" ng-true-value="'true'" ng-false-value="'false'" ng-disabled="nc.urgentText.allStaff">Supervsiors</md-checkbox><br>
+            <md-checkbox ng-model="nc.urgentText.mhw" ng-true-value="'true'" ng-false-value="'false'" ng-disabled="nc.urgentText.allStaff">MHWs</md-checkbox><br>
+            <md-checkbox ng-model="nc.urgentText.adl" ng-true-value="'true'" ng-false-value="'false'" ng-disabled="nc.urgentText.allStaff">ADLs</md-checkbox><br>
+            <md-checkbox ng-model="nc.urgentText.rn" ng-true-value="'true'" ng-false-value="'false'" ng-disabled="nc.urgentText.allStaff">RNs</md-checkbox><br>
+            <md-checkbox ng-model="nc.urgentText.sw" ng-true-value="'true'" ng-false-value="'false'" ng-disabled="nc.urgentText.allStaff">Social Workers</md-checkbox><br>
+            <md-checkbox ng-model="nc.urgentText.tr" ng-true-value="'true'" ng-false-value="'false'" ng-disabled="nc.urgentText.allStaff">Therapeutic Rec</md-checkbox><br>
+            <md-checkbox ng-model="nc.urgentText.lsi" ng-true-value="'true'" ng-false-value="'false'" ng-disabled="nc.urgentText.allStaff">Living Skills Instructors</md-checkbox><br>
+            <md-checkbox ng-model="nc.urgentText.ss" ng-true-value="'true'" ng-false-value="'false'" ng-disabled="nc.urgentText.allStaff">Support Staff</md-checkbox>
         </div>
     </md-dialog-content>
     <md-dialog-actions layout="row">

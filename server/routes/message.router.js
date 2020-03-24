@@ -210,66 +210,66 @@ router.post('/textmessage', function (req, res) {
                 console.log('text message thing', req.body)
                 var textMessage = req.body.textMessage;
                 var roles = [];
-                if (req.body.supervisors) {
-                    roles.push('Supervisor')
-                }
                 if (req.body.allStaff) {
                     roles.push('Supervisor', 'MHW', 'ADL', 'Nurse', 'Social Worker', 'Therapeutic Recreation', 'Living Skills', 'Support Staff')
                 }
-                if (req.body.allStaff === false && req.body.mhw) {
+                if (req.body.supervisors) {
+                    roles.push('Supervisor')
+                }
+                if (req.body.mhw) {
                     roles.push('MHW')
                 }
-                if (req.body.allStaff === false && req.body.adl) {
+                if (req.body.adl) {
                     roles.push('ADL')   
                 }
-                if (req.body.allStaff === false && req.body.rn) {
+                if (req.body.rn) {
                     roles.push('Nurse')
                 }
-                if (req.body.allStaff === false && req.body.sw) {
+                if (req.body.sw) {
                     roles.push('Social Worker') 
                 }
-                if (req.body.allStaff === false && req.body.tr) {
+                if (req.body.tr) {
                     roles.push('Therapeutic Recreation')
                 }
-                if (req.body.allStaff === false && req.body.lsi) {
+                if (req.body.lsi) {
                     roles.push('Living Skills')
                 }
-                if (req.body.allStaff === false && req.body.ss) {
+                if (req.body.ss) {
                     roles.push('Support Staff')
                 }
                 console.log('the roles', roles)
 
-                // var queryText = 'SELECT "phone" FROM "users" WHERE "role" = ANY($1::varchar[])';
-                // db.query(queryText, [roles], function (err, result) {
-                //     done();
-                //     if (err) {
-                //         console.log("Error getting phone: ", err);
-                //         res.sendStatus(500);
-                //     } else {
-                //         result.rows.forEach(function (urgent) {
-                //             // console.log('urgent', urgent.phone);
-                //             phoneNumberArray.push(urgent.phone);
-                //         });
+                var queryText = 'SELECT "phone" FROM "users" WHERE "role" = ANY($1::varchar[])';
+                db.query(queryText, [roles], function (err, result) {
+                    done();
+                    if (err) {
+                        console.log("Error getting phone: ", err);
+                        res.sendStatus(500);
+                    } else {
+                        result.rows.forEach(function (urgent) {
+                            // console.log('urgent', urgent.phone);
+                            phoneNumberArray.push(urgent.phone);
+                        });
 
-                //         var params = {
-                //             src: plivoNumber, // Sender's phone number with country code
-                //             dst: phoneNumberArray.join('<'),
-                //             text: textMessage,
-                //         };
-                //         // p.send_message(params, function (status, response) {
-                //         //     console.log('Status: ', status);
-                //         //     console.log('API Response:\n', response);
+                        var params = {
+                            src: plivoNumber, // Sender's phone number with country code
+                            dst: phoneNumberArray.join('<'),
+                            text: textMessage,
+                        };
+                        // p.send_message(params, function (status, response) {
+                        //     console.log('Status: ', status);
+                        //     console.log('API Response:\n', response);
 
-                //         //     if (status === 200 || status === 202) {
-                //         //         res.sendStatus(200);
-                //         //     } else {
-                //         //         res.sendStatus(403)
-                //         //     }
+                        //     if (status === 200 || status === 202) {
+                        //         res.sendStatus(200);
+                        //     } else {
+                        //         res.sendStatus(403)
+                        //     }
 
-                //         // });
-                //         // res.sendStatus(200);
-                //     }
-                // });
+                        // });
+                        // res.sendStatus(200);
+                    }
+                });
             }
         });
     } // end req.isAuthenticated //end if statement

@@ -208,7 +208,7 @@ router.post('/textmessage', function (req, res) {
             } //end if error connection to db
             else {
 
-                console.log('text message thing', req.body)
+                // console.log('text message thing', req.body)
                 var textMessage = req.body.textMessage;
                 var roles = [];
                 if (req.body.allStaff) {
@@ -253,7 +253,7 @@ router.post('/textmessage', function (req, res) {
                             // console.log('urgent', urgent.phone);
                             phoneNumberArray.push(urgent.phone);
                         });
-                        console.log('number of selected phone numbers', phoneNumberArray.length)
+                        // console.log('number of selected phone numbers', phoneNumberArray.length)
                         var params = {
                             src: plivoNumber, // Sender's phone number with country code
                             dst: phoneNumberArray.join('<'),

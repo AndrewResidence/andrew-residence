@@ -214,28 +214,28 @@ router.post('/textmessage', function (req, res) {
                 if (req.body.allStaff === 'true') {
                     roles.push('Supervisor', 'MHW', 'ADL', 'Nurse', 'Social Worker', 'Therapeutic Recreation', 'Living Skills', 'Support Staff')
                 }
-                if (req.body.allStaff === 'false' && req.body.supervisors === 'true') {
+                if (req.body.allStaff === 'false' && req.body.supervisors) {
                     roles.push('Supervisor')
                 }
-                if (req.body.allStaff === 'false' && req.body.mhw === 'true') {
+                if (req.body.allStaff === 'false' && req.body.mhw) {
                     roles.push('MHW')
                 }
-                if (req.body.allStaff === 'false' && req.body.adl === 'true') {
+                if (req.body.allStaff === 'false' && req.body.adl) {
                     roles.push('ADL')   
                 }
-                if (req.body.allStaff === 'false' && req.body.rn === 'true') {
+                if (req.body.allStaff === 'false' && req.body.rn) {
                     roles.push('Nurse')
                 }
-                if (req.body.allStaff === 'false' && req.body.sw === 'true') {
+                if (req.body.allStaff === 'false' && req.body.sw) {
                     roles.push('Social Worker') 
                 }
-                if (req.body.allStaff === 'false' && req.body.tr === 'true') {
+                if (req.body.allStaff === 'false' && req.body.tr) {
                     roles.push('Therapeutic Recreation')
                 }
-                if (req.body.allStaff === 'false' && req.body.lsi === 'true') {
+                if (req.body.allStaff === 'false' && req.body.lsi) {
                     roles.push('Living Skills')
                 }
-                if (req.body.allStaff === 'false' && req.body.ss === 'true') {
+                if (req.body.allStaff === 'false' && req.body.ss) {
                     roles.push('Support Staff')
                 }
                 console.log('the roles', roles)

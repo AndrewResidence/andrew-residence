@@ -220,7 +220,7 @@ router.post('/textmessage', function (req, res) {
                     roles.push('MHW')
                 }
                 if (req.body.allStaff === false && req.body.adl) {
-                    roles.push('ADL')
+                    roles.push('ADL')   
                 }
                 if (req.body.allStaff === false && req.body.rn) {
                     roles.push('Nurse')
@@ -237,7 +237,7 @@ router.post('/textmessage', function (req, res) {
                 if (req.body.allStaff === false && req.body.ss) {
                     roles.push('Support Staff')
                 }
-                // console.log('the roles', roles)
+                console.log('the roles', roles)
 
                 var queryText = 'SELECT "phone" FROM "users" WHERE "role" = ANY($1::varchar[])';
                 db.query(queryText, [roles], function (err, result) {
@@ -256,17 +256,17 @@ router.post('/textmessage', function (req, res) {
                             dst: phoneNumberArray.join('<'),
                             text: textMessage,
                         };
-                        p.send_message(params, function (status, response) {
-                            console.log('Status: ', status);
-                            console.log('API Response:\n', response);
+                        // p.send_message(params, function (status, response) {
+                        //     console.log('Status: ', status);
+                        //     console.log('API Response:\n', response);
 
-                            if (status === 200 || status === 202) {
-                                res.sendStatus(200);
-                            } else {
-                                res.sendStatus(403)
-                            }
+                        //     if (status === 200 || status === 202) {
+                        //         res.sendStatus(200);
+                        //     } else {
+                        //         res.sendStatus(403)
+                        //     }
 
-                        });
+                        // });
                         // res.sendStatus(200);
                     }
                 });

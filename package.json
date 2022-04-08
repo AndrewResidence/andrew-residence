@@ -33,7 +33,7 @@
     "express-session": "^1.13.0",
     "jquery": "^2.1.4",
     "lodash": "^4.17.15",
-    "moment": "^2.19.4",
+    "moment": "^2.29.2",
     "multiple-date-picker": "^2.1.6",
     "node-cron": "^1.2.1",
     "nodemailer": "^4.4.1",
